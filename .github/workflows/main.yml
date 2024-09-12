@@ -40,8 +40,7 @@ jobs:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
-          targetPlatform: Andriod
-          unityVersion: 2022.3.42f1
+          targetPlatform: Android
 
       # Output
       - uses: actions/upload-artifact@v3
