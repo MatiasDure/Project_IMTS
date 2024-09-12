@@ -7,6 +7,10 @@ jobs:
     name: Build tool 
     runs-on: ubuntu-latest
     steps:
+      # Clean up Docker system
+      - name: Clean up Docker system
+        run: docker system prune --all --force
+    
       # Checkout
       - name: Checkout repository
         uses: actions/checkout@v4
