@@ -21,6 +21,6 @@ public class ExampleEditorModeTest
     {
         int expectedValue = 3;
 
-        Assert.IsTrue(expectedValue == testClass.SubPrivateMethod(9, 5));
+        Assert.IsTrue(expectedValue == testClass.SubPrivateMethod(9, 6));
     }
 }
