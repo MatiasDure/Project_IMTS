@@ -35,6 +35,9 @@ public class PrefabCreator : MonoBehaviour
         {
             string imageName = image.referenceImage.name;
             spawnedPrefab = Instantiate(trackedImagesPrefabsDict[imageName], image.transform);
+            Vector3 imageSize = image.referenceImage.size;
+            imageSize.z = 0.01f;
+            //spawnedPrefab.transform.localScale = imageSize;
         }
     }
 
