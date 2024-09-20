@@ -122,6 +122,57 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &268968022
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 268968023}
+  - component: {fileID: 268968024}
+  m_Layer: 0
+  m_Name: TrackedImgInfo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &268968023
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 268968022}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.58726627, y: -0.7603987, z: 0.35355052}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &268968024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 268968022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 338b1b1755d20c14a97977e97cea56d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _trackedImageManager: {fileID: 1769117448}
+  _imageNames:
+  - one
+  - two
+  _objectsToSpawn:
+  - {fileID: 3815894658845380076, guid: fdea3205ae9536449b5b2bf1bf2ceada, type: 3}
+  - {fileID: 5865171929890812236, guid: 1901d2809c6de1542ae570e172f6589a, type: 3}
 --- !u!1 &638273929
 GameObject:
   m_ObjectHideFlags: 0
@@ -568,7 +619,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SerializedLibrary: {fileID: 11400000, guid: 2d20aa7b78a0a6d4990ad2d35cdd650d, type: 2}
   m_MaxNumberOfMovingImages: 0
-  m_TrackedImagePrefab: {fileID: 8528513997466203761, guid: 12cdee9e02b8cfe49ba5a766ab17333c, type: 3}
+  m_TrackedImagePrefab: {fileID: 0}
 --- !u!114 &1769117449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -609,3 +660,4 @@ SceneRoots:
   - {fileID: 1023022345}
   - {fileID: 1444636507}
   - {fileID: 1769117450}
+  - {fileID: 268968023}
