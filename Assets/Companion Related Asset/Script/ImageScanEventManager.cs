@@ -10,15 +10,16 @@ using UnityEngine.XR.ARSubsystems;
 public class ImageScanEventManager : MonoBehaviour
 {
     [SerializeField] private XRReferenceImageLibrary xrReferenceImageLibrary;
-    
     private ARTrackedImageManager _arTrackedImageManager;
 
     private void Awake()
     {
         _arTrackedImageManager = GetComponent<ARTrackedImageManager>();
-    
         
-        if(xrReferenceImageLibrary != null) _arTrackedImageManager.referenceLibrary = xrReferenceImageLibrary;
-    
+    }
+
+    private void Update()
+    {
+        
     }
 }

@@ -456,6 +456,7 @@ GameObject:
   - component: {fileID: 1375796460}
   - component: {fileID: 1375796462}
   - component: {fileID: 1375796461}
+  - component: {fileID: 1375796463}
   m_Layer: 0
   m_Name: XR Origin
   m_TagString: MainCamera
@@ -551,6 +552,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PlanePrefab: {fileID: 5212887811811438080, guid: 1a6cd7faa47b14f568c20713cddfe59b, type: 3}
   m_DetectionMode: -1
+--- !u!114 &1375796463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1375796455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25b214ba257f8486e8c7c51b89f93d45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xrReferenceImageLibrary: {fileID: 0}
 --- !u!1 &1988715660
 GameObject:
   m_ObjectHideFlags: 0
