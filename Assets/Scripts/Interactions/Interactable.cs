@@ -4,8 +4,5 @@ using UnityEngine;
 
 public class Interactable: MonoBehaviour
 {
-    public virtual void OnInteraction() 
-    {
-        Debug.Log("I am interactable!");
-    }
+    public virtual void OnInteraction() { }
 }

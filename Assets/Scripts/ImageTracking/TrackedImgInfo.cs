@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
+using UnityEngine.XR.ARSubsystems;
 
 public class TrackedImgInfo : MonoBehaviour
 {
@@ -37,6 +38,8 @@ public class TrackedImgInfo : MonoBehaviour
     {
         foreach (var newImage in eventArgs.added)
         {
+            var instantiatedObj = Instantiate(_objectsToSpawnMap[newImage.referenceImage.name], newImage.transform);
+            instantiatedObj.transform.localPosition = Vector3.zero;
             // Handle added event
         }
 
@@ -65,11 +68,9 @@ public class TrackedImgInfo : MonoBehaviour
 
         foreach (var trackedImage in _trackedImageManager.trackables)
         {
-            Debug.Log($"Name of tracked image: {trackedImage.name}");
             Debug.Log($"Image: {trackedImage.referenceImage.name} is at " +
                       $"{trackedImage.transform.position}");
-            var instantiatedObj = Instantiate(_objectsToSpawnMap[trackedImage.referenceImage.name], trackedImage.transform);
-            instantiatedObj.transform.localPosition = Vector3.zero;
+            
         }
     }
 }

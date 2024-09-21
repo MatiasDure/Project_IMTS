@@ -27,7 +27,6 @@ public class Inventory : MonoBehaviour
     public void AddCreature(CreatureInfo creature)
     {
         _creatureList.Add(creature);
-        Debug.Log("Added creature to inventory: " + creature.CreatureName);
         OnCreatureAdded?.Invoke(creature);
     }
 }
