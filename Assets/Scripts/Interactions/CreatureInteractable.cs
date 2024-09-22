@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
@@ -9,6 +10,8 @@ public class CreatureInteractable : Interactable
     private CreatureInfo _creature;
     private InteractableSound _interactableSound;
 
+	public static Action<String> OnSpawnableInteracted;
+
     private void Awake()
     {
         _creature = GetComponent<CreatureInfo>();
@@ -19,7 +22,7 @@ public class CreatureInteractable : Interactable
     public override void OnInteraction()
     {
         base.OnInteraction();
-
+		OnSpawnableInteracted?.Invoke(_creature.CreatureName);
         StartCoroutine(_interactableSound.PlaySound());
     }
 

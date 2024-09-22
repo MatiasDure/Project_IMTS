@@ -1,8 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
-using UnityEngine.XR.ARSubsystems;
 
 public class TrackedImgInfo : MonoBehaviour
 {
@@ -15,11 +13,17 @@ public class TrackedImgInfo : MonoBehaviour
     [SerializeField]
     private List<GameObject> _objectsToSpawn;
 
+    // Create a class with these properties and pass that instead of having two lists and a dictionary
     private Dictionary<string, GameObject> _objectsToSpawnMap = new Dictionary<string, GameObject>();
+
+	private Dictionary<string, float> _cooldownMap = new Dictionary<string, float>();
+	private float _cooldownTime = 5f;
+	private List<string> _spawnedObjectsToInteractWith = new List<string>();
 
     private void Start()
     {
         MapNamesToObjects();
+		CreatureInteractable.OnSpawnableInteracted += MarkAsInteracted;
     }
 
     private void MapNamesToObjects()
@@ -38,20 +42,35 @@ public class TrackedImgInfo : MonoBehaviour
     {
         foreach (var newImage in eventArgs.added)
         {
-            var instantiatedObj = Instantiate(_objectsToSpawnMap[newImage.referenceImage.name], newImage.transform);
-            instantiatedObj.transform.localPosition = Vector3.zero;
+            InstantiateSpawnableObject(newImage);
+
+			_cooldownMap.Add(newImage.referenceImage.name, _cooldownTime);
             // Handle added event
         }
 
+        // This is where tracked images are looping
         foreach (var updatedImage in eventArgs.updated)
         {
             // Handle updated event
+			// Create a method to cooldown here
+			if(_cooldownMap.ContainsKey(updatedImage.referenceImage.name)) return;
+
+			_cooldownMap.Add(updatedImage.referenceImage.name, _cooldownTime);
+            InstantiateSpawnableObject(updatedImage);
         }
 
         foreach (var removedImage in eventArgs.removed)
         {
             // Handle removed event
+            Debug.Log("here3");
         }
+    }
+
+	private void InstantiateSpawnableObject(ARTrackedImage newImage)
+    {
+        var instantiatedObj = Instantiate(_objectsToSpawnMap[newImage.referenceImage.name], newImage.transform);
+		_spawnedObjectsToInteractWith.Add(newImage.referenceImage.name);
+        instantiatedObj.transform.localPosition = Vector3.zero;
     }
 
     private void Update()
@@ -59,6 +78,24 @@ public class TrackedImgInfo : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             ListAllImages();
+        }
+
+		Cooldown();
+	}
+
+    private void Cooldown()
+    {
+        List<string> keysToRemove = new List<string>();
+
+        foreach (var image in new List<string>(_cooldownMap.Keys))
+        {
+			// object has spawned but was not interacted with yet (Find a better way to handle this)
+			if(_spawnedObjectsToInteractWith.Contains(image)) return;
+
+            _cooldownMap[image] -= Time.deltaTime;
+
+            if(_cooldownMap[image] <= 0) 
+				_cooldownMap.Remove(image);
         }
     }
 
@@ -73,4 +110,14 @@ public class TrackedImgInfo : MonoBehaviour
             
         }
     }
+
+	void MarkAsInteracted(string imageName)
+	{
+		_spawnedObjectsToInteractWith.Remove(imageName);
+	}
+
+	private void OnDestroy()
+	{
+		CreatureInteractable.OnSpawnableInteracted -= MarkAsInteracted;
+	}
 }
