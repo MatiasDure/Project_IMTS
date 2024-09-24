@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
@@ -10,25 +11,23 @@ using UnityEngine.XR.ARSubsystems;
 [RequireComponent(typeof(ARTrackedImageManager))]
 public class ImageScanEventManager : MonoBehaviour
 {
-    [SerializeField] private GameObject prefabsToSpawn;
+    [SerializeField] private UIManager uiManager;
+    [SerializeField] private GameObject companion;
     private ARTrackedImageManager _arTrackedImageManager;
     
     private void Awake()
     {
         _arTrackedImageManager = GetComponent<ARTrackedImageManager>();
 
-        
+        if(companion!=null)
+            companion.gameObject.SetActive(false);
     }
 
     private void Start()
     {
         //listen to event related to changed in trackedImage
         _arTrackedImageManager.trackedImagesChanged += OnTrackImageChanged;
-        
-        //spawn the game object per image and hide them
-        prefabsToSpawn = Instantiate(prefabsToSpawn, Vector3.zero, quaternion.identity);
-        prefabsToSpawn.gameObject.SetActive(false);
-        
+
     }
 
     private void OnTrackImageChanged(ARTrackedImagesChangedEventArgs eventArgs)
@@ -55,12 +54,16 @@ public class ImageScanEventManager : MonoBehaviour
         //check tracking status of the trackedImage
         if (trackedImage.trackingState is TrackingState.Limited or TrackingState.None)
         {
+            if(uiManager!=null)
+                uiManager.SetScanTextStatus(true);
             //event for when weak track or no track
         }
         //show, hide or reposition gameObjects
-        if (prefabsToSpawn != null)
+        if (companion != null)
         {
-            prefabsToSpawn.gameObject.SetActive(true);
+            companion.gameObject.SetActive(true);
+            if(uiManager!=null)
+                uiManager.SetScanTextStatus(false);
         }
     }
     
