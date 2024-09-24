@@ -6,6 +6,8 @@ using UnityEngine.UI;
 [RequireComponent(typeof(AudioSource))]
 public class InventoryController : MonoBehaviour
 {
+	public static InventoryController Instance { get; private set; }
+
     [SerializeField] private CollectableContainer _collectableContainerPrefab;
     [SerializeField] private Transform _contentContainer;
     [SerializeField] private GameObject _inventoryUI;
@@ -20,8 +22,20 @@ public class InventoryController : MonoBehaviour
     private bool _isInventoryOpen = false;
     private AudioSource _audioSource;
 
+	private RectTransform _inventoryUIRectTransform;
+	public RectTransform InventoryUI => _inventoryUIRectTransform;
+
     private void Awake()
     {
+		if (Instance == null)
+		{
+			Instance = this;
+		}
+		else
+		{
+			Destroy(gameObject);
+		}
+		_inventoryUIRectTransform = _inventoryToggleButton.GetComponent<RectTransform>();
         Inventory.OnCreatureAdded += AddCollectable;
         _inventoryToggleButton.onClick.AddListener(ToggleInventory);
         _audioSource = GetComponent<AudioSource>();
