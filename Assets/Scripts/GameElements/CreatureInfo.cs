@@ -8,7 +8,10 @@ public class CreatureInfo : MonoBehaviour
         private string _creatureName;
     [SerializeField]
         private Sprite _creatureImage;
+	[SerializeField]
+		private string _creatureDialogText;
 
     public string CreatureName => _creatureName;
     public Sprite CreatureImage => _creatureImage;
+	public string CreatureDialogText => _creatureDialogText;
 }

@@ -31,7 +31,8 @@ public class InventoryController : MonoBehaviour
     {
         CollectableContainer collectableContainer = Instantiate(_collectableContainerPrefab, _contentContainer);
         collectableContainer.SetImage(creature.CreatureImage);
-        collectableContainer.SetText(creature.CreatureName);
+        collectableContainer.SetName(creature.CreatureName);
+		collectableContainer.SetDialogText(creature.CreatureDialogText);
         _collectableContainers.Add(collectableContainer);
     }
 
