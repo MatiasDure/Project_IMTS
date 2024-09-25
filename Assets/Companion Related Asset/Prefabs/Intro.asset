@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d025d55253a1417b9b50c0fe3f91350, type: 3}
+  m_Name: Intro
+  m_EditorClassIdentifier: 
+  phase: 0
+  scriptLines:
+  - 'The father handed each child a roadmap at the beginning of the 2-day road trip
+    and explained it was so they could find their way home. '
+  - 'Her hair was windswept as she rode in the black convertible. '
+  - 'It''s difficult to understand the lengths he''d go to remain short. '
+  - She learned that water bottles are no longer just to hold liquid, but they're
+    also status symbols.
+  - Never underestimate the willingness of the greedy to throw you under the bus.
+  - I'll have you know I've written over fifty novels
+  - Italy is my favorite country; in fact, I plan to spend two weeks there next year.
+  containQuestion: 0
+  questionName: 
+  rightAnswer: 
+  wrongAnswer: 

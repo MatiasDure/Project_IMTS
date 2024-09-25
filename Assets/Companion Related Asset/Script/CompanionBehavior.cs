@@ -4,22 +4,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Xml.Serialization;
 using TMPro;
-using UnityEditor.Toolbars;
 using UnityEngine;
+using UnityEngine.Serialization;
+
 
 [System.Serializable]
-public enum CompanionPhase
-{
-    Introduction,
-    Scenario1,
-    Scenario2
-}
-[System.Serializable]
-public class CompanionScriptPerPhase
-{
-    public CompanionPhase phase;
-    public List<string> lines = new List<string>();
-} 
 
 public class CompanionBehavior : MonoBehaviour
 {
@@ -32,50 +21,47 @@ public class CompanionBehavior : MonoBehaviour
     [Range(-0.1f,0.1f)] [SerializeField] private float horizontalOffset = 0;
     [Range(-0.1f, 0.1f)] [SerializeField] private float verticalOffset = 0;
     [Range(0.1f, 0.5f)] [SerializeField] private float forwardOffset = 0.3f;
+    [Space] 
+    [Header("Scenario Scripts")] [SerializeField] private List<ScenarioScript> scenarioScripts;
     [Space]
     [Header("Other settings")]
     [Range(0, 1)] [SerializeField] private float smoothFactor = 0.2f;
-    [SerializeField] private List<CompanionScriptPerPhase> phaseScriptPerPhases = new List<CompanionScriptPerPhase>();
 
-    private Dictionary<CompanionPhase, List<string>> _phaseScriptDictionary;
-    private CompanionPhase _currentPhase;
-    private List<string> _currenScript = new List<string>();
+    private ScenarioScript _currenScript;
+    //private CompanionPhase _currentPhase;
+    //private List<string> _currenScripts = new List<string>();
+    //private bool _haveQuestion;
 
     private int _textCount = 0;
     private GameObject _arCamera;
     
     private void Awake()
     {
-        _phaseScriptDictionary = new Dictionary<CompanionPhase, List<string>>();
         
-        OverwriteDictionary(_phaseScriptDictionary, phaseScriptPerPhases);
-        
-        SetPhase(CompanionPhase.Introduction);
-
-        textMeshProObject.text = _currenScript[0];
+        CheckDuplicate(scenarioScripts);
+        SetData(CompanionPhase.Introduction);
+        textMeshProObject.text = _currenScript.scriptLines[0];
         _textCount += 1;
         _arCamera = GameObject.FindGameObjectWithTag("MainCamera");
     }
-    
-    //paste inspector list to dictionary and delete duplicate (take the latest option)
-    void OverwriteDictionary(Dictionary<CompanionPhase, List<string>> dictionary, List<CompanionScriptPerPhase> list)
+
+    void CheckDuplicate(List<ScenarioScript> list)
     {
-        for (int i = list.Count-1;i>=0;i--)
+        List<CompanionPhase> seen = new List<CompanionPhase>();
+        for (int i = list.Count - 1; i >= 0; i--)
         {
-            if (!dictionary.ContainsKey(list[i].phase))
+            if (!seen.Contains(list[i].phase))
             {
-                Debug.Log("add");
-                dictionary.Add(list[i].phase,list[i].lines);
-                Debug.Log(_phaseScriptDictionary[list[i].phase]);
+                seen.Add(list[i].phase);
             }
             else
             {
-                Debug.Log(i);
                 list.RemoveAt(i);
             }
         }
+        
     }
-    
+
     // Update is called once per frame
     private void Update()
     {
@@ -96,13 +82,19 @@ public class CompanionBehavior : MonoBehaviour
                 {
                     if (_currenScript != null)
                     {
-                        if (_textCount < _currenScript.Count)
+                        if (_textCount < _currenScript.scriptLines.Count)
                         {
-                            textMeshProObject.text = _currenScript[_textCount++];
+                            textMeshProObject.text = _currenScript.scriptLines[_textCount++];
+                        }else if (_currenScript.containQuestion)
+                        {
+                            textBox.SetActive(false);
+                            uiManager.SetMenuStatus(false);
+                            uiManager.SetQuestionUIStatus(true);
+                            
+                            uiManager.AddQuestion(_currenScript.question,_currenScript.rightAnswer,_currenScript.wrongAnswer);
                         }
                         else
                         {
-                            _textCount = 0;
                             textBox.SetActive(false);
                             uiManager.SetMenuStatus(true);
                         }
@@ -115,20 +107,33 @@ public class CompanionBehavior : MonoBehaviour
 
     public void OnPhaseChange(CompanionPhase phase)
     {
+        ResetText();
+        SetData(phase);
+        uiManager.SetMenuStatus(false);
+        uiManager.SetQuestionUIStatus(false);
+    }
+
+     void ResetText()
+    {
         textBox.SetActive(true);
         _textCount = 0;
-        textMeshProObject.text = _currenScript[_textCount++];
-        SetPhase(phase);
-        uiManager.SetMenuStatus(false);
+        textMeshProObject.text = _currenScript.scriptLines[_textCount++];
     }
-    
-    void SetPhase(CompanionPhase phase)
-    {
-        _currentPhase = phase;
 
-        if (_phaseScriptDictionary.TryGetValue(phase, out List<string> lines))
+     void SetData(CompanionPhase phase)
+    {
+        
+        //_currentPhase = phase;
+
+        foreach (ScenarioScript script in scenarioScripts)
         {
-            _currenScript = lines;
+            if (script.phase == phase)
+            {
+                _currenScript = script;
+                //_currenScripts = script.scriptLines;
+                //_haveQuestion = script.containQuestion;
+                break;
+            }
         }
     }
 

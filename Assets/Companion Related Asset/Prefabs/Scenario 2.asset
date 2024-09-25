@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d025d55253a1417b9b50c0fe3f91350, type: 3}
+  m_Name: Scenario 2
+  m_EditorClassIdentifier: 
+  phase: 2
+  scriptLines:
+  - We will not allow you to bring your pet armadillo along.
+  - The complicated school homework left the parents trying to help their kids quite
+    confused.
+  - Seek success, but always be prepared for random cats.
+  - Mary plays the piano.
+  containQuestion: 1
+  question: 1+1?
+  rightAnswer: 2
+  wrongAnswer: 3

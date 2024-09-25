@@ -135,38 +135,37 @@ MonoBehaviour:
   horizontalOffset: 0
   verticalOffset: 0
   forwardOffset: 0.3
+  scenarioScripts:
+  - {fileID: 11400000, guid: 811b28b049a3241178bc508fa003a123, type: 2}
+  - {fileID: 11400000, guid: 058e105a8f7534aae9030a1f18962392, type: 2}
+  - {fileID: 11400000, guid: bbed70d90ae6d449295e75a3510a3cb3, type: 2}
   smoothFactor: 0.2
-  phaseScriptPerPhases:
+  scriptPerPhases:
   - phase: 0
     lines:
-    - Joe made the sugar cookies; Susan decorated them.
-    - She had that tint of craziness in her soul that made her believe she could
-      actually make a difference.
-    - "The child\u2019s favorite Christmas gift was the large box her father\u2019s
-      lawnmower came in."
-    - He played the game as if his life depended on it and the truth was that it
-      did.
-    - He played the game as if his life depended on it and the truth was that it
-      did.
-    - 'People keep telling me "orange" but I still prefer "pink". '
-    - 'The best key lime pie is still up for debate. '
+    - 'You have no right to call yourself creative until you look at a trowel and
+      think that it would make a great lockpick. '
+    - 'Dolores wouldn''t have eaten the meal if she had known what it actually was. '
+    - 'They decided to plant an orchard of cotton candy. '
+    - 'Lets all be unique together until we realise we are all the same. '
+    - 'I really want to go to work, but I am too sick to drive. '
+    - 'The pigs were insulted that they were named hamburgers. '
+    - 'Three years later, the coffin was still full of Jello. '
   - phase: 1
     lines:
-    - 'I met an interesting turtle while the song on the radio blasted away. '
-    - 'The fish dreamed of escaping the fishbowl and into the toilet where he saw
-      his friend go. '
-    - "Mom didn\u2019t understand why no one else wanted a hot tub full of jello. "
-    - 'The best part of marriage is animal crackers with peanut butter. '
+    - 'She says she has the ability to hear the soundtrack of your life. '
+    - 'The sudden rainstorm washed crocodiles into the ocean. '
+    - 'This is a Japanese doll. '
+    - 'At last '
+    - 'The swirled lollipop had issues with the pop rock candy. '
   - phase: 2
     lines:
-    - 'I met an interesting turtle while the song on the radio blasted away. '
-    - "He decided water-skiing on a frozen lake wasn\u2019t a good idea. "
-    - 'A dead duck doesn''t fly backward. '
-    - 'Choosing to do nothing is still a choice, after all. '
-    - 'The fact that there''s a stairway to heaven and a highway to hell explains
-      life well. '
-    - 'The father handed each child a roadmap at the beginning of the 2-day road
-      trip and explained it was so they could find their way home. '
+    - 'The random sentence generator generated a random sentence about a random sentence. '
+    - 'Kevin embraced his ability to be at the wrong place at the wrong time. '
+    - 'The llama couldn''t resist trying the lemonade. '
+    - 'Erin accidentally created a new universe. '
+    - 'Erin accidentally created a new universe. '
+    - 'He went on a whiskey diet and immediately lost three days. '
 --- !u!1 &8104402299930693997
 GameObject:
   m_ObjectHideFlags: 0
