@@ -13,14 +13,26 @@ MonoBehaviour:
   m_Name: Scenario 1
   m_EditorClassIdentifier: 
   phase: 1
-  scriptLines:
-  - If eating three-egg omelets causes weight-gain, budgie eggs are a good substitute.
-  - Facing his greatest fear, he ate his first marshmallow.
-  - He was surprised that his immense laziness was inspirational to others.
-  - The hummingbird's wings blurred while it eagerly sipped the sugar water from
-    the feeder.
-  - On a scale from one to ten, what's your favorite flavor of random grammar?
+  expressionToTexts:
+  - expression: {fileID: 2100000, guid: e873bb094eef8498180a9859f4b13e73, type: 2}
+    text: If eating three-egg omelets causes weight-gain, budgie eggs are a good
+      substitute.
+  - expression: {fileID: 2100000, guid: e873bb094eef8498180a9859f4b13e73, type: 2}
+    text: Facing his greatest fear, he ate his first marshmallow.
+  - expression: {fileID: 2100000, guid: e873bb094eef8498180a9859f4b13e73, type: 2}
+    text: He was surprised that his immense laziness was inspirational to others.
+  - expression: {fileID: 2100000, guid: e873bb094eef8498180a9859f4b13e73, type: 2}
+    text: The hummingbird's wings blurred while it eagerly sipped the sugar water
+      from the feeder.
+  - expression: {fileID: 2100000, guid: e873bb094eef8498180a9859f4b13e73, type: 2}
+    text: On a scale from one to ten, what's your favorite flavor of random grammar?
   containQuestion: 1
   question: what am i?
   rightAnswer: bee
   wrongAnswer: bean
+  respondToRightAnswer:
+    expression: {fileID: 2100000, guid: e873bb094eef8498180a9859f4b13e73, type: 2}
+    text: 'good job '
+  respondToWrongAnswer:
+    expression: {fileID: 2100000, guid: e873bb094eef8498180a9859f4b13e73, type: 2}
+    text: why ?

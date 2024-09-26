@@ -735,12 +735,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 857937323}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: ChangePhase
+        m_MethodName: GetButton
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -1238,6 +1238,8 @@ MonoBehaviour:
   questionText: {fileID: 863155120}
   answer1Text: {fileID: 589059275}
   answer2Text: {fileID: 1763597076}
+  b1: {fileID: 0}
+  b2: {fileID: 0}
 --- !u!1 &863155118
 GameObject:
   m_ObjectHideFlags: 0
@@ -2573,12 +2575,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 857937323}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: ChangePhase
+        m_MethodName: GetButton
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0

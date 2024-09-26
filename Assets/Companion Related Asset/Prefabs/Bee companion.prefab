@@ -130,6 +130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiManager: {fileID: 0}
+  beePlane: {fileID: 2361574263654822449}
   textBox: {fileID: 8104402299930693997}
   textMeshProObject: {fileID: 8565414886178797504}
   horizontalOffset: 0
@@ -140,32 +141,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 058e105a8f7534aae9030a1f18962392, type: 2}
   - {fileID: 11400000, guid: bbed70d90ae6d449295e75a3510a3cb3, type: 2}
   smoothFactor: 0.2
-  scriptPerPhases:
-  - phase: 0
-    lines:
-    - 'You have no right to call yourself creative until you look at a trowel and
-      think that it would make a great lockpick. '
-    - 'Dolores wouldn''t have eaten the meal if she had known what it actually was. '
-    - 'They decided to plant an orchard of cotton candy. '
-    - 'Lets all be unique together until we realise we are all the same. '
-    - 'I really want to go to work, but I am too sick to drive. '
-    - 'The pigs were insulted that they were named hamburgers. '
-    - 'Three years later, the coffin was still full of Jello. '
-  - phase: 1
-    lines:
-    - 'She says she has the ability to hear the soundtrack of your life. '
-    - 'The sudden rainstorm washed crocodiles into the ocean. '
-    - 'This is a Japanese doll. '
-    - 'At last '
-    - 'The swirled lollipop had issues with the pop rock candy. '
-  - phase: 2
-    lines:
-    - 'The random sentence generator generated a random sentence about a random sentence. '
-    - 'Kevin embraced his ability to be at the wrong place at the wrong time. '
-    - 'The llama couldn''t resist trying the lemonade. '
-    - 'Erin accidentally created a new universe. '
-    - 'Erin accidentally created a new universe. '
-    - 'He went on a whiskey diet and immediately lost three days. '
 --- !u!1 &8104402299930693997
 GameObject:
   m_ObjectHideFlags: 0

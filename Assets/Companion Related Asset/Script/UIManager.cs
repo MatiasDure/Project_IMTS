@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
+using Random = System.Random;
+using Range = UnityEngine.SocialPlatforms.Range;
 
 public class UIManager : MonoBehaviour
 {
@@ -14,6 +17,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI questionText;
     [SerializeField] private TextMeshProUGUI answer1Text;
     [SerializeField] private TextMeshProUGUI answer2Text;
+    
+    private int _randomInt; 
     private void Awake()
     {
         scanToStartText.SetActive(true);
@@ -53,12 +58,37 @@ public class UIManager : MonoBehaviour
     public void SetQuestionUIStatus(bool status)
     {
         questionUI.SetActive(status);
+        
     }
 
-    public void AddQuestion(string question, string rightAnswer, string wrongAnswer)
+    public void AddQuestionData(string question, string rightAnswer, string wrongAnswer)
     {
+        Random random = new Random();
+        _randomInt = random.Next(0, 2);
+        
         questionText.text = question;
         
-        
+        if (_randomInt == 0)
+        {
+            answer1Text.text = rightAnswer;
+            answer2Text.text = wrongAnswer;
+        }
+        else
+        {
+            answer2Text.text = rightAnswer;
+            answer1Text.text = wrongAnswer;
+        }
+    }
+
+    public void GetButton(int index)
+    {
+        if (index == _randomInt)
+        {
+            beeCompanion.OnRightAnswer();
+        }
+        else
+        {
+            beeCompanion.OnWrongAnswer();
+        }
     }
 }

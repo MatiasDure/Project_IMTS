@@ -13,6 +13,16 @@ MonoBehaviour:
   m_Name: Scenario 2
   m_EditorClassIdentifier: 
   phase: 2
+  expressionToTexts:
+  - expression: {fileID: 2100000, guid: e873bb094eef8498180a9859f4b13e73, type: 2}
+    text: We will not allow you to bring your pet armadillo along.
+  - expression: {fileID: 2100000, guid: e873bb094eef8498180a9859f4b13e73, type: 2}
+    text: The complicated school homework left the parents trying to help their kids
+      quite confused.
+  - expression: {fileID: 2100000, guid: e873bb094eef8498180a9859f4b13e73, type: 2}
+    text: Seek success, but always be prepared for random cats.
+  - expression: {fileID: 2100000, guid: e873bb094eef8498180a9859f4b13e73, type: 2}
+    text: Mary plays the piano.
   scriptLines:
   - We will not allow you to bring your pet armadillo along.
   - The complicated school homework left the parents trying to help their kids quite
@@ -23,3 +33,9 @@ MonoBehaviour:
   question: 1+1?
   rightAnswer: 2
   wrongAnswer: 3
+  respondToRightAnswer:
+    expression: {fileID: 2100000, guid: e873bb094eef8498180a9859f4b13e73, type: 2}
+    text: good job
+  respondToWrongAnswer:
+    expression: {fileID: 0}
+    text: why?

@@ -14,6 +14,7 @@ public class CompanionBehavior : MonoBehaviour
 {
     [Header("Reference")]
     [SerializeField] private UIManager uiManager;
+    [SerializeField] private GameObject beePlane;
     [SerializeField] private GameObject textBox;
     [SerializeField] private TextMeshPro textMeshProObject;
     [Space]
@@ -28,20 +29,16 @@ public class CompanionBehavior : MonoBehaviour
     [Range(0, 1)] [SerializeField] private float smoothFactor = 0.2f;
 
     private ScenarioScript _currenScript;
-    //private CompanionPhase _currentPhase;
-    //private List<string> _currenScripts = new List<string>();
-    //private bool _haveQuestion;
 
     private int _textCount = 0;
     private GameObject _arCamera;
     
     private void Awake()
     {
-        
+        _currenScript = ScriptableObject.CreateInstance<ScenarioScript>();
         CheckDuplicate(scenarioScripts);
         SetData(CompanionPhase.Introduction);
-        textMeshProObject.text = _currenScript.scriptLines[0];
-        _textCount += 1;
+        ResetText();
         _arCamera = GameObject.FindGameObjectWithTag("MainCamera");
     }
 
@@ -82,21 +79,21 @@ public class CompanionBehavior : MonoBehaviour
                 {
                     if (_currenScript != null)
                     {
-                        if (_textCount < _currenScript.scriptLines.Count)
+                        if (_textCount < _currenScript.expressionToTexts.Count)
                         {
-                            textMeshProObject.text = _currenScript.scriptLines[_textCount++];
-                        }else if (_currenScript.containQuestion)
+                            beePlane.GetComponent<MeshRenderer>().material= 
+                                _currenScript.expressionToTexts[_textCount].expression;
+                            textMeshProObject.text = _currenScript.expressionToTexts[_textCount++].text;
+                        }
+                        else if (_currenScript.containQuestion)
                         {
-                            textBox.SetActive(false);
-                            uiManager.SetMenuStatus(false);
-                            uiManager.SetQuestionUIStatus(true);
-                            
-                            uiManager.AddQuestion(_currenScript.question,_currenScript.rightAnswer,_currenScript.wrongAnswer);
+                            OpenQuestion();
+                            //_currenScript = null;
                         }
                         else
                         {
-                            textBox.SetActive(false);
-                            uiManager.SetMenuStatus(true);
+                            OpenMenu();
+                            _currenScript = null;
                         }
                     }
                 }
@@ -107,8 +104,8 @@ public class CompanionBehavior : MonoBehaviour
 
     public void OnPhaseChange(CompanionPhase phase)
     {
-        ResetText();
         SetData(phase);
+        ResetText();
         uiManager.SetMenuStatus(false);
         uiManager.SetQuestionUIStatus(false);
     }
@@ -117,7 +114,9 @@ public class CompanionBehavior : MonoBehaviour
     {
         textBox.SetActive(true);
         _textCount = 0;
-        textMeshProObject.text = _currenScript.scriptLines[_textCount++];
+        textMeshProObject.text = _currenScript.expressionToTexts[_textCount++].text;
+        beePlane.GetComponent<MeshRenderer>().material= 
+            _currenScript.expressionToTexts[_textCount].expression;
     }
 
      void SetData(CompanionPhase phase)
@@ -130,11 +129,40 @@ public class CompanionBehavior : MonoBehaviour
             if (script.phase == phase)
             {
                 _currenScript = script;
-                //_currenScripts = script.scriptLines;
-                //_haveQuestion = script.containQuestion;
+
                 break;
             }
         }
     }
+
+     public void OnRightAnswer()
+     {
+         textBox.SetActive(true);
+         textMeshProObject.text = _currenScript.respondToRightAnswer.text;
+         beePlane.GetComponent<MeshRenderer>().material = _currenScript.respondToRightAnswer.expression;
+     }
+
+     public void OnWrongAnswer()
+     {
+         textBox.SetActive(true);
+         textMeshProObject.text = _currenScript.respondToWrongAnswer.text;
+         beePlane.GetComponent<MeshRenderer>().material = _currenScript.respondToWrongAnswer.expression;
+     }
+
+     void OpenMenu()
+     {
+         textBox.SetActive(false);
+         uiManager.SetQuestionUIStatus(false);
+         uiManager.SetMenuStatus(true);
+     }
+
+     void OpenQuestion()
+     {
+         textBox.SetActive(false);
+         uiManager.SetMenuStatus(false);
+         uiManager.SetQuestionUIStatus(true);
+                            
+         uiManager.AddQuestionData(_currenScript.question,_currenScript.rightAnswer,_currenScript.wrongAnswer);
+     }
 
 }
