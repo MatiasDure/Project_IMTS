@@ -37,3 +37,33 @@ MonoBehaviour:
     m_SpecifySize: 1
     m_Name: two
     m_Texture: {fileID: 2800000, guid: 038b8a7b4862745aaadfd7c9f14e7bbd, type: 3}
+  - m_SerializedGuid:
+      m_GuidLow: 4902579053630218651
+      m_GuidHigh: 10955979936669573532
+    m_SerializedTextureGuid:
+      m_GuidLow: 288924497207985411
+      m_GuidHigh: 4143232447317295274
+    m_Size: {x: 0.5, y: 0.5}
+    m_SpecifySize: 1
+    m_Name: QRCode
+    m_Texture: {fileID: 2800000, guid: a6fd8503774c0402aa403884f5b77f39, type: 3}
+  - m_SerializedGuid:
+      m_GuidLow: 5688064794350601033
+      m_GuidHigh: 7138635978034797737
+    m_SerializedTextureGuid:
+      m_GuidLow: 3045804918016700000
+      m_GuidHigh: 12263723139385508072
+    m_Size: {x: 0.5, y: 0.33251953}
+    m_SpecifySize: 1
+    m_Name: rafflesia
+    m_Texture: {fileID: 2800000, guid: 8185ee60df6f2a44e8c0cf22387f31aa, type: 3}
+  - m_SerializedGuid:
+      m_GuidLow: 5595284804720121360
+      m_GuidHigh: 17704780002435756952
+    m_SerializedTextureGuid:
+      m_GuidLow: 16430241910255274575
+      m_GuidHigh: 3143750354108030859
+    m_Size: {x: 0.5, y: 0.5}
+    m_SpecifySize: 1
+    m_Name: unitylogowhiteonblack
+    m_Texture: {fileID: 2800000, guid: 5a804a4ff1f7e4038b1f1e6f4ad8a02b, type: 3}

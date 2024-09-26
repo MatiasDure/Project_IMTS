@@ -29,10 +29,10 @@ public class CreatureInteractable : Interactable
 
     public override void OnInteraction()
     {
-        base.OnInteraction();
 		OnSpawnableInteracted?.Invoke(_creature.CreatureName);
         StartCoroutine(_interactableSound.PlaySound());
 		_isMovingToInventory = true;
+		Inventory.Instance.EnableBox();
 		// _animator.SetBool("isMoving", true);
     }
 
@@ -44,31 +44,47 @@ public class CreatureInteractable : Interactable
 			}
 		}
 
+		if(
+			_isDoneMoving && 
+			(Inventory.Instance.InventoryBox.transform.position - transform.position).magnitude > 0.1f
+		) {
+			_isDoneMoving = false;
+			_isMovingToInventory = true;
+		}
+
 		if(_isDoneMoving && _isSoundDone) {
 			Destroy(gameObject);
+			Inventory.Instance.DisableBox();
+	        Inventory.Instance.AddCreature(_creature);
 		}
 	}
 
 	private void MoveToInventory() {
 		// Get the world position of the UI element
-    	var inventoryPos = InventoryController.Instance.InventoryUI;
-		var test = inventoryPos.TransformPoint(inventoryPos.rect.center) + new Vector3(0, 0, 5);
+    	// var inventoryPos = InventoryController.Instance.InventoryUI;
+		// var test = inventoryPos.TransformPoint(inventoryPos.rect.center) + new Vector3(0, 0, 5);
+		// var worldPos = Camera.main.ScreenToWorldPoint(test);
 
-		var worldPos = Camera.main.ScreenToWorldPoint(test);
+		var inventoryPos = Inventory.Instance.InventoryBox.transform;
 
 		// Move the creature to the inventory slot
-		transform.position = Vector3.MoveTowards(transform.position, worldPos, 4f * Time.deltaTime);
-		transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, 0.7f * Time.deltaTime);
+		// transform.position = Vector3.MoveTowards(transform.position, worldPos, 4f * Time.deltaTime);
+		transform.position = Vector3.MoveTowards(transform.position, inventoryPos.position, 2f * Time.deltaTime);
+		transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, 2f * Time.deltaTime);
 
-		if ((worldPos - transform.position).magnitude < 0.1f) {
+
+		if ((inventoryPos.position - transform.position).magnitude <= 0.1f) {
 			_isMovingToInventory = false;
 			_isDoneMoving = true;
 		}
+		// if ((worldPos - transform.position).magnitude < 0.1f) {
+		// 	_isMovingToInventory = false;
+		// 	_isDoneMoving = true;
+		// }
 	}
 
     private void CaptureCreature()
     {
-        Inventory.Instance.AddCreature(_creature);
 		_isSoundDone = true;
         // Destroy(gameObject);
     }

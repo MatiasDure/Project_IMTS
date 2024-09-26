@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,17 +10,22 @@ public class InventoryController : MonoBehaviour
 {
 	public static InventoryController Instance { get; private set; }
 
-    [SerializeField] private CollectableContainer _collectableContainerPrefab;
-    [SerializeField] private Transform _contentContainer;
+    // [SerializeField] private CollectableContainer _collectableContainerPrefab;
+    // [SerializeField] private Transform _contentContainer;
     [SerializeField] private GameObject _inventoryUI;
-    [SerializeField] private Image _inventoryToggleImage;
+    // [SerializeField] private Image _inventoryToggleImage;
     [SerializeField] private Button _inventoryToggleButton;
-    [SerializeField] private Sprite _inventoryOpenSprite;
-    [SerializeField] private Sprite _inventoryCloseSprite;
+    // [SerializeField] private Sprite _inventoryOpenSprite;
+    // [SerializeField] private Sprite _inventoryCloseSprite;
     [SerializeField] private AudioClip _openInventory;
     [SerializeField] private AudioClip _closeInventory;
+	[SerializeField] private List<CollectableContainer> _collectableContainers;
+	[SerializeField] private GameObject _infoSection;
+	[SerializeField] private GameObject _objectsCollectedSection;
+	[SerializeField] private Image _infoSectionImage;
+	[SerializeField] private TextMeshProUGUI _infoSectionText;
 
-    private List<CollectableContainer> _collectableContainers = new List<CollectableContainer>();
+    // private List<CollectableContainer> _collectableContainers = new List<CollectableContainer>();
     private bool _isInventoryOpen = false;
     private AudioSource _audioSource;
 
@@ -41,35 +48,70 @@ public class InventoryController : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
     }
 
-    private void AddCollectable(CreatureInfo creature)
-    {
-        CollectableContainer collectableContainer = Instantiate(_collectableContainerPrefab, _contentContainer);
-        collectableContainer.SetImage(creature.CreatureImage);
-        collectableContainer.SetName(creature.CreatureName);
-		collectableContainer.SetDialogText(creature.CreatureDialogText);
-        _collectableContainers.Add(collectableContainer);
-    }
+    // private void AddCollectable(CreatureInfo creature)
+    // {
+    //     CollectableContainer collectableContainer = Instantiate(_collectableContainerPrefab, _contentContainer);
+    //     collectableContainer.SetImage(creature.CreatureImage);
+    //     collectableContainer.SetName(creature.CreatureName);
+	// 	collectableContainer.SetDialogText(creature.CreatureDialogText);
+    //     _collectableContainers.Add(collectableContainer);
+    // }
 
+	private void AddCollectable(CreatureInfo creature)
+	{
+		foreach(var collectable in _collectableContainers) {
+			if(collectable.HasCollectable) continue;
+				collectable.EnableCollectableContainer();
+				collectable.SetImage(creature.CreatureImage);
+				// collectable.SetName(creature.CreatureName);
+				collectable.SetDialogText(creature.CreatureDialogText);
+				collectable.DisablePlaceholder();
+				return;
+		}
+		// CollectableContainer collectableContainer = Instantiate(_collectableContainerPrefab, _contentContainer);
+		// collectableContainer.SetImage(creature.CreatureImage);
+		// collectableContainer.SetName(creature.CreatureName);
+	}
     private void ToggleInventory()
     {
         _isInventoryOpen = !_isInventoryOpen;
         _inventoryUI.SetActive(_isInventoryOpen);
-        _inventoryToggleImage.transform.Rotate(0, 0, 180);
+        // _inventoryToggleImage.transform.Rotate(0, 0, 180);
 
         if(_isInventoryOpen )
         {
             _audioSource.clip = _openInventory;
             _audioSource.Play();
-            _inventoryToggleImage.sprite = _inventoryCloseSprite;
+            // _inventoryToggleImage.sprite = _inventoryCloseSprite;
         }
         else
         {
             _audioSource.clip = _closeInventory;
             _audioSource.Play();
-            _inventoryToggleImage.sprite = _inventoryOpenSprite;
+            // _inventoryToggleImage.sprite = _inventoryOpenSprite;
         }
     }
 
+	public void OpenInfoSection(string infoText, Sprite infoImage) {
+		_infoSectionText.text = infoText;
+		_infoSectionImage.sprite = infoImage;
+		_infoSection.SetActive(true);
+		_objectsCollectedSection.SetActive(false);
+	}
+
+	public void CloseInfoSection() {
+		_infoSection.SetActive(false);
+		_objectsCollectedSection.SetActive(true);
+	}
+
+	public void CloseInventory() {
+		_isInventoryOpen = false;
+		_inventoryUI.SetActive(_isInventoryOpen);
+		_audioSource.clip = _closeInventory;
+		_audioSource.Play();
+		CloseInfoSection();
+		// _inventoryToggleImage.sprite = _inventoryOpenSprite;
+	}
     private void OnDestroy()
     {
         Inventory.OnCreatureAdded -= AddCollectable;

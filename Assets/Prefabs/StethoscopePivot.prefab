@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6296392573682560875}
   m_Layer: 0
-  m_Name: Stethoscope_LP
+  m_Name: model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -207,6 +207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 899b1b7ea2a3e8a41aa00bca0dfc69d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _animator: {fileID: 0}
 --- !u!65 &106835192152280333
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -238,7 +239,7 @@ Animator:
   m_GameObject: {fileID: 7951752088499730995}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: fc4d2b5dbcfcc304aa3e34915c94f8c8, type: 2}
+  m_Controller: {fileID: 9100000, guid: 30c84a2a865751b4f911b35529beb93f, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
