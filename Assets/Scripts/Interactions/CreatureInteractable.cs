@@ -10,6 +10,7 @@ using UnityEngine;
 public class CreatureInteractable : Interactable
 {
 	[SerializeField] private Animator _animator;
+	[SerializeField] private Collider _collider;
     private CreatureInfo _creature;
     private InteractableSound _interactableSound;
 	
@@ -24,11 +25,14 @@ public class CreatureInteractable : Interactable
         _creature = GetComponent<CreatureInfo>();
         _interactableSound = GetComponent<InteractableSound>();
 		_animator = GetComponent<Animator>();
+		_collider = GetComponent<Collider>();
         _interactableSound.OnSoundFinished += CaptureCreature;
     }
 
     public override void OnInteraction()
     {
+		// disable the creature's collider
+		_collider.enabled = false;
 		OnSpawnableInteracted?.Invoke(_creature.CreatureName);
         StartCoroutine(_interactableSound.PlaySound());
 		_isMovingToInventory = true;

@@ -64,7 +64,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: b9016f6ddc3432348b1b512b913d3ebb, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 2586e61d7ebf3be469cb2ae90493aa75, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -162,7 +162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83ab98f309c5aa34282212d6a1dd888f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _destroyedClip: {fileID: 8300000, guid: ce1fdfacd1c04ea45af9b97a87aa4f1b, type: 3}
+  _destroyedClip: {fileID: 8300000, guid: 5b4b70c16f9984a4facc35d8d45516aa, type: 3}
 --- !u!95 &7883526614624238098
 Animator:
   serializedVersion: 5
@@ -196,7 +196,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 899b1b7ea2a3e8a41aa00bca0dfc69d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animator: {fileID: 0}
+  _animator: {fileID: 7883526614624238098}
+  _collider: {fileID: 2778749165670147086}
 --- !u!65 &2778749165670147086
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -216,8 +217,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.5488844, y: 0.29197127, z: 0.21727109}
-  m_Center: {x: 0.06982851, y: 0.0032478273, z: 0.0016238391}
+  m_Size: {x: 0.7829895, y: 0.15260965, z: 0.10171509}
+  m_Center: {x: 0.033554077, y: -0.0019364059, z: -0.0050811768}
 --- !u!1001 &8915111644438201975
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -228,15 +229,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: e16d2a28ee2660a49814362c01028d55, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.1
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e16d2a28ee2660a49814362c01028d55, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.1
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e16d2a28ee2660a49814362c01028d55, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.1
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e16d2a28ee2660a49814362c01028d55, type: 3}
       propertyPath: m_LocalPosition.x
@@ -292,7 +293,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: e16d2a28ee2660a49814362c01028d55, type: 3}
       propertyPath: m_Name
-      value: Thermometer2_LP_OBJ
+      value: model
       objectReference: {fileID: 0}
     - target: {fileID: 7216655632450529714, guid: e16d2a28ee2660a49814362c01028d55, type: 3}
       propertyPath: m_Materials.Array.data[0]

@@ -8,6 +8,8 @@ public class Inventory : MonoBehaviour
     public static Inventory Instance;
 
 	[SerializeField] private GameObject _inventoryBox;
+	[SerializeField] private AudioSource _audioSource;
+	[SerializeField] private AudioClip _audioClip;
     private List<CreatureInfo> _creatureList = new List<CreatureInfo>();
 	private int _objectsMovingTowardsBox = 0;
     public List<CreatureInfo> CreatureList => _creatureList;
@@ -28,6 +30,7 @@ public class Inventory : MonoBehaviour
         }
 
 		InteractableUIContainerSwitch.OnCollectableInteracted += NewObjectInteractedWith;
+		_audioSource.clip = _audioClip;
     }
 
 	public void EnableBox() {
@@ -43,7 +46,19 @@ public class Inventory : MonoBehaviour
 		
 		if(_objectsMovingTowardsBox > 0) return;
 
+		_audioSource.Play();
+		StartCoroutine(DisableBoxAfterSound());
+	}
+
+	private IEnumerator DisableBoxAfterSound() {
+		yield return new WaitForSeconds(_audioClip.length);
+
 		_inventoryBox.SetActive(false);
+	}
+
+	public void RemoveCreature(CreatureInfo creature)
+	{
+		_creatureList.Remove(creature);
 	}
 
     public void AddCreature(CreatureInfo creature)

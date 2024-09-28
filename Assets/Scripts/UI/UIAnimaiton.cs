@@ -26,9 +26,11 @@ public class UIAnimaiton : MonoBehaviour
 
 			_jumpCoroutine = StartCoroutine(StartJump());
 		}
-
-		JumpAnimation();
     }
+
+	void FixedUpdate() {
+		JumpAnimation();
+	}
 
 	private IEnumerator StartJump() {
 		ResetJump();
@@ -47,15 +49,15 @@ public class UIAnimaiton : MonoBehaviour
 			_isGoingUp = true;
 		}
 		else if(_isGoingUp) {
-			transform.position = Vector2.Lerp(transform.position, new Vector2(transform.position.x, _initialPosition.y + 15f), 0.05f);
-			if(Mathf.Abs(transform.position.y - (_initialPosition.y + 15f)) <= 0.1f) {
+			transform.position = Vector2.Lerp(transform.position, new Vector2(transform.position.x, _initialPosition.y + 15f), 0.2f);
+			if(Mathf.Abs(transform.position.y - (_initialPosition.y + 15f)) <= 0.2f) {
 				_isGoingUp = false;
 				_isGoingDown = true;
 			}
 		}
 		else {
-			transform.position = Vector2.Lerp(transform.position, new Vector2(transform.position.x, _initialPosition.y - 5f), 0.05f);
-			if(Mathf.Abs(transform.position.y - (_initialPosition.y - 5f)) <= 0.1f) {
+			transform.position = Vector2.Lerp(transform.position, new Vector2(transform.position.x, _initialPosition.y - 5f), 0.2f);
+			if(Mathf.Abs(transform.position.y - (_initialPosition.y - 5f)) <= 0.2f) {
 				_isGoingDown = false;
 				_doneJump = true;
 			}
@@ -63,11 +65,11 @@ public class UIAnimaiton : MonoBehaviour
 	}
 
 	private void GoBackToInitialPosition() {
-		if(Mathf.Abs(transform.position.y - _initialPosition.y) <= 0.1f) {
+		if(Mathf.Abs(transform.position.y - _initialPosition.y) <= 0.2f) {
 			_doesJump = false;
 			return;
 		} 
-		transform.position = Vector2.Lerp(transform.position, _initialPosition, 0.05f);
+		transform.position = Vector2.Lerp(transform.position, _initialPosition, 0.2f);
 	}
 
 	private void ResetJump() {

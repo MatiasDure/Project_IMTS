@@ -126,7 +126,7 @@ GameObject:
   - component: {fileID: 5095166278535272229}
   - component: {fileID: 71537776611838855}
   m_Layer: 5
-  m_Name: objectCollectedContainer 1
+  m_Name: objectCollectedContainerTest2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

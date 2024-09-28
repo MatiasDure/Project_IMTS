@@ -19,6 +19,7 @@ public class InventoryController : MonoBehaviour
     // [SerializeField] private Sprite _inventoryCloseSprite;
     [SerializeField] private AudioClip _openInventory;
     [SerializeField] private AudioClip _closeInventory;
+	[SerializeField] private AudioClip _uiButtonClicked;
 	[SerializeField] private List<CollectableContainer> _collectableContainers;
 	[SerializeField] private GameObject _infoSection;
 	[SerializeField] private GameObject _objectsCollectedSection;
@@ -78,18 +79,19 @@ public class InventoryController : MonoBehaviour
         _inventoryUI.SetActive(_isInventoryOpen);
         // _inventoryToggleImage.transform.Rotate(0, 0, 180);
 
-        if(_isInventoryOpen )
-        {
-            _audioSource.clip = _openInventory;
-            _audioSource.Play();
-            // _inventoryToggleImage.sprite = _inventoryCloseSprite;
-        }
-        else
-        {
-            _audioSource.clip = _closeInventory;
-            _audioSource.Play();
-            // _inventoryToggleImage.sprite = _inventoryOpenSprite;
-        }
+        // if(_isInventoryOpen )
+        // {
+        //     _audioSource.clip = _openInventory;
+        //     // _inventoryToggleImage.sprite = _inventoryCloseSprite;
+        // }
+        // else
+        // {
+        //     _audioSource.clip = _closeInventory;
+        //     // _inventoryToggleImage.sprite = _inventoryOpenSprite;
+        // }
+		_audioSource.clip = _uiButtonClicked;
+		_audioSource.Play();
+
     }
 
 	public void OpenInfoSection(string infoText, Sprite infoImage) {
@@ -107,7 +109,9 @@ public class InventoryController : MonoBehaviour
 	public void CloseInventory() {
 		_isInventoryOpen = false;
 		_inventoryUI.SetActive(_isInventoryOpen);
-		_audioSource.clip = _closeInventory;
+		// _audioSource.clip = _closeInventory;
+		// _audioSource.Play();
+		_audioSource.clip = _uiButtonClicked;
 		_audioSource.Play();
 		CloseInfoSection();
 		// _inventoryToggleImage.sprite = _inventoryOpenSprite;

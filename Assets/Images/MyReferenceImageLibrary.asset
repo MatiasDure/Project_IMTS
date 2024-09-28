@@ -67,3 +67,13 @@ MonoBehaviour:
     m_SpecifySize: 1
     m_Name: unitylogowhiteonblack
     m_Texture: {fileID: 2800000, guid: 5a804a4ff1f7e4038b1f1e6f4ad8a02b, type: 3}
+  - m_SerializedGuid:
+      m_GuidLow: 5490039810801583593
+      m_GuidHigh: 8243309276471358639
+    m_SerializedTextureGuid:
+      m_GuidLow: 1892847531138179200
+      m_GuidHigh: 11029517727644872123
+    m_Size: {x: 0.5, y: 0.5}
+    m_SpecifySize: 1
+    m_Name: penguins
+    m_Texture: {fileID: 2800000, guid: 03776080becd1a44bb6d25b8efb71099, type: 3}

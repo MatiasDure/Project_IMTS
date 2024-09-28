@@ -64,7 +64,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: b9016f6ddc3432348b1b512b913d3ebb, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 2586e61d7ebf3be469cb2ae90493aa75, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -162,7 +162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83ab98f309c5aa34282212d6a1dd888f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _destroyedClip: {fileID: 8300000, guid: ce1fdfacd1c04ea45af9b97a87aa4f1b, type: 3}
+  _destroyedClip: {fileID: 8300000, guid: 5b4b70c16f9984a4facc35d8d45516aa, type: 3}
 --- !u!95 &6797651307813676025
 Animator:
   serializedVersion: 5
@@ -196,7 +196,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 899b1b7ea2a3e8a41aa00bca0dfc69d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animator: {fileID: 0}
+  _animator: {fileID: 6797651307813676025}
+  _collider: {fileID: 7238093002356102048}
 --- !u!65 &7238093002356102048
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -304,7 +305,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 93e2566968f72d2409569b39d42f7d1a, type: 3}
       propertyPath: m_Name
-      value: IVDrip_LP
+      value: model
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
