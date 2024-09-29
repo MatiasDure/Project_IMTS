@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _creatureName: Thermometer
-  _creatureImage: {fileID: 21300000, guid: 77bda31d34c85d448bfd14d13028ac94, type: 3}
+  _creatureImage: {fileID: 21300000, guid: 941fb65f080802744aa29e2bca311230, type: 3}
   _creatureDialogText: If you're feeling too hot, I will see it right away!
 --- !u!82 &7941672643358639604
 AudioSource:

@@ -83,7 +83,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _creatureName: Bandage
-  _creatureImage: {fileID: 21300000, guid: 77bda31d34c85d448bfd14d13028ac94, type: 3}
+  _creatureImage: {fileID: 21300000, guid: eb003cb98ddf3d54d8e2a55fd08f1db5, type: 3}
   _creatureDialogText: I will hug any ouchie and hold tight until it heals!
 --- !u!82 &2850575716938546788
 AudioSource:

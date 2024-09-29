@@ -68,10 +68,10 @@ public class TrackedImgInfo : MonoBehaviour
 
 	private void InstantiateSpawnableObject(ARTrackedImage newImage)
     {
-		Vector3 offset = newImage.transform.up * 0.15f;
+		// Vector3 offset = newImage.transform.up * 0.15f;
         var instantiatedObj = Instantiate(_objectsToSpawnMap[newImage.referenceImage.name]);
 		_spawnedObjectsToInteractWith.Add(newImage.referenceImage.name);
-        instantiatedObj.transform.SetPositionAndRotation(newImage.transform.position + offset, newImage.transform.rotation);
+        instantiatedObj.transform.SetPositionAndRotation(newImage.transform.position, newImage.transform.rotation);
     }
 
     private void Update()

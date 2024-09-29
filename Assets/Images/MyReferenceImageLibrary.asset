@@ -77,3 +77,63 @@ MonoBehaviour:
     m_SpecifySize: 1
     m_Name: penguins
     m_Texture: {fileID: 2800000, guid: 03776080becd1a44bb6d25b8efb71099, type: 3}
+  - m_SerializedGuid:
+      m_GuidLow: 5315327465913109228
+      m_GuidHigh: 16668418659877294502
+    m_SerializedTextureGuid:
+      m_GuidLow: 18231905977723604982
+      m_GuidHigh: 9782920275788610921
+    m_Size: {x: 0.5, y: 0.5}
+    m_SpecifySize: 1
+    m_Name: thermometer
+    m_Texture: {fileID: 2800000, guid: d4894ff6bde3fd0469bd58a028eac387, type: 3}
+  - m_SerializedGuid:
+      m_GuidLow: 5560323878445902752
+      m_GuidHigh: 11201153628401785014
+    m_SerializedTextureGuid:
+      m_GuidLow: 2734811809097861367
+      m_GuidHigh: 11176740588538231896
+    m_Size: {x: 0.5, y: 0.5}
+    m_SpecifySize: 1
+    m_Name: bandages
+    m_Texture: {fileID: 2800000, guid: c8d248f700d925f458fc822e59c21b9b, type: 3}
+  - m_SerializedGuid:
+      m_GuidLow: 5143780410742171057
+      m_GuidHigh: 4757765860529470596
+    m_SerializedTextureGuid:
+      m_GuidLow: 8729306128189918105
+      m_GuidHigh: 4778667750157774904
+    m_Size: {x: 0.5, y: 0.5}
+    m_SpecifySize: 1
+    m_Name: ivDrip
+    m_Texture: {fileID: 2800000, guid: 7a668b99b9ac792438f0c413003d5142, type: 3}
+  - m_SerializedGuid:
+      m_GuidLow: 5362225993383969630
+      m_GuidHigh: 940017842135414716
+    m_SerializedTextureGuid:
+      m_GuidLow: 16642159369003131307
+      m_GuidHigh: 11454861960337539304
+    m_Size: {x: 0.5, y: 0.5}
+    m_SpecifySize: 1
+    m_Name: otoscope
+    m_Texture: {fileID: 2800000, guid: acdee1abd3c5e6f4e8c00d3143d8f79e, type: 3}
+  - m_SerializedGuid:
+      m_GuidLow: 5221720363241151102
+      m_GuidHigh: 5153032872246049452
+    m_SerializedTextureGuid:
+      m_GuidLow: 10337060546209958544
+      m_GuidHigh: 10024090374824269065
+    m_Size: {x: 0.5, y: 0.5}
+    m_SpecifySize: 1
+    m_Name: stethoscope
+    m_Texture: {fileID: 2800000, guid: 768cca909dcc8f740915d00316b91c8b, type: 3}
+  - m_SerializedGuid:
+      m_GuidLow: 5411271257985807782
+      m_GuidHigh: 3980358519031932550
+    m_SerializedTextureGuid:
+      m_GuidLow: 8684120488207052985
+      m_GuidHigh: 12100821112893996936
+    m_Size: {x: 0.5, y: 0.5}
+    m_SpecifySize: 1
+    m_Name: syringe
+    m_Texture: {fileID: 2800000, guid: d645f0b93192788488ff9774b0c0eea7, type: 3}

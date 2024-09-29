@@ -166,7 +166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _creatureName: Syringe
-  _creatureImage: {fileID: 21300000, guid: 9beb39e9a0982c04e8fd7d412c661bbf, type: 3}
+  _creatureImage: {fileID: 21300000, guid: 97389d3aec96a99408b8d01371c84eb1, type: 3}
   _creatureDialogText: My job is to give your body medicine quickly so you can feel
     better and stay strong!
 --- !u!82 &8035019953724270548

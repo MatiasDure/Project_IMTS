@@ -17,8 +17,8 @@ public class InventoryController : MonoBehaviour
     [SerializeField] private Button _inventoryToggleButton;
     // [SerializeField] private Sprite _inventoryOpenSprite;
     // [SerializeField] private Sprite _inventoryCloseSprite;
-    [SerializeField] private AudioClip _openInventory;
-    [SerializeField] private AudioClip _closeInventory;
+    // [SerializeField] private AudioClip _openInventory;
+    // [SerializeField] private AudioClip _closeInventory;
 	[SerializeField] private AudioClip _uiButtonClicked;
 	[SerializeField] private List<CollectableContainer> _collectableContainers;
 	[SerializeField] private GameObject _infoSection;

@@ -83,7 +83,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _creatureName: Stethoscope
-  _creatureImage: {fileID: 21300000, guid: d05b538020f79fc4abcc748fe78c729b, type: 3}
+  _creatureImage: {fileID: 21300000, guid: 9be1a48c1c4aba34592b1cf661ba255e, type: 3}
   _creatureDialogText: I help doctors listen to your heart and lungs to make sure
     everything sounds just right!
 --- !u!82 &6938033665731063061
