@@ -1,18 +1,37 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private AudioSource source;
+    [SerializeField] private AudioClip buttonPress;
+    [SerializeField] private AudioClip badge;
+    [SerializeField] private AudioClip happy;
+    [SerializeField] private AudioClip sad;
+
+
+    private void Awake()
     {
-        
+        source = GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void PlayButtonSound()
     {
-        
+        source.PlayOneShot(buttonPress);
+    }
+    public void PlayBadgeSound()
+    {
+        source.PlayOneShot(badge);
+    }
+    public void PlayHappySound()
+    {
+        source.PlayOneShot(happy);
+    }
+
+    public void PlaySadSound()
+    {
+        source.PlayOneShot(sad);
     }
 }

@@ -12,7 +12,8 @@ using UnityEngine.Serialization;
 
 public class CompanionBehavior : MonoBehaviour
 {
-    [Header("Reference")]
+    [Header("Reference")] 
+    [SerializeField] private SoundManager soundManager;
     [SerializeField] private UIManager uiManager;
     [SerializeField] private GameObject beePlane;
     [SerializeField] private GameObject textBox;
@@ -98,6 +99,7 @@ public class CompanionBehavior : MonoBehaviour
                 }else if (_finishAnswer && !_showBadge)
                 {
                     //show badge
+                    soundManager.PlayBadgeSound();
                     _showBadge = true;
                     uiManager.SetBadgeStatus(_currenScript.badge, true);
                 }
@@ -151,6 +153,7 @@ public class CompanionBehavior : MonoBehaviour
 
      public void OnRightAnswer()
      {
+         soundManager.PlayHappySound();
          _answering = false;
          _finishAnswer = true;
          thinkBurble.SetActive(false);
@@ -160,6 +163,7 @@ public class CompanionBehavior : MonoBehaviour
 
      public void OnWrongAnswer()
      {
+         soundManager.PlaySadSound();
          beePlane.GetComponent<MeshRenderer>().material = _currenScript.wrongReaction;
      }
 

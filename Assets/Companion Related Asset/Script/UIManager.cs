@@ -105,8 +105,8 @@ public class UIManager : MonoBehaviour
                 image3.texture = wrongIcon[1];
                 break;
             case 2:
-                image1.texture = wrongIcon[1];
-                image2.texture = wrongIcon[0];
+                image1.texture = wrongIcon[0];
+                image2.texture = wrongIcon[1];
                 image3.texture = rightIcon;
                 break;
         }
