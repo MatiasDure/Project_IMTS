@@ -87,6 +87,7 @@ public class CompanionBehavior : MonoBehaviour
             {
                 if (_textCount < _currenScript.expressionToTexts.Count)
                 {
+                    soundManager.PlayTalkSound();
                     beePlane.GetComponent<MeshRenderer>().material= 
                         _currenScript.expressionToTexts[_textCount].expression;
                     textMeshProObject.text = _currenScript.expressionToTexts[_textCount++].text;
@@ -131,6 +132,7 @@ public class CompanionBehavior : MonoBehaviour
 
      void ResetText()
     {
+        soundManager.PlayTalkSound();
         textBox.SetActive(true);
         _textCount = 0;
         textMeshProObject.text = _currenScript.expressionToTexts[_textCount++].text;

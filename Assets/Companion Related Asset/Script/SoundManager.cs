@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-    [SerializeField] private AudioSource source;
+    private AudioSource _source;
     [SerializeField] private AudioClip buttonPress;
+    [SerializeField] private AudioClip talk;
     [SerializeField] private AudioClip badge;
     [SerializeField] private AudioClip happy;
     [SerializeField] private AudioClip sad;
@@ -14,24 +15,29 @@ public class SoundManager : MonoBehaviour
 
     private void Awake()
     {
-        source = GetComponent<AudioSource>();
+        _source = GetComponent<AudioSource>();
     }
 
     public void PlayButtonSound()
     {
-        source.PlayOneShot(buttonPress);
+        _source.PlayOneShot(buttonPress);
     }
     public void PlayBadgeSound()
     {
-        source.PlayOneShot(badge);
+        _source.PlayOneShot(badge);
+    }
+
+    public void PlayTalkSound()
+    {
+        _source.PlayOneShot(talk);
     }
     public void PlayHappySound()
     {
-        source.PlayOneShot(happy);
+        _source.PlayOneShot(happy);
     }
 
     public void PlaySadSound()
     {
-        source.PlayOneShot(sad);
+        _source.PlayOneShot(sad);
     }
 }
