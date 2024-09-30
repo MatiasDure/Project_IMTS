@@ -17,6 +17,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI questionText;
     [SerializeField] private TextMeshProUGUI answer1Text;
     [SerializeField] private TextMeshProUGUI answer2Text;
+    [SerializeField] private RawImage image1;
+    [SerializeField] private RawImage image2;
+    [SerializeField] private RawImage image3;
+    [SerializeField] private GameObject badgeUI;
+    [SerializeField] private GameObject panel;
     
     private int _randomInt; 
     private void Awake()
@@ -80,6 +85,33 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void AddQuestionIcon(string question, Texture rightIcon, List<Texture> wrongIcon)
+    {
+        Random random = new Random();
+        _randomInt = random.Next(0, 3);
+        
+        questionText.text = question;
+
+        switch (_randomInt)
+        {
+            case 0:
+                image1.texture = rightIcon;
+                image2.texture = wrongIcon[0];
+                image3.texture = wrongIcon[1];
+                break;
+            case 1:
+                image1.texture = wrongIcon[0];
+                image2.texture = rightIcon;
+                image3.texture = wrongIcon[1];
+                break;
+            case 2:
+                image1.texture = wrongIcon[1];
+                image2.texture = wrongIcon[0];
+                image3.texture = rightIcon;
+                break;
+        }
+    }
+
     public void GetButton(int index)
     {
         if (index == _randomInt)
@@ -90,5 +122,12 @@ public class UIManager : MonoBehaviour
         {
             beeCompanion.OnWrongAnswer();
         }
+    }
+
+    public void SetBadgeStatus(Texture badge, bool status)
+    {   
+        panel.SetActive(status);
+        badgeUI.SetActive(status);
+        badgeUI.GetComponent<RawImage>().texture = badge;
     }
 }

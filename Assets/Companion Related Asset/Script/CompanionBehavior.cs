@@ -17,6 +17,8 @@ public class CompanionBehavior : MonoBehaviour
     [SerializeField] private GameObject beePlane;
     [SerializeField] private GameObject textBox;
     [SerializeField] private TextMeshPro textMeshProObject;
+    [SerializeField] private GameObject thinkBurble;
+    [SerializeField] private GameObject hintPlane;
     [Space]
     [Header("Offset value")]
     [Range(-0.1f,0.1f)] [SerializeField] private float horizontalOffset = 0;
@@ -30,6 +32,9 @@ public class CompanionBehavior : MonoBehaviour
 
     private ScenarioScript _currenScript;
 
+    private bool _answering = false;
+    private bool _finishAnswer = false;
+    private bool _showBadge = false;
     private int _textCount = 0;
     private GameObject _arCamera;
     
@@ -85,17 +90,25 @@ public class CompanionBehavior : MonoBehaviour
                                 _currenScript.expressionToTexts[_textCount].expression;
                             textMeshProObject.text = _currenScript.expressionToTexts[_textCount++].text;
                         }
-                        else if (_currenScript.containQuestion)
+                        else if (_currenScript.containQuestion && !_answering &&!_finishAnswer)
                         {
+                            _answering = true;
                             OpenQuestion();
                             //_currenScript = null;
+                        }else if (_finishAnswer && !_showBadge)
+                        {
+                            //show badge
+                            _showBadge = true;
+                            uiManager.SetBadgeStatus(_currenScript.badge, true);
                         }
-                        else
+                        else if(!_currenScript.containQuestion || _showBadge)
                         {
                             OpenMenu();
                             _currenScript = null;
                         }
                     }
+                    
+                    
                 }
         
             }
@@ -104,6 +117,10 @@ public class CompanionBehavior : MonoBehaviour
 
     public void OnPhaseChange(CompanionPhase phase)
     {
+        _answering = false;
+        _finishAnswer = false;
+        _showBadge = false;
+        beePlane.SetActive(true);
         SetData(phase);
         ResetText();
         uiManager.SetMenuStatus(false);
@@ -121,9 +138,6 @@ public class CompanionBehavior : MonoBehaviour
 
      void SetData(CompanionPhase phase)
     {
-        
-        //_currentPhase = phase;
-
         foreach (ScenarioScript script in scenarioScripts)
         {
             if (script.phase == phase)
@@ -137,20 +151,23 @@ public class CompanionBehavior : MonoBehaviour
 
      public void OnRightAnswer()
      {
-         textBox.SetActive(true);
-         textMeshProObject.text = _currenScript.respondToRightAnswer.text;
-         beePlane.GetComponent<MeshRenderer>().material = _currenScript.respondToRightAnswer.expression;
+         _answering = false;
+         _finishAnswer = true;
+         thinkBurble.SetActive(false);
+         uiManager.SetQuestionUIStatus(false);
+         beePlane.GetComponent<MeshRenderer>().material = _currenScript.beeWithItem;
      }
 
      public void OnWrongAnswer()
      {
-         textBox.SetActive(true);
-         textMeshProObject.text = _currenScript.respondToWrongAnswer.text;
-         beePlane.GetComponent<MeshRenderer>().material = _currenScript.respondToWrongAnswer.expression;
+         beePlane.GetComponent<MeshRenderer>().material = _currenScript.wrongReaction;
      }
 
      void OpenMenu()
      {
+         uiManager.SetBadgeStatus(_currenScript.badge, false);
+         beePlane.SetActive(false);
+         thinkBurble.SetActive(false);
          textBox.SetActive(false);
          uiManager.SetQuestionUIStatus(false);
          uiManager.SetMenuStatus(true);
@@ -158,11 +175,16 @@ public class CompanionBehavior : MonoBehaviour
 
      void OpenQuestion()
      {
+         thinkBurble.SetActive(true);
+         hintPlane.GetComponent<MeshRenderer>().material = _currenScript.hint;
+         
          textBox.SetActive(false);
          uiManager.SetMenuStatus(false);
          uiManager.SetQuestionUIStatus(true);
-                            
-         uiManager.AddQuestionData(_currenScript.question,_currenScript.rightAnswer,_currenScript.wrongAnswer);
+
+         //uiManager.AddQuestionData(_currenScript.question,_currenScript.rightAnswer,_currenScript.wrongAnswer);
+         
+         uiManager.AddQuestionIcon(_currenScript.question,_currenScript.rightIcon,_currenScript.wrongIcon);
      }
 
 }

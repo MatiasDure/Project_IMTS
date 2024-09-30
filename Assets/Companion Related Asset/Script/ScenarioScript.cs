@@ -21,15 +21,26 @@ public class ExpressionToText
 
 [CreateAssetMenu(fileName = "Scenario script")]
 public class ScenarioScript : ScriptableObject
-{
-    public CompanionPhase phase;
-    public List<ExpressionToText> expressionToTexts;
-    public bool containQuestion;
+{   
     
+    public CompanionPhase phase;
+    [Header("Script")]
+    public List<ExpressionToText> expressionToTexts;
+    
+    [Header("Auestion")]
+    public bool containQuestion; 
     public string question;
-    public string rightAnswer;
-    public string wrongAnswer;
+    public Texture rightIcon;
+    public List<Texture> wrongIcon;
+    
+    [Header("Material")]
+    public Material hint;
+    
+    public Material beeWithItem;
+    public Material wrongReaction;
+    
+    public Texture badge;
+    
+    
 
-    public ExpressionToText respondToRightAnswer;
-    public ExpressionToText respondToWrongAnswer;
 }
