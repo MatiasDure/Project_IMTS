@@ -16,7 +16,7 @@ public class CompanionBehavior : MonoBehaviour
     [SerializeField] private UIManager uiManager;
     [SerializeField] private GameObject beePlane;
     [SerializeField] private GameObject textBox;
-    [SerializeField] private TextMeshPro textMeshProObject;
+    [SerializeField] private TextMeshProUGUI textMeshProObject;
     [SerializeField] private GameObject thinkBurble;
     [SerializeField] private GameObject hintPlane;
     [Space]
@@ -76,42 +76,42 @@ public class CompanionBehavior : MonoBehaviour
         //look at camera
         transform.LookAt(_arCamera.gameObject.transform);
 
-        if (Input.touchCount > 0)
+        if (Input.GetMouseButtonDown(0))
         {
-            Touch touch = Input.GetTouch(0);
-            if (touch.phase == TouchPhase.Began)
+            // Touch touch = Input.GetTouch(0);
+            // if (touch.phase == TouchPhase.Began)
+            // {
+            //  {
+            if (_currenScript != null)
             {
+                if (_textCount < _currenScript.expressionToTexts.Count)
                 {
-                    if (_currenScript != null)
-                    {
-                        if (_textCount < _currenScript.expressionToTexts.Count)
-                        {
-                            beePlane.GetComponent<MeshRenderer>().material= 
-                                _currenScript.expressionToTexts[_textCount].expression;
-                            textMeshProObject.text = _currenScript.expressionToTexts[_textCount++].text;
-                        }
-                        else if (_currenScript.containQuestion && !_answering &&!_finishAnswer)
-                        {
-                            _answering = true;
-                            OpenQuestion();
-                            //_currenScript = null;
-                        }else if (_finishAnswer && !_showBadge)
-                        {
-                            //show badge
-                            _showBadge = true;
-                            uiManager.SetBadgeStatus(_currenScript.badge, true);
-                        }
-                        else if(!_currenScript.containQuestion || _showBadge)
-                        {
-                            OpenMenu();
-                            _currenScript = null;
-                        }
-                    }
-                    
-                    
+                    beePlane.GetComponent<MeshRenderer>().material= 
+                        _currenScript.expressionToTexts[_textCount].expression;
+                    textMeshProObject.text = _currenScript.expressionToTexts[_textCount++].text;
                 }
-        
+                else if (_currenScript.containQuestion && !_answering &&!_finishAnswer)
+                {
+                    _answering = true;
+                    OpenQuestion();
+                    //_currenScript = null;
+                }else if (_finishAnswer && !_showBadge)
+                {
+                    //show badge
+                    _showBadge = true;
+                    uiManager.SetBadgeStatus(_currenScript.badge, true);
+                }
+                else if(!_currenScript.containQuestion || _showBadge)
+                {
+                    OpenMenu();
+                    _currenScript = null;
+                }
             }
+                    
+                    
+            //     }
+            //
+            // }
         }
     }
 
@@ -133,7 +133,7 @@ public class CompanionBehavior : MonoBehaviour
         _textCount = 0;
         textMeshProObject.text = _currenScript.expressionToTexts[_textCount++].text;
         beePlane.GetComponent<MeshRenderer>().material= 
-            _currenScript.expressionToTexts[_textCount].expression;
+            _currenScript.expressionToTexts[0].expression;
     }
 
      void SetData(CompanionPhase phase)

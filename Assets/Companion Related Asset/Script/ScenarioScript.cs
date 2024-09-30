@@ -28,7 +28,8 @@ public class ScenarioScript : ScriptableObject
     public List<ExpressionToText> expressionToTexts;
     
     [Header("Auestion")]
-    public bool containQuestion; 
+    public bool containQuestion;
+    public Material beeInQuestion;
     public string question;
     public Texture rightIcon;
     public List<Texture> wrongIcon;

@@ -14,24 +14,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   phase: 1
   expressionToTexts:
-  - expression: {fileID: 2100000, guid: e873bb094eef8498180a9859f4b13e73, type: 2}
+  - expression: {fileID: 2100000, guid: c32294cf4ff384664a7528e17d8dbd11, type: 2}
     text: If eating three-egg omelets causes weight-gain, budgie eggs are a good
       substitute.
-  - expression: {fileID: 2100000, guid: e873bb094eef8498180a9859f4b13e73, type: 2}
+  - expression: {fileID: 2100000, guid: e3499452c509c4f72a9e2c82874a76bc, type: 2}
     text: Facing his greatest fear, he ate his first marshmallow.
-  - expression: {fileID: 2100000, guid: e873bb094eef8498180a9859f4b13e73, type: 2}
+  - expression: {fileID: 2100000, guid: b09a2cc7b9fad4908b5de776a276b1dc, type: 2}
     text: He was surprised that his immense laziness was inspirational to others.
-  - expression: {fileID: 2100000, guid: e873bb094eef8498180a9859f4b13e73, type: 2}
+  - expression: {fileID: 2100000, guid: e84a936c93c8f4879b5c728b914cbfd9, type: 2}
     text: The hummingbird's wings blurred while it eagerly sipped the sugar water
       from the feeder.
-  - expression: {fileID: 2100000, guid: e873bb094eef8498180a9859f4b13e73, type: 2}
+  - expression: {fileID: 2100000, guid: c32294cf4ff384664a7528e17d8dbd11, type: 2}
     text: On a scale from one to ten, what's your favorite flavor of random grammar?
   containQuestion: 1
+  beeInQuestion: {fileID: 2100000, guid: c32294cf4ff384664a7528e17d8dbd11, type: 2}
   question: what am i?
-  rightIcon: {fileID: 2800000, guid: afdbd266202ef47ac938bfc5d4d6febd, type: 3}
+  rightIcon: {fileID: 2800000, guid: 4c3abb62dfe803743baa63663d129467, type: 3}
   wrongIcon:
-  - {fileID: 2800000, guid: e901e721c647445c58dffba643126a5e, type: 3}
-  - {fileID: 2800000, guid: c4eb3b9e255ce44e0a1286de800034fe, type: 3}
+  - {fileID: 2800000, guid: 0d14306dc146b21458b9ad4fd1dca57b, type: 3}
+  - {fileID: 2800000, guid: bb3363bb99e15dd4fbbd47f145c259a0, type: 3}
   hint: {fileID: 2100000, guid: c8ec41fc249b9413d853feb832b76265, type: 2}
   beeWithItem: {fileID: 2100000, guid: a7cc1900ec05c4471ba66a5a594b42b5, type: 2}
   wrongReaction: {fileID: 2100000, guid: 79459efec17a4d00a321bdcc27bbc385, type: 2}

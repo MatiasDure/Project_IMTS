@@ -14,41 +14,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   phase: 0
   expressionToTexts:
-  - expression: {fileID: 2100000, guid: e873bb094eef8498180a9859f4b13e73, type: 2}
+  - expression: {fileID: 2100000, guid: c32294cf4ff384664a7528e17d8dbd11, type: 2}
     text: 'The father handed each child a roadmap at the beginning of the 2-day road
       trip and explained it was so they could find their way home. '
-  - expression: {fileID: 2100000, guid: e873bb094eef8498180a9859f4b13e73, type: 2}
+  - expression: {fileID: 2100000, guid: e84a936c93c8f4879b5c728b914cbfd9, type: 2}
     text: 'Her hair was windswept as she rode in the black convertible. '
-  - expression: {fileID: 2100000, guid: e873bb094eef8498180a9859f4b13e73, type: 2}
+  - expression: {fileID: 2100000, guid: cd1d91ad8cab94609bdebea79a295804, type: 2}
     text: 'It''s difficult to understand the lengths he''d go to remain short. '
-  - expression: {fileID: 2100000, guid: e873bb094eef8498180a9859f4b13e73, type: 2}
+  - expression: {fileID: 2100000, guid: b09a2cc7b9fad4908b5de776a276b1dc, type: 2}
     text: She learned that water bottles are no longer just to hold liquid, but they're
       also status symbols.
-  - expression: {fileID: 2100000, guid: e873bb094eef8498180a9859f4b13e73, type: 2}
+  - expression: {fileID: 2100000, guid: e3499452c509c4f72a9e2c82874a76bc, type: 2}
     text: Never underestimate the willingness of the greedy to throw you under the
       bus.
-  - expression: {fileID: 2100000, guid: e873bb094eef8498180a9859f4b13e73, type: 2}
+  - expression: {fileID: 2100000, guid: cd1d91ad8cab94609bdebea79a295804, type: 2}
     text: I'll have you know I've written over fifty novels
-  - expression: {fileID: 2100000, guid: e873bb094eef8498180a9859f4b13e73, type: 2}
+  - expression: {fileID: 2100000, guid: c32294cf4ff384664a7528e17d8dbd11, type: 2}
     text: Italy is my favorite country; in fact, I plan to spend two weeks there
       next year.
-  scriptLines:
-  - 'The father handed each child a roadmap at the beginning of the 2-day road trip
-    and explained it was so they could find their way home. '
-  - 'Her hair was windswept as she rode in the black convertible. '
-  - 'It''s difficult to understand the lengths he''d go to remain short. '
-  - She learned that water bottles are no longer just to hold liquid, but they're
-    also status symbols.
-  - Never underestimate the willingness of the greedy to throw you under the bus.
-  - I'll have you know I've written over fifty novels
-  - Italy is my favorite country; in fact, I plan to spend two weeks there next year.
   containQuestion: 0
   question: 
-  rightAnswer: 
-  wrongAnswer: 
-  respondToRightAnswer:
-    expression: {fileID: 2100000, guid: e873bb094eef8498180a9859f4b13e73, type: 2}
-    text: qwesrsadf
-  respondToWrongAnswer:
-    expression: {fileID: 2100000, guid: e873bb094eef8498180a9859f4b13e73, type: 2}
-    text: asdfasdfasdfaasdf
+  rightIcon: {fileID: 0}
+  wrongIcon: []
+  hint: {fileID: 0}
+  beeWithItem: {fileID: 0}
+  wrongReaction: {fileID: 0}
+  badge: {fileID: 0}
