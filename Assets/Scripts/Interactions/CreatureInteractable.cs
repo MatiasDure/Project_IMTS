@@ -41,6 +41,9 @@ public class CreatureInteractable : Interactable
     }
 
 	private void Update() {
+		if(!_isMovingToInventory)
+			transform.LookAt(Camera.main.transform.position + new Vector3(0, -0.3f, 0));
+
 		if (_isMovingToInventory) {
 			MoveToInventory();
 			if(_animator.speed != 0) {

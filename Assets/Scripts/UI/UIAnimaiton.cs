@@ -13,10 +13,14 @@ public class UIAnimaiton : MonoBehaviour
 
 	private Coroutine _jumpCoroutine;
 
+	private float _moveUp;
+	private float _moveDown;
+
     void Start()
     {
         _initialPosition = transform.position;
-
+		_moveUp = Screen.height * 0.03f;
+		_moveDown = Screen.height * 0.01f;
     }
 
     void Update()
@@ -27,6 +31,13 @@ public class UIAnimaiton : MonoBehaviour
 			_jumpCoroutine = StartCoroutine(StartJump());
 		}
     }
+
+	void OnDisable() {
+		if(_jumpCoroutine != null) {
+			StopCoroutine(_jumpCoroutine);
+			_jumpCoroutine = null;
+		}
+	}
 
 	void FixedUpdate() {
 		JumpAnimation();
@@ -49,15 +60,15 @@ public class UIAnimaiton : MonoBehaviour
 			_isGoingUp = true;
 		}
 		else if(_isGoingUp) {
-			transform.position = Vector2.Lerp(transform.position, new Vector2(transform.position.x, _initialPosition.y + 15f), 0.2f);
-			if(Mathf.Abs(transform.position.y - (_initialPosition.y + 15f)) <= 0.2f) {
+			transform.position = Vector2.Lerp(transform.position, new Vector2(transform.position.x, _initialPosition.y + _moveUp), 0.2f);
+			if(Mathf.Abs(transform.position.y - (_initialPosition.y + _moveUp)) <= 0.2f) {
 				_isGoingUp = false;
 				_isGoingDown = true;
 			}
 		}
 		else {
-			transform.position = Vector2.Lerp(transform.position, new Vector2(transform.position.x, _initialPosition.y - 5f), 0.2f);
-			if(Mathf.Abs(transform.position.y - (_initialPosition.y - 5f)) <= 0.2f) {
+			transform.position = Vector2.Lerp(transform.position, new Vector2(transform.position.x, _initialPosition.y - _moveDown), 0.2f);
+			if(Mathf.Abs(transform.position.y - (_initialPosition.y - _moveDown)) <= 0.2f) {
 				_isGoingDown = false;
 				_doneJump = true;
 			}

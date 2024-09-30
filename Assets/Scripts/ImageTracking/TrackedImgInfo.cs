@@ -71,7 +71,7 @@ public class TrackedImgInfo : MonoBehaviour
 		// Vector3 offset = newImage.transform.up * 0.15f;
         var instantiatedObj = Instantiate(_objectsToSpawnMap[newImage.referenceImage.name]);
 		_spawnedObjectsToInteractWith.Add(newImage.referenceImage.name);
-        instantiatedObj.transform.SetPositionAndRotation(newImage.transform.position, newImage.transform.rotation);
+		instantiatedObj.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 0.5f;
     }
 
     private void Update()

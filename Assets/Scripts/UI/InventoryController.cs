@@ -89,6 +89,10 @@ public class InventoryController : MonoBehaviour
         //     _audioSource.clip = _closeInventory;
         //     // _inventoryToggleImage.sprite = _inventoryOpenSprite;
         // }
+		if(_isInventoryOpen) {
+			_inventoryToggleButton.gameObject.SetActive(false);
+		}
+
 		_audioSource.clip = _uiButtonClicked;
 		_audioSource.Play();
 
@@ -114,6 +118,8 @@ public class InventoryController : MonoBehaviour
 		_audioSource.clip = _uiButtonClicked;
 		_audioSource.Play();
 		CloseInfoSection();
+		_inventoryToggleButton.gameObject.SetActive(true);
+
 		// _inventoryToggleImage.sprite = _inventoryOpenSprite;
 	}
     private void OnDestroy()
