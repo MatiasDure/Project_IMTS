@@ -25,6 +25,7 @@ public class InteractableUIContainerSwitch : Interactable
 			_newText.SetActive(false);
 		} 
 		
+		InventoryController.Instance.PlayButtonClickedSound();
 		InventoryController.Instance.OpenInfoSection(_collectableContainer.DialogText, _collectableContainer.Sprite);
 	}
 }

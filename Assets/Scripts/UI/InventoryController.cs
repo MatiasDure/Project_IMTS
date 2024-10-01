@@ -49,6 +49,10 @@ public class InventoryController : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
     }
 
+	private void Start() {
+		_audioSource.clip = _uiButtonClicked;
+	}
+
     // private void AddCollectable(CreatureInfo creature)
     // {
     //     CollectableContainer collectableContainer = Instantiate(_collectableContainerPrefab, _contentContainer);
@@ -95,8 +99,11 @@ public class InventoryController : MonoBehaviour
 
 		_audioSource.clip = _uiButtonClicked;
 		_audioSource.Play();
-
     }
+
+	public void PlayButtonClickedSound() {
+		_audioSource.Play();
+	}
 
 	public void OpenInfoSection(string infoText, Sprite infoImage) {
 		_infoSectionText.text = infoText;
