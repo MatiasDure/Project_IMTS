@@ -32,6 +32,6 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 0d14306dc146b21458b9ad4fd1dca57b, type: 3}
   - {fileID: 2800000, guid: 4c3abb62dfe803743baa63663d129467, type: 3}
   hint: {fileID: 2100000, guid: 50d7a50e3e0904698919df48e30473ff, type: 2}
-  beeWithItem: {fileID: 2100000, guid: cd1d91ad8cab94609bdebea79a295804, type: 2}
-  wrongReaction: {fileID: 2100000, guid: b09a2cc7b9fad4908b5de776a276b1dc, type: 2}
+  beeWithItem: {fileID: 2100000, guid: 44fc2be69ffce86408a01a8895aa4d70, type: 2}
+  wrongReaction: {fileID: 2100000, guid: 04466cd040e04d5468f821dc68a93308, type: 2}
   badge: {fileID: 2800000, guid: 4e754dfd2e1cb7b478e111c32843de2e, type: 3}
