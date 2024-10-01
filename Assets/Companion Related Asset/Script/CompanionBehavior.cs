@@ -181,7 +181,7 @@ public class CompanionBehavior : MonoBehaviour
 
      void OpenQuestion()
      {
-         thinkBurble.SetActive(true);
+         //thinkBurble.SetActive(true);
          hintPlane.GetComponent<MeshRenderer>().material = _currenScript.hint;
          
          textBox.SetActive(false);
