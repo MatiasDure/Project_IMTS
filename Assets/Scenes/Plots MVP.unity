@@ -546,8 +546,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1255589718}
-  - component: {fileID: 1255589717}
   - component: {fileID: 1255589721}
+  - component: {fileID: 1255589717}
   - component: {fileID: 1255589716}
   - component: {fileID: 1255589719}
   - component: {fileID: 1255589720}
@@ -618,6 +618,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22a8044dfe609ba4a9adc0ed66b07547, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnPlanesFromImages: 1
   prefabToSpawn: {fileID: 4797762039024999646, guid: 93df8b853879c334ab14a32245a09ab6, type: 3}
   scaleSpawnedObjectAmount: 1.3
   imagePrefabs:
@@ -627,6 +628,9 @@ MonoBehaviour:
   - ImgName: Penguins
     Prefab: {fileID: 9144407305452356476, guid: 9c8d830cc0898654397f2f55391d08e2, type: 3}
     ImgPlacement: 1
+  - ImgName: FishPoster
+    Prefab: {fileID: 3951571875007683888, guid: da49bf494dfe33d4a9227decd5449a8f, type: 3}
+    ImgPlacement: 0
 --- !u!114 &1255589720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -650,13 +654,86 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1255589715}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1760703bbd54c04488a8d10600262ab, type: 3}
+  m_Script: {fileID: 11500000, guid: 17fcce30e2b897e429aca37e915080f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_PlanePrefab: {fileID: 78549412981380596, guid: 9f50741d55912c64baa698c6545e087f, type: 3}
-  m_DetectionMode: -1
+--- !u!1 &2025986882
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2025986883}
+  - component: {fileID: 2025986884}
+  m_Layer: 0
+  m_Name: Audio Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2025986883
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2025986882}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2025986884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2025986882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01bbd7e2f3403ad4d958d6df6a144609, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: BubblesBG
+    clip: {fileID: 8300000, guid: 761ae83d22ad1fe4abb1c6723b6809bd, type: 3}
+    volume: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: Bubbles
+    clip: {fileID: 8300000, guid: b12059f33a1686f48aa53fa162cd97c0, type: 3}
+    volume: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Chime
+    clip: {fileID: 8300000, guid: d109f463d1ba0b04fa111413478e94d0, type: 3}
+    volume: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Appearance
+    clip: {fileID: 8300000, guid: 69bb24aed789c714898452aae3cc7887, type: 3}
+    volume: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: BubblesBG2
+    clip: {fileID: 8300000, guid: 53016f89c7acdd4478fbd2e0a49a44d8, type: 3}
+    volume: 0.145
+    loop: 1
+    source: {fileID: 0}
+  - name: Melody
+    clip: {fileID: 8300000, guid: cb95a53ddfccd044cbc1bcf875247c94, type: 3}
+    volume: 0.3
+    loop: 1
+    source: {fileID: 0}
 --- !u!1 &2117728152
 GameObject:
   m_ObjectHideFlags: 0
@@ -721,6 +798,7 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 2025986883}
   - {fileID: 433938606}
   - {fileID: 1255589718}
   - {fileID: 2117728155}

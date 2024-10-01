@@ -47,3 +47,13 @@ MonoBehaviour:
     m_SpecifySize: 1
     m_Name: Penguins
     m_Texture: {fileID: 2800000, guid: 4a9ec53d8114d8d4c9b3bed7346dba2d, type: 3}
+  - m_SerializedGuid:
+      m_GuidLow: 5518851430991152924
+      m_GuidHigh: 11602028104794143165
+    m_SerializedTextureGuid:
+      m_GuidLow: 15633208190458036244
+      m_GuidHigh: 7634678461597410506
+    m_Size: {x: 0.5, y: 0.7098787}
+    m_SpecifySize: 1
+    m_Name: FishPoster
+    m_Texture: {fileID: 2800000, guid: 5bfa80145005d8f4cae4d64d9cd3f369, type: 3}

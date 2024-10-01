@@ -3,22 +3,37 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
+using System;
 
 public class ImageTracker : MonoBehaviour
 {
+    public static ImageTracker Instance { get; private set; }
+
+    public static event Action<ARTrackedImage, ImagePrefab.ImagePlacement> OnImageTracked;
+
+    [SerializeField] private bool spawnPlanesFromImages;
     [SerializeField] private GameObject prefabToSpawn;
     [SerializeField] private float scaleSpawnedObjectAmount;
     [SerializeField] private List<ImagePrefab> imagePrefabs;
 
     private ARTrackedImageManager trackedImageManager;
-    private ARPlaneManager planeManager;
 
     private GameObject spawnedObj;
 
+    private bool canTrack = true;
+    private ARTrackedImage trackedImg;
+
     private void Awake()
     {
+        // Singleton Pattern
+        if (Instance == null) Instance = this;
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         trackedImageManager = GetComponent<ARTrackedImageManager>();
-        planeManager = GetComponent<ARPlaneManager>();
     }
 
     private void OnEnable()
@@ -32,35 +47,44 @@ public class ImageTracker : MonoBehaviour
 
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (canTrack) CustomTrack(trackedImg);
+        }
+    }
+
+    private void CustomTrack(ARTrackedImage image)
+    {
+        canTrack = false;
+        ImagePrefab imgPrefab = GetImagePrefab(image);
+        SpawnObjectOnTrackedImage(image, imgPrefab);
+
+        // Call event if spawning planes from images is enabled
+        if (spawnPlanesFromImages) OnImageTracked?.Invoke(image, imgPrefab.ImgPlacement);
+    }
+
     private void OnImageChanged(ARTrackedImagesChangedEventArgs obj)
     {
         foreach (ARTrackedImage image in obj.added)
         {
-            SpawnObjectOnTrackedImage(image);
-            SpawnPlaneOnTrackedImage(image);
+            trackedImg = image;
+            canTrack = true;
+
+            /*
+            ImagePrefab imgPrefab = GetImagePrefab(image);
+            SpawnObjectOnTrackedImage(image, imgPrefab);
+
+            // Call event if spawning planes from images is enabled
+            if (spawnPlanesFromImages) OnImageTracked?.Invoke(image, imgPrefab.ImgPlacement);
+            */
         }
     }
 
-    private void SpawnObjectOnTrackedImage(ARTrackedImage trackedImg)
+    private void SpawnObjectOnTrackedImage(ARTrackedImage trackedImg, ImagePrefab imgPrefab)
     {
-        // Get ImagePrefab based on the scanned image's name
-        GameObject objToSpawn = null;
-        ImagePrefab imgPrefab = null;
-        string imageName = trackedImg.referenceImage.name;
-        for (int i = 0; i < imagePrefabs.Count; i++)
-            if (imageName == imagePrefabs[i].ImgName)
-            {
-                imgPrefab = imagePrefabs[i];
-                break;
-            }
-
-        // Assign object to spawn
-        objToSpawn = imgPrefab.Prefab;
-
-        if (objToSpawn == null)
-        {
-            throw new System.Exception($"ImageTracked: No prefab assigned for this image - {imageName}");
-        }
+        GameObject objToSpawn = imgPrefab.Prefab;
 
         // Scale object amount
         //TEMP
@@ -76,14 +100,35 @@ public class ImageTracker : MonoBehaviour
         // Spawn object
         spawnedObj = Instantiate(objToSpawn, trackedImg.transform);
         spawnedObj.transform.localScale = objSize;
+
+        /**
+        FindObjectOfType<AudioManager>().Play("BubblesBG");
+        FindObjectOfType<AudioManager>().Play("Chime");
+        /**/
+        /**/
+        FindObjectOfType<AudioManager>().Play("BubblesBG2");
+        FindObjectOfType<AudioManager>().Play("Melody");
+        FindObjectOfType<AudioManager>().Play("Appearance");
+        /**/
     }
 
-    private void SpawnPlaneOnTrackedImage(ARTrackedImage trackedImg)
+    // Get ImagePrefab based on the scanned image's name
+    private ImagePrefab GetImagePrefab(ARTrackedImage trackedImg)
     {
-        GameObject newArPlane = new GameObject("ARPlane");
-        ARPlane planeComponent = newArPlane.AddComponent<ARPlane>();
-        planeComponent.transform.position = trackedImg.transform.position;
-        planeComponent.transform.rotation = trackedImg.transform.rotation;
-        planeComponent.transform.localScale = new Vector3(trackedImg.size.x, 1f, trackedImg.size.y);
+        ImagePrefab imgPrefab = null;
+        string imageName = trackedImg.referenceImage.name;
+        for (int i = 0; i < imagePrefabs.Count; i++)
+            if (imageName == imagePrefabs[i].ImgName)
+            {
+                imgPrefab = imagePrefabs[i];
+                break;
+            }
+
+        if (imgPrefab == null)
+        {
+            throw new Exception($"ImageTracked: No ImagePrefab assigned for this image - {imageName}");
+        }
+
+        return imgPrefab;
     }
 }
