@@ -15,20 +15,21 @@ MonoBehaviour:
   phase: 2
   expressionToTexts:
   - expression: {fileID: 2100000, guid: c32294cf4ff384664a7528e17d8dbd11, type: 2}
-    text: We will not allow you to bring your pet armadillo along.
-  - expression: {fileID: 2100000, guid: b09a2cc7b9fad4908b5de776a276b1dc, type: 2}
-    text: The complicated school homework left the parents trying to help their kids
-      quite confused.
-  - expression: {fileID: 2100000, guid: cd1d91ad8cab94609bdebea79a295804, type: 2}
-    text: Seek success, but always be prepared for random cats.
+    text: Kom met mij mee, we gaan naar de operatie kamer.
+  - expression: {fileID: 2100000, guid: e84a936c93c8f4879b5c728b914cbfd9, type: 2}
+    text: Er zijn hier doctors die je gaan helpen.
   - expression: {fileID: 2100000, guid: c32294cf4ff384664a7528e17d8dbd11, type: 2}
-    text: Mary plays the piano.
+    text: Wat jij moet doen is op het bed gaan liggen en het masker op doen.
+  - expression: {fileID: 2100000, guid: cd1d91ad8cab94609bdebea79a295804, type: 2}
+    text: Tel dan tot 10 en denk aan je lievelings dier.
+  - expression: {fileID: 2100000, guid: cd1d91ad8cab94609bdebea79a295804, type: 2}
+    text: 'En aan het einde krijg je een beloning van mij. '
   containQuestion: 1
   beeInQuestion: {fileID: 2100000, guid: c32294cf4ff384664a7528e17d8dbd11, type: 2}
-  question: 1+1?
-  rightIcon: {fileID: 2800000, guid: 0d14306dc146b21458b9ad4fd1dca57b, type: 3}
+  question: Wat moet je op doen voor de operatie?
+  rightIcon: {fileID: 2800000, guid: bb3363bb99e15dd4fbbd47f145c259a0, type: 3}
   wrongIcon:
-  - {fileID: 2800000, guid: bb3363bb99e15dd4fbbd47f145c259a0, type: 3}
+  - {fileID: 2800000, guid: 0d14306dc146b21458b9ad4fd1dca57b, type: 3}
   - {fileID: 2800000, guid: 4c3abb62dfe803743baa63663d129467, type: 3}
   hint: {fileID: 2100000, guid: 50d7a50e3e0904698919df48e30473ff, type: 2}
   beeWithItem: {fileID: 2100000, guid: c32294cf4ff384664a7528e17d8dbd11, type: 2}
