@@ -1121,8 +1121,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be656227293a94339b02df9ab1f27675, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  source: {fileID: 0}
   buttonPress: {fileID: 8300000, guid: b8202f59840c44cb49bfcd6b18abca0d, type: 3}
+  talk: {fileID: 8300000, guid: 157fda26ec0fc40ac8f23e43c9d58f2c, type: 3}
   badge: {fileID: 8300000, guid: b0f502ff1d6374178bd569f7c5b5409f, type: 3}
   happy: {fileID: 8300000, guid: 9038e2fd186954f03afe5507f23a9ef1, type: 3}
   sad: {fileID: 8300000, guid: dcd49785fac0e4aa6b445febc5e4e0a8, type: 3}
