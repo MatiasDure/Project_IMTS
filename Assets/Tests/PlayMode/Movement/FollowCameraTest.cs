@@ -22,11 +22,11 @@ public class FollowCameraTest
 		followConfiguration.Target.position = new Vector3(3, 0, 4);
 
 		// Mock passage of time by manually calling LateUpdate
-        float simulatedTime = 20f;
+        float simulatedTime = 40f;
 		float fixedDeltaTime = 1f / 60f; // Fixed deltaTime for each iteration (60 FPS equivalent)
         int steps = Mathf.CeilToInt(simulatedTime / fixedDeltaTime);
 
-        for (int i = 0; i < steps; i++) // Around 600 frames
+        for (int i = 0; i < steps; i++) // Around 2500 frame updates
         {
             followCamera.LateUpdate();
         }
