@@ -11,8 +11,11 @@ public class FishAnimation : MonoBehaviour
     [SerializeField] private Transform plane;
     [SerializeField] private BoxCollider col;
     [SerializeField] private MeshCollider meshCol;
+    [SerializeField] private float maxDistance;
+    [SerializeField] private Transform resetPos;
 
     private bool canSpeedUp = true;
+    private bool canCheckPos = true;
 
     private void Update()
     {
@@ -28,31 +31,40 @@ public class FishAnimation : MonoBehaviour
     private void CheckPosition()
     {
         Bounds bounds = meshCol.bounds;
-        
-        float planePos = bounds.center.x;
-        float halfPlaneWidth = bounds.size.x / 2;
 
-        //FOR MVP
-        float fishWidth = (col.size.x * transform.localScale.x) / 4;
-        //AFTER MVP
-        //float fishWidth = (col.size.x * transform.localScale.x) / 2;
+        Vector3 planePos = bounds.center;
+        planePos.y = transform.position.y;
+        Vector3 deltaVec = transform.position - planePos;
+        float moveDelta = deltaVec.magnitude;
+        // TEMP
+        float moveMargin = maxDistance;
 
-        float moveMargin = planePos + halfPlaneWidth + fishWidth;
-
-        //Debug.Log($"Local Position: {transform.localPosition}, Move Margin: {moveMargin}");
-        if (transform.position.x >= moveMargin)
+        // Temporary - To prevent wrong teleports
+        if (!canCheckPos)
         {
-            ResetPosition(planePos, halfPlaneWidth, fishWidth);
+            if(moveDelta < maxDistance * 1)
+            {
+                canCheckPos = true;
+            }
+            else
+            {
+                return;
+            }
         }
+
+        if (moveDelta >= moveMargin)
+        {
+            ResetPosition();
+        }
+
     }
 
     // Switch movement direction
-    private void ResetPosition(float planePos, float halfPlaneWidth, float fishWidth)
+    private void ResetPosition()
     {
-        Vector3 newPos = transform.position;
-        newPos.x = planePos - halfPlaneWidth - fishWidth;
+        canCheckPos = false;
 
-        transform.position = newPos;
+        transform.position = resetPos.position;
     }
 
     public void IncreaseSpeed()

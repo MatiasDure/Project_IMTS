@@ -20,9 +20,6 @@ public class ImageTracker : MonoBehaviour
 
     private GameObject spawnedObj;
 
-    private bool canTrack = true;
-    private ARTrackedImage trackedImg;
-
     private void Awake()
     {
         // Singleton Pattern
@@ -47,38 +44,15 @@ public class ImageTracker : MonoBehaviour
 
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (canTrack) CustomTrack(trackedImg);
-        }
-    }
-
-    private void CustomTrack(ARTrackedImage image)
-    {
-        canTrack = false;
-        ImagePrefab imgPrefab = GetImagePrefab(image);
-        SpawnObjectOnTrackedImage(image, imgPrefab);
-
-        // Call event if spawning planes from images is enabled
-        if (spawnPlanesFromImages) OnImageTracked?.Invoke(image, imgPrefab.ImgPlacement);
-    }
-
     private void OnImageChanged(ARTrackedImagesChangedEventArgs obj)
     {
         foreach (ARTrackedImage image in obj.added)
         {
-            trackedImg = image;
-            canTrack = true;
-
-            /*
             ImagePrefab imgPrefab = GetImagePrefab(image);
             SpawnObjectOnTrackedImage(image, imgPrefab);
 
             // Call event if spawning planes from images is enabled
             if (spawnPlanesFromImages) OnImageTracked?.Invoke(image, imgPrefab.ImgPlacement);
-            */
         }
     }
 
