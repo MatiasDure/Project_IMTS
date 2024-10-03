@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.XR.ARFoundation;
 
 public class ImageTrackingSpawnResponse : MonoBehaviour, IImageTrackingResponse
 {

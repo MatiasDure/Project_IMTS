@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.TestTools;
 using NUnit.Framework;
-using UnityEngine.XR.ARFoundation;
 using System.Collections.Generic;
 using System.Collections;
 
