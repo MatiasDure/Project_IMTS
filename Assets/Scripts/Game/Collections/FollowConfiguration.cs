@@ -4,11 +4,11 @@ using UnityEngine;
 [Serializable]
 public class FollowConfiguration
 {
-    [SerializeField] private Transform _target;
-	[SerializeField] private float _speed = 1f;
-	[SerializeField] private Vector3 _offset = new Vector3(0, 0, 0);
-	[SerializeField] private bool _lookAtTarget = false;
-	[SerializeField] private float _distance = 1f;
+    [SerializeField] internal Transform _target;
+	[SerializeField] internal float _speed = 1f;
+	[SerializeField] internal Vector3 _offset = new Vector3(0, 0, 0);
+	[SerializeField] internal bool _lookAtTarget = false;
+	[SerializeField] internal float _distance = 1f;
 
 	public Transform Target => _target;
 	public float Speed => _speed;

@@ -7,9 +7,9 @@ public class ImageTrackingActivateResponse : MonoBehaviour, IImageTrackingRespon
 {
 	public ImageTrackingResponses ResponseType => ImageTrackingResponses.ActivateObject;
 
-	public void Respond(GameObject objectToSpawn, ARTrackedImage trackedImage)
+	public void Respond(GameObject objectToActivate, GameObject trackedImage)
 	{
-		objectToSpawn.SetActive(true);
-		objectToSpawn.transform.position = trackedImage.transform.position;
+		objectToActivate.SetActive(true);
+		objectToActivate.transform.position = trackedImage.transform.position;
 	}
 }
