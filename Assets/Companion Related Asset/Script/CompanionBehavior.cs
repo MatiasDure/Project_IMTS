@@ -33,6 +33,7 @@ public class CompanionBehavior : MonoBehaviour
 
     private ScenarioScript _currenScript;
 
+    private int _currentButton;
     private bool _answering = false;
     private bool _finishAnswer = false;
     private bool _showBadge = false;
@@ -133,6 +134,7 @@ public class CompanionBehavior : MonoBehaviour
      void ResetText()
     {
         //soundManager.PlayTalkSound();
+        _currentButton = 0;
         textBox.SetActive(true);
         _textCount = 0;
         textMeshProObject.text = _currenScript.expressionToTexts[_textCount++].text;
@@ -152,23 +154,30 @@ public class CompanionBehavior : MonoBehaviour
             }
         }
     }
+    
 
-     public void OnRightAnswer()
+     public void OnButtonPressed(int index)
      {
-         soundManager.PlayHappySound();
-         _answering = false;
-         _finishAnswer = true;
-         thinkBurble.SetActive(false);
-         uiManager.SetQuestionUIStatus(false);
-         beePlane.GetComponent<MeshRenderer>().material = _currenScript.beeWithItem;
+         if (index == _currentButton && _currentButton !=3)
+         {
+             soundManager.PlayHappySound();
+             beePlane.GetComponent<MeshRenderer>().material = _currenScript.buttons[_currentButton].sprite;
+             _currentButton+=1;
+         }else if (index == _currentButton && _currentButton == 3)
+         {
+             soundManager.PlayHappySound();
+             beePlane.GetComponent<MeshRenderer>().material = _currenScript.buttons[_currentButton].sprite;
+             _answering = false;
+             _finishAnswer = true;
+             thinkBurble.SetActive(false);
+             uiManager.SetQuestionUIStatus(false);
+         }
+         else
+         {
+             soundManager.PlaySadSound();
+         }
      }
-
-     public void OnWrongAnswer()
-     {
-         soundManager.PlaySadSound();
-         beePlane.GetComponent<MeshRenderer>().material = _currenScript.wrongReaction;
-     }
-
+     
      void OpenMenu()
      {
          uiManager.SetBadgeStatus(_currenScript.badge, false);
@@ -182,7 +191,7 @@ public class CompanionBehavior : MonoBehaviour
      void OpenQuestion()
      {
          //thinkBurble.SetActive(true);
-         hintPlane.GetComponent<MeshRenderer>().material = _currenScript.hint;
+         //hintPlane.GetComponent<MeshRenderer>().material = _currenScript.hint;
          
          textBox.SetActive(false);
          uiManager.SetMenuStatus(false);
@@ -190,7 +199,7 @@ public class CompanionBehavior : MonoBehaviour
 
          //uiManager.AddQuestionData(_currenScript.question,_currenScript.rightAnswer,_currenScript.wrongAnswer);
          
-         uiManager.AddQuestionIcon(_currenScript.question,_currenScript.rightIcon,_currenScript.wrongIcon);
+         uiManager.AddQuestionIcons(_currenScript.question,_currenScript.buttons);
      }
 
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 [System.Serializable]
 public enum CompanionPhase
@@ -19,6 +20,13 @@ public class ExpressionToText
     public string text;
 }
 
+[System.Serializable]
+public class SpriteForButton
+{
+    public Texture icon;
+    public Material sprite;
+}
+
 [CreateAssetMenu(fileName = "Scenario script")]
 public class ScenarioScript : ScriptableObject
 {   
@@ -27,19 +35,13 @@ public class ScenarioScript : ScriptableObject
     [Header("Script")]
     public List<ExpressionToText> expressionToTexts;
     
-    [Header("Auestion")]
+    [Header("Question")]
     public bool containQuestion;
-    public Material beeInQuestion;
     public string question;
-    public Texture rightIcon;
-    public List<Texture> wrongIcon;
+
+    public List<SpriteForButton> buttons;
     
-    [Header("Material")]
-    public Material hint;
-    
-    public Material beeWithItem;
-    public Material wrongReaction;
-    
+    [Space]
     public Texture badge;
     
     

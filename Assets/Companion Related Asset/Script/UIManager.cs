@@ -15,11 +15,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject menu;
     [SerializeField] private GameObject questionUI;
     [SerializeField] private TextMeshProUGUI questionText;
-    [SerializeField] private TextMeshProUGUI answer1Text;
-    [SerializeField] private TextMeshProUGUI answer2Text;
     [SerializeField] private RawImage image1;
     [SerializeField] private RawImage image2;
     [SerializeField] private RawImage image3;
+    [SerializeField] private List<RawImage> images;
     [SerializeField] private GameObject badgeUI;
     [SerializeField] private GameObject panel;
     
@@ -66,25 +65,6 @@ public class UIManager : MonoBehaviour
         
     }
 
-    public void AddQuestionData(string question, string rightAnswer, string wrongAnswer)
-    {
-        Random random = new Random();
-        _randomInt = random.Next(0, 2);
-        
-        questionText.text = question;
-        
-        if (_randomInt == 0)
-        {
-            answer1Text.text = rightAnswer;
-            answer2Text.text = wrongAnswer;
-        }
-        else
-        {
-            answer2Text.text = rightAnswer;
-            answer1Text.text = wrongAnswer;
-        }
-    }
-
     public void AddQuestionIcon(string question, Texture rightIcon, List<Texture> wrongIcon)
     {
         Random random = new Random();
@@ -112,15 +92,13 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void GetButton(int index)
+    public void AddQuestionIcons(string question, List<SpriteForButton> buttons)
     {
-        if (index == _randomInt)
+        questionText.text = question;
+
+        for (int i = 0; i < 4; i++)
         {
-            beeCompanion.OnRightAnswer();
-        }
-        else
-        {
-            beeCompanion.OnWrongAnswer();
+            images[i].texture = buttons[i].icon;
         }
     }
 
@@ -129,5 +107,10 @@ public class UIManager : MonoBehaviour
         panel.SetActive(status);
         badgeUI.SetActive(status);
         badgeUI.GetComponent<RawImage>().texture = badge;
+    }
+
+    public void OnButtonPressed(int index)
+    {
+        beeCompanion.OnButtonPressed(index);
     }
 }
