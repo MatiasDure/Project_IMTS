@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 1429240405288923290}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 25, y: 0, z: 0}
+  m_LocalPosition: {x: 16.17, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -56,7 +56,7 @@ Transform:
   m_GameObject: {fileID: 3092492138365362311}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.501, y: 0, z: 0}
+  m_LocalPosition: {x: 0.316, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -212,6 +212,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1034185314686363424}
+  - component: {fileID: 4780942871379686565}
   m_Layer: 0
   m_Name: WallFishEnvironment
   m_TagString: Untagged
@@ -240,6 +241,18 @@ Transform:
   - {fileID: 5504326799276343764}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!114 &4780942871379686565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3951571875007683888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d35493f68fb5c8b4993dd397f495ac14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5436091264732283398
 GameObject:
   m_ObjectHideFlags: 0
@@ -265,7 +278,7 @@ Transform:
   m_GameObject: {fileID: 5436091264732283398}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 43.5, y: 0, z: 0}
+  m_LocalPosition: {x: 29.9, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -296,7 +309,7 @@ Transform:
   m_GameObject: {fileID: 5603390212065049369}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 45.3, y: 0, z: 0}
+  m_LocalPosition: {x: 34, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -327,7 +340,7 @@ Transform:
   m_GameObject: {fileID: 7052548590549000927}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 51.7, y: 0, z: 0}
+  m_LocalPosition: {x: 34.2, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -477,11 +490,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 0.1
   speedUpTimeSec: 1.5
-  speedUpMultiplier: 3
+  speedUpMultiplier: 4
   plane: {fileID: 5504326799276343764}
   col: {fileID: 8759566721989045308}
   meshCol: {fileID: 8240583592072859212}
-  maxDistance: 0.5
+  maxDistance: 0.45
   resetPos: {fileID: 3416711344995947763}
 --- !u!54 &4112307180367589988
 Rigidbody:
@@ -716,11 +729,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 0.15
   speedUpTimeSec: 1.5
-  speedUpMultiplier: 3
+  speedUpMultiplier: 4
   plane: {fileID: 5504326799276343764}
   col: {fileID: 2934458703456799784}
   meshCol: {fileID: 8240583592072859212}
-  maxDistance: 0.5
+  maxDistance: 0.45
   resetPos: {fileID: 5678620438921577900}
 --- !u!54 &8846437459969496753
 Rigidbody:
@@ -919,11 +932,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 0.13
   speedUpTimeSec: 1.5
-  speedUpMultiplier: 3
+  speedUpMultiplier: 4
   plane: {fileID: 5504326799276343764}
   col: {fileID: 7496420751330092235}
   meshCol: {fileID: 8240583592072859212}
-  maxDistance: 0.5
+  maxDistance: 0.45
   resetPos: {fileID: 5768513120793613515}
 --- !u!54 &1783758952914372752
 Rigidbody:
@@ -1212,11 +1225,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 0.2
   speedUpTimeSec: 1.5
-  speedUpMultiplier: 3
+  speedUpMultiplier: 4
   plane: {fileID: 5504326799276343764}
   col: {fileID: 2073730314080074590}
   meshCol: {fileID: 8240583592072859212}
-  maxDistance: 0.5
+  maxDistance: 0.45
   resetPos: {fileID: 8441017193558111740}
 --- !u!54 &6756794441471689441
 Rigidbody:
@@ -1424,11 +1437,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 0.2
   speedUpTimeSec: 1.5
-  speedUpMultiplier: 3
+  speedUpMultiplier: 4
   plane: {fileID: 5504326799276343764}
   col: {fileID: 2270054212570874405}
   meshCol: {fileID: 8240583592072859212}
-  maxDistance: 0.5
+  maxDistance: 0.45
   resetPos: {fileID: 7965218622206117179}
 --- !u!54 &5331690823794108321
 Rigidbody:

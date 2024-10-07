@@ -57,3 +57,23 @@ MonoBehaviour:
     m_SpecifySize: 1
     m_Name: FishPoster
     m_Texture: {fileID: 2800000, guid: 5bfa80145005d8f4cae4d64d9cd3f369, type: 3}
+  - m_SerializedGuid:
+      m_GuidLow: 5614346457854142084
+      m_GuidHigh: 15153443367350415515
+    m_SerializedTextureGuid:
+      m_GuidLow: 3171706839329305157
+      m_GuidHigh: 13708476853963994314
+    m_Size: {x: 0.5, y: 0.70725805}
+    m_SpecifySize: 1
+    m_Name: BeePoster
+    m_Texture: {fileID: 2800000, guid: e1e672452a902c04ca34306c114b3ebe, type: 3}
+  - m_SerializedGuid:
+      m_GuidLow: 5274472389856698673
+      m_GuidHigh: 10572592086229745849
+    m_SerializedTextureGuid:
+      m_GuidLow: 17538393611545069435
+      m_GuidHigh: 2657969640893565033
+    m_Size: {x: 0.5, y: 0.70481926}
+    m_SpecifySize: 1
+    m_Name: HousesPoster
+    m_Texture: {fileID: 2800000, guid: 3b1fc77be411f36469c83b4d4e01e324, type: 3}

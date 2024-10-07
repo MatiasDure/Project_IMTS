@@ -19,6 +19,9 @@ public class InputManager : MonoBehaviour
             if (hit.collider.CompareTag("Fish"))
             {
                 SpeedUpFish(hit.collider.gameObject);
+            }else if (hit.collider.CompareTag("House"))
+            {
+                ScaleUpHouse(hit.collider.gameObject);
             }
         }
     }
@@ -27,5 +30,11 @@ public class InputManager : MonoBehaviour
     {
         FishAnimation fishScr = fishGO.transform.parent.GetComponent<FishAnimation>();
         fishScr.IncreaseSpeed();
+    }
+
+    private void ScaleUpHouse(GameObject houseGO)
+    {
+        HouseAnimation houseScr = houseGO.GetComponent<HouseAnimation>();
+        houseScr.TriggerAnimation();
     }
 }

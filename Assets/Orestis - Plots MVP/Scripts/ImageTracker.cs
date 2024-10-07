@@ -17,6 +17,7 @@ public class ImageTracker : MonoBehaviour
     [SerializeField] private List<ImagePrefab> imagePrefabs;
 
     private ARTrackedImageManager trackedImageManager;
+    private ARAnchorManager anchorManager;
 
     private GameObject spawnedObj;
 
@@ -31,6 +32,7 @@ public class ImageTracker : MonoBehaviour
         }
 
         trackedImageManager = GetComponent<ARTrackedImageManager>();
+        anchorManager = GetComponent<ARAnchorManager>();
     }
 
     private void OnEnable()
@@ -69,11 +71,20 @@ public class ImageTracker : MonoBehaviour
         // Change dimensions based on ImgPlacement (Wall / Floor)
         objSize = imgPrefab.ImgPlacement == ImagePrefab.ImagePlacement.Wall ?
                                       new Vector3(newValue, newValue, 0.1f) :
-                                      new Vector3(newValue, 1, newValue);
+                                      new Vector3(newValue * 1.5f, 1.5f, newValue * 1.5f);
 
         // Spawn object
         spawnedObj = Instantiate(objToSpawn, trackedImg.transform);
         spawnedObj.transform.localScale = objSize;
+
+        Vector3 localPosition = spawnedObj.transform.localPosition;
+        Quaternion localRotation = spawnedObj.transform.localRotation;
+
+        // Add anchor
+        //ARAnchor anchor = spawnedObj.AddComponent<ARAnchor>();
+
+        //spawnedObj.transform.localPosition = localPosition;
+        //spawnedObj.transform.localRotation = localRotation;
 
         /**
         FindObjectOfType<AudioManager>().Play("BubblesBG");
