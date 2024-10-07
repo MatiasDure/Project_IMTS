@@ -20,12 +20,12 @@ MonoBehaviour:
   question: First let's clean the area!
   buttons:
   - icon: {fileID: 2800000, guid: 5ec6e0e79296ba84db30fb966c75b620, type: 3}
-    sprite: {fileID: 2100000, guid: 9b91c4ed76aac43e7b07516d823ec282, type: 2}
+    sprite: {fileID: 2100000, guid: cba4a3f8b302c9c43bf93cb631ffcae8, type: 2}
     response: After a little pinch, we'll take some blood.
   - icon: {fileID: 2800000, guid: b1755f58a7ef040b3bbf5437a53cb859, type: 3}
-    sprite: {fileID: 2100000, guid: a4e7ae41263024ca981e24f972a32a10, type: 2}
+    sprite: {fileID: 2100000, guid: 41f558937e995c244877efe2e1e0ca49, type: 2}
     response: We put something that will keep it safe and clean!
   - icon: {fileID: 2800000, guid: b002e7252b70b27409658d2054f682df, type: 3}
-    sprite: {fileID: 2100000, guid: c69dd3cf068dc4e228b6d0cdeb56a9c8, type: 2}
+    sprite: {fileID: 2100000, guid: c8d475a2a637bba46b14e703752a440c, type: 2}
     response: No thing
   badge: {fileID: 2800000, guid: 4e754dfd2e1cb7b478e111c32843de2e, type: 3}
