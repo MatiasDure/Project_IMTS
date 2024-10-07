@@ -16,8 +16,14 @@ MonoBehaviour:
   expressionToTexts:
   - expression: {fileID: 2100000, guid: c32294cf4ff384664a7528e17d8dbd11, type: 2}
     text: Can you help me with the lab test?
+  - expression: {fileID: 2100000, guid: b09a2cc7b9fad4908b5de776a276b1dc, type: 2}
+    text: 
+  - expression: {fileID: 2100000, guid: e84a936c93c8f4879b5c728b914cbfd9, type: 2}
+    text: Tijdens het prikken kan je bij je ouders op schoot zitten.
+  - expression: {fileID: 2100000, guid: cd1d91ad8cab94609bdebea79a295804, type: 2}
+    text: En aan het einde krijg je een beloning van mij.
   containQuestion: 1
-  question: First let's clean the area!
+  question: Weet je wat we gebruiken om bloed te prikken?
   buttons:
   - icon: {fileID: 2800000, guid: 5ec6e0e79296ba84db30fb966c75b620, type: 3}
     sprite: {fileID: 2100000, guid: 9b91c4ed76aac43e7b07516d823ec282, type: 2}
@@ -26,6 +32,5 @@ MonoBehaviour:
     sprite: {fileID: 2100000, guid: a4e7ae41263024ca981e24f972a32a10, type: 2}
     response: We put something that will keep it safe and clean!
   - icon: {fileID: 2800000, guid: b002e7252b70b27409658d2054f682df, type: 3}
-    sprite: {fileID: 2100000, guid: c69dd3cf068dc4e228b6d0cdeb56a9c8, type: 2}
-    response: No thing
+    sprite: {fileID: 2100000, guid: 9470705012fdf46bebab9bd555583625, type: 2}
   badge: {fileID: 2800000, guid: 4e754dfd2e1cb7b478e111c32843de2e, type: 3}
