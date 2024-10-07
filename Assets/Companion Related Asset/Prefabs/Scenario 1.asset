@@ -15,26 +15,17 @@ MonoBehaviour:
   phase: 1
   expressionToTexts:
   - expression: {fileID: 2100000, guid: c32294cf4ff384664a7528e17d8dbd11, type: 2}
-    text: Kom met mij mee, we gaan bloed prikken.
-  - expression: {fileID: 2100000, guid: b09a2cc7b9fad4908b5de776a276b1dc, type: 2}
-    text: Het is niks om je zorgen over te maken.
-  - expression: {fileID: 2100000, guid: e84a936c93c8f4879b5c728b914cbfd9, type: 2}
-    text: Tijdens het prikken kan je bij je ouders op schoot zitten.
-  - expression: {fileID: 2100000, guid: cd1d91ad8cab94609bdebea79a295804, type: 2}
-    text: En aan het einde krijg je een beloning van mij.
+    text: Can you help me with the lab test?
   containQuestion: 1
-  question: Weet je wat we gebruiken om bloed te prikken?
+  question: First let's clean the area!
   buttons:
-  - icon: {fileID: 2800000, guid: 0d14306dc146b21458b9ad4fd1dca57b, type: 3}
+  - icon: {fileID: 2800000, guid: 5ec6e0e79296ba84db30fb966c75b620, type: 3}
     sprite: {fileID: 2100000, guid: 9b91c4ed76aac43e7b07516d823ec282, type: 2}
-    response: mask
-  - icon: {fileID: 2800000, guid: bb3363bb99e15dd4fbbd47f145c259a0, type: 3}
+    response: After a little pinch, we'll take some blood.
+  - icon: {fileID: 2800000, guid: b1755f58a7ef040b3bbf5437a53cb859, type: 3}
     sprite: {fileID: 2100000, guid: a4e7ae41263024ca981e24f972a32a10, type: 2}
-    response: knife
-  - icon: {fileID: 2800000, guid: 4c3abb62dfe803743baa63663d129467, type: 3}
-    sprite: {fileID: 2100000, guid: c69dd3cf068dc4e228b6d0cdeb56a9c8, type: 2}
-    response: bandaid
+    response: We put something that will keep it safe and clean!
   - icon: {fileID: 2800000, guid: b002e7252b70b27409658d2054f682df, type: 3}
-    sprite: {fileID: 2100000, guid: 9470705012fdf46bebab9bd555583625, type: 2}
-    response: aaaaaa
+    sprite: {fileID: 2100000, guid: c69dd3cf068dc4e228b6d0cdeb56a9c8, type: 2}
+    response: No thing
   badge: {fileID: 2800000, guid: 4e754dfd2e1cb7b478e111c32843de2e, type: 3}

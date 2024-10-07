@@ -15,19 +15,14 @@ MonoBehaviour:
   phase: 0
   expressionToTexts:
   - expression: {fileID: 2100000, guid: c32294cf4ff384664a7528e17d8dbd11, type: 2}
-    text: Hallo en welkom in het kinderziekenhuis van Enschede.
+    text: Hello and welcome to the hospital!
   - expression: {fileID: 2100000, guid: e84a936c93c8f4879b5c728b914cbfd9, type: 2}
-    text: Ik ben Poppy en zal je hier rondleiden en helpen.
+    text: My name is Poppy and I will be your guide.
   - expression: {fileID: 2100000, guid: c32294cf4ff384664a7528e17d8dbd11, type: 2}
-    text: Ook kan ik je alvast vertellen wat er gaat gebeuren terwijl je hier bent.
+    text: Together we will explore what this visit is all about.
   - expression: {fileID: 2100000, guid: cd1d91ad8cab94609bdebea79a295804, type: 2}
-    text: Weet jij nog waarom je hier gekomen bent? Zo nee vraag je ouders even.
+    text: 'Why are you here? '
   containQuestion: 0
-  beeInQuestion: {fileID: 0}
   question: 
-  rightIcon: {fileID: 0}
-  wrongIcon: []
-  hint: {fileID: 0}
-  beeWithItem: {fileID: 0}
-  wrongReaction: {fileID: 0}
+  buttons: []
   badge: {fileID: 0}
