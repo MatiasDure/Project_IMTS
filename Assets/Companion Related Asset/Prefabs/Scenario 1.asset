@@ -23,22 +23,18 @@ MonoBehaviour:
   - expression: {fileID: 2100000, guid: cd1d91ad8cab94609bdebea79a295804, type: 2}
     text: En aan het einde krijg je een beloning van mij.
   containQuestion: 1
-  beeInQuestion: {fileID: 2100000, guid: c32294cf4ff384664a7528e17d8dbd11, type: 2}
   question: Weet je wat we gebruiken om bloed te prikken?
-  rightIcon: {fileID: 2800000, guid: b1755f58a7ef040b3bbf5437a53cb859, type: 3}
-  wrongIcon:
-  - {fileID: 2800000, guid: 0d14306dc146b21458b9ad4fd1dca57b, type: 3}
-  - {fileID: 2800000, guid: bb3363bb99e15dd4fbbd47f145c259a0, type: 3}
   buttons:
   - icon: {fileID: 2800000, guid: 0d14306dc146b21458b9ad4fd1dca57b, type: 3}
     sprite: {fileID: 2100000, guid: 9b91c4ed76aac43e7b07516d823ec282, type: 2}
+    response: mask
   - icon: {fileID: 2800000, guid: bb3363bb99e15dd4fbbd47f145c259a0, type: 3}
     sprite: {fileID: 2100000, guid: a4e7ae41263024ca981e24f972a32a10, type: 2}
-  - icon: {fileID: 2800000, guid: b1755f58a7ef040b3bbf5437a53cb859, type: 3}
+    response: knife
+  - icon: {fileID: 2800000, guid: 4c3abb62dfe803743baa63663d129467, type: 3}
     sprite: {fileID: 2100000, guid: c69dd3cf068dc4e228b6d0cdeb56a9c8, type: 2}
+    response: bandaid
   - icon: {fileID: 2800000, guid: b002e7252b70b27409658d2054f682df, type: 3}
     sprite: {fileID: 2100000, guid: 9470705012fdf46bebab9bd555583625, type: 2}
-  hint: {fileID: 2100000, guid: d28b13164e80d4a04841ef6f81177f15, type: 2}
-  beeWithItem: {fileID: 2100000, guid: c8d475a2a637bba46b14e703752a440c, type: 2}
-  wrongReaction: {fileID: 2100000, guid: 04466cd040e04d5468f821dc68a93308, type: 2}
+    response: aaaaaa
   badge: {fileID: 2800000, guid: 4e754dfd2e1cb7b478e111c32843de2e, type: 3}

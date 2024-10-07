@@ -162,7 +162,9 @@ public class CompanionBehavior : MonoBehaviour
          {
              soundManager.PlayHappySound();
              beePlane.GetComponent<MeshRenderer>().material = _currenScript.buttons[_currentButton].sprite;
+             uiManager.ChangeQuestionText(_currenScript.buttons[_currentButton].response);
              _currentButton+=1;
+             
          }else if (index == _currentButton && _currentButton == _currenScript.buttons.Count-1)
          {
              soundManager.PlayHappySound();

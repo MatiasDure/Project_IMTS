@@ -25,6 +25,7 @@ public class SpriteForButton
 {
     public Texture icon;
     public Material sprite;
+    public string response;
 }
 
 [CreateAssetMenu(fileName = "Scenario script")]

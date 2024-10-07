@@ -85,6 +85,11 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void ChangeQuestionText(string text)
+    {
+        questionText.text = text;
+    }
+
     public void SetBadgeStatus(Texture badge, bool status)
     {   
         panel.SetActive(status);
