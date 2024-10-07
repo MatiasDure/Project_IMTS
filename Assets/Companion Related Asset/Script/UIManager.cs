@@ -11,6 +11,7 @@ using Range = UnityEngine.SocialPlatforms.Range;
 
 public class UIManager : MonoBehaviour
 {
+    [SerializeField] private Texture decoil;
     [SerializeField] private CompanionBehavior beeCompanion;
     [SerializeField] private GameObject scanToStartText;
     [SerializeField] private GameObject menu;
@@ -75,12 +76,12 @@ public class UIManager : MonoBehaviour
         questionText.text = question;
         foreach (var image in images)
         {
-            image.gameObject.SetActive(false);
+            image.texture =decoil;
         }
         
         for (int i = 0; i < buttons.Count; i++)
         {
-            images[i].gameObject.SetActive(true);
+            //images[i].gameObject.SetActive(true);
             images[i].texture = buttons[i].icon;
         }
     }

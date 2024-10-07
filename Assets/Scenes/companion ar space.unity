@@ -1550,6 +1550,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da78dbc241a64497095608ac019c8d9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  decoil: {fileID: 2800000, guid: bf07191e0429d7940907048e609653d7, type: 3}
   beeCompanion: {fileID: 983351792}
   scanToStartText: {fileID: 810534999}
   menu: {fileID: 1601985577}
