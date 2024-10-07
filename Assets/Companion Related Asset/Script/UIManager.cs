@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using Color = System.Drawing.Color;
 using Random = System.Random;
 using Range = UnityEngine.SocialPlatforms.Range;
 
@@ -15,18 +16,22 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject menu;
     [SerializeField] private GameObject questionUI;
     [SerializeField] private TextMeshProUGUI questionText;
-    [SerializeField] private RawImage image1;
-    [SerializeField] private RawImage image2;
-    [SerializeField] private RawImage image3;
+    [SerializeField] private List<Button> buttons;
     [SerializeField] private List<RawImage> images;
     [SerializeField] private GameObject badgeUI;
     [SerializeField] private GameObject panel;
+    private List<ColorBlock> _originalColors;
     
     private int _randomInt; 
     private void Awake()
     {
+        _originalColors = new List<ColorBlock>();
         scanToStartText.SetActive(true);
         menu.SetActive(false);
+        for (int i = 0; i < buttons.Count; i++)
+        {
+            _originalColors.Add(buttons[i].colors);
+        }
     }
 
     public void ChangePhase(int phaseIndex)
@@ -65,39 +70,17 @@ public class UIManager : MonoBehaviour
         
     }
 
-    public void AddQuestionIcon(string question, Texture rightIcon, List<Texture> wrongIcon)
-    {
-        Random random = new Random();
-        _randomInt = random.Next(0, 3);
-        
-        questionText.text = question;
-
-        switch (_randomInt)
-        {
-            case 0:
-                image1.texture = rightIcon;
-                image2.texture = wrongIcon[0];
-                image3.texture = wrongIcon[1];
-                break;
-            case 1:
-                image1.texture = wrongIcon[0];
-                image2.texture = rightIcon;
-                image3.texture = wrongIcon[1];
-                break;
-            case 2:
-                image1.texture = wrongIcon[0];
-                image2.texture = wrongIcon[1];
-                image3.texture = rightIcon;
-                break;
-        }
-    }
-
     public void AddQuestionIcons(string question, List<SpriteForButton> buttons)
     {
         questionText.text = question;
-
-        for (int i = 0; i < 4; i++)
+        foreach (var image in images)
         {
+            image.gameObject.SetActive(false);
+        }
+        
+        for (int i = 0; i < buttons.Count; i++)
+        {
+            images[i].gameObject.SetActive(true);
             images[i].texture = buttons[i].icon;
         }
     }
@@ -107,10 +90,31 @@ public class UIManager : MonoBehaviour
         panel.SetActive(status);
         badgeUI.SetActive(status);
         badgeUI.GetComponent<RawImage>().texture = badge;
+        
     }
 
     public void OnButtonPressed(int index)
     {
         beeCompanion.OnButtonPressed(index);
+        
+    }
+
+    public void OnWrongButton(int index)
+    {
+        StartCoroutine(buttonWrong(index));
+    }
+
+    private IEnumerator buttonWrong(int index)
+    {
+        ColorBlock color = buttons[index].colors;
+
+        color.selectedColor = UnityEngine.Color.red;
+        
+        buttons[index].colors = color;
+
+        yield return new WaitForSeconds(0.03f);
+
+        buttons[index].colors = _originalColors[index];
+
     }
 }

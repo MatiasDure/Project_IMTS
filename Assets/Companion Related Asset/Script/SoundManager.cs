@@ -38,6 +38,6 @@ public class SoundManager : MonoBehaviour
 
     public void PlaySadSound()
     {
-        _source.PlayOneShot(sad);
+        _source.PlayOneShot(sad,1.5f);
     }
 }

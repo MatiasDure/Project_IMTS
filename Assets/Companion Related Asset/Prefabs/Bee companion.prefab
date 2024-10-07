@@ -111,7 +111,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.70710677, y: 0, z: 0, w: 0.70710677}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.006, y: 0.006, z: 0.006}
+  m_LocalScale: {x: 0.006, y: 0.006, z: 0.0065}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 7644675361340101932}
@@ -213,6 +213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07f6e0f1520264b8a95763c2c60ba2dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundManager: {fileID: 0}
   uiManager: {fileID: 0}
   beePlane: {fileID: 2361574263654822449}
   textBox: {fileID: 8104402299930693997}

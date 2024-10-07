@@ -158,12 +158,12 @@ public class CompanionBehavior : MonoBehaviour
 
      public void OnButtonPressed(int index)
      {
-         if (index == _currentButton && _currentButton !=3)
+         if (index == _currentButton && _currentButton !=_currenScript.buttons.Count-1)
          {
              soundManager.PlayHappySound();
              beePlane.GetComponent<MeshRenderer>().material = _currenScript.buttons[_currentButton].sprite;
              _currentButton+=1;
-         }else if (index == _currentButton && _currentButton == 3)
+         }else if (index == _currentButton && _currentButton == _currenScript.buttons.Count-1)
          {
              soundManager.PlayHappySound();
              beePlane.GetComponent<MeshRenderer>().material = _currenScript.buttons[_currentButton].sprite;
@@ -175,6 +175,7 @@ public class CompanionBehavior : MonoBehaviour
          else
          {
              soundManager.PlaySadSound();
+             uiManager.OnWrongButton(index);
          }
      }
      

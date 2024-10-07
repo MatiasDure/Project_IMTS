@@ -1555,9 +1555,11 @@ MonoBehaviour:
   menu: {fileID: 1601985577}
   questionUI: {fileID: 201550375}
   questionText: {fileID: 863155120}
-  image1: {fileID: 1556573468}
-  image2: {fileID: 2135317484}
-  image3: {fileID: 2038681411}
+  buttons:
+  - {fileID: 674216820}
+  - {fileID: 2022759579}
+  - {fileID: 329328784}
+  - {fileID: 881106848}
   images:
   - {fileID: 1556573468}
   - {fileID: 2135317484}
