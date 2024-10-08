@@ -33,7 +33,7 @@ public class SoundManager : MonoBehaviour
     }
     public void PlayHappySound()
     {
-        _source.PlayOneShot(happy);
+        _source.PlayOneShot(happy,0.6f);
     }
 
     public void PlaySadSound()
