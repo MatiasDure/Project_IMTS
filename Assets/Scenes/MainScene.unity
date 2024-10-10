@@ -431,8 +431,8 @@ MonoBehaviour:
   _arTrackedImageManager: {fileID: 462124494}
   _imageObjectReferences:
   - _imageName: bandageImage
-    _objectReference: {fileID: 2073747467}
-    _response: 2
+    _objectReference: {fileID: 7061736818931702355, guid: d3b6f3609b0b14c46b70e17bb065a5ec, type: 3}
+    _response: 1
   _imageTrackingResponsesContainer: {fileID: 1176037027}
 --- !u!4 &1678905018
 Transform:
