@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RayCastManager : MonoBehaviour
 {
+    [SerializeField] private GameObject cube;
     public LayerMask ignoreLayer;
 
     // Update is called once per frame
@@ -15,14 +16,8 @@ public class RayCastManager : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             
-            Debug.DrawRay(ray.origin, ray.direction * 100f, Color.yellow, 2f);
+            cube.transform.position = ray.direction * 5;
             
-            // Perform the raycast while ignoring the specified layer
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, ~ignoreLayer))
-            {
-                Debug.Log("Hit: " + hit.collider.name);
-                
-            }
         }
     }
 }
