@@ -1209,7 +1209,7 @@ MonoBehaviour:
   - ImgName: BeePoster
     Prefab: {fileID: 5156710585545774493, guid: 0aa4e14226763aa44a47dda3c46ccc11, type: 3}
     ImgPlacement: 1
-  - ImgName: BeePoster
+  - ImgName: HousesPoster
     Prefab: {fileID: 5156710585545774493, guid: 0aa4e14226763aa44a47dda3c46ccc11, type: 3}
     ImgPlacement: 1
 --- !u!114 &1255589720
