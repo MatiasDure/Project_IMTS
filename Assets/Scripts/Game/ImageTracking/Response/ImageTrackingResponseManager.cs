@@ -34,6 +34,7 @@ public class ImageTrackingResponseManager : MonoBehaviour
 
 	private void OnTrackedImagesChanged(ARTrackedImagesChangedEventArgs eventArgs) {
 		HandleAddedImages(eventArgs.added);
+		HandleUpdatedImages(eventArgs.updated);
 	}
 
 	private void HandleAddedImages(List<ARTrackedImage> addedImages) {
@@ -50,6 +51,25 @@ public class ImageTrackingResponseManager : MonoBehaviour
 			}
 
 			HandleTrackedImageResponse(trackedImage.gameObject, imageObjectReference);
+		}
+	}
+
+	private void HandleUpdatedImages(List<ARTrackedImage> addedImages)
+	{
+		foreach (var trackedImage in addedImages)
+		{
+			// Handle added tracked images
+			ImageObjectReference imageObjectReference = _imageObjectReferences.FirstOrDefault(i => i.ImageName == trackedImage.referenceImage.name);
+
+			// If no ImageObjectReference is found, skip to the next tracked image
+			if (imageObjectReference == null)
+			{
+				Debug.LogError($"ImageTrackingSpawnResponse: No ImageObjectReference found for {trackedImage.referenceImage.name}");
+				continue;
+			}
+
+			imageObjectReference.ObjectReference.transform.position = trackedImage.transform.position;
+			//HandleTrackedImageResponse(trackedImage.gameObject, imageObjectReference);
 		}
 	}
 
