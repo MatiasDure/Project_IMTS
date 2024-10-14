@@ -68,7 +68,8 @@ public class ImageTrackingResponseManager : MonoBehaviour
 				continue;
 			}
 
-			imageObjectReference.ObjectReference.transform.position = trackedImage.transform.position;
+			imageObjectReference.ObjectReference.transform.localPosition = Vector3.zero;
+			imageObjectReference.ObjectReference.transform.localRotation = Quaternion.identity;
 			//HandleTrackedImageResponse(trackedImage.gameObject, imageObjectReference);
 		}
 	}

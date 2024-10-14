@@ -7,7 +7,8 @@ public class ImageTrackingActivateResponse : MonoBehaviour, IImageTrackingRespon
 	public void Respond(GameObject objectToActivate, GameObject trackedImage)
 	{
 		objectToActivate.SetActive(true);
-		//objectToActivate.transform.SetParent(trackedImage.transform);
-		objectToActivate.transform.position = trackedImage.transform.position;
+		objectToActivate.transform.SetParent(trackedImage.transform);
+		objectToActivate.transform.localPosition = Vector3.zero;
+		objectToActivate.transform.localRotation = Quaternion.identity;
 	}
 }
