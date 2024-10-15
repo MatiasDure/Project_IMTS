@@ -17,7 +17,6 @@ public class InteractionManager : MonoBehaviour
 
 	private void OnRaycastHit(Collider collider) {
 		if(!collider.TryGetComponent(out IInteractable interactable)) return;
-
 		interactable.Interact();
 	}
 

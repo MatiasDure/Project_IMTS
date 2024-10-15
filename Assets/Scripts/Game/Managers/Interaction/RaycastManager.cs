@@ -3,19 +3,14 @@ using UnityEngine;
 
 public class RaycastManager : MonoBehaviour
 {
-	private Camera _secondaryCamera;
-	private RaycastPerspective _raycastPerspective;
+	[SerializeField] private Camera _secondaryCamera;
 
+	private RaycastPerspective _raycastPerspective;
 	public event Action<Collider> OnRaycastHit;
 
-	void Awake() {
-		
-	}
-
-    // Start is called before the first frame update
     void Start()
     {
-        
+        _raycastPerspective = RaycastPerspective.SecondaryCamera;
     }
 
     // Update is called once per frame
