@@ -3,12 +3,16 @@ using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using System.Linq;
 
+[
+	RequireComponent(typeof(ImageTrackingTrackRespondedObjects)),
+]
 public class ImageTrackingResponseManager : MonoBehaviour
 {
    	[SerializeField] private ARTrackedImageManager _arTrackedImageManager;
 	[SerializeField] private List<ImageObjectReference> _imageObjectReferences = new List<ImageObjectReference>();
 	[SerializeField] private GameObject _imageTrackingResponsesContainer;
 
+	private ImageTrackingTrackRespondedObjects _imageTrackingTrackRespondedObjects;
 	internal List<IImageTrackingResponse> _imageTrackingResponses = new List<IImageTrackingResponse>();
     
 	private void Awake() {
@@ -18,6 +22,8 @@ public class ImageTrackingResponseManager : MonoBehaviour
 		
 		if(_imageTrackingResponsesContainer == null) Debug.LogWarning("ImageTrackingSpawnResponse: An empty game object container that holds the IImageTrackingResponses needs to be set for this script to work as expected"); //throw new System.NullReferenceException("ImageTrackingSpawnResponse: An empty game object container to hold the IImageTrackingResponses needs to be set for this script to work as expected");
 		else _imageTrackingResponses = _imageTrackingResponsesContainer.GetComponents<IImageTrackingResponse>().ToList();
+
+		_imageTrackingTrackRespondedObjects = GetComponent<ImageTrackingTrackRespondedObjects>();
 	}
 
 	private void OnEnable() {
@@ -34,6 +40,38 @@ public class ImageTrackingResponseManager : MonoBehaviour
 
 	private void OnTrackedImagesChanged(ARTrackedImagesChangedEventArgs eventArgs) {
 		HandleAddedImages(eventArgs.added);
+		HandleUpdatedImages(eventArgs.updated);
+	}
+
+	private void HandleUpdatedImages(List<ARTrackedImage> updatedImages)
+	{
+		foreach (var trackedImage in updatedImages)
+		{
+			// Handle added tracked images
+			ImageObjectReference imageObjectReference = _imageObjectReferences.FirstOrDefault(i => i.ImageName == trackedImage.referenceImage.name);
+
+			// If no ImageObjectReference is found, skip to the next tracked image
+			if (!HasImageObjectReferences(imageObjectReference)) continue;
+
+			GameObject trackedObject = _imageTrackingTrackRespondedObjects.GetTrackedObject(trackedImage.referenceImage.name);
+
+			if(trackedObject == null) 
+			{
+				Debug.LogWarning("ImageTrackingSpawnResponse: No object to track was found for the tracked image");
+				continue;
+			}
+			
+			HandleTrackedImageUpdatedResponse(trackedImage.gameObject, imageObjectReference);
+		}
+	}
+
+	private void HandleTrackedImageUpdatedResponse(GameObject trackedImageGameObject, ImageObjectReference imageObjectReference)
+	{
+		foreach (var response in _imageTrackingResponses)
+		{
+			if (response.ResponseType == imageObjectReference.UpdatedResponse)
+				response.Respond(_imageTrackingTrackRespondedObjects.GetTrackedObject(imageObjectReference.ImageName), trackedImageGameObject);
+		}
 	}
 
 	private void HandleAddedImages(List<ARTrackedImage> addedImages) {
@@ -43,22 +81,29 @@ public class ImageTrackingResponseManager : MonoBehaviour
 			ImageObjectReference imageObjectReference = _imageObjectReferences.FirstOrDefault(i => i.ImageName == trackedImage.referenceImage.name);
 
 			// If no ImageObjectReference is found, skip to the next tracked image
-			if (imageObjectReference == null)
-			{
-				Debug.LogError($"ImageTrackingSpawnResponse: No ImageObjectReference found for {trackedImage.referenceImage.name}");
-				continue;
-			}
+			if (!HasImageObjectReferences(imageObjectReference)) continue;
 
-			HandleTrackedImageResponse(trackedImage.gameObject, imageObjectReference);
+			HandleTrackedImageAddedResponse(trackedImage.gameObject, imageObjectReference);
 		}
 	}
 
-	internal void HandleTrackedImageResponse(GameObject trackedImageGameObject, ImageObjectReference imageObjectReference)
+	internal void HandleTrackedImageAddedResponse(GameObject trackedImageGameObject, ImageObjectReference imageObjectReference)
 	{
 		foreach (var response in _imageTrackingResponses)
 		{
-			if (response.ResponseType == imageObjectReference.Response)
-				response.Respond(imageObjectReference._objectReference, trackedImageGameObject);
+			if (response.ResponseType == imageObjectReference.AddedResponse) {
+				GameObject manipulatedObject = response.Respond(imageObjectReference.ObjectReference, trackedImageGameObject);
+				_imageTrackingTrackRespondedObjects.TrackObject(imageObjectReference.ImageName, manipulatedObject);
+			}
 		}
+	}
+
+	private bool HasImageObjectReferences(ImageObjectReference imageObjectReference) {
+		if(imageObjectReference == null) {
+			Debug.LogWarning("ImageTrackingSpawnResponse: No ImageObjectReference found for the tracked image");
+			return false;
+		} 
+
+		return true;
 	}
 }

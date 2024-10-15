@@ -4,9 +4,11 @@ public class ImageTrackingActivateResponse : MonoBehaviour, IImageTrackingRespon
 {
 	public ImageTrackingResponses ResponseType => ImageTrackingResponses.ActivateObject;
 
-	public void Respond(GameObject objectToActivate, GameObject trackedImage)
+	public GameObject Respond(GameObject objectToActivate, GameObject trackedImage)
 	{
 		objectToActivate.SetActive(true);
 		objectToActivate.transform.position = trackedImage.transform.position;
+
+		return objectToActivate;
 	}
 }
