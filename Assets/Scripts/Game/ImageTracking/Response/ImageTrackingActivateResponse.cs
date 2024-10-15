@@ -7,6 +7,7 @@ public class ImageTrackingActivateResponse : MonoBehaviour, IImageTrackingRespon
 	public void Respond(GameObject objectToActivate, GameObject trackedImage)
 	{
 		objectToActivate.SetActive(true);
-		objectToActivate.transform.position = trackedImage.transform.position;
+		objectToActivate.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 0.1f;//trackedImage.transform.position;
+		objectToActivate.transform.Rotate(0, 180, 0);
 	}
 }
