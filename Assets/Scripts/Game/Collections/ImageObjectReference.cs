@@ -6,9 +6,11 @@ public class ImageObjectReference
 {
 	[SerializeField] internal string _imageName;
 	[SerializeField] internal GameObject _objectReference;
-	[SerializeField] internal ImageTrackingResponses _response;
+	[SerializeField] internal ImageTrackingResponses _addedResponse;
+	[SerializeField] internal ImageTrackingResponses _updatedResponse;
 
 	public string ImageName => _imageName;
 	public GameObject ObjectReference => _objectReference;
-	public ImageTrackingResponses Response => _response;
+	public ImageTrackingResponses AddedResponse => _addedResponse;
+	public ImageTrackingResponses UpdatedResponse => _updatedResponse;
 }
