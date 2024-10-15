@@ -7,7 +7,7 @@ using System.Collections;
 public class ImageTrackingResponseTest
 {
     [UnityTest]
-	public IEnumerator PlayMode_ImageTrackingActivateResponseTest_Activate()
+	public IEnumerator PlayMode_ImageTrackingResponseTest_Activate()
 	{
 		GameObject objectToAcivate = new GameObject();
 		objectToAcivate.SetActive(false);
@@ -23,7 +23,7 @@ public class ImageTrackingResponseTest
 	}
 
 	[UnityTest]
-	public IEnumerator PlayMode_ImageTrackingActivateResponseTest_Spawn()
+	public IEnumerator PlayMode_ImageTrackingResponseTest_Spawn()
 	{
 		GameObject objectToSpawn = new GameObject("ObjectToSpawn");
 		GameObject trackedImageGameObject = new GameObject();
@@ -35,6 +35,23 @@ public class ImageTrackingResponseTest
 
 		string spawnedObjectName = objectToSpawn.name + "(Clone)";
 		Assert.IsNotNull(GameObject.Find(spawnedObjectName));
+	}
+
+	[UnityTest]
+	public IEnumerator PlayMode_ImageTrackingResponseTest_SyncWithImage()
+	{
+		GameObject objectToSpawn = new GameObject("ObjectToSpawn");
+		GameObject trackedImageGameObject = new GameObject();
+		trackedImageGameObject.transform.position = new Vector3(1, 2, 3);
+		trackedImageGameObject.transform.rotation = Quaternion.Euler(10, 20, 30);
+
+		ImageTrackingSyncWithImageResponse imageTrackingSyncWithImageResponse = new GameObject().AddComponent<ImageTrackingSyncWithImageResponse>();
+		GameObject spawnedObject = imageTrackingSyncWithImageResponse.Respond(objectToSpawn, trackedImageGameObject);
+
+		yield return null;
+
+		Assert.AreEqual(trackedImageGameObject.transform.position, spawnedObject.transform.position);
+		Assert.AreEqual(trackedImageGameObject.transform.rotation, spawnedObject.transform.rotation);
 	}
 
 	[UnityTest]
@@ -58,10 +75,10 @@ public class ImageTrackingResponseTest
 
 		ImageObjectReference imageObjectReferenceSpawn = new ImageObjectReference();
 		imageObjectReferenceSpawn._imageName = "TrackedImage";
-		imageObjectReferenceSpawn._response = ImageTrackingResponses.SpawnObject;
+		imageObjectReferenceSpawn._addedResponse = ImageTrackingResponses.SpawnObject;
 		imageObjectReferenceSpawn._objectReference = objectToSpawn;
 		
-		imageTrackingResponseManager.HandleTrackedImageResponse(trackedImageGameObject, imageObjectReferenceSpawn);
+		imageTrackingResponseManager.HandleTrackedImageAddedResponse(trackedImageGameObject, imageObjectReferenceSpawn);
 		
 		yield return null;
 
@@ -76,10 +93,10 @@ public class ImageTrackingResponseTest
 
 		ImageObjectReference imageObjectReferenceActivate = new ImageObjectReference();
 		imageObjectReferenceActivate._imageName = "TrackedImage";
-		imageObjectReferenceActivate._response = ImageTrackingResponses.ActivateObject;
+		imageObjectReferenceActivate._addedResponse = ImageTrackingResponses.ActivateObject;
 		imageObjectReferenceActivate._objectReference = objectToActivate;
 
-		imageTrackingResponseManager.HandleTrackedImageResponse(trackedImageGameObject, imageObjectReferenceActivate);
+		imageTrackingResponseManager.HandleTrackedImageAddedResponse(trackedImageGameObject, imageObjectReferenceActivate);
 
 		yield return null;
 
