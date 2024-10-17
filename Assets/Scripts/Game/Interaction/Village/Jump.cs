@@ -6,6 +6,6 @@ public class Jump : MonoBehaviour, IInteractable
 {
 	public void Interact()
 	{
-		Debug.Log("Jumping");
+		transform.position += Vector3.up * 0.2f;
 	}
 }

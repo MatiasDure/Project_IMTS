@@ -5,30 +5,27 @@ public class PortalCameraMovementBehaviour : MonoBehaviour
 	[SerializeField] private GameObject _portal;
 	[SerializeField] private GameObject _worldAnchor;
 
+	private Camera _portalCamera;
 	private Camera _mainCamera;
 	
 	private void Awake()
 	{
+		_portalCamera = GetComponent<Camera>();
 		_mainCamera = Camera.main;
+		transform.rotation = _mainCamera.transform.rotation;
 	}
 
     // Update is called once per frame
     void Update()
     {
-        MimicCameraWorldPosition();
-		MimicCameraWorldRotation();
+	    UpdatePortalTransform(_worldAnchor, _portal, _mainCamera);
     }
 
-	private void MimicCameraWorldPosition() {
-		Vector3 userOffestFromPortal = _mainCamera.transform.position - _portal.transform.position;
-		transform.position = _worldAnchor.transform.position + userOffestFromPortal;
-	}
-
-	private void MimicCameraWorldRotation() {
-		float angularDifferenceBetweenPortalRotations = Quaternion.Angle(_worldAnchor.transform.rotation, _portal.transform.rotation);
-
-		Quaternion portalRotationalDifference = Quaternion.AngleAxis(angularDifferenceBetweenPortalRotations, Vector3.up);
-		Vector3 newCameraDirection = portalRotationalDifference * _mainCamera.transform.forward;
-		transform.rotation = Quaternion.LookRotation(newCameraDirection, Vector3.up);
-	}	
+    private void UpdatePortalTransform(GameObject anchor, GameObject portal, Camera mainCamera)
+    {
+	    var m = anchor.transform.localToWorldMatrix * portal.transform.worldToLocalMatrix *
+	            mainCamera.transform.localToWorldMatrix;
+	    
+	    transform.SetPositionAndRotation(m.GetColumn(3), m.rotation);
+    }
 }
