@@ -7,6 +7,7 @@ public class RaycastManager : MonoBehaviour
 	[SerializeField] private Camera _secondaryCamera;
 	[SerializeField] private GameObject _portal;
 	[SerializeField] private GameObject _anchor;
+	[SerializeField] private GameObject _debugRaycastCube;
 	private GameObject _secondraycastPointer;
 	private GameObject _mainRaycastPointer;
 
@@ -61,7 +62,9 @@ public class RaycastManager : MonoBehaviour
 		_secondraycastPointer.transform.localRotation = _mainRaycastPointer.transform.localRotation;
 
 		Ray secondaryCameraRay = new Ray(_secondaryCamera.transform.position, _secondraycastPointer.transform.forward);
-		
+		§
+		_debugRaycastCube.transform.position = _secondaryCamera.transform.position + secondaryCameraRay.direction * 10;
+
 		//Debug.DrawRay(secondaryCameraRay.origin, secondaryCameraRay.direction * 10 ,Color.blue,2f);
 		
 		if (!Physics.Raycast(secondaryCameraRay, out hit)) return;
