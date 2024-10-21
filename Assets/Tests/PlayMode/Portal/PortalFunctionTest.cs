@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using NUnit.Framework;
 
+
 public class PortalFunctionTest
 {
    [UnityTest]
@@ -52,7 +53,8 @@ public class PortalFunctionTest
       var m = anchor.transform.localToWorldMatrix * portal.transform.worldToLocalMatrix *
               mainCameraHolder.transform.localToWorldMatrix;
 
-      return secondCamTransform.position == (Vector3)m.GetColumn(3) && secondCamTransform.rotation == m.rotation;
+      return MathHelper.IsApproximatelyEqual(secondCamTransform.position, (Vector3)m.GetColumn(3))
+             && secondCamTransform.rotation == m.rotation;
    }
    
    [UnityTest]
