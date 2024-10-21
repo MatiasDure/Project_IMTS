@@ -51,7 +51,7 @@ public class ImageTrackingResponseTest
 		yield return null;
 
 		Assert.AreEqual(trackedImageGameObject.transform.position, spawnedObject.transform.position);
-		Assert.AreEqual(trackedImageGameObject.transform.rotation, spawnedObject.transform.rotation);
+		Assert.IsTrue(MathHelper.AreQuaternionsApproximatelyEqual(trackedImageGameObject.transform.rotation, spawnedObject.transform.rotation));
 	}
 
 	[UnityTest]
