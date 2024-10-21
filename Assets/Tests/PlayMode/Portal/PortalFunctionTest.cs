@@ -91,18 +91,13 @@ public class PortalFunctionTest
       GameObject raycastManagerGameObject = new GameObject();
       RaycastManager raycastManager = raycastManagerGameObject.AddComponent<RaycastManager>();
       raycastManager._secondaryCamera = secondCameraHolder;
-      
-      // Mock passage of time by manually calling LateUpdate
-      float simulatedTime = 40f;
-      float fixedDeltaTime = 1f / 60f; // Fixed deltaTime for each iteration (60 FPS equivalent)
-      int steps = Mathf.CeilToInt(simulatedTime / fixedDeltaTime);
 
-      for (int i = 0; i < steps; i++) // Around 2500 frame updates
-      {
-         
-      }
+      Ray mainCameraRay = new Ray(mainCamHolder.transform.position,
+                                    new Vector3(-0.95f, -0.05f, 0.30f));
 
-      Assert.IsTrue(CheckCameraTransform(secondCameraTransform, anchor, portalParent, mainCamHolder));
+      Ray secondCameraRay = raycastManager.SecondCameraRay(mainCameraRay,mainCamRaycaster,secondCamRaycaster);
+
+      Assert.IsTrue(secondCameraRay.direction == mainCamRaycaster.transform.forward);
       
       yield return null;
       
