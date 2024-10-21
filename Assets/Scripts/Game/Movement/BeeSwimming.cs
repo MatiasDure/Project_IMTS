@@ -11,18 +11,82 @@ public class BeeSwimming : BeeMovement
     [SerializeField] private float _width;
     [SerializeField] private float _depth;
 
-    private Coroutine _activeGetDirectionCoroutine;
+    private Coroutine _activeChangeDirectionCoroutine;
     private Coroutine _activeSmoothRotationCoroutine;
+
+    private bool _checkHorizontalPosition = true;
+    private bool _checkVerticalPosition = true;
+
+    private float _rotationDuration;
 
     private void Start()
     {
-        _activeGetDirectionCoroutine = StartCoroutine(ChangeDirectionCoroutine(GetRandomInterval()));
+        _rotationDuration = 1 / _rotationSpeed;
+        _activeChangeDirectionCoroutine = StartCoroutine(ChangeDirectionCoroutine(GetRandomInterval()));
     }
 
     private void FixedUpdate()
     {
         Move();
-        CheckPosition();
+        CheckPositionInBounds();
+    }
+
+    private void Move()
+    {
+        transform.position += transform.forward * _moveSpeed;
+    }
+
+    private void CheckPositionInBounds()
+    {
+        Vector3 position = transform.position;
+        Vector3 currentAngle = transform.eulerAngles;
+
+        if (_checkHorizontalPosition && (ExceedsWidthBounds(position.x) || ExceedsDepthBounds(position.z)))
+        {
+            // Temporarily stop horizontal position checking, until rotation finishes
+            StartCoroutine(DisableBooleanCoroutine(BooleansToDisable.HorizontalCheck, _rotationDuration + 1 / _rotationDuration));
+            // Rotate bee
+            SmoothRotateBeeQuaternion(GetLevelledRotationToMiddlePoint());
+        }
+
+        if (_checkVerticalPosition && ExceedsHeightBounds(position.y))
+        {
+            // Temporarily stop vertical position checking, until rotation finishes
+            StartCoroutine(DisableBooleanCoroutine(BooleansToDisable.VerticalCheck, _rotationDuration + 1 / _rotationDuration));
+            // Rotate bee
+            SmoothRotateBeeVector(new Vector3(-currentAngle.x, currentAngle.y, currentAngle.z));
+        }
+    }
+
+    // Smoothly rotate bee TO newAngle vector
+    // Called when reaching bounds
+    private void SmoothRotateBeeVector(Vector2 newAngle)
+    {
+        Quaternion targetRotation = Quaternion.Euler(newAngle);
+        SmoothRotateBeeQuaternion(targetRotation);
+    }
+
+    // Smoothly rotate bee TO targetRotation quaternion
+    // Called when reaching bounds
+    private void SmoothRotateBeeQuaternion(Quaternion targetRotation)
+    {
+        // Stop previous rotation coroutine, if any
+        StopSmoothRotationCoroutine();
+        StopChangeDirectionCoroutine();
+        _activeSmoothRotationCoroutine = StartCoroutine(SmoothRotationCoroutine(targetRotation, _rotationDuration));
+    }
+
+    // Smoothly rotate bee BY newAngles amount
+    // Called when randomly changing direction
+    private void SmoothRotateBeeByAngle(Vector2 newAngles)
+    {
+        Vector3 newRotationVec = new Vector3(newAngles.x, newAngles.y, 0);
+        Quaternion targetRotation = Quaternion.Euler(transform.eulerAngles + newRotationVec);
+
+        // Stop previous rotation coroutine, if any
+        StopSmoothRotationCoroutine();
+
+        _activeSmoothRotationCoroutine = StartCoroutine(SmoothRotationCoroutine(targetRotation, _rotationDuration));
     }
 
     IEnumerator ChangeDirectionCoroutine(float secondsToWait)
@@ -37,7 +101,7 @@ public class BeeSwimming : BeeMovement
         yield return new WaitForSeconds(secondsToWait);
 
         // Recursively call this coroutine
-        _activeGetDirectionCoroutine = StartCoroutine(ChangeDirectionCoroutine(GetRandomInterval()));
+        _activeChangeDirectionCoroutine = StartCoroutine(ChangeDirectionCoroutine(GetRandomInterval()));
     }
 
     IEnumerator SmoothRotationCoroutine(Quaternion targetRotation, float duration)
@@ -57,38 +121,86 @@ public class BeeSwimming : BeeMovement
         transform.rotation = targetRotation;
     }
 
-    private void SmoothRotateBee(Vector2 newAngle)
+    IEnumerator DisableBooleanCoroutine(BooleansToDisable boolToDisable ,float disableDuration)
     {
-        Quaternion targetRotation = Quaternion.Euler(newAngle);
+        switch (boolToDisable)
+        {
+            case BooleansToDisable.HorizontalCheck:
+                _checkHorizontalPosition = false;
+                break;
+            case BooleansToDisable.VerticalCheck:
+                _checkVerticalPosition = false;
+                break;
+        }
 
-        // Stop previous rotation coroutine, if any
-        if (_activeSmoothRotationCoroutine != null)
-            StopCoroutine(_activeSmoothRotationCoroutine);
+        yield return new WaitForSeconds(disableDuration);
 
-        _activeSmoothRotationCoroutine = StartCoroutine(SmoothRotationCoroutine(targetRotation, 0f));
+        switch (boolToDisable)
+        {
+            case BooleansToDisable.HorizontalCheck:
+                _checkHorizontalPosition = true;
+                break;
+            case BooleansToDisable.VerticalCheck:
+                _checkVerticalPosition = true;
+                break;
+        }
     }
 
-    private void SmoothRotateBeeByAngle(Vector2 newAngles)
+    IEnumerator DisableGetDirectionCoroutine(float disableDuration)
     {
-        Vector3 newRotationVec = new Vector3(newAngles.x, newAngles.y, 0);
-        Quaternion targetRotation = Quaternion.Euler(transform.eulerAngles + newRotationVec);
+        StopCoroutine(_activeChangeDirectionCoroutine);
 
-        // Stop previous rotation coroutine, if any
-        if (_activeSmoothRotationCoroutine != null)
-            StopCoroutine(_activeSmoothRotationCoroutine);
+        yield return new WaitForSeconds(disableDuration);
 
-        _activeSmoothRotationCoroutine = StartCoroutine(SmoothRotationCoroutine(targetRotation, 1 / _rotationSpeed));
+        _activeChangeDirectionCoroutine = StartCoroutine(ChangeDirectionCoroutine(GetRandomInterval()));
     }
 
-    private Vector2 GetNewAngles() => new Vector2(GetNewVerticalDirectionDegrees(), GetNewHorizontalDirectionDegrees());
+    private void StopSmoothRotationCoroutine()
+    {
+        if (_activeSmoothRotationCoroutine != null)
+            StopCoroutine(_activeSmoothRotationCoroutine);
+    }
 
-    private float GetNewHorizontalDirectionDegrees()
+    private void StopChangeDirectionCoroutine()
+    {
+        if (_activeChangeDirectionCoroutine != null)
+        {
+            DisableGetDirectionCoroutine(_rotationDuration + GetRandomInterval());
+        }
+    }
+
+    private Vector2 GetNewAngles() => new Vector2(GetNewRandomVerticalDirectionDegrees(), GetNewRandomHorizontalDirectionDegrees());
+
+    // Get rotation that points to the middle point, with the same Y as the bee
+    private Quaternion GetLevelledRotationToMiddlePoint()
+    {
+        // Set the middle point's Y the same as bee's Y
+        Vector3 leveledMiddlePointPosition = _middlePoint.position;
+        leveledMiddlePointPosition.y = transform.position.y;
+
+        // Get direction vector to levelled middle point
+        Vector3 directionToMiddlePoint = (leveledMiddlePointPosition - transform.position).normalized;
+
+        // Get quaternion facing the middle point
+        Quaternion levelledRotation = Quaternion.LookRotation(directionToMiddlePoint);
+
+        return levelledRotation;
+    }
+
+    // For realistic movement
+    private bool ExceedsVerticalAngleBounds(float updatedAngle) => updatedAngle >= _verticalRotationBound || (updatedAngle <= 360 - _verticalRotationBound);
+    // Bounds
+    private bool ExceedsWidthBounds(float x) => x > _middlePoint.position.x + _width / 2 || x < _middlePoint.position.x + -_width / 2;
+    private bool ExceedsDepthBounds(float z) => z > _middlePoint.position.z + _depth / 2 || z < _middlePoint.position.z + -_depth / 2;
+    private bool ExceedsHeightBounds(float y) => y > _middlePoint.position.y + _height / 2 || y < _middlePoint.position.y + -_height / 2;
+
+    private float GetNewRandomHorizontalDirectionDegrees()
     {
         // Calculate and return new horizontal angle
         return Random.Range(-_horizontalTurnLimit, _horizontalTurnLimit);
     }
 
-    private float GetNewVerticalDirectionDegrees()
+    private float GetNewRandomVerticalDirectionDegrees()
     {
         // Calculate new Vertical angle
         float currentAngle = transform.rotation.eulerAngles.x;
@@ -96,37 +208,20 @@ public class BeeSwimming : BeeMovement
         float updatedAngle = currentAngle + newAngle;
 
         // Flip angle if it exceeds the bounds to avoid unrealistic vertical movement
-        updatedAngle = ExceedsVerticalAngleBounds(updatedAngle) ? -updatedAngle : updatedAngle ;
+        updatedAngle = ExceedsVerticalAngleBounds(updatedAngle) ? -updatedAngle : updatedAngle;
 
         return updatedAngle;
     }
-
-    private bool ExceedsVerticalAngleBounds(float updatedAngle) => updatedAngle >= _verticalRotationBound || (updatedAngle <= 360 - _verticalRotationBound);
-
-    private void Move()
-    {
-        transform.position += transform.forward * _moveSpeed;
-    }
-
-    private void CheckPosition()
-    {
-        Vector3 position = transform.position;
-        Vector3 currentAngle = transform.eulerAngles;
-
-        if (ExceedsWidthBounds(position.x) || ExceedsDepthBounds(position.z))
-            SmoothRotateBee(new Vector3(currentAngle.x, currentAngle.y + 180, currentAngle.z));
-
-        if(ExceedsHeightBounds(position.y))
-            SmoothRotateBee(new Vector3(-currentAngle.x, currentAngle.y, currentAngle.z));
-    }
-
-    private bool ExceedsWidthBounds(float x) => x > _middlePoint.position.x + _width / 2 || x < _middlePoint.position.x + -_width / 2;
-    private bool ExceedsDepthBounds(float z) => z > _middlePoint.position.z + _depth / 2 || z < _middlePoint.position.z + -_depth / 2;
-    private bool ExceedsHeightBounds(float y) => y > _middlePoint.position.y + _depth / 2 || y < _middlePoint.position.y + -_height / 2;
 
     // Random delay between each movement direction switch
     private float GetRandomInterval()
     {
         return Random.Range(_minDesicionSec, _maxDesicionSec);
+    }
+
+    enum BooleansToDisable
+    {
+        HorizontalCheck,
+        VerticalCheck,
     }
 }
