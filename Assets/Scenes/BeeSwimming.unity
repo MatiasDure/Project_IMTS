@@ -434,7 +434,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 0.01
-  _rotationSpeed: 1
+  _rotationSpeed: 4
   _minDesicionSec: 1.5
   _maxDesicionSec: 3
   _horizontalTurnLimit: 45

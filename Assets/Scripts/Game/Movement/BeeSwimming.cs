@@ -11,16 +11,12 @@ public class BeeSwimming : BeeMovement
     [SerializeField] private float _width;
     [SerializeField] private float _depth;
 
-    private Coroutine _activeCoroutine;
+    private Coroutine _activeGetDirectionCoroutine;
+    private Coroutine _activeSmoothRotationCoroutine;
 
     private void Start()
     {
-        _activeCoroutine = StartCoroutine(ChangeDirectionCoroutine(GetRandomInterval()));
-    }
-
-    private void Update()
-    {
-        
+        _activeGetDirectionCoroutine = StartCoroutine(ChangeDirectionCoroutine(GetRandomInterval()));
     }
 
     private void FixedUpdate()
@@ -32,7 +28,7 @@ public class BeeSwimming : BeeMovement
     IEnumerator ChangeDirectionCoroutine(float secondsToWait)
     {
         Vector2 newAngles = GetNewAngles();
-        RotateBeeByAngle(newAngles);
+        SmoothRotateBeeByAngle(newAngles);
 
         // Set Z to 0 due to orientation messing up
         transform.localEulerAngles = new Vector3(transform.localEulerAngles.x,
@@ -41,18 +37,47 @@ public class BeeSwimming : BeeMovement
         yield return new WaitForSeconds(secondsToWait);
 
         // Recursively call this coroutine
-        _activeCoroutine = StartCoroutine(ChangeDirectionCoroutine(GetRandomInterval()));
+        _activeGetDirectionCoroutine = StartCoroutine(ChangeDirectionCoroutine(GetRandomInterval()));
     }
 
-    private void RotateBee(Vector3 newAngle)
+    IEnumerator SmoothRotationCoroutine(Quaternion targetRotation, float duration)
     {
-        transform.eulerAngles = newAngle;
+        Quaternion startRotation = transform.rotation;
+        float timeElapsed = 0f;
+
+        while (timeElapsed < duration)
+        {
+            // Slerp from start rotation to the target rotation
+            transform.rotation = Quaternion.Slerp(startRotation, targetRotation, timeElapsed / duration);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        // Ensure the final rotation is exactly the target rotation
+        transform.rotation = targetRotation;
     }
 
-    private void RotateBeeByAngle(Vector2 newAngles)
+    private void SmoothRotateBee(Vector2 newAngle)
+    {
+        Quaternion targetRotation = Quaternion.Euler(newAngle);
+
+        // Stop previous rotation coroutine, if any
+        if (_activeSmoothRotationCoroutine != null)
+            StopCoroutine(_activeSmoothRotationCoroutine);
+
+        _activeSmoothRotationCoroutine = StartCoroutine(SmoothRotationCoroutine(targetRotation, 0f));
+    }
+
+    private void SmoothRotateBeeByAngle(Vector2 newAngles)
     {
         Vector3 newRotationVec = new Vector3(newAngles.x, newAngles.y, 0);
-        transform.Rotate(newRotationVec, Space.Self);
+        Quaternion targetRotation = Quaternion.Euler(transform.eulerAngles + newRotationVec);
+
+        // Stop previous rotation coroutine, if any
+        if (_activeSmoothRotationCoroutine != null)
+            StopCoroutine(_activeSmoothRotationCoroutine);
+
+        _activeSmoothRotationCoroutine = StartCoroutine(SmoothRotationCoroutine(targetRotation, 1 / _rotationSpeed));
     }
 
     private Vector2 GetNewAngles() => new Vector2(GetNewVerticalDirectionDegrees(), GetNewHorizontalDirectionDegrees());
@@ -89,10 +114,10 @@ public class BeeSwimming : BeeMovement
         Vector3 currentAngle = transform.eulerAngles;
 
         if (ExceedsWidthBounds(position.x) || ExceedsDepthBounds(position.z))
-            RotateBee(new Vector3(currentAngle.x, currentAngle.y + 180, currentAngle.z));
+            SmoothRotateBee(new Vector3(currentAngle.x, currentAngle.y + 180, currentAngle.z));
 
         if(ExceedsHeightBounds(position.y))
-            RotateBee(new Vector3(-currentAngle.x, currentAngle.y, currentAngle.z));
+            SmoothRotateBee(new Vector3(-currentAngle.x, currentAngle.y, currentAngle.z));
     }
 
     private bool ExceedsWidthBounds(float x) => x > _middlePoint.position.x + _width / 2 || x < _middlePoint.position.x + -_width / 2;
