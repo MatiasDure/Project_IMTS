@@ -82,11 +82,11 @@ public class PortalFunctionTest
    
    private bool CheckCameraTransform(Transform secondCamTransform, GameObject anchor, GameObject portal, GameObject mainCameraHolder)
    {
-      var adjustedMatrix = anchor.transform.localToWorldMatrix * portal.transform.worldToLocalMatrix *
+      var adjustedPositionAndRotationMatrix = anchor.transform.localToWorldMatrix * portal.transform.worldToLocalMatrix *
               mainCameraHolder.transform.localToWorldMatrix;
 
-      return MathHelper.AreVectorApproximatelyEqual(secondCamTransform.position, adjustedMatrix.GetColumn(3))
-             && secondCamTransform.rotation == adjustedMatrix.rotation;
+      return MathHelper.AreVectorApproximatelyEqual(secondCamTransform.position, adjustedPositionAndRotationMatrix.GetColumn(3))
+             && secondCamTransform.rotation == adjustedPositionAndRotationMatrix.rotation;
    }
    
    [UnityTest]

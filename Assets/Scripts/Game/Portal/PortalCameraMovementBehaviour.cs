@@ -24,9 +24,9 @@ public class PortalCameraMovementBehaviour : MonoBehaviour
 
     internal void UpdatePortalTransform(GameObject anchor, GameObject portal, GameObject mainCameraGameObject)
     {
-	    var adjustedMatrix = anchor.transform.localToWorldMatrix * portal.transform.worldToLocalMatrix *
+	    var adjustedPositionAndRotationMatrix = anchor.transform.localToWorldMatrix * portal.transform.worldToLocalMatrix *
 	            mainCameraGameObject.transform.localToWorldMatrix;
 	    
-	    transform.SetPositionAndRotation(adjustedMatrix.GetColumn(3), adjustedMatrix.rotation);
+	    transform.SetPositionAndRotation(adjustedPositionAndRotationMatrix.GetColumn(3), adjustedPositionAndRotationMatrix.rotation);
     }
 }
