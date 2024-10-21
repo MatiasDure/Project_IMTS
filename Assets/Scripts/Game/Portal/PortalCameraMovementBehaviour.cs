@@ -3,8 +3,8 @@ using UnityEngine.Serialization;
 
 public class PortalCameraMovementBehaviour : MonoBehaviour
 {
-	[SerializeField] internal GameObject portal;
-	[SerializeField] internal GameObject worldAnchor;
+	[SerializeField] internal GameObject _portal;
+	[SerializeField] internal GameObject _worldAnchor;
 
 	private Camera _mainCamera;
 	
@@ -19,14 +19,14 @@ public class PortalCameraMovementBehaviour : MonoBehaviour
     {
 	    if(_mainCamera == null) return;
 	    
-		UpdatePortalTransform(worldAnchor, portal, _mainCamera.gameObject);
+		UpdatePortalTransform(_worldAnchor, _portal, _mainCamera.gameObject);
     }
 
     internal void UpdatePortalTransform(GameObject anchor, GameObject portal, GameObject mainCameraGameObject)
     {
-	    var m = anchor.transform.localToWorldMatrix * portal.transform.worldToLocalMatrix *
+	    var adjustedMatrix = anchor.transform.localToWorldMatrix * portal.transform.worldToLocalMatrix *
 	            mainCameraGameObject.transform.localToWorldMatrix;
 	    
-	    transform.SetPositionAndRotation(m.GetColumn(3), m.rotation);
+	    transform.SetPositionAndRotation(adjustedMatrix.GetColumn(3), adjustedMatrix.rotation);
     }
 }

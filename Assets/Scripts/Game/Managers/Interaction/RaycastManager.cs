@@ -16,9 +16,9 @@ public class RaycastManager : MonoBehaviour
     {
 	    _mainCamera = Camera.main;
 	    
-	    if(_mainCamera !=null)
+	    if(_mainCamera != null)
 			_mainRaycastPointer = _mainCamera.transform.GetChild(0).gameObject;
-	    if(_secondaryCamera!=null)
+	    if(_secondaryCamera != null)
 			_secondraycastPointer = _secondaryCamera.transform.GetChild(0).gameObject;
 	    
         _raycastPerspective = RaycastPerspective.SecondaryCamera;
@@ -27,11 +27,9 @@ public class RaycastManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-	    if(_mainCamera == null) return;
-	    
-        if(InputManager.Instance.InputState != InputState.Interact) return;
+	    if(_mainCamera == null || InputManager.Instance.InputState != InputState.Interact) return;
 
-		Raycast();
+	    Raycast();
     }
 
 	private void Raycast() {
@@ -52,8 +50,7 @@ public class RaycastManager : MonoBehaviour
 	{
 		RaycastHit hit;
 		Ray mainCameraRay = _mainCamera.ScreenPointToRay(Input.mousePosition);
-		//Debug.DrawRay(_mainCamera.transform.position, mainCameraRay.direction * 10,Color.red,2f);
-		//Debug.Log(mainCameraRay.direction);
+		
 		if (!Physics.Raycast(mainCameraRay, out hit)) return;
 		
 		Ray secondaryCameraRay = SecondCameraRay(mainCameraRay,
@@ -67,13 +64,10 @@ public class RaycastManager : MonoBehaviour
 	internal Ray SecondCameraRay(Ray mainCameraRay, GameObject mainRaycastPointer, GameObject secondRaycastPointer)
 	{
 		mainRaycastPointer.transform.forward = mainCameraRay.direction;
-
 		secondRaycastPointer.transform.localRotation = mainRaycastPointer.transform.localRotation;
 
 		Ray secondaryCameraRay = new Ray(_secondaryCamera.transform.position, secondRaycastPointer.transform.forward);
-
-		//Debug.DrawRay(secondaryCameraRay.origin, secondaryCameraRay.direction * 10 ,Color.blue,2f);
-
+		
 		return secondaryCameraRay;
 	}
 	
