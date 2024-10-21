@@ -53,8 +53,8 @@ public class PortalFunctionTest
       var m = anchor.transform.localToWorldMatrix * portal.transform.worldToLocalMatrix *
               mainCameraHolder.transform.localToWorldMatrix;
 
-      return MathHelper.IsApproximatelyEqual(secondCamTransform.position, (Vector3)m.GetColumn(3))
-             && secondCamTransform.rotation == m.rotation;
+      return MathHelper.AreVectorApproximatelyEqual(secondCamTransform.position, (Vector3)m.GetColumn(3))
+             && MathHelper.AreQuaternionsApproximatelyEqual(secondCamTransform.rotation,m.rotation);
    }
    
    [UnityTest]

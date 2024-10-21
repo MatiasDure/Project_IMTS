@@ -32,7 +32,7 @@ public class FollowCameraTest
         }
 		
         Vector3 expectedPosition = followConfiguration.Target.position + followConfiguration.Target.forward * followConfiguration.Distance + followConfiguration.Offset;
-        Assert.IsTrue(MathHelper.IsApproximatelyEqual(followCamera.transform.position, expectedPosition), $"Expected: {expectedPosition}, But was: {followCamera.transform.position}");
+        Assert.IsTrue(MathHelper.AreVectorApproximatelyEqual(followCamera.transform.position, expectedPosition), $"Expected: {expectedPosition}, But was: {followCamera.transform.position}");
 		
 		yield return null;
 	}
