@@ -24,7 +24,6 @@ public class PortalCameraMovementBehaviour : MonoBehaviour
 
     internal void UpdatePortalTransform(GameObject anchor, GameObject portal, GameObject mainCameraGameObject)
     {
-	    Debug.Log("maincamobj =>" + mainCameraGameObject);
 	    var m = anchor.transform.localToWorldMatrix * portal.transform.worldToLocalMatrix *
 	            mainCameraGameObject.transform.localToWorldMatrix;
 	    

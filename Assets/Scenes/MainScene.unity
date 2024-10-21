@@ -122,6 +122,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &447543824 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9222340508886357059, guid: 4675d5cee1a4a8c4c98ca314c9500218, type: 3}
+  m_PrefabInstance: {fileID: 840753266}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &462124491
 GameObject:
   m_ObjectHideFlags: 0
@@ -245,9 +250,17 @@ PrefabInstance:
       value: otherWorld
       objectReference: {fileID: 0}
     - target: {fileID: 6131398266853948988, guid: 4675d5cee1a4a8c4c98ca314c9500218, type: 3}
+      propertyPath: portal
+      value: 
+      objectReference: {fileID: 3504516032480816949}
+    - target: {fileID: 6131398266853948988, guid: 4675d5cee1a4a8c4c98ca314c9500218, type: 3}
       propertyPath: _portal
       value: 
       objectReference: {fileID: 1548687390}
+    - target: {fileID: 6131398266853948988, guid: 4675d5cee1a4a8c4c98ca314c9500218, type: 3}
+      propertyPath: worldAnchor
+      value: 
+      objectReference: {fileID: 447543824}
     - target: {fileID: 7962188794437846634, guid: 4675d5cee1a4a8c4c98ca314c9500218, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6.45
