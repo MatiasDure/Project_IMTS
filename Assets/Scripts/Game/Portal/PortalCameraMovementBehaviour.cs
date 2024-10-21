@@ -1,30 +1,32 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PortalCameraMovementBehaviour : MonoBehaviour
 {
-	[SerializeField] private GameObject _portal;
-	[SerializeField] private GameObject _worldAnchor;
+	[SerializeField] internal GameObject portal;
+	[SerializeField] internal GameObject worldAnchor;
 
-	private Camera _portalCamera;
 	private Camera _mainCamera;
 	
 	private void Awake()
 	{
-		_portalCamera = GetComponent<Camera>();
 		_mainCamera = Camera.main;
-		transform.rotation = _mainCamera.transform.rotation;
+		if (_mainCamera != null) transform.rotation = _mainCamera.transform.rotation;
 	}
 
     // Update is called once per frame
     void Update()
     {
-	    UpdatePortalTransform(_worldAnchor, _portal, _mainCamera);
+	    if(_mainCamera == null) return;
+	    
+		UpdatePortalTransform(worldAnchor, portal, _mainCamera.gameObject);
     }
 
-    private void UpdatePortalTransform(GameObject anchor, GameObject portal, Camera mainCamera)
+    internal void UpdatePortalTransform(GameObject anchor, GameObject portal, GameObject mainCameraGameObject)
     {
+	    Debug.Log("maincamobj =>" + mainCameraGameObject);
 	    var m = anchor.transform.localToWorldMatrix * portal.transform.worldToLocalMatrix *
-	            mainCamera.transform.localToWorldMatrix;
+	            mainCameraGameObject.transform.localToWorldMatrix;
 	    
 	    transform.SetPositionAndRotation(m.GetColumn(3), m.rotation);
     }
