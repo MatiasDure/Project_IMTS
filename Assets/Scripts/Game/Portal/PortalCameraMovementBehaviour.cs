@@ -1,34 +1,32 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PortalCameraMovementBehaviour : MonoBehaviour
 {
-	[SerializeField] private GameObject _portal;
-	[SerializeField] private GameObject _worldAnchor;
+	[SerializeField] internal GameObject _portal;
+	[SerializeField] internal GameObject _worldAnchor;
 
 	private Camera _mainCamera;
 	
 	private void Awake()
 	{
 		_mainCamera = Camera.main;
+		if (_mainCamera != null) transform.rotation = _mainCamera.transform.rotation;
 	}
 
     // Update is called once per frame
     void Update()
     {
-        MimicCameraWorldPosition();
-		MimicCameraWorldRotation();
+	    if(_mainCamera == null) return;
+	    
+		UpdatePortalTransform(_worldAnchor, _portal, _mainCamera.gameObject);
     }
 
-	private void MimicCameraWorldPosition() {
-		Vector3 userOffestFromPortal = _mainCamera.transform.position - _portal.transform.position;
-		transform.position = _worldAnchor.transform.position + userOffestFromPortal;
-	}
-
-	private void MimicCameraWorldRotation() {
-		float angularDifferenceBetweenPortalRotations = Quaternion.Angle(_worldAnchor.transform.rotation, _portal.transform.rotation);
-
-		Quaternion portalRotationalDifference = Quaternion.AngleAxis(angularDifferenceBetweenPortalRotations, Vector3.up);
-		Vector3 newCameraDirection = portalRotationalDifference * _mainCamera.transform.forward;
-		transform.rotation = Quaternion.LookRotation(newCameraDirection, Vector3.up);
-	}	
+    internal void UpdatePortalTransform(GameObject anchor, GameObject portal, GameObject mainCameraGameObject)
+    {
+	    var adjustedPositionAndRotationMatrix = anchor.transform.localToWorldMatrix * portal.transform.worldToLocalMatrix *
+	            mainCameraGameObject.transform.localToWorldMatrix;
+	    
+	    transform.SetPositionAndRotation(adjustedPositionAndRotationMatrix.GetColumn(3), adjustedPositionAndRotationMatrix.rotation);
+    }
 }
