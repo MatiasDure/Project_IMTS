@@ -435,11 +435,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 0.01
   _rotationSpeed: 4
-  _minDesicionSec: 1.5
-  _maxDesicionSec: 3
+  _minDesicionSeconds: 1
+  _maxDesicionSeconds: 3
   _horizontalTurnLimit: 45
   _verticalTurnLimit: 5
-  _verticalRotationBound: 12
+  _verticalRotationBound: 10
   _middlePoint: {fileID: 5098053586139116423}
   _height: 1
   _width: 5
