@@ -12,6 +12,5 @@ public class PortalTextureSetup : MonoBehaviour
 		}
 		_secondaryCamera.targetTexture = new RenderTexture(Screen.width, Screen.height, 24);
 		_portalMaterial.mainTexture = _secondaryCamera.targetTexture;
-		Debug.Log($"Screen width: {Screen.width}, Screen height: {Screen.height}");
     }
 }
