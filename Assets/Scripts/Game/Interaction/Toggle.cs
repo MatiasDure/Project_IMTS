@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq.Expressions;
 using UnityEngine;
 
 public class Toggle : MonoBehaviour, IInteractable
@@ -17,7 +13,8 @@ public class Toggle : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        if(_toggleComponent == null) return;
+        if (_toggleComponent == null) return;
+        if (_toggleComponent.ignoreInput) return;
 
         ChangeState();
     }

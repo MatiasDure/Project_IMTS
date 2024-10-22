@@ -1,28 +1,22 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Animations;
 
 [RequireComponent(typeof(Toggle))]
 public class ToggleRotate : MonoBehaviour, IToggleComponent
 {
+    public bool ignoreInput { get; set; }
+    
     [SerializeField] private float _openAngle = 90.0f;
     [SerializeField] private float _rotateSpeed = 15f;
 
     [Serializable]
-    private enum RotationAxis
-    {
-        x,
-        y,
-        z
-    }
+    private enum RotationAxis { x, y, z }
     
     [SerializeField] private RotationAxis _rotationAxis = RotationAxis.y;
     
     private Quaternion _closedRotation;
     private Quaternion _openRotation;
-    private bool _rotating;
     
     public void Start()
     {
@@ -31,27 +25,26 @@ public class ToggleRotate : MonoBehaviour, IToggleComponent
 
     public void ToggleOn()
     {
-        if(_rotating) return;
+        if(ignoreInput) return;
         SetRotation();
         StartCoroutine(Rotate(_openRotation));
     }
 
     public void ToggleOff()
     { 
-        if(_rotating) return;
+        if((ignoreInput)) return;
         StartCoroutine(Rotate(_closedRotation));
     }
 
     private IEnumerator Rotate(Quaternion targetRotation)
     {
-        
         while (Quaternion.Angle(transform.rotation, targetRotation) > 0.01f)
         {
-            _rotating = true;
+            ignoreInput = true;
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, _rotateSpeed * Time.deltaTime);
             yield return null; // Wait for the next frame
         }
-        _rotating = false;
+        ignoreInput = false;
         transform.rotation = targetRotation;
     }
 
