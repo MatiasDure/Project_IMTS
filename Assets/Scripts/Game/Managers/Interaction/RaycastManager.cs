@@ -5,6 +5,7 @@ using UnityEngine.Serialization;
 public class RaycastManager : MonoBehaviour
 {
 	[SerializeField] internal GameObject _secondaryCamera;
+	[SerializeField] private GameObject _portalPlane;
 	private GameObject _secondraycastPointer;
 	private GameObject _mainRaycastPointer;
 
@@ -21,7 +22,7 @@ public class RaycastManager : MonoBehaviour
 	    if(_secondaryCamera != null)
 			_secondraycastPointer = _secondaryCamera.transform.GetChild(0).gameObject;
 	    
-        _raycastPerspective = RaycastPerspective.SecondaryCamera;
+        _raycastPerspective = RaycastPerspective.MainCamera;
     }
 
     // Update is called once per frame
@@ -29,6 +30,7 @@ public class RaycastManager : MonoBehaviour
     {
 	    if(_mainCamera == null || InputManager.Instance.InputState != InputState.Interact) return;
 
+	    DetectPespective();
 	    Raycast();
     }
 
@@ -82,5 +84,17 @@ public class RaycastManager : MonoBehaviour
 		if (!Physics.Raycast(mainCameraRay, out hit)) return;
 		
 		OnRaycastHit?.Invoke(hit.collider);
+	}
+
+	private void DetectPespective()
+	{
+		RaycastHit hit;
+
+		Ray mainCameraRay = _mainCamera.ScreenPointToRay(Input.mousePosition);
+		
+		if (!Physics.Raycast(mainCameraRay, out hit)) return;
+		
+		_raycastPerspective = (hit.collider.gameObject == _portalPlane)?
+			RaycastPerspective.SecondaryCamera : RaycastPerspective.MainCamera;
 	}
 }

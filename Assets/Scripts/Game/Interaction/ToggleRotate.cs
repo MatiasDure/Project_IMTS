@@ -22,30 +22,36 @@ public class ToggleRotate : MonoBehaviour, IToggleComponent
     
     private Quaternion _closedRotation;
     private Quaternion _openRotation;
-
+    private bool _rotating;
+    
     public void Start()
     {
-        _closedRotation = transform.rotation;
-        _openRotation = GetOpenRotation(_rotationAxis);
+        SetRotation();
     }
 
     public void ToggleOn()
     {
+        if(_rotating) return;
+        SetRotation();
         StartCoroutine(Rotate(_openRotation));
     }
 
     public void ToggleOff()
-    {
+    { 
+        if(_rotating) return;
         StartCoroutine(Rotate(_closedRotation));
     }
 
     private IEnumerator Rotate(Quaternion targetRotation)
     {
+        
         while (Quaternion.Angle(transform.rotation, targetRotation) > 0.01f)
         {
+            _rotating = true;
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, _rotateSpeed * Time.deltaTime);
             yield return null; // Wait for the next frame
         }
+        _rotating = false;
         transform.rotation = targetRotation;
     }
 
@@ -68,4 +74,11 @@ public class ToggleRotate : MonoBehaviour, IToggleComponent
 
         return Quaternion.Euler(rotationVector);
     }
+
+    private void SetRotation()
+    {
+        _closedRotation = transform.rotation;
+        _openRotation = GetOpenRotation(_rotationAxis);
+    }
+    
 }
