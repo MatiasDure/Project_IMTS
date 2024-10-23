@@ -5,12 +5,12 @@ using UnityEngine.Serialization;
 public class RaycastManager : MonoBehaviour
 {
 	[SerializeField] internal GameObject _secondaryCamera;
-	[SerializeField] private GameObject _portalPlane;
+	[SerializeField] private LayerMask _portalMask;
+	
 	private GameObject _secondraycastPointer;
 	private GameObject _mainRaycastPointer;
 
 	private Camera _mainCamera;
-	private RaycastPerspective _raycastPerspective;
 	public event Action<Collider> OnRaycastHit;
 
     void Start()
@@ -21,46 +21,23 @@ public class RaycastManager : MonoBehaviour
 			_mainRaycastPointer = _mainCamera.transform.GetChild(0).gameObject;
 	    if(_secondaryCamera != null)
 			_secondraycastPointer = _secondaryCamera.transform.GetChild(0).gameObject;
-	    
-        _raycastPerspective = RaycastPerspective.MainCamera;
     }
 
     // Update is called once per frame
     void Update()
     {
 	    if(_mainCamera == null || InputManager.Instance.InputState != InputState.Interact) return;
-
-	    DetectPespective();
+	    
 	    Raycast();
     }
 
-	private void Raycast() {
-		switch(_raycastPerspective) {
-			case RaycastPerspective.MainCamera:
-				MainCameraRaycast();
-				break;
-			case RaycastPerspective.SecondaryCamera:
-				SecondaryCameraRaycast();
-				break;
-			default:
-				MainCameraRaycast();
-				break;
-		}
-	}
-
-	private void SecondaryCameraRaycast()
+	private void Raycast()
 	{
 		RaycastHit hit;
-		Ray mainCameraRay = _mainCamera.ScreenPointToRay(Input.mousePosition);
-		
-		if (!Physics.Raycast(mainCameraRay, out hit)) return;
-		
-		Ray secondaryCameraRay = SecondCameraRay(mainCameraRay,
-					_mainRaycastPointer,_secondraycastPointer);
-		
-		if (!Physics.Raycast(secondaryCameraRay, out hit)) return;
-
-		OnRaycastHit?.Invoke(hit.collider);
+		if (DetectPerspectiveRayCast(out hit))
+		{
+			OnRaycastHit?.Invoke(hit.collider);
+		}
 	}
 
 	internal Ray SecondCameraRay(Ray mainCameraRay, GameObject mainRaycastPointer, GameObject secondRaycastPointer)
@@ -72,29 +49,25 @@ public class RaycastManager : MonoBehaviour
 		
 		return secondaryCameraRay;
 	}
-	
-	private void MainCameraRaycast() {
-		WorldRaycast();
-	}
 
-	private void WorldRaycast() {
-		RaycastHit hit;
-		Ray mainCameraRay = _mainCamera.ScreenPointToRay(Input.mousePosition);
-		
-		if (!Physics.Raycast(mainCameraRay, out hit)) return;
-		
-		OnRaycastHit?.Invoke(hit.collider);
-	}
-
-	private void DetectPespective()
+	private bool DetectPerspectiveRayCast(out RaycastHit hit)
 	{
-		RaycastHit hit;
-
 		Ray mainCameraRay = _mainCamera.ScreenPointToRay(Input.mousePosition);
 		
-		if (!Physics.Raycast(mainCameraRay, out hit)) return;
+		if (!Physics.Raycast(mainCameraRay, out hit)) return false;
 		
-		_raycastPerspective = (hit.collider.gameObject == _portalPlane)?
-			RaycastPerspective.SecondaryCamera : RaycastPerspective.MainCamera;
+		if (!IsLayerInMask(hit.collider.gameObject.layer, _portalMask)) return true;
+		
+		Ray secondaryCameraRay = SecondCameraRay(mainCameraRay,
+			_mainRaycastPointer,_secondraycastPointer);
+		
+		if (!Physics.Raycast(secondaryCameraRay, out hit)) return false;
+
+		return true;
+	}
+	
+	public bool IsLayerInMask(int layer, LayerMask layerMask)
+	{
+		return (layerMask & (1 << layer)) != 0;
 	}
 }
