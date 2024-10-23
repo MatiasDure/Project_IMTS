@@ -16,17 +16,21 @@ public class Bee : MonoBehaviour
 
 	private void SubscribeToEvents()
 	{
-		HideAndSea.OnHideStart += UpdateState;
-		HideAndSea.OnHideEnd += UpdateState;
+		PlotEvent.OnPassiveEventStart += UpdateState;
+		PlotEvent.OnPasiveEventEnd += UpdateState;
+		// HideAndSea.OnHideStart += UpdateState;
+		// HideAndSea.OnHideEnd += UpdateState;
 	}
 
 	private void UnsubscribeFromEvents()
 	{
-		HideAndSea.OnHideStart -= UpdateState;
-		HideAndSea.OnHideEnd -= UpdateState;
+		PlotEvent.OnPassiveEventStart -= UpdateState;
+		PlotEvent.OnPasiveEventEnd -= UpdateState;
+		// HideAndSea.OnHideStart -= UpdateState;
+		// HideAndSea.OnHideEnd -= UpdateState;
 	}
 
-	private void UpdateState(UpdateBeeStateCollection newState) {
+	private void UpdateState(UpdatePassiveEventCollection newState) {
 		_state = newState.State;
 		OnBeeStateChanged?.Invoke(_state);
 	}

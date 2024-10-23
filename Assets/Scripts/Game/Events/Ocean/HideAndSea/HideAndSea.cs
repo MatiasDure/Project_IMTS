@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using log4net.Filter;
 using UnityEngine;
 
 public class HideAndSea : PlotEvent
@@ -7,8 +8,8 @@ public class HideAndSea : PlotEvent
 	[SerializeField] private GameObject _hideSpotsContaioner;
 	private List<Transform> _hideSpots;
 
-	public static event Action<UpdateBeeStateCollection> OnHideStart;
-	public static event Action<UpdateBeeStateCollection> OnHideEnd;
+	// public static event Action<UpdatePassiveEventCollection> OnHideStart;
+	// public static event Action<UpdatePassiveEventCollection> OnHideEnd;
 
 	private void Awake()
 	{
@@ -30,6 +31,7 @@ public class HideAndSea : PlotEvent
 	private void SetUpPassiveEvent() {
 		_state = PassiveEventState.InitialWaiting;
 		_cooldown.StartCooldown(_config.Timing.StartDelay);
+		_frequency.FrequencyAmount = _config.Timing.Frequency;
 	}
 
 	private void LoadHideSpots()
@@ -47,15 +49,17 @@ public class HideAndSea : PlotEvent
 		base.StartEvent();
 
 		Transform hideSpot = GetRandomHideSpot();
-		UpdateBeeStateCollection metadata = SetupStartEventMetadata(hideSpot);
+		UpdatePassiveEventCollection metadata = SetupStartEventMetadata(hideSpot);
 
-		OnHideStart?.Invoke(metadata);
+		FireStartEvent(metadata);
 	}
 
-	private UpdateBeeStateCollection SetupStartEventMetadata(Transform hideSpot)
+	private UpdatePassiveEventCollection SetupStartEventMetadata(Transform hideSpot)
 	{
-		return new UpdateBeeStateCollection
+		return new UpdatePassiveEventCollection
 		{
+			PreviousEvent = PassiveEventManager.Instance.CurrentEventPlaying,
+			CurrentEvent = PassiveEvent.HideAndSea,
 			State = BeeState.Hiding,
 			Metadata = new EventMetadata
 			{
@@ -66,10 +70,23 @@ public class HideAndSea : PlotEvent
 
 	protected override void HandleWaitingStatus()
 	{
-		base.HandleWaitingStatus();
-		UpdateBeeStateCollection metadata = SetupEndEventMetadata();
+		if(_state != PassiveEventState.Waiting) return;
 
-		OnHideEnd?.Invoke(metadata);
+		base.HandleWaitingStatus();
+		UpdatePassiveEventCollection metadata = SetupEndEventMetadata();
+
+		FireEndEvent(metadata);
+	}
+
+	protected override void SubscribeToEvents()
+	{
+		base.SubscribeToEvents();
+		Hide.OnHidedPlayer += HandlePlayerHided;
+	}
+
+	private void HandlePlayerHided()
+	{
+		_cooldown.StartCooldown(_config.Timing.Duration);
 	}
 
 	private Transform GetRandomHideSpot() => _hideSpots[UnityEngine.Random.Range(0, _hideSpots.Count)];
@@ -78,5 +95,4 @@ public class HideAndSea : PlotEvent
 	{
 		UnsubscribeFromEvents();
 	}
-
 }

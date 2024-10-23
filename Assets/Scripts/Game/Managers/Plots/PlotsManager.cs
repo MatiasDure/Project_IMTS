@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlotsManager : Singleton<PlotsManager>
 {
-	[SerializeField] private Plot _currentPlot;
+	[SerializeField] internal Plot _currentPlot;
 
 	public Plot CurrentPlot => _currentPlot;
 

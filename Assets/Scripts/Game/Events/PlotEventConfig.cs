@@ -4,6 +4,4 @@ using UnityEngine;
 public class PlotEventConfig : ScriptableObject
 {
     public EventTiming Timing;
-	public Movement EventMovement;
-
 }

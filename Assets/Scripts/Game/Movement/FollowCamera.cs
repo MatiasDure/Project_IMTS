@@ -18,7 +18,7 @@ public class FollowCamera : FollowObject
 		transform.position = Vector3.Lerp(transform.position, targetPosition, scaledSpeed);
 	}
 
-	private void HandleBeeStateChange(BeeState state) {
+	private void HandleBeeStateChange(BeeState state) {		
 		_isFollowing = state == BeeState.FollowingCamera;
 	}
 

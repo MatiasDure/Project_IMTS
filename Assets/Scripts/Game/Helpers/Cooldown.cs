@@ -31,6 +31,8 @@ public class Cooldown
 
 	public void DecreaseCooldown(float time)
 	{
+		if (!_isOnCooldown) return;
+		
 		_cooldownTimer += time;
 
 		if (IsCooldownOver()) {
