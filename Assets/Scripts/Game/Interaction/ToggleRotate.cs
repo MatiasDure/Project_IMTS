@@ -7,13 +7,13 @@ public class ToggleRotate : MonoBehaviour, IToggleComponent
 {
     public bool ignoreInput { get; set; }
     
-    [SerializeField] private float _openAngle = 90.0f;
-    [SerializeField] private float _rotateSpeed = 15f;
+    [SerializeField] internal float _openAngle = 90.0f;
+    [SerializeField] internal float _rotateSpeed = 15f;
 
     [Serializable]
-    private enum RotationAxis { x, y, z }
+    internal enum RotationAxis { x, y, z }
     
-    [SerializeField] private RotationAxis _rotationAxis = RotationAxis.y;
+    [SerializeField] internal RotationAxis _rotationAxis = RotationAxis.y;
     
     private Quaternion _closedRotation;
     private Quaternion _openRotation;
@@ -32,12 +32,13 @@ public class ToggleRotate : MonoBehaviour, IToggleComponent
 
     public void ToggleOff()
     { 
-        if((ignoreInput)) return;
+        if(ignoreInput) return;
         StartCoroutine(Rotate(_closedRotation));
     }
 
     private IEnumerator Rotate(Quaternion targetRotation)
     {
+        
         while (Quaternion.Angle(transform.rotation, targetRotation) > 0.01f)
         {
             ignoreInput = true;
