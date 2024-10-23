@@ -29,6 +29,13 @@ public class FishSwimmingInteraction : MonoBehaviour, IInteractable
         RemoveEffect(originalMoveSpeed);
     }
 
+    IEnumerator SmoothSpeedChangeCoroutine(float originalMoveSpeed, float targetSpeed, float smoothChangeDuration)
+    {
+
+        yield return new WaitForSeconds(smoothChangeDuration);
+
+    }
+
     private void FixedUpdate()
     {
         transform.position += transform.forward * _moveSpeed;
