@@ -11,6 +11,12 @@ public class FishSwimmingInteraction : MonoBehaviour, IInteractable
     [SerializeField] private ParticleSystem _particleSystem;
 
     private bool _canSpeedUp = true;
+    private float _multipliedSpeed;
+
+    private void Start()
+    {
+        _multipliedSpeed = _moveSpeed * _speedUpMultiplier;
+    }
 
     private void FixedUpdate()
     {
@@ -21,7 +27,7 @@ public class FishSwimmingInteraction : MonoBehaviour, IInteractable
     {
         if (!_canSpeedUp) return;
 
-        StartCoroutine(FishTappedCoroutine(_moveSpeed, _speedUpMultiplier, _speedUpDuration));
+        StartCoroutine(FishTappedCoroutine(_moveSpeed, _speedUpDuration));
     }
 
     private void Swim()
@@ -50,10 +56,9 @@ public class FishSwimmingInteraction : MonoBehaviour, IInteractable
         _moveSpeed = Mathf.Lerp(originalMoveSpeed, targetMoveSpeed, percentageComplete);
     }
 
-    IEnumerator FishTappedCoroutine(float originalMoveSpeed, float speedUpMultiplier, float speedUpDuration)
+    IEnumerator FishTappedCoroutine(float originalMoveSpeed, float speedUpDuration)
     {
-        float targetSpeed = originalMoveSpeed * speedUpMultiplier;
-        ApplySpeedUpEffect(originalMoveSpeed, targetSpeed);
+        ApplySpeedUpEffect(originalMoveSpeed, _multipliedSpeed);
 
         yield return new WaitForSeconds(speedUpDuration);
 
@@ -63,10 +68,11 @@ public class FishSwimmingInteraction : MonoBehaviour, IInteractable
     internal IEnumerator SmoothSpeedChangeCoroutine(float originalMoveSpeed, float targetMoveSpeed, float smoothChangeDuration)
     {
         float timeElapsed = 0f;
+        float percentageComplete;
         
         while(timeElapsed < smoothChangeDuration)
         {
-            float percentageComplete = timeElapsed / smoothChangeDuration;
+            percentageComplete = timeElapsed / smoothChangeDuration;
             ChangeMoveSpeed(originalMoveSpeed, targetMoveSpeed, percentageComplete);
             timeElapsed += Time.deltaTime;
 
