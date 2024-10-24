@@ -25,6 +25,8 @@ public class BeeSwimming : BeeMovement
     private void Start()
     {
         _rotationDuration = 1 / _rotationSpeed;
+
+        // Begin changing direction sequence
         _activeChangeDirectionCoroutine = StartCoroutine(ChangeDirectionCoroutine(GetRandomInterval(_decisionTimeVector)));
     }
 
