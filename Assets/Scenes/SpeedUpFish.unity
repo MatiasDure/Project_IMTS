@@ -442,6 +442,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1990068556}
     - target: {fileID: 7771838103889449598, guid: 4675d5cee1a4a8c4c98ca314c9500218, type: 3}
+      propertyPath: _particleSystem
+      value: 
+      objectReference: {fileID: 1990068556}
+    - target: {fileID: 7771838103889449598, guid: 4675d5cee1a4a8c4c98ca314c9500218, type: 3}
       propertyPath: _speedUpDuration
       value: 1.5
       objectReference: {fileID: 0}

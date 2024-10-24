@@ -7,14 +7,14 @@ public class FishSwimmingInteraction : MonoBehaviour, IInteractable
     [SerializeField] internal float _moveSpeed = 0.1f;
     [SerializeField] private float _speedUpMultiplier = 2f;
     [SerializeField] private float _speedUpDuration = 1.5f;
-    [SerializeField] private float _lerpSpeedDuration = 0.5f;
-    [SerializeField] private ParticleSystem _ps;
+    [SerializeField] private float _speedChangeDuration = 0.5f;
+    [SerializeField] private ParticleSystem _particleSystem;
 
     private bool _canSpeedUp = true;
 
     private void FixedUpdate()
     {
-        transform.position += transform.forward * _moveSpeed;
+        Swim();
     }
 
     public void Interact()
@@ -24,28 +24,40 @@ public class FishSwimmingInteraction : MonoBehaviour, IInteractable
         StartCoroutine(FishTappedCoroutine(_moveSpeed, _speedUpMultiplier, _speedUpDuration));
     }
 
-    private void ApplyEffect(float originalMoveSpeed, float targetSpeed)
+    private void Swim()
     {
-        StartCoroutine(SmoothSpeedChangeCoroutine(originalMoveSpeed, targetSpeed, _lerpSpeedDuration));
-        _ps.Play();
+        transform.position += transform.forward * _moveSpeed;
     }
 
-    private void RemoveEffect(float originalMoveSpeed)
+    private void ApplySpeedUpEffect(float originalMoveSpeed, float targetSpeed)
     {
-        StartCoroutine(SmoothSpeedChangeCoroutine(_moveSpeed, originalMoveSpeed, _lerpSpeedDuration));
-        _ps.Stop();
+        _canSpeedUp = false;
+
+        StartCoroutine(SmoothSpeedChangeCoroutine(originalMoveSpeed, targetSpeed, _speedChangeDuration));
+        _particleSystem.Play();
+    }
+
+    private void RemoveSpeedUpEffect(float originalMoveSpeed)
+    {
+        _canSpeedUp = true;
+
+        StartCoroutine(SmoothSpeedChangeCoroutine(_moveSpeed, originalMoveSpeed, _speedChangeDuration));
+        _particleSystem.Stop();
+    }
+    
+    private void ChangeMoveSpeed(float originalMoveSpeed, float targetMoveSpeed, float percentageComplete)
+    {
+        _moveSpeed = Mathf.Lerp(originalMoveSpeed, targetMoveSpeed, percentageComplete);
     }
 
     IEnumerator FishTappedCoroutine(float originalMoveSpeed, float speedUpMultiplier, float speedUpDuration)
     {
         float targetSpeed = originalMoveSpeed * speedUpMultiplier;
-        ApplyEffect(originalMoveSpeed, targetSpeed);
+        ApplySpeedUpEffect(originalMoveSpeed, targetSpeed);
 
-        _canSpeedUp = false;
         yield return new WaitForSeconds(speedUpDuration);
-        _canSpeedUp = true;
 
-        RemoveEffect(originalMoveSpeed);
+        RemoveSpeedUpEffect(originalMoveSpeed);
     }
 
     internal IEnumerator SmoothSpeedChangeCoroutine(float originalMoveSpeed, float targetMoveSpeed, float smoothChangeDuration)
@@ -54,8 +66,10 @@ public class FishSwimmingInteraction : MonoBehaviour, IInteractable
         
         while(timeElapsed < smoothChangeDuration)
         {
-            _moveSpeed = Mathf.Lerp(originalMoveSpeed, targetMoveSpeed, timeElapsed / smoothChangeDuration);
+            float percentageComplete = timeElapsed / smoothChangeDuration;
+            ChangeMoveSpeed(originalMoveSpeed, targetMoveSpeed, percentageComplete);
             timeElapsed += Time.deltaTime;
+
             yield return null;
         }
 
