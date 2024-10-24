@@ -8,21 +8,23 @@ public class Hide : MonoBehaviour
 	private Transform _hideSpot;
 	private bool _isMovingToHidingSpot = false;
     
-	public static event Action OnHidedPlayer;
+	public static event Action OnHidden;
 
     void Start()
     {
-		PlotEvent.OnPassiveEventStart += HandleHideStart;
-		PlotEvent.OnPasiveEventEnd += HandleHideEnd;
+		SubscribeToEvents();
     }
 
-	void FixedUpdate() {
-        if(_hideSpot == null || !_isMovingToHidingSpot) return;
+	void FixedUpdate()
+	{
+		if (CannotHide()) return;
 
 		MoveTowardsHidingSpot();
-		if(IsPlayerHidden())
-			HidePlayer();
+		if (IsHidden())
+			HideGameObject();
 	}
+
+	private bool CannotHide() => _hideSpot == null || !_isMovingToHidingSpot;
 
 	private void HandleHideStart(UpdatePassiveEventCollection eventMetadata) {
 		if(eventMetadata.CurrentEvent != PassiveEvent.HideAndSea) return;
@@ -41,11 +43,11 @@ public class Hide : MonoBehaviour
 		transform.position = Vector3.Lerp(transform.position, _hideSpot.position + _hideOffset, _movement.MovementSpeed * Time.deltaTime);
 	}
 
-	private bool IsPlayerHidden() => Vector3.Distance(transform.position, _hideSpot.position + _hideOffset) < 0.1f;
+	private bool IsHidden() => Vector3.Distance(transform.position, _hideSpot.position + _hideOffset) < 0.1f;
 
-	private void HidePlayer() {
+	private void HideGameObject() {
 		_isMovingToHidingSpot = false;
-		OnHidedPlayer?.Invoke();
+		OnHidden?.Invoke();
 	}
 
 	private void SubscribeToEvents() {

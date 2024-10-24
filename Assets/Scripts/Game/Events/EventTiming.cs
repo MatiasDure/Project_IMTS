@@ -4,7 +4,7 @@ using UnityEngine;
 [Serializable]
 public struct EventTiming
 {
-	[Tooltip("How often does the event repeat")]
+	[Tooltip("How many times the event gets repeated")]
     public uint Frequency;
 	[Tooltip("Time before event can trigger again")]
 	public float Cooldown;

@@ -75,10 +75,10 @@ public class HideAndSea : PlotEvent
 	protected override void SubscribeToEvents()
 	{
 		base.SubscribeToEvents();
-		Hide.OnHidedPlayer += HandlePlayerHidden;
+		Hide.OnHidden += HandleHidden;
 	}
 
-	private void HandlePlayerHidden()
+	private void HandleHidden()
 	{
 		_cooldown.StartCooldown(_config.Timing.Duration);
 	}
@@ -86,7 +86,7 @@ public class HideAndSea : PlotEvent
 	protected override void UnsubscribeFromEvents()
 	{
 		base.UnsubscribeFromEvents();
-		Hide.OnHidedPlayer -= HandlePlayerHidden;
+		Hide.OnHidden -= HandleHidden;
 	}
 
 	internal Transform GetRandomHideSpot(List<Transform> hideSpots, int randomIndex) => hideSpots[randomIndex];
