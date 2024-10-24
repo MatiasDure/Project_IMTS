@@ -6,6 +6,7 @@ using UnityEngine.TestTools;
 
 public class BeeMovementFunctionsTest
 {
+    /**
     // A Test behaves as an ordinary method
     [Test]
     public void EditorMode_BeeMovementFunctionsTest_ExceedsWidthBounds_HappyPath()
@@ -84,7 +85,7 @@ public class BeeMovementFunctionsTest
         // Use the Assert class to test conditions
         Assert.IsTrue(beeSwimmingScript.ExceedsHeightBounds(myYPosition, middlePoint.y, height));
     }
-
+    /**/
     [Test]
     public void EditorMode_BeeMovementFunctionsTest_ExceedsVerticalAngleBound_HappyPath()
     {
@@ -108,4 +109,5 @@ public class BeeMovementFunctionsTest
         // Use the Assert class to test conditions
         Assert.IsTrue(beeSwimmingScript.ExceedsVerticalAngleBound(updatedAngle, verticalRotationBound));
     }
+    /**/
 }

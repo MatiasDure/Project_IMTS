@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class BeeSwimming : BeeMovement
 {
-
+    [SerializeField] private Range _decisionDelayRange;
+    [SerializeField] private Range _turnLimitRange;
+    [SerializeField] private EnvironmentBounds bounds;
     [SerializeField] private Transform _middlePoint;
-
-    [SerializeField] private Vector3 _environmentDimensions;
-    [SerializeField] private Vector2 _decisionTimeVector;
-    [SerializeField] private Vector2 _turnLimitVector;
 
     [Tooltip("Limit rotation on the X axis (pitch) to prevent unrealistic movement")]
     [SerializeField] private float _verticalRotationBound = 10;
@@ -25,9 +23,11 @@ public class BeeSwimming : BeeMovement
     private void Start()
     {
         _rotationDuration = 1 / _rotationSpeed;
+        bounds.SetCenter(_middlePoint.position);
 
         // Begin changing direction sequence
-        _activeChangeDirectionCoroutine = StartCoroutine(ChangeDirectionCoroutine(GetRandomInterval(_decisionTimeVector)));
+        _activeChangeDirectionCoroutine = 
+            StartCoroutine(ChangeDirectionCoroutine(Range.GetRandomValueWithinRange(_decisionDelayRange.valuesRange)));
     }
 
     private void FixedUpdate()
@@ -43,32 +43,32 @@ public class BeeSwimming : BeeMovement
 
     private void CheckPositionInBounds()
     {
-        CheckHorizontalPosition(_environmentDimensions);
-        CheckVerticalPosition(_environmentDimensions);
+        CheckHorizontalPosition();
+        CheckVerticalPosition();
     }
 
-    private void CheckHorizontalPosition(Vector3 dimensions)
+    private void CheckHorizontalPosition()
     {
         if (!_checkHorizontalDirection) return;
 
-        if (ExceedsWidthBounds(transform.position.x, _middlePoint.position.x, dimensions.x) ||
-            ExceedsDepthBounds(transform.position.z, _middlePoint.position.z, dimensions.z))
+        if (bounds.ExceedsWidthBounds(transform.position.x) ||
+            bounds.ExceedsDepthBounds(transform.position.z))
         {
             // Temporarily stop horizontal position checking, until rotation finishes
-            StartCoroutine(DisableDirectionCheckCoroutine(Directions.Horizontal, _rotationDuration + 1 / _rotationDuration));
+            StartCoroutine(DisableDirectionCheckCoroutine(Directions.Direction.Horizontal, _rotationDuration + 1 / _rotationDuration));
             // Rotate bee
             SmoothRotateBeeQuaternion(GetLevelledRotationToMiddlePoint(_middlePoint.position), _rotationDuration);
         }
     }
 
-    private void CheckVerticalPosition(Vector3 dimensions)
+    private void CheckVerticalPosition()
     {
         if (!_checkVerticalDirection) return;
 
-        if (ExceedsHeightBounds(transform.position.y, _middlePoint.position.y, dimensions.y))
+        if (bounds.ExceedsHeightBounds(transform.position.y))
         {
             // Temporarily stop vertical position checking, until rotation finishes
-            StartCoroutine(DisableDirectionCheckCoroutine(Directions.Vertical, _rotationDuration + 1 / _rotationDuration));
+            StartCoroutine(DisableDirectionCheckCoroutine(Directions.Direction.Vertical, _rotationDuration + 1 / _rotationDuration));
             // Rotate bee
             SmoothRotateBeeVector(new Vector3(-transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z), _rotationDuration);
         }
@@ -105,31 +105,43 @@ public class BeeSwimming : BeeMovement
         _activeSmoothRotationCoroutine = StartCoroutine(SmoothRotationCoroutine(targetRotation, rotationDuration));
     }
 
+    private void SmoothRotate(Quaternion startRotation, Quaternion targetRotation, float percentageCompleted)
+    {
+        transform.rotation = Quaternion.Slerp(startRotation, targetRotation, percentageCompleted);
+    }
+
+    private void ResetZAngle()
+    {
+        transform.localEulerAngles = new Vector3(transform.localEulerAngles.x,
+                                                 transform.localEulerAngles.y, 0);
+    }
+
     IEnumerator ChangeDirectionCoroutine(float secondsToWait)
     {
         Vector2 newAngles = GetNewAngles();
         SmoothRotateBeeByAngle(newAngles, _rotationDuration);
-
-        // Set Z to 0 due to orientation messing up
-        transform.localEulerAngles = new Vector3(transform.localEulerAngles.x,
-                                                 transform.localEulerAngles.y, 0);
+        ResetZAngle(); // Set Z to 0 due to orientation messing up
 
         yield return new WaitForSeconds(secondsToWait);
 
         // Recursively call this coroutine
-        _activeChangeDirectionCoroutine = StartCoroutine(ChangeDirectionCoroutine(GetRandomInterval(_decisionTimeVector)));
+        _activeChangeDirectionCoroutine = 
+            StartCoroutine(ChangeDirectionCoroutine(Range.GetRandomValueWithinRange(_decisionDelayRange.valuesRange)));
     }
 
     IEnumerator SmoothRotationCoroutine(Quaternion targetRotation, float duration)
     {
         Quaternion startRotation = transform.rotation;
         float timeElapsed = 0f;
+        float percentageCompleted;
 
         while (timeElapsed < duration)
         {
             // Slerp from start rotation to the target rotation
-            transform.rotation = Quaternion.Slerp(startRotation, targetRotation, timeElapsed / duration);
+            percentageCompleted = timeElapsed / duration;
+            SmoothRotate(startRotation, targetRotation, percentageCompleted);
             timeElapsed += Time.deltaTime;
+
             yield return null;
         }
 
@@ -137,33 +149,13 @@ public class BeeSwimming : BeeMovement
         transform.rotation = targetRotation;
     }
 
-    IEnumerator DisableDirectionCheckCoroutine(Directions directionToDisableChecking ,float disableDuration)
+    IEnumerator DisableDirectionCheckCoroutine(Directions.Direction directionToDisableChecking ,float disableDuration)
     {
-        switch (directionToDisableChecking)
-        {
-            case Directions.Horizontal:
-                _checkHorizontalDirection = false;
-                break;
-            case Directions.Vertical:
-                _checkVerticalDirection = false;
-                break;
-            default:
-                throw new System.Exception($"{GetType()}: {directionToDisableChecking} direction not handled.");
-        }
+        UpdateDirectionChecks(directionToDisableChecking, false);
 
         yield return new WaitForSeconds(disableDuration);
 
-        switch (directionToDisableChecking)
-        {
-            case Directions.Horizontal:
-                _checkHorizontalDirection = true;
-                break;
-            case Directions.Vertical:
-                _checkVerticalDirection = true;
-                break;
-            default:
-                throw new System.Exception($"{GetType()}: {directionToDisableChecking} direction not handled.");
-        }
+        UpdateDirectionChecks(directionToDisableChecking, true);
     }
 
     IEnumerator DisableGetDirectionCoroutine(float disableDuration)
@@ -172,7 +164,23 @@ public class BeeSwimming : BeeMovement
 
         yield return new WaitForSeconds(disableDuration);
 
-        _activeChangeDirectionCoroutine = StartCoroutine(ChangeDirectionCoroutine(GetRandomInterval(_decisionTimeVector)));
+        _activeChangeDirectionCoroutine = 
+            StartCoroutine(ChangeDirectionCoroutine(Range.GetRandomValueWithinRange(_decisionDelayRange.valuesRange)));
+    }
+
+    private void UpdateDirectionChecks(Directions.Direction directionToDisableChecking, bool updateValue)
+    {
+        switch (directionToDisableChecking)
+        {
+            case Directions.Direction.Horizontal:
+                _checkHorizontalDirection = updateValue;
+                break;
+            case Directions.Direction.Vertical:
+                _checkVerticalDirection = updateValue;
+                break;
+            default:
+                throw new System.Exception($"{GetType()}: {directionToDisableChecking} direction not handled.");
+        }
     }
 
     private void StopSmoothRotationCoroutine()
@@ -185,12 +193,12 @@ public class BeeSwimming : BeeMovement
     {
         if (_activeChangeDirectionCoroutine != null)
         {
-            DisableGetDirectionCoroutine(_rotationDuration + GetRandomInterval(_decisionTimeVector));
+            DisableGetDirectionCoroutine(_rotationDuration + Range.GetRandomValueWithinRange(_decisionDelayRange.valuesRange));
         }
     }
 
-    private Vector2 GetNewAngles() => new Vector2(GetNewRandomVerticalDirectionDegrees(_turnLimitVector.y),
-                                                  GetNewRandomHorizontalDirectionDegrees(_turnLimitVector.x));
+    private Vector2 GetNewAngles() => new Vector2(GetNewRandomVerticalDirectionDegrees(_turnLimitRange.valuesRange.y),
+                                                  GetNewRandomHorizontalDirectionDegrees(_turnLimitRange.valuesRange.x));
 
     // Get rotation that points to the middle point, with the same Y as the bee
     private Quaternion GetLevelledRotationToMiddlePoint(Vector3 middlePoint)
@@ -212,20 +220,10 @@ public class BeeSwimming : BeeMovement
     internal bool ExceedsVerticalAngleBound(float updatedAngle, float verticalRotationBound)
     {
         // Normalize the angle to be between -180 and 180 degrees
-        float normalizedAngle = NormalizeAngle(updatedAngle);
+        float normalizedAngle = MathHelper.NormalizeAngle(updatedAngle);
 
         // Check if the angle is outside the vertical rotation bounds (-10 to 10)
         return normalizedAngle < -verticalRotationBound || normalizedAngle > verticalRotationBound;
-    }
-    // Bounds
-    internal bool ExceedsWidthBounds(float beeX, float middlePointX, float boundsWidth) => beeX > middlePointX + boundsWidth / 2 || beeX < middlePointX + - boundsWidth/ 2;
-    internal bool ExceedsDepthBounds(float beeZ, float middlePointZ, float boundsDepth) => beeZ > middlePointZ + boundsDepth / 2 || beeZ < middlePointZ + - boundsDepth / 2;
-    internal bool ExceedsHeightBounds(float beeY, float middlePointY, float boundsHeight) => beeY > middlePointY + boundsHeight / 2 || beeY < middlePointY + - boundsHeight / 2;
-
-    private float GetNewRandomHorizontalDirectionDegrees(float horizontalTurnLimit)
-    {
-        // Calculate and return new horizontal angle
-        return Random.Range(-horizontalTurnLimit, horizontalTurnLimit);
     }
 
     private float GetNewRandomVerticalDirectionDegrees(float verticalTurnLimit)
@@ -241,28 +239,8 @@ public class BeeSwimming : BeeMovement
         return updatedAngle;
     }
 
-    // Random delay between each movement direction switch
-    private float GetRandomInterval(Vector2 decisionTimeVector)
+    private float GetNewRandomHorizontalDirectionDegrees(float horizontalTurnLimit)
     {
-        if (decisionTimeVector.x > decisionTimeVector.y)
-            throw new System.Exception($"{GetType()}: DecisionTimeVector.x should be less than DecisionTimeVector.y");
-
-        return Random.Range(decisionTimeVector.x, decisionTimeVector.y);
-    }
-
-    // Normalize the angle to be between -180 and 180 degrees
-    private float NormalizeAngle(float angle)
-    {
-        angle = angle % 360; // Keep the angle between 0 and 360
-        if (angle > 180) angle -= 360; // Convert to -180 to 180 range
-
-        return angle;
-    }
-
-    enum Directions
-    {
-        None,
-        Horizontal,
-        Vertical,
+        return Range.GetRandomValueNegativeToPositive(horizontalTurnLimit);
     }
 }
