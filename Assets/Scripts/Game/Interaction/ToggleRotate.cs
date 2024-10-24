@@ -5,19 +5,22 @@ using UnityEngine;
 [RequireComponent(typeof(Toggle))]
 public class ToggleRotate : MonoBehaviour, IToggleComponent
 {
+    public ToggleState toggleState{ get; set; }
     public bool ignoreInput { get; set; }
     
     [SerializeField] internal float _openAngle = 90.0f;
     [SerializeField] internal float _rotateSpeed = 15f;
 
-    [Serializable]
-    internal enum RotationAxis { x, y, z }
-    
-    [SerializeField] internal RotationAxis _rotationAxis = RotationAxis.y;
+    [SerializeField] internal Axis _rotationAxis = Axis.Y;
     
     private Quaternion _closedRotation;
     private Quaternion _openRotation;
-    
+
+    public void Awake()
+    {
+        toggleState = ToggleState.ToggleOff;
+    }
+
     public void Start()
     {
         SetRotation();
@@ -25,43 +28,62 @@ public class ToggleRotate : MonoBehaviour, IToggleComponent
 
     public void ToggleOn()
     {
-        if(ignoreInput) return;
         SetRotation();
-        StartCoroutine(Rotate(_openRotation));
+        StartCoroutine(RotateCoroutine(_openRotation));
     }
 
     public void ToggleOff()
-    { 
-        if(ignoreInput) return;
-        StartCoroutine(Rotate(_closedRotation));
-    }
-
-    private IEnumerator Rotate(Quaternion targetRotation)
     {
-        
+        StartCoroutine(RotateCoroutine(_closedRotation));
+    }
+    public void OnSwitchState()
+    {
+        if(ignoreInput) return;
+        switch (toggleState)
+        {
+            case ToggleState.ToggleOff:
+                ToggleOn();
+                toggleState = ToggleState.ToggleOn;
+                break;
+            case ToggleState.ToggleOn:
+                ToggleOff();
+                toggleState = ToggleState.ToggleOff;
+                break;
+            default:
+                ToggleOn();
+                toggleState = ToggleState.ToggleOn;
+                break;
+        }
+    }
+    private IEnumerator RotateCoroutine(Quaternion targetRotation)
+    {
+        ignoreInput = true;
         while (Quaternion.Angle(transform.rotation, targetRotation) > 0.01f)
         {
-            ignoreInput = true;
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, _rotateSpeed * Time.deltaTime);
+            transform.rotation = RotateToTarget(transform.rotation, targetRotation, _rotateSpeed);
             yield return null; // Wait for the next frame
         }
         ignoreInput = false;
+        //make sure the rotation reach to the target rotation
         transform.rotation = targetRotation;
     }
 
-    private Quaternion GetOpenRotation(RotationAxis axis)
+    internal Quaternion RotateToTarget(Quaternion origin, Quaternion target, float speed) =>
+        Quaternion.RotateTowards(origin, target, speed * Time.deltaTime);
+
+    internal Quaternion GetOpenRotation(Axis axis)
     {
         Vector3 rotationVector = _closedRotation.eulerAngles;
 
         switch (axis)
         {
-            case RotationAxis.x:
+            case Axis.X:
                 rotationVector.x += _openAngle;
                 break;
-            case RotationAxis.y:
+            case Axis.Y:
                 rotationVector.y += _openAngle;
                 break;
-            case RotationAxis.z:
+            case Axis.Z:
                 rotationVector.z += _openAngle;
                 break;
         }

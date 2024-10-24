@@ -289,7 +289,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _openAngle: 90
   _rotateSpeed: 50
-  _rotationAxis: 1
+  _rotationAxis: 2
 --- !u!114 &617375817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -756,7 +756,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _openAngle: -90
   _rotateSpeed: 40
-  _rotationAxis: 0
+  _rotationAxis: 1
 --- !u!114 &1651641488
 MonoBehaviour:
   m_ObjectHideFlags: 0

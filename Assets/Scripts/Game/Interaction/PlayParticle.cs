@@ -1,27 +1,67 @@
+using System;
 using UnityEngine;
 
-public class PlayParticle : MonoBehaviour, IInteractable
+[RequireComponent(typeof(Toggle))]
+public class PlayParticle : MonoBehaviour, IToggleComponent
 {
+    public ToggleState toggleState { get; set; }
+    public bool ignoreInput { get; set; }
+
     [SerializeField] internal ParticleSystem _particleSystem;
     [SerializeField] internal Transform _origin;
 
     internal ParticleSystem _instatiateSystem;
-    public void Interact()
+
+    private void Start()
     {
-        PlaySystem();
+        toggleState = ToggleState.ToggleOff;
+        ignoreInput = false;
+        
+        _instatiateSystem = InstantiateSystem(_instatiateSystem,_particleSystem,_origin);
     }
 
-    internal void PlaySystem()
+    public void OnSwitchState()
     {
-        if (_instatiateSystem == null)
+        if(ignoreInput) return;
+        switch (toggleState)
         {
-            _instatiateSystem = Instantiate(_particleSystem, _origin);
-            
-            var systemTransform = _instatiateSystem.transform;
-            systemTransform.SetLocalPositionAndRotation(Vector3.zero,Quaternion.identity);
+            case ToggleState.ToggleOff:
+                ToggleOn();
+                toggleState = ToggleState.ToggleOn;
+                break;
+            case ToggleState.ToggleOn:
+                ToggleOff();
+                toggleState = ToggleState.ToggleOff;
+                break;
+            default:
+                ToggleOn();
+                toggleState = ToggleState.ToggleOn;
+                break;
+        }
+    }
+    public void ToggleOn()
+    {
+        _instatiateSystem.Play();
+    }
+
+    public void ToggleOff()
+    {
+        if(_instatiateSystem.isPlaying) _instatiateSystem.Stop();
+    }
+
+    internal ParticleSystem InstantiateSystem(ParticleSystem instatiateSystem, ParticleSystem particleSystemToInstantiate, Transform parent)
+    {
+        if (instatiateSystem == null)
+        {
+            instatiateSystem = Instantiate(particleSystemToInstantiate, parent);
+
+            var systemTransform = instatiateSystem.transform;
+            systemTransform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
             systemTransform.localScale = Vector3.one;
+            
+            return instatiateSystem;
         }
         
-        _instatiateSystem.Play();
+        return instatiateSystem; 
     }
 }

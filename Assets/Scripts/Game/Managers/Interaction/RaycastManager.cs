@@ -41,10 +41,12 @@ public class RaycastManager : MonoBehaviour
 	}
 
 	internal Ray SecondCameraRay(Ray mainCameraRay, GameObject mainRaycastPointer, GameObject secondRaycastPointer)
-	{
+	{	
+		//cast the direction to local rotation for main camera using a child
 		mainRaycastPointer.transform.forward = mainCameraRay.direction;
+		//apply the local rotation of main camera chile to second camera child
 		secondRaycastPointer.transform.localRotation = mainRaycastPointer.transform.localRotation;
-
+		//cast a second ray using second camera child forward direction
 		Ray secondaryCameraRay = new Ray(_secondaryCamera.transform.position, secondRaycastPointer.transform.forward);
 		
 		return secondaryCameraRay;
@@ -53,21 +55,16 @@ public class RaycastManager : MonoBehaviour
 	private bool DetectPerspectiveRayCast(out RaycastHit hit)
 	{
 		Ray mainCameraRay = _mainCamera.ScreenPointToRay(Input.mousePosition);
-		
+		//check if first camera raycast hit anything
 		if (!Physics.Raycast(mainCameraRay, out hit)) return false;
-		
-		if (!IsLayerInMask(hit.collider.gameObject.layer, _portalMask)) return true;
-		
+		//check if first camera raycast hit is in portal mask
+		if (!LayerHelper.IsLayerInMask(hit.collider.gameObject.layer, _portalMask)) return true;
+		//calculate second camera raycast
 		Ray secondaryCameraRay = SecondCameraRay(mainCameraRay,
 			_mainRaycastPointer,_secondraycastPointer);
-		
+		//check if second camera raycast hit anything
 		if (!Physics.Raycast(secondaryCameraRay, out hit)) return false;
-
+		//else
 		return true;
-	}
-	
-	public bool IsLayerInMask(int layer, LayerMask layerMask)
-	{
-		return (layerMask & (1 << layer)) != 0;
 	}
 }

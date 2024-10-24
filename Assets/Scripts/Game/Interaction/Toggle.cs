@@ -1,40 +1,31 @@
+using Codice.Client.BaseCommands.Update;
 using UnityEngine;
 
+[RequireComponent(typeof(IToggleComponent))]
 public class Toggle : MonoBehaviour, IInteractable
-{   
-    private ToggleState _toggleState;
-    private IToggleComponent _toggleComponent;
+{
+    private IToggleComponent[] _toggleComponent;
     
     public void Start()
     {
-        _toggleComponent = GetComponent<IToggleComponent>();
-        _toggleState = ToggleState.ToggleOff;
-    }
+        _toggleComponent = GetComponents<IToggleComponent>();
 
-    public void Interact()
-    {
-        if (_toggleComponent == null) return;
-        if (_toggleComponent.ignoreInput) return;
-
-        ChangeState();
-    }
-
-    private void ChangeState()
-    {
-        switch(_toggleState) {
-            case ToggleState.ToggleOff:
-                _toggleComponent.ToggleOn();
-                _toggleState = ToggleState.ToggleOn;
-                break;
-            case ToggleState.ToggleOn:
-                _toggleComponent.ToggleOff();
-                _toggleState = ToggleState.ToggleOff;
-                break;
-            default:
-                _toggleComponent.ToggleOn();
-                _toggleState = ToggleState.ToggleOn;
-                break;
+        if (_toggleComponent == null)
+        {
+            throw new System.Exception("No toggle component found. Please assign it in the Inspector.");
         }
     }
-
+    
+    public void Interact()
+    {
+        OnToggle();
+    }
+    
+    public void OnToggle()
+    {
+        foreach (var component in _toggleComponent)
+        {
+            component.OnSwitchState();
+        }
+    }
 }
