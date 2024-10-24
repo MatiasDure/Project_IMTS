@@ -3,9 +3,9 @@ using UnityEngine;
 
 public abstract class PlotEvent : MonoBehaviour
 {
-    [SerializeField] protected PlotEventConfig _config;
-	protected Cooldown _cooldown = new Cooldown();
-	protected Frequency _frequency = new Frequency();
+    [SerializeField] internal protected PlotEventConfig _config;
+	internal protected Cooldown _cooldown = new Cooldown();
+	internal protected Frequency _frequency = new Frequency();
 	internal protected PassiveEventState _state;
 
 	public PassiveEventState State => _state;
@@ -18,7 +18,7 @@ public abstract class PlotEvent : MonoBehaviour
 		_frequency.DecreaseFrequency();
 	}
 
-	protected void UpdateEventStatus()
+	internal protected void UpdateEventStatus()
 	{
 		switch(_state)
 		{
@@ -33,13 +33,11 @@ public abstract class PlotEvent : MonoBehaviour
 				break;
 			case PassiveEventState.Active:
 				CheckIfEventContinuesPlaying();
-				Debug.Log($"Frequency amount: {_frequency.FrequencyAmount}");
-				Debug.Log($"Frequency over: {_frequency.IsFrequencyOver()}");
 				break;
 		}
 	}
 
-	private void CheckIfEventContinuesPlaying() {
+	internal void CheckIfEventContinuesPlaying() {
 		if(!_frequency.IsFrequencyOver()) {
 			_state = PassiveEventState.Waiting;
 			HandleWaitingStatus();
@@ -50,11 +48,11 @@ public abstract class PlotEvent : MonoBehaviour
 		}
 	}
 
-	protected virtual void HandleWaitingStatus() {		
+	internal protected virtual void HandleWaitingStatus() {		
 		_cooldown.StartCooldown(_config.Timing.Cooldown);
 	}
 
-	protected virtual void HandleDoneStatus() {
+	internal protected virtual void HandleDoneStatus() {
 		UpdatePassiveEventCollection eventMetadata = SetupEndEventMetadata();
 
 		FireEndEvent(eventMetadata);
@@ -73,11 +71,11 @@ public abstract class PlotEvent : MonoBehaviour
 			PreviousEvent = PassiveEventManager.Instance.CurrentEventPlaying,
 		};
 
-	protected void FireStartEvent(UpdatePassiveEventCollection eventMetadata) {
+	internal protected void FireStartEvent(UpdatePassiveEventCollection eventMetadata) {
 		OnPassiveEventStart?.Invoke(eventMetadata);
 	}
 
-	protected void FireEndEvent(UpdatePassiveEventCollection eventMetadata) {
+	internal protected void FireEndEvent(UpdatePassiveEventCollection eventMetadata) {
 		OnPasiveEventEnd?.Invoke(eventMetadata);
 	}
 }

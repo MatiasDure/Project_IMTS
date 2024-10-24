@@ -24,7 +24,7 @@ public class Cooldown
 		_isOnCooldown = true;
 	}
 
-	private void ResetCooldown()
+	internal void ResetCooldown()
 	{
 		_isOnCooldown = false;
 	}

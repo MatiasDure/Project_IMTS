@@ -1,15 +1,10 @@
-using System;
 using System.Collections.Generic;
-using log4net.Filter;
 using UnityEngine;
 
 public class HideAndSea : PlotEvent
 {
-	[SerializeField] private GameObject _hideSpotsContaioner;
-	private List<Transform> _hideSpots;
-
-	// public static event Action<UpdatePassiveEventCollection> OnHideStart;
-	// public static event Action<UpdatePassiveEventCollection> OnHideEnd;
+	[SerializeField] internal GameObject _hideSpotsContaioner;
+	internal List<Transform> _hideSpots;
 
 	private void Awake()
 	{
@@ -28,13 +23,13 @@ public class HideAndSea : PlotEvent
 		_cooldown.DecreaseCooldown(Time.deltaTime);
 	}
 
-	private void SetUpPassiveEvent() {
+	internal void SetUpPassiveEvent() {
 		_state = PassiveEventState.InitialWaiting;
 		_cooldown.StartCooldown(_config.Timing.StartDelay);
 		_frequency.FrequencyAmount = _config.Timing.Frequency;
 	}
 
-	private void LoadHideSpots()
+	internal void LoadHideSpots()
 	{
 		_hideSpots = new List<Transform>();
 
@@ -47,14 +42,13 @@ public class HideAndSea : PlotEvent
 	public override void StartEvent()
 	{
 		base.StartEvent();
-
-		Transform hideSpot = GetRandomHideSpot();
+		Transform hideSpot = GetRandomHideSpot(_hideSpots, UnityEngine.Random.Range(0, _hideSpots.Count));
 		UpdatePassiveEventCollection metadata = SetupStartEventMetadata(hideSpot);
 
 		FireStartEvent(metadata);
 	}
 
-	private UpdatePassiveEventCollection SetupStartEventMetadata(Transform hideSpot)
+	internal UpdatePassiveEventCollection SetupStartEventMetadata(Transform hideSpot)
 	{
 		return new UpdatePassiveEventCollection
 		{
@@ -68,7 +62,7 @@ public class HideAndSea : PlotEvent
 		};
 	}
 
-	protected override void HandleWaitingStatus()
+	internal protected override void HandleWaitingStatus()
 	{
 		if(_state != PassiveEventState.Waiting) return;
 
@@ -81,15 +75,21 @@ public class HideAndSea : PlotEvent
 	protected override void SubscribeToEvents()
 	{
 		base.SubscribeToEvents();
-		Hide.OnHidedPlayer += HandlePlayerHided;
+		Hide.OnHidedPlayer += HandlePlayerHidden;
 	}
 
-	private void HandlePlayerHided()
+	private void HandlePlayerHidden()
 	{
 		_cooldown.StartCooldown(_config.Timing.Duration);
 	}
 
-	private Transform GetRandomHideSpot() => _hideSpots[UnityEngine.Random.Range(0, _hideSpots.Count)];
+	protected override void UnsubscribeFromEvents()
+	{
+		base.UnsubscribeFromEvents();
+		Hide.OnHidedPlayer -= HandlePlayerHidden;
+	}
+
+	internal Transform GetRandomHideSpot(List<Transform> hideSpots, int randomIndex) => hideSpots[randomIndex];
 
 	private void OnDestory()
 	{

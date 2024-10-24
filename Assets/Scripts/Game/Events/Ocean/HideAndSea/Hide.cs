@@ -14,8 +14,6 @@ public class Hide : MonoBehaviour
     {
 		PlotEvent.OnPassiveEventStart += HandleHideStart;
 		PlotEvent.OnPasiveEventEnd += HandleHideEnd;
-        // HideAndSea.OnHideStart += HandleHideStart;
-		// HideAndSea.OnHideEnd += HandleHideEnd;
     }
 
 	void FixedUpdate() {

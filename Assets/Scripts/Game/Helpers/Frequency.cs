@@ -1,10 +1,9 @@
 using System;
-using UnityEngine;
 
 [Serializable]
 public class Frequency
 {
-    public float FrequencyAmount;
+    public uint FrequencyAmount;
 
 	public void DecreaseFrequency()
 	{

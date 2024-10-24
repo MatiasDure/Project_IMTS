@@ -5,7 +5,7 @@ public class PassiveEventManager : Singleton<PassiveEventManager>
 {
 	[SerializeField] private List<PlotEventsCollection> _plotEventsCollections;
 
-	private PassiveEvent _currentEventPlaying;
+	internal PassiveEvent _currentEventPlaying;
 	private PassiveEvent _previousEventPlayed;
 
 	public PassiveEvent CurrentEventPlaying => _currentEventPlaying;
@@ -26,10 +26,10 @@ public class PassiveEventManager : Singleton<PassiveEventManager>
 		CheckEvents(_plotEventsCollections);
     }
 
-	private void CheckEvents(List<PlotEventsCollection> plotEventsCollections) {
+	internal void CheckEvents(List<PlotEventsCollection> plotEventsCollections) {
 		foreach(PlotEventsCollection plotEventsCollection in plotEventsCollections)
 		{
-			if (!IsEventOfCurrentPlot(plotEventsCollection.Plot)) continue;
+			if (!IsEventOfCurrentPlot(PlotsManager.Instance.CurrentPlot, plotEventsCollection.Plot)) continue;
 
 			CheckCurrentPlotEvents(plotEventsCollection.PlotEvents);
 		}
@@ -45,7 +45,7 @@ public class PassiveEventManager : Singleton<PassiveEventManager>
 		}
 	}
 
-	internal bool IsEventOfCurrentPlot(Plot eventsPlot) => eventsPlot == PlotsManager.Instance.CurrentPlot;
+	internal bool IsEventOfCurrentPlot(Plot currentEnvironmentPlot, Plot eventsPlot) => currentEnvironmentPlot == eventsPlot;
 
 	internal bool IsEventReadyToStart(PlotEvent plotEvent) => plotEvent.State == PassiveEventState.InitialReady || plotEvent.State == PassiveEventState.Ready;
 
@@ -67,7 +67,7 @@ public class PassiveEventManager : Singleton<PassiveEventManager>
 		HandleEventChange(eventChangeArgs.CurrentEvent, eventChangeArgs.PreviousEvent);
 	}
 
-	private void HandleEventChange(PassiveEvent newEvent, PassiveEvent previousEvent) {
+	internal void HandleEventChange(PassiveEvent newEvent, PassiveEvent previousEvent) {
 		_previousEventPlayed = _currentEventPlaying;
 		_currentEventPlaying = newEvent;
 	}
