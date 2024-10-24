@@ -32,13 +32,8 @@ public class FollowCameraTest
         }
 		
         Vector3 expectedPosition = followConfiguration.Target.position + followConfiguration.Target.forward * followConfiguration.Distance + followConfiguration.Offset;
-        Assert.IsTrue(IsApproximatelyEqual(followCamera.transform.position, expectedPosition), $"Expected: {expectedPosition}, But was: {followCamera.transform.position}");
+        Assert.IsTrue(MathHelper.AreVectorApproximatelyEqual(followCamera.transform.position, expectedPosition), $"Expected: {expectedPosition}, But was: {followCamera.transform.position}");
 		
 		yield return null;
-	} 
-
-	private bool IsApproximatelyEqual(Vector3 a, Vector3 b, float tolerance = 0.4f)
-	{
-		return Mathf.Abs(a.x - b.x) < tolerance && Mathf.Abs(a.y - b.y) < tolerance && Mathf.Abs(a.z - b.z) < tolerance;
 	}
 }
