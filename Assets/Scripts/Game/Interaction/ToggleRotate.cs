@@ -5,21 +5,9 @@ using UnityEngine;
 [RequireComponent(typeof(Toggle))]
 public class ToggleRotate : MonoBehaviour, IToggleComponent
 {
-    internal ToggleState toggleState{ get; set; }
+    public ToggleState toggleState{ get; set; }
 
-    ToggleState IToggleComponent.toggleState
-    {
-        get => toggleState;
-        set => toggleState = value;
-    }
-
-    internal bool ignoreInput { get; set; }
-
-    bool IToggleComponent.ignoreInput
-    {
-        get => ignoreInput;
-        set => ignoreInput = value;
-    }
+    public bool ignoreInput { get; set; }
 
     [SerializeField] internal float _openAngle = 90.0f;
     [SerializeField] internal float _rotateSpeed = 15f;
@@ -29,37 +17,38 @@ public class ToggleRotate : MonoBehaviour, IToggleComponent
     private Quaternion _closedRotation;
     private Quaternion _openRotation;
 
-    public void Awake()
-    {
-        toggleState = ToggleState.ToggleOff;
-    }
-
     public void Start()
     {
-        SetRotation();
+        toggleState = ToggleState.ToggleOff;
+        SetRotationToToggelOn();
     }
     
     public void Toggle()
     {
         if(ignoreInput) return;
-        //update state
-        toggleState = toggleState == ToggleState.ToggleOff ? ToggleState.ToggleOn : ToggleState.ToggleOff;
+        
         //interact
-        if (toggleState == ToggleState.ToggleOn) ToggleOn(); 
+        if (toggleState == ToggleState.ToggleOff) ToggleOn(); 
         else ToggleOff();
     }
     
     public void ToggleOn()
     {
-        SetRotation();
+        UpdateState(ToggleState.ToggleOn);
+        SetRotationToToggelOn();
         StartCoroutine(RotateCoroutine(_openRotation));
     }
 
     public void ToggleOff()
     {
+        UpdateState(ToggleState.ToggleOff);
+        SetRotationToToggelOff();
         StartCoroutine(RotateCoroutine(_closedRotation));
     }
-    
+    private void UpdateState(ToggleState state)
+    {
+        toggleState = state;
+    }
     private IEnumerator RotateCoroutine(Quaternion targetRotation)
     {
         ignoreInput = true;
@@ -95,11 +84,35 @@ public class ToggleRotate : MonoBehaviour, IToggleComponent
 
         return Quaternion.Euler(rotationVector);
     }
+    internal Quaternion GetCloseRotation(Axis axis)
+    {
+        Vector3 rotationVector = _openRotation.eulerAngles;
 
-    private void SetRotation()
+        switch (axis)
+        {
+            case Axis.X:
+                rotationVector.x -= _openAngle;
+                break;
+            case Axis.Y:
+                rotationVector.y -= _openAngle;
+                break;
+            case Axis.Z:
+                rotationVector.z -= _openAngle;
+                break;
+        }
+
+        return Quaternion.Euler(rotationVector);
+    }
+
+    private void SetRotationToToggelOn()
     {
         _closedRotation = transform.rotation;
         _openRotation = GetOpenRotation(_rotationAxis);
+    }
+    private void SetRotationToToggelOff()
+    {
+        _openRotation = transform.rotation;
+        _closedRotation = GetCloseRotation(_rotationAxis);
     }
     
 }

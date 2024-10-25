@@ -5,21 +5,10 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(Toggle))]
 public class PlayParticle : MonoBehaviour, IToggleComponent
 {
-    internal ToggleState toggleState { get; set; }
+    public ToggleState toggleState { get; set; }
+
+    public bool ignoreInput { get; set; }
     
-    ToggleState IToggleComponent.toggleState
-    {
-        get => toggleState;
-        set => toggleState = value;
-    }
-
-    internal bool ignoreInput { get; set; }
-
-    bool IToggleComponent.ignoreInput
-    {
-        get => ignoreInput;
-        set => ignoreInput = value;
-    }
 
     [SerializeField] internal ParticleSystem _particleSystemprefab;
     [SerializeField] internal Transform _origin;
@@ -37,21 +26,27 @@ public class PlayParticle : MonoBehaviour, IToggleComponent
     public void Toggle()
     {
         if(ignoreInput) return;
-        //update state
-        toggleState = toggleState == ToggleState.ToggleOff ? ToggleState.ToggleOn : ToggleState.ToggleOff;
+        
         //interact
-        if (toggleState == ToggleState.ToggleOn) ToggleOn(); 
+        if (toggleState == ToggleState.ToggleOff) ToggleOn(); 
         else ToggleOff();
     }
 
     public void ToggleOn()
     {
         _particleSystem.Play();
+        UpdateState(ToggleState.ToggleOn);
     }
 
     public void ToggleOff()
     {
         if(_particleSystem.isPlaying) _particleSystem.Stop();
+        UpdateState(ToggleState.ToggleOff);
+    }
+
+    private void UpdateState(ToggleState state)
+    {
+        toggleState = state;
     }
     
     internal ParticleSystem InstantiateParticleSystem(ParticleSystem instatiateSystem, ParticleSystem particleSystemToInstantiate, Transform parent)

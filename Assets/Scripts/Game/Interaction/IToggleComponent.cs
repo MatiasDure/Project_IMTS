@@ -1,8 +1,8 @@
 
 public interface IToggleComponent
 {
-    public ToggleState toggleState{ get; internal set; }
-    public bool ignoreInput { get; internal set; }
+    public ToggleState toggleState{ get; set; }
+    public bool ignoreInput { get; set; }
     
     public void ToggleOn();
 
