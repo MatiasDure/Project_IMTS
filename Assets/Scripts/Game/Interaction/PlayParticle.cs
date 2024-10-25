@@ -5,8 +5,21 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(Toggle))]
 public class PlayParticle : MonoBehaviour, IToggleComponent
 {
-    public ToggleState toggleState { get; set; }
-    public bool ignoreInput { get; set; }
+    internal ToggleState toggleState { get; set; }
+    
+    ToggleState IToggleComponent.toggleState
+    {
+        get => toggleState;
+        set => toggleState = value;
+    }
+
+    internal bool ignoreInput { get; set; }
+
+    bool IToggleComponent.ignoreInput
+    {
+        get => ignoreInput;
+        set => ignoreInput = value;
+    }
 
     [SerializeField] internal ParticleSystem _particleSystemprefab;
     [SerializeField] internal Transform _origin;
@@ -20,7 +33,7 @@ public class PlayParticle : MonoBehaviour, IToggleComponent
         
         _particleSystem = InstantiateParticleSystem(_particleSystem,_particleSystemprefab,_origin);
     }
-    
+
     public void Toggle()
     {
         if(ignoreInput) return;

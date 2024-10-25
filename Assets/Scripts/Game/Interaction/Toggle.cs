@@ -20,7 +20,7 @@ public class Toggle : MonoBehaviour, IInteractable
         OnToggle();
     }
     
-    public void OnToggle()
+    internal void OnToggle()
     {
         foreach (var component in _toggleComponent)
         {

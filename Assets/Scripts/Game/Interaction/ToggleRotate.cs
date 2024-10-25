@@ -5,9 +5,22 @@ using UnityEngine;
 [RequireComponent(typeof(Toggle))]
 public class ToggleRotate : MonoBehaviour, IToggleComponent
 {
-    public ToggleState toggleState{ get; set; }
-    public bool ignoreInput { get; set; }
-    
+    internal ToggleState toggleState{ get; set; }
+
+    ToggleState IToggleComponent.toggleState
+    {
+        get => toggleState;
+        set => toggleState = value;
+    }
+
+    internal bool ignoreInput { get; set; }
+
+    bool IToggleComponent.ignoreInput
+    {
+        get => ignoreInput;
+        set => ignoreInput = value;
+    }
+
     [SerializeField] internal float _openAngle = 90.0f;
     [SerializeField] internal float _rotateSpeed = 15f;
 
