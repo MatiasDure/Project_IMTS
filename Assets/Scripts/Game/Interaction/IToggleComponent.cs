@@ -8,6 +8,6 @@ public interface IToggleComponent
 
     public void ToggleOff();
 
-    public void OnSwitchState();
+    public void Toggle();
 
 }

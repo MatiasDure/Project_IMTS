@@ -45,11 +45,11 @@ public class InteractionTest
         ParticleSystem system = systemHolder.AddComponent<ParticleSystem>();
         
         PlayParticle playParticleComponent = _interactionHolder.AddComponent<PlayParticle>();
-        playParticleComponent._particleSystem = particleHolder.GetComponent<ParticleSystem>();
+        playParticleComponent._particleSystemprefab = particleHolder.GetComponent<ParticleSystem>();
         playParticleComponent._origin = systemOrigin.transform;
         
-        system = playParticleComponent.InstantiateSystem(system,
-            playParticleComponent._particleSystem,systemOrigin.transform);
+        system = playParticleComponent.InstantiateParticleSystem(system,
+            playParticleComponent._particleSystemprefab,systemOrigin.transform);
         
         yield return null;
         

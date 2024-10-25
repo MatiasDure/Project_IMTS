@@ -1,4 +1,3 @@
-using Codice.Client.BaseCommands.Update;
 using UnityEngine;
 
 [RequireComponent(typeof(IToggleComponent))]
@@ -10,7 +9,7 @@ public class Toggle : MonoBehaviour, IInteractable
     {
         _toggleComponent = GetComponents<IToggleComponent>();
 
-        if (_toggleComponent == null)
+        if (_toggleComponent == null || _toggleComponent.Length <= 0)
         {
             throw new System.Exception("No toggle component found. Please assign it in the Inspector.");
         }
@@ -25,7 +24,7 @@ public class Toggle : MonoBehaviour, IInteractable
     {
         foreach (var component in _toggleComponent)
         {
-            component.OnSwitchState();
+            component.Toggle();
         }
     }
 }

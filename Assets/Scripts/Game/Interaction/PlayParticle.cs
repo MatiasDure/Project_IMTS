@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Toggle))]
 public class PlayParticle : MonoBehaviour, IToggleComponent
@@ -7,49 +8,40 @@ public class PlayParticle : MonoBehaviour, IToggleComponent
     public ToggleState toggleState { get; set; }
     public bool ignoreInput { get; set; }
 
-    [SerializeField] internal ParticleSystem _particleSystem;
+    [SerializeField] internal ParticleSystem _particleSystemprefab;
     [SerializeField] internal Transform _origin;
 
-    internal ParticleSystem _instatiateSystem;
+    internal ParticleSystem _particleSystem;
 
     private void Start()
     {
         toggleState = ToggleState.ToggleOff;
         ignoreInput = false;
         
-        _instatiateSystem = InstantiateSystem(_instatiateSystem,_particleSystem,_origin);
+        _particleSystem = InstantiateParticleSystem(_particleSystem,_particleSystemprefab,_origin);
     }
-
-    public void OnSwitchState()
+    
+    public void Toggle()
     {
         if(ignoreInput) return;
-        switch (toggleState)
-        {
-            case ToggleState.ToggleOff:
-                ToggleOn();
-                toggleState = ToggleState.ToggleOn;
-                break;
-            case ToggleState.ToggleOn:
-                ToggleOff();
-                toggleState = ToggleState.ToggleOff;
-                break;
-            default:
-                ToggleOn();
-                toggleState = ToggleState.ToggleOn;
-                break;
-        }
+        //update state
+        toggleState = toggleState == ToggleState.ToggleOff ? ToggleState.ToggleOn : ToggleState.ToggleOff;
+        //interact
+        if (toggleState == ToggleState.ToggleOn) ToggleOn(); 
+        else ToggleOff();
     }
+
     public void ToggleOn()
     {
-        _instatiateSystem.Play();
+        _particleSystem.Play();
     }
 
     public void ToggleOff()
     {
-        if(_instatiateSystem.isPlaying) _instatiateSystem.Stop();
+        if(_particleSystem.isPlaying) _particleSystem.Stop();
     }
-
-    internal ParticleSystem InstantiateSystem(ParticleSystem instatiateSystem, ParticleSystem particleSystemToInstantiate, Transform parent)
+    
+    internal ParticleSystem InstantiateParticleSystem(ParticleSystem instatiateSystem, ParticleSystem particleSystemToInstantiate, Transform parent)
     {
         if (instatiateSystem == null)
         {

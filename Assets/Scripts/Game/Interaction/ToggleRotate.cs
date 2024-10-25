@@ -25,7 +25,17 @@ public class ToggleRotate : MonoBehaviour, IToggleComponent
     {
         SetRotation();
     }
-
+    
+    public void Toggle()
+    {
+        if(ignoreInput) return;
+        //update state
+        toggleState = toggleState == ToggleState.ToggleOff ? ToggleState.ToggleOn : ToggleState.ToggleOff;
+        //interact
+        if (toggleState == ToggleState.ToggleOn) ToggleOn(); 
+        else ToggleOff();
+    }
+    
     public void ToggleOn()
     {
         SetRotation();
@@ -36,25 +46,7 @@ public class ToggleRotate : MonoBehaviour, IToggleComponent
     {
         StartCoroutine(RotateCoroutine(_closedRotation));
     }
-    public void OnSwitchState()
-    {
-        if(ignoreInput) return;
-        switch (toggleState)
-        {
-            case ToggleState.ToggleOff:
-                ToggleOn();
-                toggleState = ToggleState.ToggleOn;
-                break;
-            case ToggleState.ToggleOn:
-                ToggleOff();
-                toggleState = ToggleState.ToggleOff;
-                break;
-            default:
-                ToggleOn();
-                toggleState = ToggleState.ToggleOn;
-                break;
-        }
-    }
+    
     private IEnumerator RotateCoroutine(Quaternion targetRotation)
     {
         ignoreInput = true;
