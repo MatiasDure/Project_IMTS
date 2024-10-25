@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public struct MathHelper
+public struct MathHelperAngles
 {
     // Normalize the angle to be between -180 and 180 degrees
     public static float NormalizeAngle(float angle)

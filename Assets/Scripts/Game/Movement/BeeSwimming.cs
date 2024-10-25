@@ -185,7 +185,7 @@ public class BeeSwimming : BeeMovement
     {
         if (_activeChangeDirectionCoroutine != null)
         {
-            DisableGetDirectionCoroutine(_rotationDuration + Range.GetRandomValueWithinRange(_decisionDelayRange.valuesRange));
+            DisableGetDirectionCoroutine(_rotationDuration + _decisionDelayRange.GetRandomValueWithinRange());
         }
     }
 
@@ -212,7 +212,7 @@ public class BeeSwimming : BeeMovement
     internal bool ExceedsVerticalAngleBound(float updatedAngle, float verticalRotationBound)
     {
         // Normalize the angle to be between -180 and 180 degrees
-        float normalizedAngle = MathHelper.NormalizeAngle(updatedAngle);
+        float normalizedAngle = MathHelperAngles.NormalizeAngle(updatedAngle);
 
         // Check if the angle is outside the vertical rotation bounds (-10 to 10)
         return normalizedAngle < -verticalRotationBound || normalizedAngle > verticalRotationBound;
@@ -233,7 +233,7 @@ public class BeeSwimming : BeeMovement
 
     private float GetNewRandomHorizontalDirectionDegrees(float horizontalTurnLimit)
     {
-        return Range.GetRandomValueNegativeToPositive(horizontalTurnLimit);
+        return Random.Range(-horizontalTurnLimit, horizontalTurnLimit);
     }
 
     private void EstablishRotationDuration()
@@ -249,6 +249,6 @@ public class BeeSwimming : BeeMovement
     private void DoSwimmingSequence()
     {
         _activeChangeDirectionCoroutine =
-            StartCoroutine(ChangeDirectionCoroutine(Range.GetRandomValueWithinRange(_decisionDelayRange.valuesRange)));
+            StartCoroutine(ChangeDirectionCoroutine(_decisionDelayRange.GetRandomValueWithinRange()));
     }
 }

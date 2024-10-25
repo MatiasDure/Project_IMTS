@@ -392,7 +392,8 @@ MonoBehaviour:
   _moveSpeed: 0.01
   _rotationSpeed: 4
   _decisionDelayRange:
-    valuesRange: {x: 0.5, y: 1.5}
+    Min: 0.5
+    Max: 1.75
   bounds:
     bounds:
       m_Center: {x: 0, y: 0, z: 0}
