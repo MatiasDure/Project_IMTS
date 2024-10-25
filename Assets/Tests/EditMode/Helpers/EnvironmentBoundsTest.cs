@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestTools;
 
 public class EnvironmentBoundsTest
 {
@@ -16,7 +13,6 @@ public class EnvironmentBoundsTest
 
         EnvironmentBounds environmentBoundsScript = new EnvironmentBounds(middlePoint, size);
 
-        // Use the Assert class to test conditions
         Assert.IsFalse(environmentBoundsScript.ExceedsWidthBounds(currentX));
     }
 
@@ -30,7 +26,6 @@ public class EnvironmentBoundsTest
 
         EnvironmentBounds environmentBoundsScript = new EnvironmentBounds(middlePoint, size);
 
-        // Use the Assert class to test conditions
         Assert.IsTrue(environmentBoundsScript.ExceedsWidthBounds(currentX));
     }
 
@@ -44,8 +39,6 @@ public class EnvironmentBoundsTest
 
         EnvironmentBounds environmentBoundsScript = new EnvironmentBounds(middlePoint, size);
 
-
-        // Use the Assert class to test conditions
         Assert.IsFalse(environmentBoundsScript.ExceedsDepthBounds(currentZ));
     }
 
@@ -59,7 +52,6 @@ public class EnvironmentBoundsTest
 
         EnvironmentBounds environmentBoundsScript = new EnvironmentBounds(middlePoint, size);
 
-        // Use the Assert class to test conditions
         Assert.IsTrue(environmentBoundsScript.ExceedsDepthBounds(currentZ));
     }
 
@@ -73,8 +65,6 @@ public class EnvironmentBoundsTest
 
         EnvironmentBounds environmentBoundsScript = new EnvironmentBounds(middlePoint, size);
 
-
-        // Use the Assert class to test conditions
         Assert.IsFalse(environmentBoundsScript.ExceedsHeightBounds(currentY));
     }
 
@@ -88,7 +78,6 @@ public class EnvironmentBoundsTest
 
         EnvironmentBounds environmentBoundsScript = new EnvironmentBounds(middlePoint, size);
 
-        // Use the Assert class to test conditions
         Assert.IsTrue(environmentBoundsScript.ExceedsHeightBounds(currentY));
     }
 }

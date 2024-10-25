@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestTools;
 
 public class BeeMovementFunctionsTest
 {
@@ -14,7 +11,6 @@ public class BeeMovementFunctionsTest
         float updatedAngle = 3;
         float verticalRotationBound = 10;
 
-        // Use the Assert class to test conditions
         Assert.IsFalse(beeSwimmingScript.ExceedsVerticalAngleBound(updatedAngle, verticalRotationBound));
     }
 
@@ -26,7 +22,6 @@ public class BeeMovementFunctionsTest
         float updatedAngle = 11;
         float verticalRotationBound = 10;
 
-        // Use the Assert class to test conditions
         Assert.IsTrue(beeSwimmingScript.ExceedsVerticalAngleBound(updatedAngle, verticalRotationBound));
     }
 }

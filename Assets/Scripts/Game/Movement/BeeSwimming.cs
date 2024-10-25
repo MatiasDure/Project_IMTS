@@ -1,14 +1,12 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BeeSwimming : BeeMovement
 {
     [SerializeField] private Range _decisionDelayRange;
-    [SerializeField] private Range _turnLimitRange;
     [SerializeField] private EnvironmentBounds bounds;
     [SerializeField] private Transform _middlePoint;
-
+    [SerializeField] private Vector2 _turnLimitRange;
     [Tooltip("Limit rotation on the X axis (pitch) to prevent unrealistic movement")]
     [SerializeField] private float _verticalRotationBound = 10;
 
@@ -191,8 +189,8 @@ public class BeeSwimming : BeeMovement
         }
     }
 
-    private Vector2 GetNewAngles() => new Vector2(GetNewRandomVerticalDirectionDegrees(_turnLimitRange.valuesRange.y),
-                                                  GetNewRandomHorizontalDirectionDegrees(_turnLimitRange.valuesRange.x));
+    private Vector2 GetNewAngles() => new Vector2(GetNewRandomVerticalDirectionDegrees(_turnLimitRange.y),
+                                                  GetNewRandomHorizontalDirectionDegrees(_turnLimitRange.x));
 
     // Get rotation that points to the middle point, with the same Y as the bee
     private Quaternion GetLevelledRotationToMiddlePoint(Vector3 middlePoint)

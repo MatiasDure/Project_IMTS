@@ -393,8 +393,7 @@ MonoBehaviour:
   _rotationSpeed: 4
   _decisionDelayRange:
     valuesRange: {x: 0.5, y: 2}
-  _turnLimitRange:
-    valuesRange: {x: 60, y: 5}
+  _turnLimitRange: {x: 60, y: 5}
   bounds:
     bounds:
       m_Center: {x: 0, y: 0, z: 0}
