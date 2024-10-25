@@ -1,24 +1,35 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class RaycastManager : MonoBehaviour
 {
-	[SerializeField] private Camera _secondaryCamera;
+	[SerializeField] internal GameObject _secondaryCamera;
+	private GameObject _secondraycastPointer;
+	private GameObject _mainRaycastPointer;
 
+	private Camera _mainCamera;
 	private RaycastPerspective _raycastPerspective;
 	public event Action<Collider> OnRaycastHit;
 
     void Start()
     {
+	    _mainCamera = Camera.main;
+	    
+	    if(_mainCamera != null)
+			_mainRaycastPointer = _mainCamera.transform.GetChild(0).gameObject;
+	    if(_secondaryCamera != null)
+			_secondraycastPointer = _secondaryCamera.transform.GetChild(0).gameObject;
+	    
         _raycastPerspective = RaycastPerspective.SecondaryCamera;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(InputManager.Instance.InputState != InputState.Interact) return;
+	    if(_mainCamera == null || InputManager.Instance.InputState != InputState.Interact) return;
 
-		Raycast();
+	    Raycast();
     }
 
 	private void Raycast() {
@@ -38,21 +49,38 @@ public class RaycastManager : MonoBehaviour
 	private void SecondaryCameraRaycast()
 	{
 		RaycastHit hit;
-		Ray mainCameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-
+		Ray mainCameraRay = _mainCamera.ScreenPointToRay(Input.mousePosition);
+		
 		if (!Physics.Raycast(mainCameraRay, out hit)) return;
 		
-		Ray secondaryCameraRay = new Ray(_secondaryCamera.transform.position, mainCameraRay.direction);
-
+		Ray secondaryCameraRay = SecondCameraRay(mainCameraRay,
+					_mainRaycastPointer,_secondraycastPointer);
+		
 		if (!Physics.Raycast(secondaryCameraRay, out hit)) return;
 
 		OnRaycastHit?.Invoke(hit.collider);
 	}
 
+	internal Ray SecondCameraRay(Ray mainCameraRay, GameObject mainRaycastPointer, GameObject secondRaycastPointer)
+	{
+		mainRaycastPointer.transform.forward = mainCameraRay.direction;
+		secondRaycastPointer.transform.localRotation = mainRaycastPointer.transform.localRotation;
+
+		Ray secondaryCameraRay = new Ray(_secondaryCamera.transform.position, secondRaycastPointer.transform.forward);
+		
+		return secondaryCameraRay;
+	}
+	
 	private void MainCameraRaycast() {
 		WorldRaycast();
 	}
 
 	private void WorldRaycast() {
+		RaycastHit hit;
+		Ray mainCameraRay = _mainCamera.ScreenPointToRay(Input.mousePosition);
+		
+		if (!Physics.Raycast(mainCameraRay, out hit)) return;
+		
+		OnRaycastHit?.Invoke(hit.collider);
 	}
 }

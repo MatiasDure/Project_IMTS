@@ -6,6 +6,6 @@ public class Swimming : MonoBehaviour, IInteractable
 {
 	public void Interact()
 	{
-		Debug.Log("Swimming");
+		transform.position += Vector3.right * 0.2f;
 	}
 }

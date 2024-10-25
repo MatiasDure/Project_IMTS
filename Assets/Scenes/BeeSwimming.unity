@@ -391,15 +391,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 0.01
   _rotationSpeed: 4
-  _decisionDelayRange:
-    valuesRange: {x: 0.5, y: 2}
-  _turnLimitRange: {x: 60, y: 5}
-  bounds:
-    bounds:
-      m_Center: {x: 0, y: 0, z: 0}
-      m_Extent: {x: 5, y: 0.8, z: 5}
-  _middlePoint: {fileID: 5098053586139116423}
-  _verticalRotationBound: 10
 --- !u!1 &1023022343
 GameObject:
   m_ObjectHideFlags: 0
