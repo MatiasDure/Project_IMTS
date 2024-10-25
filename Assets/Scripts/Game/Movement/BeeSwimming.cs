@@ -22,12 +22,9 @@ public class BeeSwimming : BeeMovement
 
     private void Start()
     {
-        _rotationDuration = 1 / _rotationSpeed;
-        bounds.SetCenter(_middlePoint.position);
-
-        // Begin changing direction sequence
-        _activeChangeDirectionCoroutine = 
-            StartCoroutine(ChangeDirectionCoroutine(Range.GetRandomValueWithinRange(_decisionDelayRange.valuesRange)));
+        EstablishRotationDuration();
+        SetupBounds();
+        DoSwimmingSequence();
     }
 
     private void FixedUpdate()
@@ -55,7 +52,7 @@ public class BeeSwimming : BeeMovement
             bounds.ExceedsDepthBounds(transform.position.z))
         {
             // Temporarily stop horizontal position checking, until rotation finishes
-            StartCoroutine(DisableDirectionCheckCoroutine(Directions.Direction.Horizontal, _rotationDuration + 1 / _rotationDuration));
+            StartCoroutine(DisableDirectionCheckCoroutine(Direction.Horizontal, _rotationDuration + 1 / _rotationDuration));
             // Rotate bee
             SmoothRotateBeeQuaternion(GetLevelledRotationToMiddlePoint(_middlePoint.position), _rotationDuration);
         }
@@ -68,7 +65,7 @@ public class BeeSwimming : BeeMovement
         if (bounds.ExceedsHeightBounds(transform.position.y))
         {
             // Temporarily stop vertical position checking, until rotation finishes
-            StartCoroutine(DisableDirectionCheckCoroutine(Directions.Direction.Vertical, _rotationDuration + 1 / _rotationDuration));
+            StartCoroutine(DisableDirectionCheckCoroutine(Direction.Vertical, _rotationDuration + 1 / _rotationDuration));
             // Rotate bee
             SmoothRotateBeeVector(new Vector3(-transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z), _rotationDuration);
         }
@@ -124,9 +121,7 @@ public class BeeSwimming : BeeMovement
 
         yield return new WaitForSeconds(secondsToWait);
 
-        // Recursively call this coroutine
-        _activeChangeDirectionCoroutine = 
-            StartCoroutine(ChangeDirectionCoroutine(Range.GetRandomValueWithinRange(_decisionDelayRange.valuesRange)));
+        DoSwimmingSequence();
     }
 
     IEnumerator SmoothRotationCoroutine(Quaternion targetRotation, float duration)
@@ -149,7 +144,7 @@ public class BeeSwimming : BeeMovement
         transform.rotation = targetRotation;
     }
 
-    IEnumerator DisableDirectionCheckCoroutine(Directions.Direction directionToDisableChecking ,float disableDuration)
+    IEnumerator DisableDirectionCheckCoroutine(Direction directionToDisableChecking ,float disableDuration)
     {
         UpdateDirectionChecks(directionToDisableChecking, false);
 
@@ -164,18 +159,17 @@ public class BeeSwimming : BeeMovement
 
         yield return new WaitForSeconds(disableDuration);
 
-        _activeChangeDirectionCoroutine = 
-            StartCoroutine(ChangeDirectionCoroutine(Range.GetRandomValueWithinRange(_decisionDelayRange.valuesRange)));
+        DoSwimmingSequence();
     }
 
-    private void UpdateDirectionChecks(Directions.Direction directionToDisableChecking, bool updateValue)
+    private void UpdateDirectionChecks(Direction directionToDisableChecking, bool updateValue)
     {
         switch (directionToDisableChecking)
         {
-            case Directions.Direction.Horizontal:
+            case Direction.Horizontal:
                 _checkHorizontalDirection = updateValue;
                 break;
-            case Directions.Direction.Vertical:
+            case Direction.Vertical:
                 _checkVerticalDirection = updateValue;
                 break;
             default:
@@ -242,5 +236,21 @@ public class BeeSwimming : BeeMovement
     private float GetNewRandomHorizontalDirectionDegrees(float horizontalTurnLimit)
     {
         return Range.GetRandomValueNegativeToPositive(horizontalTurnLimit);
+    }
+
+    private void EstablishRotationDuration()
+    {
+        _rotationDuration = 1 / _rotationSpeed;
+    }
+
+    private void SetupBounds()
+    {
+        bounds.SetCenter(_middlePoint.position);
+    }
+
+    private void DoSwimmingSequence()
+    {
+        _activeChangeDirectionCoroutine =
+            StartCoroutine(ChangeDirectionCoroutine(Range.GetRandomValueWithinRange(_decisionDelayRange.valuesRange)));
     }
 }
