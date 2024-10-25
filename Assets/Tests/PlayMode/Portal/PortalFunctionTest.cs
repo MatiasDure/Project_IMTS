@@ -102,7 +102,6 @@ public class PortalFunctionTest
       Assert.IsTrue(secondCameraRay.direction == _mainCamRaycaster.transform.forward);
       
       yield return null;
-      
    }
    
 }
