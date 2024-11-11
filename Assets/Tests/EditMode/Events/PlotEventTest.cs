@@ -28,21 +28,21 @@ public class PlotEventTest
 	[Test]
 	public void PlotEvent_StartEvent_ShouldSetCorrectState()
 	{
-		hideAndSea._state = PassiveEventState.InitialReady;
+		hideAndSea._state = EventState.InitialReady;
 		hideAndSea.StartEvent();
 
-		Assert.AreEqual(PassiveEventState.InitialActive, hideAndSea._state);
+		Assert.AreEqual(EventState.InitialActive, hideAndSea._state);
 
-		hideAndSea._state = PassiveEventState.Ready;
+		hideAndSea._state = EventState.Ready;
 		hideAndSea.StartEvent();
 
-		Assert.AreEqual(PassiveEventState.Active, hideAndSea._state);		
+		Assert.AreEqual(EventState.Active, hideAndSea._state);		
 	}
 
 	[Test]
 	public void PlotEvent_StartEvent_ShouldDecreaseFrequency()
 	{
-		hideAndSea._state = PassiveEventState.InitialReady;
+		hideAndSea._state = EventState.InitialReady;
 		uint currentFrequencyAmount = hideAndSea._frequency.FrequencyAmount;
 		hideAndSea.StartEvent();
 
@@ -51,40 +51,40 @@ public class PlotEventTest
 
 	[Test]
 	public void PlotEvent_UpdateEventStatus_ShouldSwitchStateToInitialReady() {
-		hideAndSea._state = PassiveEventState.InitialWaiting;
+		hideAndSea._state = EventState.InitialWaiting;
 		hideAndSea.UpdateEventStatus();
 
-		Assert.AreEqual(PassiveEventState.InitialReady, hideAndSea._state);
+		Assert.AreEqual(EventState.InitialReady, hideAndSea._state);
 	}
 
 	[Test]
 	public void PlotEvent_UpdateEventStatus_ShouldSwitchStateToReady() {
-		hideAndSea._state = PassiveEventState.Waiting;
+		hideAndSea._state = EventState.Waiting;
 		hideAndSea.UpdateEventStatus();
 
-		Assert.AreEqual(PassiveEventState.Ready, hideAndSea._state);
+		Assert.AreEqual(EventState.Ready, hideAndSea._state);
 	}
 
 	[Test]
 	public void PlotEvent_UpdateEventStatus_ShouldSwitchStateToWaiting() {
-		hideAndSea._state = PassiveEventState.InitialActive;
+		hideAndSea._state = EventState.InitialActive;
 		hideAndSea.UpdateEventStatus();
 
-		Assert.AreEqual(PassiveEventState.Waiting, hideAndSea._state);
+		Assert.AreEqual(EventState.Waiting, hideAndSea._state);
 	}
 
 	[Test]
 	public void PlotEvent_UpdateEventStatus_ShouldSwitchStateToDone() {
-		hideAndSea._state = PassiveEventState.Active;
+		hideAndSea._state = EventState.Active;
 		hideAndSea._frequency.FrequencyAmount = 0;
 		hideAndSea.UpdateEventStatus();
 
-		Assert.AreEqual(PassiveEventState.Done, hideAndSea._state);
+		Assert.AreEqual(EventState.Done, hideAndSea._state);
 	}
 
 	[Test]
 	public void PlotEvent_HandleWaitingStatus_ShouldStartCooldown() {
-		hideAndSea._state = PassiveEventState.InitialActive;
+		hideAndSea._state = EventState.InitialActive;
 		hideAndSea.HandleWaitingStatus();
 
 		Assert.IsTrue(hideAndSea._cooldown.IsOnCooldown);

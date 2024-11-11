@@ -31,7 +31,7 @@ public class PassiveEventManagerEditorModeTest
 	[Test]
 	public void PassiveEventManager_IsEventReadyToStart_ShouldBeTrue() {
 		HideAndSea plotEvent = new GameObject().AddComponent<HideAndSea>();
-		plotEvent._state = PassiveEventState.InitialReady;
+		plotEvent._state = EventState.InitialReady;
 
 		Assert.IsTrue(passiveEventManager.IsEventReadyToStart(plotEvent));
 	}
@@ -39,7 +39,7 @@ public class PassiveEventManagerEditorModeTest
 	[Test]
 	public void PassiveEventManager_IsEventReadyToStart_ShouldBeFalse() {
 		HideAndSea plotEvent = new GameObject().AddComponent<HideAndSea>();
-		plotEvent._state = PassiveEventState.Waiting;
+		plotEvent._state = EventState.Waiting;
 
 		Assert.IsFalse(passiveEventManager.IsEventReadyToStart(plotEvent));
 	}
@@ -58,7 +58,7 @@ public class PassiveEventManagerEditorModeTest
 	[Test]
 	public void PassiveEventManager_CheckEvents_ShouldStartEventIfItIsReady() {
 		HideAndSea plotEvent = new GameObject().AddComponent<HideAndSea>();
-		plotEvent._state = PassiveEventState.InitialReady;
+		plotEvent._state = EventState.InitialReady;
 		plotEvent._hideSpots = new List<Transform> { new GameObject().transform };
 		PlotsManager plotsManager = new GameObject().AddComponent<PlotsManager>();
 		PlotsManager.Instance = plotsManager;
@@ -71,6 +71,6 @@ public class PassiveEventManagerEditorModeTest
 
 		passiveEventManager.CheckEvents(new List<PlotEventsCollection> { plotEventsCollection });
 
-		Assert.AreEqual(PassiveEventState.InitialActive, plotEvent._state);
+		Assert.AreEqual(EventState.InitialActive, plotEvent._state);
 	}
 }

@@ -24,18 +24,18 @@ public class HideAndSeaTest
 
     [Test]
 	public void HideAndSea_StartEvent_ShouldSetStateToInitialActiveFromInitialReady() {
-		hideAndSea._state = PassiveEventState.InitialReady;
+		hideAndSea._state = EventState.InitialReady;
 		hideAndSea.StartEvent();
 
-		Assert.AreEqual(PassiveEventState.InitialActive, hideAndSea._state);
+		Assert.AreEqual(EventState.InitialActive, hideAndSea._state);
 	}
 
 	[Test]
 	public void HideAndSea_StartEvent_ShouldSetStateToActiveFromReady() {
-		hideAndSea._state = PassiveEventState.Ready;
+		hideAndSea._state = EventState.Ready;
 		hideAndSea.StartEvent();
 
-		Assert.AreEqual(PassiveEventState.Active, hideAndSea._state);
+		Assert.AreEqual(EventState.Active, hideAndSea._state);
 	}
 
 	[Test]
@@ -71,7 +71,7 @@ public class HideAndSeaTest
 
 	[Test]
 	public void HideAndSea_HandleWaitingStatus_ShouldFireEndEventIfStateIsWaiting() {
-		hideAndSea._state = PassiveEventState.Waiting;
+		hideAndSea._state = EventState.Waiting;
 		
 		bool isEndEventFired = false;
 		PlotEvent.OnPasiveEventEnd += (metadata) => {
@@ -87,7 +87,7 @@ public class HideAndSeaTest
 	public void HideAndSea_SetUpPassiveEvent_ShouldSetUpEventCorrectly() {
 		hideAndSea.SetUpPassiveEvent();
 
-		Assert.AreEqual(PassiveEventState.InitialWaiting, hideAndSea._state);
+		Assert.AreEqual(EventState.InitialWaiting, hideAndSea._state);
 		Assert.IsTrue(hideAndSea._cooldown.IsOnCooldown);
 		Assert.AreEqual(2, hideAndSea._frequency.FrequencyAmount);
 	}

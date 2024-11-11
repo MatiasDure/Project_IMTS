@@ -4,8 +4,10 @@ using UnityEngine;
 public class Toggle : MonoBehaviour, IInteractable
 {
     private IToggleComponent[] _toggleComponent;
-    
-    public void Start()
+
+	public bool CanInterrupt { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+
+	public void Start()
     {
         _toggleComponent = GetComponents<IToggleComponent>();
 

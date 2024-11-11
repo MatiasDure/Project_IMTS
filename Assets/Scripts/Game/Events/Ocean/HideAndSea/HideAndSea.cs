@@ -24,7 +24,7 @@ public class HideAndSea : PlotEvent
 	}
 
 	internal void SetUpPassiveEvent() {
-		_state = PassiveEventState.InitialWaiting;
+		_state = EventState.InitialWaiting;
 		_cooldown.StartCooldown(_config.Timing.StartDelay);
 		_frequency.FrequencyAmount = _config.Timing.Frequency;
 	}
@@ -64,7 +64,7 @@ public class HideAndSea : PlotEvent
 
 	internal protected override void HandleWaitingStatus()
 	{
-		if(_state != PassiveEventState.Waiting) return;
+		if(_state != EventState.Waiting) return;
 
 		base.HandleWaitingStatus();
 		UpdatePassiveEventCollection metadata = SetupEndEventMetadata();
