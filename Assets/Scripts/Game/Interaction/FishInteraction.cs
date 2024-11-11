@@ -10,6 +10,9 @@ public class FishInteraction : InteractionBeeStateUpdate
 
         UpdateInteractionStateCollection eventMetadata = new UpdateInteractionStateCollection();
         eventMetadata.State = BeeState.CatchingFish;
+        eventMetadata.Metadata = new EventMetadata();
         eventMetadata.Metadata.Target = transform;
+
+        base.FireInteractEvent(eventMetadata);
     }
 }

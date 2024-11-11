@@ -16,7 +16,7 @@ public class Bee : Singleton<Bee>
 
 	private void Start()
 	{
-		_state = BeeState.FollowingCamera;
+		_state = BeeState.Idle;
 
 		SubscribeToEvents();
 	}
