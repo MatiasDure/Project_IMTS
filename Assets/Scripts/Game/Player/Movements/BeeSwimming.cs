@@ -1,8 +1,10 @@
 using System.Collections;
 using UnityEngine;
 
-public class BeeSwimming : BeeMovement
+public class BeeSwimming : MonoBehaviour
 {
+    [SerializeField] private protected float _moveSpeed;
+    [SerializeField] private protected float _rotationSpeed = 1f;
     [SerializeField] private Range _decisionDelayRange;
     [SerializeField] private EnvironmentBounds bounds;
     [SerializeField] private Transform _middlePoint;
