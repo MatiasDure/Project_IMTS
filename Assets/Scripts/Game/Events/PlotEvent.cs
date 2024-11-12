@@ -1,18 +1,19 @@
 using System;
 using UnityEngine;
 
-public abstract class PlotEvent : MonoBehaviour
+public abstract class PlotEvent : MonoBehaviour, IEvent
 {
     [SerializeField] internal protected PlotEventConfig _config;
 	internal protected Cooldown _cooldown = new Cooldown();
 	internal protected Frequency _frequency = new Frequency();
 	internal protected EventState _state;
 
-	public EventState State => _state;
+	public EventState State { get => _state; set => _state = value; }
 
 	public static event Action<UpdatePassiveEventCollection> OnPassiveEventStart;
 	public static event Action<UpdatePassiveEventCollection> OnPasiveEventEnd;
-	
+	public event Action OnEventDone;
+
 	public virtual void StartEvent() {
 		_state = _state == EventState.InitialReady ? EventState.InitialActive : EventState.Active;
 		_frequency.DecreaseFrequency();
@@ -77,5 +78,6 @@ public abstract class PlotEvent : MonoBehaviour
 
 	internal protected void FireEndEvent(UpdatePassiveEventCollection eventMetadata) {
 		OnPasiveEventEnd?.Invoke(eventMetadata);
+		OnEventDone?.Invoke();
 	}
 }

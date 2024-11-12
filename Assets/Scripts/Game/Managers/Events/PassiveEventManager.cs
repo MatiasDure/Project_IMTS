@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Update Passive events to depend on whether the user is interactive with the plot or not
+/// Update Passive events to depend on whether the user is interacting with the plot or not. 
+/// Passive events should not trigger if there are active events being triggered. 
 /// </summary>
 public class PassiveEventManager : Singleton<PassiveEventManager>
 {
@@ -48,12 +49,12 @@ public class PassiveEventManager : Singleton<PassiveEventManager>
 			if (!IsEventReadyToStart(plotEvent)) continue;
 
 			// plotEvent.StartEvent();
-
+			InformEventReadyToPlay(plotEvent);
 		}
 	}
 
-	private void AskPermissionToStartEvent() {
-		EventInterruption eventInterruption = new EventInterruption(gameObject, EventType.Passive);
+	private void InformEventReadyToPlay(PlotEvent plotEvent) {
+		EventInterruption eventInterruption = new EventInterruption(plotEvent.gameObject, EventType.Passive);
 		OnPassiveEventReadyToStart?.Invoke(eventInterruption);
 	}
 

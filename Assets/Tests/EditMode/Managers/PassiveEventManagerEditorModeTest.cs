@@ -57,13 +57,18 @@ public class PassiveEventManagerEditorModeTest
 
 	[Test]
 	public void PassiveEventManager_CheckEvents_ShouldStartEventIfItIsReady() {
+		EventManager eventManager = new GameObject().AddComponent<EventManager>();
+		eventManager._passiveEventManager = passiveEventManager;
+
+		eventManager.Awake();
+		eventManager.Start();
+
 		HideAndSea plotEvent = new GameObject().AddComponent<HideAndSea>();
 		plotEvent._state = EventState.InitialReady;
 		plotEvent._hideSpots = new List<Transform> { new GameObject().transform };
 		PlotsManager plotsManager = new GameObject().AddComponent<PlotsManager>();
 		PlotsManager.Instance = plotsManager;
 		plotsManager._currentPlot = Plot.Ocean;
-
 
 		PlotEventsCollection plotEventsCollection = new PlotEventsCollection();
 		plotEventsCollection._plot = Plot.Ocean;
