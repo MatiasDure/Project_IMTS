@@ -13,6 +13,8 @@ public class ClambInteraction : MonoBehaviour,
 {
 	public bool CanInterrupt { get; set; }
 	public EventState State { get ; set; }
+	public bool MultipleInteractions { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
 	internal ToggleRotate _toggleRotate;
 	internal PlayParticle _playParticle;
 

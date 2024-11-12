@@ -21,8 +21,10 @@ public class InteractionManager : MonoBehaviour
 	private void OnRaycastHit(Collider collider) {
 		
 		IInteractable interactable = collider.GetComponent<IInteractable>();
+		Debug.Log("here in interaction manager");
 		
 		if(interactable == null) return;
+		Debug.Log("here in interaction manager2");
 		
 		if(interactable.CanInterrupt) {
 			EventInterruption eventInterruption = new EventInterruption(collider.gameObject, EventType.Active);

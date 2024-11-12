@@ -14,6 +14,7 @@ public class FishSwimmingInteraction : MonoBehaviour, IInteractable
     private float _multipliedSpeed;
 
 	public bool CanInterrupt { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+	public bool MultipleInteractions { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
 	private void Start()
     {

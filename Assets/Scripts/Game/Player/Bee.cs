@@ -1,11 +1,18 @@
 using System;
 using UnityEngine;
 
-public class Bee : MonoBehaviour
+public class Bee : Singleton<Bee>
 {
     private BeeState _state;
 
+	public BeeState State => _state;
+
 	public static event Action<BeeState> OnBeeStateChanged;
+
+	protected override void Awake()
+	{
+		base.Awake();
+	}
 
 	private void Start()
 	{
@@ -28,6 +35,11 @@ public class Bee : MonoBehaviour
 
 	private void UpdateState(UpdatePassiveEventCollection newState) {
 		_state = newState.State;
+		OnBeeStateChanged?.Invoke(_state);
+	}
+
+	public void UpdateState(BeeState newState) {
+		_state = newState;
 		OnBeeStateChanged?.Invoke(_state);
 	}
 

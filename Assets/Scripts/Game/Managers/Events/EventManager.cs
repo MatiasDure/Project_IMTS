@@ -52,7 +52,15 @@ public class EventManager : MonoBehaviour
 			return;
 		}
 		
-		if(_currentEventGameObject == passiveEventData.EventObject) return;
+		if(_currentEventGameObject == passiveEventData.EventObject) { 
+			if(passiveEventData.EventType == EventType.Active) {
+				var interactable = _currentEventGameObject.GetComponent<IInteractable>();
+				if(interactable.MultipleInteractions) {
+					interactable.Interact();
+				}
+			}
+			return; 
+		}
 
 		if (!_currentEventGameObject.TryGetComponent<IInterruptible>(out IInterruptible interruptibleEvent)) return;
 
