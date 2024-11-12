@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="579f6007-33de-4bfa-83d1-02aaba1d5149" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Child hospital gamification/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Child hospital gamification/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Tests/PlayMode/Movement/FollowCameraTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Tests/PlayMode/Movement/FollowCameraTest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Tests/PlayMode/Player/Movement/BeeMovementTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Tests/PlayMode/Player/Movement/BeeMovementTest.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +100,7 @@
       <workItem from="1729777945689" duration="11447000" />
       <workItem from="1731316951782" duration="14516000" />
       <workItem from="1731414378764" duration="261000" />
-      <workItem from="1731414675438" duration="3084000" />
+      <workItem from="1731414675438" duration="3718000" />
     </task>
     <servers />
   </component>
@@ -123,25 +123,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/Game/Player/Movements/BeeSwimming.cs</url>
-          <line>30</line>
-          <properties documentPath="$PROJECT_DIR$/Assets/Scripts/Game/Player/Movements/BeeSwimming.cs" initialLine="28" containingFunctionPresentation="method 'FixedUpdate'">
-            <startOffsets>
-              <option value="993" />
-            </startOffsets>
-            <endOffsets>
-              <option value="994" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -14,7 +14,7 @@ public class BeeMovementTest : MonoBehaviour
     {
         _beeCompanion = new GameObject();
         _beeMovement = _beeCompanion.AddComponent<BeeMovement>();
-        _beeMovement._beeMovementStat.MovementSpeed = 5;
+        _beeMovement._beeMovementStat.MovementSpeed = 50;
         _beeMovement._portalLayerMask = 1 >> 6;
         _target = new GameObject();
     }
