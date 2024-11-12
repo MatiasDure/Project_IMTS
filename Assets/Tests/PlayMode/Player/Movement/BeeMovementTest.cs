@@ -17,7 +17,6 @@ public class BeeMovementTest : MonoBehaviour
         _beeMovement._beeMovementStat.MovementSpeed = 5;
         _beeMovement._portalLayerMask = 1 >> 6;
         _target = new GameObject();
-        
     }
     
     [UnityTest]

@@ -3,10 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="579f6007-33de-4bfa-83d1-02aaba1d5149" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Child hospital gamification/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Child hospital gamification/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Player/Movements/BeeMovement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Player/Movements/BeeMovement.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Player/Movements/BeeMovementTest.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Player/Movements/BeeMovementTest.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Tests/PlayMode/Portal/PortalFunctionTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Tests/PlayMode/Portal/PortalFunctionTest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Tests/PlayMode/Movement/FollowCameraTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Tests/PlayMode/Movement/FollowCameraTest.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,7 +100,7 @@
       <workItem from="1729777945689" duration="11447000" />
       <workItem from="1731316951782" duration="14516000" />
       <workItem from="1731414378764" duration="261000" />
-      <workItem from="1731414675438" duration="1879000" />
+      <workItem from="1731414675438" duration="3084000" />
     </task>
     <servers />
   </component>

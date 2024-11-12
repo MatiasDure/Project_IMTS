@@ -11,7 +11,7 @@ public class FollowCameraTest
 	{
 		FollowConfiguration followConfiguration = new FollowConfiguration();
 		followConfiguration._target = new GameObject().transform;
-		followConfiguration._speed = 1.5f;
+		followConfiguration._speed = 5f;
 		followConfiguration._offset = new Vector3(0, 0, 0);
 		followConfiguration._lookAtTarget = false;
 		followConfiguration._distance = 1;
