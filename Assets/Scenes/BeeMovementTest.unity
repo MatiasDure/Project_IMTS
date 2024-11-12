@@ -1401,7 +1401,7 @@ MonoBehaviour:
     Deceleration: 0
     JumpForce: 0
     Gravity: 0
-  _layerMask:
+  _portalLayerMask:
     serializedVersion: 2
     m_Bits: 64
 --- !u!114 &2073747472
