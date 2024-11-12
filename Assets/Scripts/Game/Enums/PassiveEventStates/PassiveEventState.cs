@@ -1,4 +1,4 @@
-public enum PassiveEventState
+public enum EventState
 {
     None, 
 	InitialWaiting,

@@ -1,8 +1,11 @@
 
+using System;
+
 public interface IToggleComponent
 {
-    public ToggleState toggleState{ get; set; }
-    public bool ignoreInput { get; set; }
+	public event Action OnToggleDone;
+    public ToggleState CurrentToggleState{ get; set; }
+    public ToggleState NextToggleState{ get; set; }
     
     public void ToggleOn();
 

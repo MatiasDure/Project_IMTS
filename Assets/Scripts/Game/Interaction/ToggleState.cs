@@ -2,6 +2,7 @@
 public enum ToggleState 
 {
     None,
-    ToggleOn,
-    ToggleOff
+    On,
+    Off,
+	Switching,
 }

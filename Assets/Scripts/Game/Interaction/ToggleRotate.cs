@@ -2,64 +2,76 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(Toggle))]
 public class ToggleRotate : MonoBehaviour, IToggleComponent
 {
-    public ToggleState toggleState{ get; set; }
-
+    public ToggleState CurrentToggleState{ get; set; }
+	/// <summary>
+	/// UPDATE THIS: This boolean should be another state in the toggle state (something like switching)
+	/// </summary>
     public bool ignoreInput { get; set; }
+	public ToggleState NextToggleState { get; set; }
 
-    [SerializeField] internal float _openAngle = 90.0f;
+	[SerializeField] internal float _openAngle = 90.0f;
     [SerializeField] internal float _rotateSpeed = 15f;
 
     [SerializeField] internal Axis _rotationAxis = Axis.Y;
+	[SerializeField] internal Transform _objectToRotate;
     
     private Quaternion _closedRotation;
     private Quaternion _openRotation;
 
-    public void Start()
+	public event Action OnToggleDone;
+
+	public void Start()
     {
-        toggleState = ToggleState.ToggleOff;
-        SetRotationToToggelOn();
+        CurrentToggleState = ToggleState.Off;
     }
     
     public void Toggle()
     {
-        if(ignoreInput) return;
+        if(CurrentToggleState == ToggleState.Switching) return;
         
         //interact
-        if (toggleState == ToggleState.ToggleOff) ToggleOn(); 
+        if (CurrentToggleState == ToggleState.Off) ToggleOn(); 
         else ToggleOff();
     }
     
     public void ToggleOn()
     {
-        UpdateState(ToggleState.ToggleOn);
+		NextToggleState = ToggleState.On;
         SetRotationToToggelOn();
         StartCoroutine(RotateCoroutine(_openRotation));
     }
 
     public void ToggleOff()
     {
-        UpdateState(ToggleState.ToggleOff);
+		NextToggleState = ToggleState.Off;
         SetRotationToToggelOff();
         StartCoroutine(RotateCoroutine(_closedRotation));
     }
+	
     private void UpdateState(ToggleState state)
-    {
-        toggleState = state;
-    }
-    private IEnumerator RotateCoroutine(Quaternion targetRotation)
+	{
+		CurrentToggleState = state;
+
+		if (IsToggleDone(state))
+			OnToggleDone?.Invoke();
+	}
+
+	private bool IsToggleDone(ToggleState state) => state != ToggleState.Switching;
+
+	private IEnumerator RotateCoroutine(Quaternion targetRotation)
     {
         ignoreInput = true;
-        while (Quaternion.Angle(transform.rotation, targetRotation) > 0.01f)
+		UpdateState(ToggleState.Switching);
+        while (Quaternion.Angle(_objectToRotate.rotation, targetRotation) > 0.01f)
         {
-            transform.rotation = RotateToTarget(transform.rotation, targetRotation, _rotateSpeed);
+            _objectToRotate.rotation = RotateToTarget(_objectToRotate.rotation, targetRotation, _rotateSpeed);
             yield return null; // Wait for the next frame
         }
-        ignoreInput = false;
+		UpdateState(NextToggleState);
         //make sure the rotation reach to the target rotation
-        transform.rotation = targetRotation;
+        _objectToRotate.rotation = targetRotation;
     }
 
     internal Quaternion RotateToTarget(Quaternion origin, Quaternion target, float speed) =>
@@ -106,13 +118,12 @@ public class ToggleRotate : MonoBehaviour, IToggleComponent
 
     private void SetRotationToToggelOn()
     {
-        _closedRotation = transform.rotation;
+        _closedRotation = _objectToRotate.rotation;
         _openRotation = GetOpenRotation(_rotationAxis);
     }
     private void SetRotationToToggelOff()
     {
-        _openRotation = transform.rotation;
+        _openRotation = _objectToRotate.rotation;
         _closedRotation = GetCloseRotation(_rotationAxis);
     }
-    
 }

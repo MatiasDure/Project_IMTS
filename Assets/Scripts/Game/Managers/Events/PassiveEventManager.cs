@@ -1,6 +1,11 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Update Passive events to depend on whether the user is interacting with the plot or not. 
+/// Passive events should not trigger if there are active events being triggered. 
+/// </summary>
 public class PassiveEventManager : Singleton<PassiveEventManager>
 {
 	[SerializeField] private List<PlotEventsCollection> _plotEventsCollections;
@@ -10,6 +15,8 @@ public class PassiveEventManager : Singleton<PassiveEventManager>
 
 	public PassiveEvent CurrentEventPlaying => _currentEventPlaying;
 	public PassiveEvent PreviousEventPlayed => _previousEventPlayed;
+
+	public event Action<EventInterruption> OnPassiveEventReadyToStart;
 
 	protected override void Awake()
 	{
@@ -41,13 +48,19 @@ public class PassiveEventManager : Singleton<PassiveEventManager>
 		{
 			if (!IsEventReadyToStart(plotEvent)) continue;
 
-			plotEvent.StartEvent();
+			// plotEvent.StartEvent();
+			InformEventReadyToPlay(plotEvent);
 		}
+	}
+
+	private void InformEventReadyToPlay(PlotEvent plotEvent) {
+		EventInterruption eventInterruption = new EventInterruption(plotEvent.gameObject, EventType.Passive);
+		OnPassiveEventReadyToStart?.Invoke(eventInterruption);
 	}
 
 	internal bool IsEventOfCurrentPlot(Plot currentEnvironmentPlot, Plot eventsPlot) => currentEnvironmentPlot == eventsPlot;
 
-	internal bool IsEventReadyToStart(PlotEvent plotEvent) => plotEvent.State == PassiveEventState.InitialReady || plotEvent.State == PassiveEventState.Ready;
+	internal bool IsEventReadyToStart(PlotEvent plotEvent) => plotEvent.State == EventState.InitialReady || plotEvent.State == EventState.Ready;
 
 	private void Setup() {
 		_currentEventPlaying = PassiveEvent.None;

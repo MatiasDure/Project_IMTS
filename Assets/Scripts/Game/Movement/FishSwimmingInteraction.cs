@@ -13,7 +13,9 @@ public class FishSwimmingInteraction : MonoBehaviour, IInteractable
     private bool _canSpeedUp = true;
     private float _multipliedSpeed;
 
-    private void Start()
+	public bool CanInterrupt { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+
+	private void Start()
     {
         _multipliedSpeed = _moveSpeed * _speedUpMultiplier;
     }

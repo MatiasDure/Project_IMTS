@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [
@@ -6,6 +7,8 @@ using UnityEngine;
 public class InteractionManager : MonoBehaviour
 {
 	private RaycastManager _raycastManager;
+
+	public event Action<EventInterruption> OnInteractionReadyToStart;
 	
 	void Awake() {
 		_raycastManager = GetComponent<RaycastManager>();
@@ -17,15 +20,17 @@ public class InteractionManager : MonoBehaviour
 
 	private void OnRaycastHit(Collider collider) {
 		
-		IInteractable[] _interactables = collider.GetComponents<IInteractable>();
+		IInteractable interactable = collider.GetComponent<IInteractable>();
 		
-		if(_interactables == null || _interactables.Length<=0) return;
+		if(interactable == null) return;
 		
-		foreach (var interactable in _interactables)
-		{
-			interactable.Interact();
-		}
+		if(interactable.CanInterrupt) {
+			EventInterruption eventInterruption = new EventInterruption(collider.gameObject, EventType.Active);
+			OnInteractionReadyToStart?.Invoke(eventInterruption);
+			return;
+		} 
 		
+		interactable.Interact();
 	}
 
 	void OnDestroy() {

@@ -1,20 +1,21 @@
 using System;
 using UnityEngine;
 
-public abstract class PlotEvent : MonoBehaviour
+public abstract class PlotEvent : MonoBehaviour, IEvent
 {
     [SerializeField] internal protected PlotEventConfig _config;
 	internal protected Cooldown _cooldown = new Cooldown();
 	internal protected Frequency _frequency = new Frequency();
-	internal protected PassiveEventState _state;
+	internal protected EventState _state;
 
-	public PassiveEventState State => _state;
+	public EventState State { get => _state; set => _state = value; }
 
 	public static event Action<UpdatePassiveEventCollection> OnPassiveEventStart;
 	public static event Action<UpdatePassiveEventCollection> OnPasiveEventEnd;
-	
+	public event Action OnEventDone;
+
 	public virtual void StartEvent() {
-		_state = _state == PassiveEventState.InitialReady ? PassiveEventState.InitialActive : PassiveEventState.Active;
+		_state = _state == EventState.InitialReady ? EventState.InitialActive : EventState.Active;
 		_frequency.DecreaseFrequency();
 	}
 
@@ -22,16 +23,16 @@ public abstract class PlotEvent : MonoBehaviour
 	{
 		switch(_state)
 		{
-			case PassiveEventState.InitialWaiting:
-				_state = PassiveEventState.InitialReady;
+			case EventState.InitialWaiting:
+				_state = EventState.InitialReady;
 				break;
-			case PassiveEventState.InitialActive:
+			case EventState.InitialActive:
 				CheckIfEventContinuesPlaying();
 				break;
-			case PassiveEventState.Waiting:
-				_state = PassiveEventState.Ready;
+			case EventState.Waiting:
+				_state = EventState.Ready;
 				break;
-			case PassiveEventState.Active:
+			case EventState.Active:
 				CheckIfEventContinuesPlaying();
 				break;
 		}
@@ -39,11 +40,11 @@ public abstract class PlotEvent : MonoBehaviour
 
 	internal void CheckIfEventContinuesPlaying() {
 		if(!_frequency.IsFrequencyOver()) {
-			_state = PassiveEventState.Waiting;
+			_state = EventState.Waiting;
 			HandleWaitingStatus();
 		} 
 		else {
-			_state = PassiveEventState.Done;
+			_state = EventState.Done;
 			HandleDoneStatus();
 		}
 	}
@@ -77,5 +78,6 @@ public abstract class PlotEvent : MonoBehaviour
 
 	internal protected void FireEndEvent(UpdatePassiveEventCollection eventMetadata) {
 		OnPasiveEventEnd?.Invoke(eventMetadata);
+		OnEventDone?.Invoke();
 	}
 }

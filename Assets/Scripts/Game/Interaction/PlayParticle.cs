@@ -1,23 +1,23 @@
 using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-[RequireComponent(typeof(Toggle))]
 public class PlayParticle : MonoBehaviour, IToggleComponent
 {
-    public ToggleState toggleState { get; set; }
+    public ToggleState CurrentToggleState { get; set; }
 
     public bool ignoreInput { get; set; }
-    
+	public ToggleState NextToggleState { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-    [SerializeField] internal ParticleSystem _particleSystemprefab;
+	[SerializeField] internal ParticleSystem _particleSystemprefab;
     [SerializeField] internal Transform _origin;
 
     internal ParticleSystem _particleSystem;
 
-    private void Start()
+	public event Action OnToggleDone;
+
+	private void Start()
     {
-        toggleState = ToggleState.ToggleOff;
+        CurrentToggleState = ToggleState.Off;
         ignoreInput = false;
         
         _particleSystem = InstantiateParticleSystem(_particleSystem,_particleSystemprefab,_origin);
@@ -28,25 +28,25 @@ public class PlayParticle : MonoBehaviour, IToggleComponent
         if(ignoreInput) return;
         
         //interact
-        if (toggleState == ToggleState.ToggleOff) ToggleOn(); 
+        if (CurrentToggleState == ToggleState.Off) ToggleOn(); 
         else ToggleOff();
     }
 
     public void ToggleOn()
     {
         _particleSystem.Play();
-        UpdateState(ToggleState.ToggleOn);
+        UpdateState(ToggleState.On);
     }
 
     public void ToggleOff()
     {
         if(_particleSystem.isPlaying) _particleSystem.Stop();
-        UpdateState(ToggleState.ToggleOff);
+        UpdateState(ToggleState.Off);
     }
 
     private void UpdateState(ToggleState state)
     {
-        toggleState = state;
+        CurrentToggleState = state;
     }
     
     internal ParticleSystem InstantiateParticleSystem(ParticleSystem instatiateSystem, ParticleSystem particleSystemToInstantiate, Transform parent)
