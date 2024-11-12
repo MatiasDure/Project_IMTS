@@ -6,7 +6,7 @@ public class BeeMovementFunctionsTest
     [Test]
     public void EditorMode_BeeMovementFunctionsTest_ExceedsVerticalAngleBound_HappyPath()
     {
-        BeeIdleSwimming beeSwimmingScript = new GameObject().AddComponent<BeeIdleSwimming>();
+        BeeSwimming beeSwimmingScript = new GameObject().AddComponent<BeeSwimming>();
 
         float updatedAngle = 3;
         float verticalRotationBound = 10;
@@ -17,7 +17,7 @@ public class BeeMovementFunctionsTest
     [Test]
     public void EditorMode_BeeMovementFunctionsTest_ExceedsVerticalAngleBound_UnhappyPath()
     {
-        BeeIdleSwimming beeSwimmingScript = new GameObject().AddComponent<BeeIdleSwimming>();
+        BeeSwimming beeSwimmingScript = new GameObject().AddComponent<BeeSwimming>();
 
         float updatedAngle = 11;
         float verticalRotationBound = 10;

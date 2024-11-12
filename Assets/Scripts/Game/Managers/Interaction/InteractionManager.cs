@@ -19,17 +19,17 @@ public class InteractionManager : MonoBehaviour
     }
 
 	private void OnRaycastHit(Collider collider) {
-		
 		IInteractable interactable = collider.GetComponent<IInteractable>();
 		
 		if(interactable == null) return;
-		
-		if(interactable.CanInterrupt) {
+
+		if (interactable.CanInterrupt) {
+
 			EventInterruption eventInterruption = new EventInterruption(collider.gameObject, EventType.Active);
 			OnInteractionReadyToStart?.Invoke(eventInterruption);
 			return;
-		} 
-		
+		}
+
 		interactable.Interact();
 	}
 
