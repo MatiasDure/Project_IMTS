@@ -62,8 +62,6 @@ public class PortalFunctionTest
    [UnityTest]
    public IEnumerator Portal_Movement_Sync_Test()
    {
-      SetUp();
-      
       // Mock passage of time by manually calling LateUpdate
       float simulatedTime = 40f;
       float fixedDeltaTime = 1f / 60f; // Fixed deltaTime for each iteration (60 FPS equivalent)
@@ -92,8 +90,6 @@ public class PortalFunctionTest
    [UnityTest]
    public IEnumerator Portal_Raycast_Test()
    {
-      SetUp();
-
       Ray mainCameraRay = new Ray(_mainCamHolder.transform.position,
                                     new Vector3(-0.95f, -0.05f, 0.30f));
 

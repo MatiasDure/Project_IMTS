@@ -1,11 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-public class BeeMovementTest : MonoBehaviour
+public class BeeMovementTestFunction : MonoBehaviour
 {
     [SerializeField] private Transform _secondPortal;
     [SerializeField] private Transform _portal;

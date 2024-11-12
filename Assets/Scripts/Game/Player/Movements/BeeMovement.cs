@@ -1,11 +1,10 @@
 using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class BeeMovement : MonoBehaviour
 {
-    [SerializeField] private Movement _beeMovementStat;
-    [SerializeField] private LayerMask _portalLayerMask;
+    [SerializeField] internal Movement _beeMovementStat;
+    [SerializeField] internal LayerMask _portalLayerMask;
     private bool _overPortal;
     private bool _castRay;
     private RaycastHit _targetRaycastHit;
