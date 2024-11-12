@@ -32,21 +32,18 @@ public class BeeMovementTest : MonoBehaviour
         {
             if (_moveIn)
             {
-                _beeMovement.MoveTowardPositionThroughPortal(_portal.position,
-                    _secondPortal.position,
-                    _target.position,
-                    Vector3.zero);
+                _beeMovement.MoveTowardPositionThroughPortal(_portal,
+                                                                _secondPortal,
+                                                                _target,
+                                                                Vector3.zero);
             }
             else
             {
-                _beeMovement.MoveTowardPositionThroughPortal(_secondPortal.position,
-                    _portal.position,
-                    _firstCamera.position,
-                    Vector3.zero);
+                _beeMovement.MoveTowardPositionThroughPortal(_secondPortal,
+                                                                _portal,
+                                                                _firstCamera,
+                                                                Vector3.zero);
             }
-                
-            
-            
         }
     }
 
