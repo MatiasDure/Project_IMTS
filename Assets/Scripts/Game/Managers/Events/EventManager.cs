@@ -64,10 +64,10 @@ public class EventManager : MonoBehaviour
 
 		if (!_currentEventGameObject.TryGetComponent<IInterruptible>(out IInterruptible interruptibleEvent)) return;
 
-		interruptibleEvent.InterruptEvent();
-		interruptibleEvent.OnInterruptedDone += HandleEventInterrupted;
 		_nextEventType = passiveEventData.EventType;
 		_nextEventToPlay = passiveEventData.EventObject;
+		interruptibleEvent.OnInterruptedDone += HandleEventInterrupted;
+		interruptibleEvent.InterruptEvent();
 	}
 
 	private void HandleEventInterrupted(IInterruptible interruptibleEvent)
@@ -86,6 +86,9 @@ public class EventManager : MonoBehaviour
 
 	private void UpdateCurrentEvent(GameObject nextEvent)
 	{
+		if(_currentEvent != null)
+			_currentEvent.OnEventDone -= HandleCurrentEventDone;
+
 		_currentEventGameObject = nextEvent;
 		_currentEvent = _currentEventGameObject.GetComponent<IEvent>();
 		_currentEvent.OnEventDone += HandleCurrentEventDone;

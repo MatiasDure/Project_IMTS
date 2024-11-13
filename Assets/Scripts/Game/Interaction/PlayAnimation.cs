@@ -19,16 +19,11 @@ public class PlayAnimation : MonoBehaviour
 
 	public void SetBoolParameter(string parameterName, bool value) {
 		_animator.SetBool(parameterName, value);
-		Debug.Log($"Setting bool parameter for {parameterName} to {value}");
-		Debug.Log($"Bool parameter value is {_animator.GetBool(parameterName)}");
 	}
 
 	public bool IsPlaying() => _animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1;
 
-	public bool IsAnimationOver() {
-		Debug.Log(_animator.GetCurrentAnimatorStateInfo(0).IsName("InitialChestState"));
-		return _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1;
-	}
+	public bool IsAnimationOver() => _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1;
 
 	public bool CurrentAnimationState(string animaitonStateName) => _animator.GetCurrentAnimatorStateInfo(0).IsName(animaitonStateName);
 	

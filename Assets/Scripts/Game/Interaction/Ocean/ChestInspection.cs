@@ -3,19 +3,25 @@ using UnityEngine;
 using System.Collections;
 
 [
-	RequireComponent(typeof(PlayAnimation))
+	RequireComponent(typeof(PlayAnimation)),
 ]
 public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterruptible
 {
-	private const string _startedAnimationParameterName = "HasStarted";
+	private const string STARTED_ANIMATION_PARAMETER_NAME = "HasStarted";
+	private const string OPEN_STATE_NAME = "OpenChestAnimation";
+	private const string CLOSE_STATE_NAME = "CloseChestAnimation";
+
 	[SerializeField] private string _boolAnimatorParameterName;
 	[SerializeField] private ObjectMovement _beeMovement;
 	[SerializeField] private Transform _infrontOfChestPosition;
 	[SerializeField] private Transform _inChestPosition;
 	[SerializeField] private Movement _beeMovementConfig;
+	[SerializeField] private float _cooldownTimeToForceReleaseBee = 2f;
+	private Cooldown _cooldown;
 	private PlayAnimation _playAnimation;
 	private bool _hasAnimationStarted = false;
 	private ChestEventState _chestEventState = ChestEventState.None;
+	private bool _isEventInterrupted = false; 
 
 	public event Action OnEventDone;
 	public event Action<IInterruptible> OnInterruptedDone;
@@ -27,11 +33,18 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 
 	private void Awake() {
 		_playAnimation = GetComponent<PlayAnimation>();
+		_cooldown = new Cooldown();
 	}
 
 	private void Start() {
 		CanInterrupt = true;
 		MultipleInteractions = true;
+
+		SubscribeToEvents();
+	}
+
+	private void Update() {
+		_cooldown.DecreaseCooldown(Time.deltaTime);
 	}
 
 	public void Interact()
@@ -48,6 +61,7 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 				UpdateChestEventState(ChestEventState.GoingInsideChest);				
 				break;
 			case ChestEventState.InsideChest:
+				if(_cooldown.IsOnCooldown) _cooldown.StopCooldown();
 				UpdateChestEventState(ChestEventState.LeavingChest);				
 				break;
 		}
@@ -61,25 +75,28 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 			EnableChestAnimation();
 		}
 
-		SetOpenChestAnimation();
-
-		yield return StartCoroutine(FinishUpdatingAnimationState("OpenChestAnimation"));
-
-		yield return StartCoroutine(FinishPlayingAnimation());
-
+		UpdateChestEventState(ChestEventState.OpeningChest);
+		yield return StartCoroutine(OpenAnimation());
 		UpdateChestEventState(ChestEventState.GoingInFrontChest);
 	}
 
-	private IEnumerator MoveBeeOutOfChest() {
-		SetOpenChestAnimation();
-		yield return StartCoroutine(FinishUpdatingAnimationState("OpenChestAnimation"));
-		yield return StartCoroutine(FinishPlayingAnimation());
+	private IEnumerator MoveBeeOutOfChest()
+	{		
+		yield return StartCoroutine(OpenAnimation());
 		yield return StartCoroutine(MoveBeeToPosition(_infrontOfChestPosition.position));
-		SetCloseChestAnimation();
-		yield return StartCoroutine(FinishUpdatingAnimationState("CloseChestAnimation"));
-		Bee.Instance.UpdateState(BeeState.FollowingCamera);
+		EventDoneSetup();
+		yield return StartCoroutine(CloseAnimation());
+	}
+
+	private void EventDoneSetup()
+	{
+		ReleaseBeeFromEvent();
 		UpdateChestEventState(ChestEventState.None);
 		OnEventDone?.Invoke();
+	}
+
+	private void ReleaseBeeFromEvent() {
+		Bee.Instance.UpdateState(BeeState.FollowingCamera);
 	}
 
 	private IEnumerator FinishUpdatingAnimationState(string stateName) {
@@ -89,7 +106,7 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 	}
 
 	private void EnableChestAnimation() {
-		_playAnimation.SetBoolParameter(_startedAnimationParameterName, true);
+		_playAnimation.SetBoolParameter(STARTED_ANIMATION_PARAMETER_NAME, true);
 	}
 
 	private void SetOpenChestAnimation() {
@@ -107,8 +124,9 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 	}
 
 	private void UpdateChestEventState(ChestEventState state) {
-		_chestEventState = state;
+		if(_isEventInterrupted) return;
 
+		_chestEventState = state;
 		HandleState(state);
 	}
 
@@ -131,7 +149,6 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 
 	private IEnumerator MoveBeeToPosition(Vector3 position) {
 		while(!_beeMovement.IsInPlace(position)) {
-			Debug.Log("Moving bee to position");
 			_beeMovement.MoveTo(position, _beeMovementConfig.MovementSpeed);
 			yield return null;
 		}
@@ -146,15 +163,77 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 	private IEnumerator MoveBeeInChest()
 	{
 		yield return StartCoroutine(MoveBeeToPosition(_inChestPosition.position));
-		SetCloseChestAnimation();
-		yield return StartCoroutine(FinishUpdatingAnimationState("CloseChestAnimation"));
-		yield return StartCoroutine(FinishPlayingAnimation());
+		UpdateChestEventState(ChestEventState.ClosingChest);
+		yield return CloseAnimation();
+		_cooldown.StartCooldown(_cooldownTimeToForceReleaseBee);
+		UpdateChestEventState(ChestEventState.InsideChest);
+	}
 
-		_chestEventState = ChestEventState.InsideChest;
+	private void ForceReleaseFromChest() {
+		StartCoroutine(MoveBeeOutOfChest());
+	}
+
+	public void InterruptionSetup() {
+		_isEventInterrupted = true;
+		if(_cooldown.IsOnCooldown) _cooldown.StopCooldown();
 	}
 
 	public void InterruptEvent()
 	{
+		StopAllCoroutines();
+		InterruptionSetup();
+		StartCoroutine(InterruptionCleanup());
+	}
+
+	private IEnumerator CloseAnimation() {
+		SetCloseChestAnimation();
+		yield return StartCoroutine(FinishAnimation(CLOSE_STATE_NAME));
+	}
+
+	private IEnumerator OpenAnimation() {
+		SetOpenChestAnimation();
+		yield return StartCoroutine(FinishAnimation(OPEN_STATE_NAME));
+	}
+
+	private IEnumerator FinishAnimation(string animationStateName) {
+		yield return StartCoroutine(FinishUpdatingAnimationState(animationStateName));
+		yield return StartCoroutine(FinishPlayingAnimation());
+	}
+
+	public IEnumerator InterruptionCleanup() {
+		switch (_chestEventState)
+		{
+			case ChestEventState.OpeningChest:
+				ReleaseBeeFromEvent();
+				yield return StartCoroutine(CloseAnimation());
+				break;
+			case ChestEventState.GoingInFrontChest:
+			case ChestEventState.InforntOfChest:
+			case ChestEventState.GoingInsideChest:
+				ReleaseBeeFromEvent();
+				yield return StartCoroutine(CloseAnimation());
+				break;
+			case ChestEventState.ClosingChest:
+			case ChestEventState.InsideChest:
+				yield return StartCoroutine(OpenAnimation());
+				ReleaseBeeFromEvent();
+				yield return StartCoroutine(CloseAnimation());
+				break;
+		}
+
 		OnInterruptedDone?.Invoke(this);
+		_isEventInterrupted = false;
+	}
+
+	private void SubscribeToEvents() {
+		_cooldown.OnCooldownOver += ForceReleaseFromChest;
+	}
+
+	private void UnsubscribeToEvents() {
+		_cooldown.OnCooldownOver -= ForceReleaseFromChest;
+	}
+
+	private void OnDestroy() {
+		UnsubscribeToEvents();
 	}
 }
