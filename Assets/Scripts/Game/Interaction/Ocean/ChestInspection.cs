@@ -65,10 +65,6 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 
 		yield return StartCoroutine(FinishUpdatingAnimationState("OpenChestAnimation"));
 
-		// while(_playAnimation.CurrentAnimationState("InitialChestState")) {
-		// 	yield return null;
-		// }
-
 		yield return StartCoroutine(FinishPlayingAnimation());
 
 		UpdateChestEventState(ChestEventState.GoingInFrontChest);
@@ -79,6 +75,8 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 		yield return StartCoroutine(FinishUpdatingAnimationState("OpenChestAnimation"));
 		yield return StartCoroutine(FinishPlayingAnimation());
 		yield return StartCoroutine(MoveBeeToPosition(_infrontOfChestPosition.position));
+		SetCloseChestAnimation();
+		yield return StartCoroutine(FinishUpdatingAnimationState("CloseChestAnimation"));
 		Bee.Instance.UpdateState(BeeState.FollowingCamera);
 		UpdateChestEventState(ChestEventState.None);
 		OnEventDone?.Invoke();
