@@ -4,29 +4,28 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(FishSpeedUpBehaviour))]
-public class FishInteraction : MonoBehaviour,
+public class FishInteraction : InteractionEvent,
                                IInteractable,
-                               IInterruptible,
                                IEvent
 {
     public bool CanInterrupt { get; set; }
     public EventState State { get; set; }
 
-    public event Action<IInterruptible> OnInterruptedDone;
     public event Action OnEventDone;
 
     private FishSpeedUpBehaviour _speedUpBehaviour;
 
     public void Interact()
     {
+        // Fish is already interacted with
         if (!_speedUpBehaviour.CanSpeedUp) return;
 
         _speedUpBehaviour.BeginEffectSequence();
-    }
 
-    public void InterruptEvent()
-    {
-        _speedUpBehaviour.InterruptEffectSequence();
+        // Bee is already chasing another fish
+        if (Bee.Instance.State == BeeState.ChasingFish) return;
+        UpdateInteractionStateCollection metadata = GetStartEventMetadata();
+        FireInteractEventStart(metadata);
     }
 
     private void Awake()
@@ -34,12 +33,12 @@ public class FishInteraction : MonoBehaviour,
         _speedUpBehaviour = GetComponent<FishSpeedUpBehaviour>();
     }
 
-    void Start()
+    private void Start()
     {
         Setup();
     }
 
-    void Setup()
+    private void Setup()
     {
         CanInterrupt = true;
 
@@ -49,17 +48,17 @@ public class FishInteraction : MonoBehaviour,
     private void HandleInteractionDone()
     {
         OnEventDone?.Invoke();
+
+        if (Bee.Instance.State != BeeState.ChasingFish) return;
+
+        //TODO: Control the bee here
+        UpdateInteractionStateCollection metadata = GetEndEventMetadata();
+        FireInteractEventEnd(metadata);
     }
 
-    private void HandleInterruptionDone()
-    {
-        OnInterruptedDone?.Invoke(this);
-    }
-
-    void SubscribeToEvents()
+    private void SubscribeToEvents()
     {
         _speedUpBehaviour.OnEffectDone += HandleInteractionDone;
-        _speedUpBehaviour.OnEffectInterrupted += HandleInterruptionDone;
     }
 
     private void OnDestroy()
@@ -67,9 +66,32 @@ public class FishInteraction : MonoBehaviour,
         UnsubscribeFromEvents();
     }
 
-    void UnsubscribeFromEvents()
+    private void UnsubscribeFromEvents()
     {
         _speedUpBehaviour.OnEffectDone -= HandleInteractionDone;
-        _speedUpBehaviour.OnEffectInterrupted -= HandleInterruptionDone;
+    }
+
+    private UpdateInteractionStateCollection GetStartEventMetadata()
+    {
+        return new UpdateInteractionStateCollection
+        {
+            State = BeeState.ChasingFish,
+            Metadata = new EventMetadata
+            {
+                Target = transform
+            }
+        };
+    }
+
+    private UpdateInteractionStateCollection GetEndEventMetadata()
+    {
+        return new UpdateInteractionStateCollection
+        {
+            State = BeeState.Idle,
+            Metadata = new EventMetadata
+            {
+                Target = null
+            }
+        };
     }
 }

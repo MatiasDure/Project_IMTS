@@ -4,17 +4,15 @@ using UnityEngine;
 public class Bee : Singleton<Bee>
 {
     private BeeState _state;
-
 	public BeeState State => _state;
-
 	public static event Action<BeeState> OnBeeStateChanged;
 
-	protected override void Awake()
-	{
-		base.Awake();
-	}
+    protected override void Awake()
+    {
+        base.Awake();
+    }
 
-	private void Start()
+    private void Start()
 	{
 		_state = BeeState.Idle;
 
@@ -25,12 +23,18 @@ public class Bee : Singleton<Bee>
 	{
 		PlotEvent.OnPassiveEventStart += UpdateState;
 		PlotEvent.OnPasiveEventEnd += UpdateState;
+
+		InteractionEvent.OnInteractionEventStart += UpdateState;
+		InteractionEvent.OnInteractionEventEnd += UpdateState;
 	}
 
 	private void UnsubscribeFromEvents()
 	{
 		PlotEvent.OnPassiveEventStart -= UpdateState;
 		PlotEvent.OnPasiveEventEnd -= UpdateState;
+
+		InteractionEvent.OnInteractionEventStart -= UpdateState;
+		InteractionEvent.OnInteractionEventEnd -= UpdateState;
 	}
 
 	private void UpdateState(UpdatePassiveEventCollection newState) {
@@ -38,8 +42,9 @@ public class Bee : Singleton<Bee>
 		OnBeeStateChanged?.Invoke(_state);
 	}
 
-	public void UpdateState(BeeState newState) {
-		_state = newState;
+	private void UpdateState(UpdateInteractionStateCollection newState)
+    {
+		_state = newState.State;
 		OnBeeStateChanged?.Invoke(_state);
 	}
 

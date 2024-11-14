@@ -1,9 +1,10 @@
+using System;
 using UnityEngine;
 
 public class EventManager : MonoBehaviour
 {
-	[SerializeField] internal PassiveEventManager _passiveEventManager;
-	[SerializeField] internal InteractionManager _interactionManager;
+	[SerializeField] private PassiveEventManager _passiveEventManager;
+	[SerializeField] private InteractionManager _interactionManager;
 
     private GameObject _currentEventGameObject;
 	private GameObject _nextEventToPlay;
@@ -11,67 +12,61 @@ public class EventManager : MonoBehaviour
 
 	private EventType _nextEventType = EventType.None;
 
-	internal void Awake()
+	private void Awake()
 	{
-		if(_passiveEventManager == null || _interactionManager == null) Debug.LogWarning("Interaction Manager or Passive Event Manager is not set in Event Manager");
+		if(_passiveEventManager == null || _interactionManager == null) throw new System.Exception("Interaction Manager or Passive Event Manager is not set in Event Manager");
 	}
 
-	internal void Start()
+	private void Start()
 	{
 		SubscribeToEvents();
 	}
 
 	private void SubscribeToEvents()
 	{
-		if(_passiveEventManager != null) 
-			_passiveEventManager.OnPassiveEventReadyToStart += StartInterruptionSequence;
-		if(_interactionManager != null) 
-			_interactionManager.OnInteractionReadyToStart += StartInterruptionSequence;
+		_passiveEventManager.OnPassiveEventReadyToStart += StartInterruptionSequence;
+		_interactionManager.OnInteractionReadyToStart += StartInterruptionSequence;
 	}
 
 	private void UnsubscribeFromEvents()
 	{
-		if(_passiveEventManager != null) 
-			_passiveEventManager.OnPassiveEventReadyToStart -= StartInterruptionSequence;
-		if(_interactionManager != null) 
-			_interactionManager.OnInteractionReadyToStart -= StartInterruptionSequence;
+		_passiveEventManager.OnPassiveEventReadyToStart -= StartInterruptionSequence;
+		_interactionManager.OnInteractionReadyToStart -= StartInterruptionSequence;
 	}
 
-	private void StartInterruptionSequence(EventInterruption eventData)
+	private void StartInterruptionSequence(EventInterruption passiveEventData)
 	{
+		Debug.Log("Event Interruption Sequence Started");
 		if(_currentEventGameObject == null)
 		{
-			UpdateCurrentEvent(eventData.EventObject);
-			_currentEventGameObject = eventData.EventObject;
-			if(eventData.EventType == EventType.Passive)
+			Debug.Log($"Event Object: {passiveEventData.EventObject} ");
+			UpdateCurrentEvent(passiveEventData.EventObject);
+			_currentEventGameObject = passiveEventData.EventObject;
+			Debug.Log($"Current Event: {_currentEventGameObject} ");
+			if(passiveEventData.EventType == EventType.Passive)
 				_currentEventGameObject.GetComponent<PlotEvent>().StartEvent();
 			else {
 				var interactable = _currentEventGameObject.GetComponent<IInteractable>();
+				Debug.Log($"Interactable: {interactable} ");
 				interactable.Interact();
 			}
 			return;
 		}
-		
-		if(_currentEventGameObject == eventData.EventObject) { 
-			if(eventData.EventType == EventType.Active) {
-				var interactable = _currentEventGameObject.GetComponent<IInteractable>();
-				if(interactable.MultipleInteractions) {
-					interactable.Interact();
-				}
-			}
-			return; 
-		}
+
+		if(_currentEventGameObject == passiveEventData.EventObject) return;
 
 		if (!_currentEventGameObject.TryGetComponent<IInterruptible>(out IInterruptible interruptibleEvent)) return;
 
-		_nextEventType = eventData.EventType;
-		_nextEventToPlay = eventData.EventObject;
-		interruptibleEvent.OnInterruptedDone += HandleEventInterrupted;
 		interruptibleEvent.InterruptEvent();
+		interruptibleEvent.OnInterruptedDone += HandleEventInterrupted;
+		_nextEventType = passiveEventData.EventType;
+		_nextEventToPlay = passiveEventData.EventObject;
+		Debug.Log("Event Is Interruptable");
 	}
 
 	private void HandleEventInterrupted(IInterruptible interruptibleEvent)
 	{
+		Debug.Log("Event Interrupted");
 		interruptibleEvent.OnInterruptedDone -= HandleEventInterrupted;
 		UpdateCurrentEvent(_nextEventToPlay);
 
@@ -86,9 +81,6 @@ public class EventManager : MonoBehaviour
 
 	private void UpdateCurrentEvent(GameObject nextEvent)
 	{
-		if(_currentEvent != null)
-			_currentEvent.OnEventDone -= HandleCurrentEventDone;
-
 		_currentEventGameObject = nextEvent;
 		_currentEvent = _currentEventGameObject.GetComponent<IEvent>();
 		_currentEvent.OnEventDone += HandleCurrentEventDone;
@@ -98,6 +90,7 @@ public class EventManager : MonoBehaviour
 		_currentEventGameObject = null;
 		_currentEvent.OnEventDone -= HandleCurrentEventDone;
 		_currentEvent = null;
+		Debug.Log("Event Done");
 	}
 
 	private void OnDestroy()
