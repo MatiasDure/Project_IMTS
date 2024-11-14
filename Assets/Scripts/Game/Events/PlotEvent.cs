@@ -55,7 +55,6 @@ public abstract class PlotEvent : MonoBehaviour, IEvent
 
 	internal protected virtual void HandleDoneStatus() {
 		UpdatePassiveEventCollection eventMetadata = SetupEndEventMetadata();
-
 		FireEndEvent(eventMetadata);
 	}
 

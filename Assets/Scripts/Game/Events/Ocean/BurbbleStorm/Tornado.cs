@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,10 +20,10 @@ public class Tornado : MonoBehaviour
     [SerializeField] private float _lift = 45;
 
     [Tooltip("The force that will drive the caught objects around the tornado's center")]
-    [SerializeField] private float _rotationStrength = 50;
-    
+    [SerializeField] private float _rotationStrength = 1;
+
     [Tooltip("Tornado pull force")]
-    [SerializeField] private float _tornadoStrength = 2;
+    [SerializeField] private float _tornadoStrength = 10;
 
     private Rigidbody _rb;
 
@@ -36,15 +37,13 @@ public class Tornado : MonoBehaviour
 
     public float lift => _lift;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         SetUp();
     }
 
     private void SetUp()
     {
-        //Normalize the rotation axis given by the user
         _rotationAxis.Normalize();
 
         _rb = GetComponent<Rigidbody>();
@@ -54,12 +53,11 @@ public class Tornado : MonoBehaviour
     void FixedUpdate()
     {
         //try pull object in the center if it exceed maxdistance
-        ApplyPullForce();
+        ApplyForce();
     }
     
-    private void ApplyPullForce()
+    private void ApplyForce()
     {
-        //Apply force to caught objects
         for (int i = 0; i < _caughtObjects.Count; i++)
         {
             if (_caughtObjects[i] != null)
@@ -80,36 +78,25 @@ public class Tornado : MonoBehaviour
         caughtObject.enabled = false;
     }
 
-    void OnTriggerEnter(Collider other)
+    private void OnEnable()
     {
-        if (!other.attachedRigidbody) return;
-        if (other.attachedRigidbody.isKinematic) return;
+        _caughtObjects = new List<CaughtObject>(FindObjectsOfType<CaughtObject>());
 
-        bool canBeCaught = other.TryGetComponent(out CaughtObject caught);
-        
-        if(!canBeCaught) return;
-        
-        InitCaughtObject(caught);
+        foreach (var caught in _caughtObjects)
+        {
+            if (caught != null) caught.Init(this, _rb, _tornadoStrength);
+        }
     }
 
-    private void InitCaughtObject(CaughtObject caught)
+    private void OnDisable()
     {
-        caught.Init(this, _rb, _tornadoStrength);
 
-        if (!_caughtObjects.Contains(caught)) _caughtObjects.Add(caught);
+        foreach (var caught in _caughtObjects)
+        {
+            if (caught != null) caught.Release();
+        }
+
+        _caughtObjects.Clear();
     }
 
-    void OnTriggerExit(Collider other)
-    {
-        CaughtObject caught = other.GetComponent<CaughtObject>();
-        
-        if (caught) ReleaseObject(caught);
-    }
-
-    private void ReleaseObject(CaughtObject caught)
-    {
-        caught.Release();
-        
-        if (_caughtObjects.Contains(caught)) _caughtObjects.Remove(caught);
-    }
 }

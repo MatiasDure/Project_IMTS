@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,11 @@ public class CaughtObject : MonoBehaviour
     
     [HideInInspector]
     public Rigidbody rigid;
+
+    private void Awake()
+    {
+        enabled = false;
+    }
 
     // Use this for initialization
     void Start()
@@ -25,7 +31,8 @@ public class CaughtObject : MonoBehaviour
     void Update()
     {
         //Lift spring so objects are pulled upwards
-        LiftObject(_spring);
+        if(_spring != null)
+            LiftObject(_spring);
     }
 
     private void LiftObject(SpringJoint springJoint)
@@ -37,11 +44,12 @@ public class CaughtObject : MonoBehaviour
 
     void FixedUpdate()
     {
-        RotateObjectAroundTornado(_tornadoReference.transform.position,
-            _tornadoReference.rotationAxis,
-            _tornadoReference.rotationAngle,
-            _tornadoReference.lift,
-            _tornadoReference.strength);
+        if(_tornadoReference != null)
+            RotateObjectAroundTornado(_tornadoReference.transform.position,
+                _tornadoReference.rotationAxis,
+                _tornadoReference.rotationAngle,
+                _tornadoReference.lift,
+                _tornadoReference.strength);
     }
 
     private void RotateObjectAroundTornado(Vector3 tornadoCenter, Vector3 rotationAxis, float rotationAngle, 
