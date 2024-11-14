@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
@@ -27,6 +28,17 @@ public class PlayAnimation : MonoBehaviour
 
 	public bool CurrentAnimationState(string animaitonStateName) => _animator.GetCurrentAnimatorStateInfo(0).IsName(animaitonStateName);
 	
+	public IEnumerator WaitForAnimationToStart(string animationName) {
+		while(!CurrentAnimationState(animationName)) {
+			yield return null;
+		}
+	}
+
+	public IEnumerator WaitForAnimationToEnd() {
+		while(!IsAnimationOver()) {
+			yield return null;
+		}
+	}
 
 	public void Stop() {
 		_animator.StopPlayback();

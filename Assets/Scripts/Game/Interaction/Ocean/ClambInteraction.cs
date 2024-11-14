@@ -3,26 +3,35 @@ using System.Collections;
 using UnityEngine;
 
 [
-	RequireComponent(typeof(ToggleRotate)),
+	RequireComponent(typeof(PlayAnimation)),
 	RequireComponent(typeof(PlayParticle)),
 ]
 public class ClambInteraction : MonoBehaviour, 
 								IInteractable, 
-								IInterruptible, 
-								IEvent
+								IEvent,
+								IToggleComponent
 {
+	private const string INITIAL_ANIMATION_PARAMETER_NAME = "HasStarted";
+	private const string OPEN_ANIMATION_STATE = "OpenClam";
+	private const string CLOSE_ANIMATION_STATE = "CloseClam";
+
+	[SerializeField] private string _clamAnimationToggleParameterName;
+
 	public bool CanInterrupt { get; set; }
-	public EventState State { get ; set; }
-	public bool MultipleInteractions { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+	public bool MultipleInteractions { get; set; }
+	public EventState State { get; set; }
+	public ToggleState CurrentToggleState { get; set; }
+	public ToggleState NextToggleState { get; set; }
 
-	internal ToggleRotate _toggleRotate;
+	internal PlayAnimation _playAnimation;
 	internal PlayParticle _playParticle;
+	internal bool _hasStartedAnimation;
 
-	public event Action<IInterruptible> OnInterruptedDone;
 	public event Action OnEventDone;
+	public event Action OnToggleDone;
 
 	private void Awake() {
-		_toggleRotate = GetComponent<ToggleRotate>();
+		_playAnimation = GetComponent<PlayAnimation>();
 		_playParticle = GetComponent<PlayParticle>();
 	}
 
@@ -33,45 +42,66 @@ public class ClambInteraction : MonoBehaviour,
 
 	private void Setup()
 	{
-		CanInterrupt = true;
-		SubscribeToEvents();
-	}
-
-	private void SubscribeToEvents()
-	{
-		_toggleRotate.OnToggleDone += HandleToggleDone;
+		CanInterrupt = false;
+		MultipleInteractions = false;
+		CurrentToggleState = ToggleState.Off;
 	}
 
 	public void Interact()
 	{
-		_toggleRotate.Toggle();
-		_playParticle.Toggle();	
+		if(!_hasStartedAnimation) {
+			_hasStartedAnimation = true;
+			_playAnimation.SetBoolParameter(INITIAL_ANIMATION_PARAMETER_NAME, true);
+		}
+		
+		if(CurrentToggleState == ToggleState.Switching) return;
+
+		Toggle();
 	}
 
-	public void InterruptEvent()
+	public void ToggleOn()
 	{
-		StartCoroutine(Interrupt());
+		StartCoroutine(OpenClam());
 	}
 
-	private IEnumerator Interrupt()
+	public void ToggleOff()
 	{
-		Debug.Log("Event Interrupted");
-		yield return new WaitForSeconds(5f);
-		Debug.Log("Event Interrupted Done");
-		OnInterruptedDone?.Invoke(this);
+		StartCoroutine(CloseClam());
 	}
 
-	private void HandleToggleDone() {
-		OnEventDone?.Invoke();
+	private IEnumerator OpenClam() {
+		_playAnimation.SetBoolParameter(_clamAnimationToggleParameterName, true);
+		yield return StartCoroutine(_playAnimation.WaitForAnimationToStart(OPEN_ANIMATION_STATE));
+		yield return StartCoroutine(_playAnimation.WaitForAnimationToEnd());
+		_playParticle.ToggleOn();
+		UpdateState(ToggleState.On);	
 	}
 
-	private void OnDestroy()
+	private IEnumerator CloseClam() {
+		_playParticle.ToggleOff();
+		_playAnimation.SetBoolParameter(_clamAnimationToggleParameterName, false);
+		yield return StartCoroutine(_playAnimation.WaitForAnimationToStart(CLOSE_ANIMATION_STATE));
+		yield return StartCoroutine(_playAnimation.WaitForAnimationToEnd());
+		UpdateState(ToggleState.Off);
+	}
+
+	private void UpdateState(ToggleState state)
 	{
-		UnsubscribeFromEvents();
+		CurrentToggleState = state;
 	}
 
-	private void UnsubscribeFromEvents()
+	public void Toggle()
 	{
-		_toggleRotate.OnToggleDone -= HandleToggleDone;
+		switch (CurrentToggleState)
+		{
+			case ToggleState.Off:
+				UpdateState(ToggleState.Switching);
+				ToggleOn();
+				break;
+			case ToggleState.On:
+				UpdateState(ToggleState.Switching);
+				ToggleOff();
+				break;
+		}
 	}
 }
