@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FishSwimmingInteraction : MonoBehaviour, IInteractable
+public class FishSpeedUpBehaviour : MonoBehaviour, IInteractable
 {
     [SerializeField] internal float _moveSpeed = 0.1f;
     [SerializeField] private float _speedUpMultiplier = 2f;

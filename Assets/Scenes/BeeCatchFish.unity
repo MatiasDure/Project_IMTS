@@ -884,9 +884,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1615665676}
-  - component: {fileID: 1615665679}
   - component: {fileID: 1615665678}
-  - component: {fileID: 1615665677}
+  - component: {fileID: 1615665679}
   m_Layer: 0
   m_Name: Fish (1)
   m_TagString: Untagged
@@ -911,18 +910,6 @@ Transform:
   - {fileID: 1902210568}
   m_Father: {fileID: 783621489}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!114 &1615665677
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1615665675}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 058567b50885fcf40b57978536554a83, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1615665678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6687,7 +6674,7 @@ MonoBehaviour:
   bounds:
     bounds:
       m_Center: {x: 0, y: 0, z: 0}
-      m_Extent: {x: 10, y: 3, z: 10}
+      m_Extent: {x: 15, y: 5, z: 15}
   _middlePoint: {fileID: 236749752}
   _turnLimitRange: {x: 60, y: 5}
   _verticalRotationBound: 10
