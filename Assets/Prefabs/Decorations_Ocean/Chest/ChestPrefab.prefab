@@ -331,7 +331,7 @@ GameObject:
   - component: {fileID: 4492976635538675294}
   - component: {fileID: 5264640831639733759}
   - component: {fileID: 108986439372265444}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -393,7 +393,7 @@ GameObject:
   - component: {fileID: 3877404481190403640}
   - component: {fileID: 134061050013860839}
   - component: {fileID: 6898545809944143436}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: collider (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -455,14 +455,6 @@ PrefabInstance:
     - target: {fileID: 856581616287884665, guid: eb5a36ccad18e094795ef52ecfda9fba, type: 3}
       propertyPath: m_Name
       value: chest_particles
-      objectReference: {fileID: 0}
-    - target: {fileID: 4172441222611883143, guid: eb5a36ccad18e094795ef52ecfda9fba, type: 3}
-      propertyPath: CollisionModule.maxKillSpeed
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4172441222611883143, guid: eb5a36ccad18e094795ef52ecfda9fba, type: 3}
-      propertyPath: CollisionModule.minKillSpeed
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8000410736043335812, guid: eb5a36ccad18e094795ef52ecfda9fba, type: 3}
       propertyPath: m_LocalPosition.x
