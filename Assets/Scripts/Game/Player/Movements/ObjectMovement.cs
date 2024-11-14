@@ -12,7 +12,7 @@ public class ObjectMovement : MonoBehaviour
 		transform.position = Vector3.MoveTowards(transform.position, position, speed * Time.deltaTime);
 	}
 
-	public bool IsInPlace(Vector3 position) => approximatelyInPlace(position, DISTANCE_TOLERANCE);
+	public bool IsInPlace(Vector3 position) => ApproximatelyInPlace(position, DISTANCE_TOLERANCE);
 
-	public bool approximatelyInPlace(Vector3 position, float tolerance) => Vector3.Distance(transform.position, position) <= tolerance;
+	public bool ApproximatelyInPlace(Vector3 position, float tolerance) => Vector3.Distance(transform.position, position) <= tolerance;
 }
