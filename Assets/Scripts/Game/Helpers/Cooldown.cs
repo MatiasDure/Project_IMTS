@@ -41,5 +41,10 @@ public class Cooldown
 		}
 	}
 
+	public void StopCooldown()
+	{
+		ResetCooldown();
+	}
+
 	private bool IsCooldownOver() => _cooldownTimer >= _cooldownTime;
 }

@@ -37,13 +37,13 @@ public class EventManager : MonoBehaviour
 			_interactionManager.OnInteractionReadyToStart -= StartInterruptionSequence;
 	}
 
-	private void StartInterruptionSequence(EventInterruption passiveEventData)
+	private void StartInterruptionSequence(EventInterruption eventData)
 	{
 		if(_currentEventGameObject == null)
 		{
-			UpdateCurrentEvent(passiveEventData.EventObject);
-			_currentEventGameObject = passiveEventData.EventObject;
-			if(passiveEventData.EventType == EventType.Passive)
+			UpdateCurrentEvent(eventData.EventObject);
+			_currentEventGameObject = eventData.EventObject;
+			if(eventData.EventType == EventType.Passive)
 				_currentEventGameObject.GetComponent<PlotEvent>().StartEvent();
 			else {
 				var interactable = _currentEventGameObject.GetComponent<IInteractable>();
@@ -52,14 +52,22 @@ public class EventManager : MonoBehaviour
 			return;
 		}
 		
-		if(_currentEventGameObject == passiveEventData.EventObject) return;
+		if(_currentEventGameObject == eventData.EventObject) { 
+			if(eventData.EventType == EventType.Active) {
+				var interactable = _currentEventGameObject.GetComponent<IInteractable>();
+				if(interactable.MultipleInteractions) {
+					interactable.Interact();
+				}
+			}
+			return; 
+		}
 
 		if (!_currentEventGameObject.TryGetComponent<IInterruptible>(out IInterruptible interruptibleEvent)) return;
 
-		interruptibleEvent.InterruptEvent();
+		_nextEventType = eventData.EventType;
+		_nextEventToPlay = eventData.EventObject;
 		interruptibleEvent.OnInterruptedDone += HandleEventInterrupted;
-		_nextEventType = passiveEventData.EventType;
-		_nextEventToPlay = passiveEventData.EventObject;
+		interruptibleEvent.InterruptEvent();
 	}
 
 	private void HandleEventInterrupted(IInterruptible interruptibleEvent)
@@ -78,6 +86,9 @@ public class EventManager : MonoBehaviour
 
 	private void UpdateCurrentEvent(GameObject nextEvent)
 	{
+		if(_currentEvent != null)
+			_currentEvent.OnEventDone -= HandleCurrentEventDone;
+
 		_currentEventGameObject = nextEvent;
 		_currentEvent = _currentEventGameObject.GetComponent<IEvent>();
 		_currentEvent.OnEventDone += HandleCurrentEventDone;
