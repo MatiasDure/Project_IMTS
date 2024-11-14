@@ -5,8 +5,8 @@ public class Toggle : MonoBehaviour, IInteractable
 {
     private IToggleComponent[] _toggleComponent;
 
-	public bool CanInterrupt { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-	public bool MultipleInteractions { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+	public bool CanInterrupt { get ; set ; }
+	public bool MultipleInteractions { get; set; }
 
 	public void Start()
     {
