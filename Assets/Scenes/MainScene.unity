@@ -249,6 +249,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: otherWorld
       objectReference: {fileID: 0}
+    - target: {fileID: 1105741397332060010, guid: 4675d5cee1a4a8c4c98ca314c9500218, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6131398266853948988, guid: 4675d5cee1a4a8c4c98ca314c9500218, type: 3}
       propertyPath: portal
       value: 
@@ -983,6 +987,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _secondaryCamera: {fileID: 840753268}
+  _portalMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &2105432130
 GameObject:
   m_ObjectHideFlags: 0
