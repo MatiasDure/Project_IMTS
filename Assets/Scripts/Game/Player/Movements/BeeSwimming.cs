@@ -257,31 +257,31 @@ public class BeeSwimming : MonoBehaviour
             StartCoroutine(ChangeDirectionCoroutine(_decisionDelayRange.GetRandomValueWithinRange()));
     }
 
+    private IEnumerator RestartSwimmingSequence()
+    {
+        yield return StartCoroutine(
+            SmoothRotationCoroutine(GetLevelledRotationToMiddlePoint(_middlePoint.position), _rotationDuration));
+        DoSwimmingSequence();
+    }
+
+    private void StopSwimmingSequence()
+    {
+        StopAllCoroutines();
+    }
+
     private void HandleBeeStateChanged(BeeState state)
     {
         switch (state)
         {
             case BeeState.Idle:
                 _isIdle = true;
-                RestartSwimmingSequence();
+                StartCoroutine(RestartSwimmingSequence());
                 break;
             case BeeState.ChasingFish:
                 _isIdle = false;
                 StopSwimmingSequence();
                 break;
         }
-    }
-
-    private void RestartSwimmingSequence()
-    {
-        Debug.Log("Restarting bee swimming sequence!");
-        //TODO: Implement
-        //possibly get levelled direction to middle point before DoSwimming...
-    }
-
-    private void StopSwimmingSequence()
-    {
-        StopAllCoroutines();
     }
 
     private void SubscribeToEvents()

@@ -12,9 +12,9 @@ public class FishInteraction : MonoBehaviour,
 
     [SerializeField] private ObjectMovement _beeMovement;
 
-    public bool CanInterrupt { get; set; }
+    public bool CanInterrupt { get; set; } = true;
     public EventState State { get; set; }
-    public bool MultipleInteractions { get; set; }
+    public bool MultipleInteractions { get; set; } = false;
 
     public event Action OnEventDone;
     public event Action<IInterruptible> OnInterruptedDone;
@@ -33,7 +33,7 @@ public class FishInteraction : MonoBehaviour,
         _beeIsChasing = true;
 
         _speedUpBehaviour.BeginEffectSequence();
-        StartCoroutine(MoveBeeTowardsFish());
+        MoveBeeTowardsFish();
     }
 
     private void Awake()
@@ -61,20 +61,47 @@ public class FishInteraction : MonoBehaviour,
         Bee.Instance.UpdateState(BeeState.Idle);
     }
 
-    private IEnumerator MoveBeeTowardsFish()
+    private void MoveBeeTowardsFish()
     {
         Bee.Instance.UpdateState(BeeState.ChasingFish);
-        yield return StartCoroutine(MoveBeeToPosition(transform.position));
-        StopBeeChasing(); // Reached fish
+        StartCoroutine(MoveBeeToPosition(transform.position));
     }
 
     private IEnumerator MoveBeeToPosition(Vector3 position)
     {
-        while (_beeIsChasing && !_beeMovement.IsInPlace(position, 1))
+        Quaternion targetRotation = 
+            Quaternion.LookRotation((transform.position - _beeMovement.transform.position).normalized);
+        yield return StartCoroutine(SmoothRotationCoroutine(targetRotation, 0.25f));
+        // Snap to the target rotation after smooth rotation
+
+        while (_beeIsChasing && !_beeMovement.IsInPlace(position))
         {
             _beeMovement.MoveTo(transform.position, 3);
+            _beeMovement.SnapRotationTowards(transform.position);
             yield return null;
         }
+
+        StopBeeChasing(); // Reached fish
+    }
+
+    IEnumerator SmoothRotationCoroutine(Quaternion targetRotation, float duration)
+    {
+        Quaternion startRotation = _beeMovement.transform.rotation;
+        float timeElapsed = 0f;
+        float percentageCompleted;
+
+        while (timeElapsed < duration)
+        {
+            // Slerp from start rotation to the target rotation
+            percentageCompleted = timeElapsed / duration;
+            _beeMovement.SmoothRotate(startRotation, targetRotation, percentageCompleted);
+            timeElapsed += Time.deltaTime;
+
+            yield return null;
+        }
+
+        // Ensure the final rotation is exactly the target rotation
+        _beeMovement.transform.rotation = targetRotation;
     }
 
     private void HandleInteractionDone()
