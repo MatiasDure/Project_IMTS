@@ -37,7 +37,6 @@ public class PassiveEventManager : Singleton<PassiveEventManager>
 		foreach(PlotEventsCollection plotEventsCollection in plotEventsCollections)
 		{
 			if (!IsEventOfCurrentPlot(PlotsManager.Instance.CurrentPlot, plotEventsCollection.Plot)) continue;
-
 			CheckCurrentPlotEvents(plotEventsCollection.PlotEvents);
 		}
 	}
@@ -47,8 +46,6 @@ public class PassiveEventManager : Singleton<PassiveEventManager>
 		foreach (PlotEvent plotEvent in plotEvents)
 		{
 			if (!IsEventReadyToStart(plotEvent)) continue;
-
-			// plotEvent.StartEvent();
 			InformEventReadyToPlay(plotEvent);
 		}
 	}

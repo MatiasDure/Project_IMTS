@@ -70,19 +70,35 @@ public class ClambInteraction : MonoBehaviour,
 	}
 
 	private IEnumerator OpenClam() {
-		_playAnimation.SetBoolParameter(_clamAnimationToggleParameterName, true);
-		yield return StartCoroutine(_playAnimation.WaitForAnimationToStart(OPEN_ANIMATION_STATE));
-		yield return StartCoroutine(_playAnimation.WaitForAnimationToEnd());
+		SetOpenAnimationState();
+		yield return StartCoroutine(WaitForAnimationStateToPlay(OPEN_ANIMATION_STATE));
 		_playParticle.ToggleOn();
-		UpdateState(ToggleState.On);	
+		UpdateState(ToggleState.On);
+		OnToggleDone?.Invoke();
+	}
+
+	private void SetOpenAnimationState()
+	{
+		_playAnimation.SetBoolParameter(_clamAnimationToggleParameterName, true);
+	}
+
+	private void SetCloseAnimationState()
+	{
+		_playAnimation.SetBoolParameter(_clamAnimationToggleParameterName, false);
 	}
 
 	private IEnumerator CloseClam() {
 		_playParticle.ToggleOff();
-		_playAnimation.SetBoolParameter(_clamAnimationToggleParameterName, false);
-		yield return StartCoroutine(_playAnimation.WaitForAnimationToStart(CLOSE_ANIMATION_STATE));
-		yield return StartCoroutine(_playAnimation.WaitForAnimationToEnd());
+		SetCloseAnimationState();
+		yield return StartCoroutine(WaitForAnimationStateToPlay(CLOSE_ANIMATION_STATE));
 		UpdateState(ToggleState.Off);
+		OnToggleDone?.Invoke();
+	}
+
+	private IEnumerator WaitForAnimationStateToPlay(string state)
+	{
+		yield return StartCoroutine(_playAnimation.WaitForAnimationToStart(state));
+		yield return StartCoroutine(_playAnimation.WaitForAnimationToEnd());
 	}
 
 	private void UpdateState(ToggleState state)

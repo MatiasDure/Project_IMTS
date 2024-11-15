@@ -19,7 +19,7 @@ public abstract class PlotEvent : MonoBehaviour, IEvent
 		_frequency.DecreaseFrequency();
 	}
 
-	internal protected void UpdateEventStatus()
+	internal protected virtual void UpdateEventStatus()
 	{
 		switch(_state)
 		{
