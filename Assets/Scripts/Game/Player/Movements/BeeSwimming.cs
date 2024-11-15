@@ -3,9 +3,7 @@ using UnityEngine;
 
 public class BeeSwimming : MonoBehaviour
 {
-    //Temporarily public for FishInteraction until combined with beemovement
-    [SerializeField] public float _moveSpeed;
-
+    [SerializeField] private float _moveSpeed;
     [SerializeField] private float _rotationSpeed = 1f;
     [SerializeField] private Range _decisionDelayRange;
     [SerializeField] private EnvironmentBounds bounds;

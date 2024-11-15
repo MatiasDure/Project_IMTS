@@ -11,7 +11,6 @@ public class FishInteraction : MonoBehaviour,
 {
 
     [SerializeField] private ObjectMovement _beeMovement;
-    [SerializeField] private BeeSwimming _tempMovementSpeedGetter;
 
     public bool CanInterrupt { get; set; }
     public EventState State { get; set; }
@@ -28,20 +27,13 @@ public class FishInteraction : MonoBehaviour,
     public void Interact()
     {
         // Fish is already interacted with
-        if (!_canSpeedUp && _beeIsChasing) return;
-
-        if (!_canSpeedUp && !_beeIsChasing)
-        {
-            MoveBeeTowardsFish();
-            Debug.Log(1);
-            return;
-        }
+        if (!_canSpeedUp) return;
 
         _canSpeedUp = false;
         _beeIsChasing = true;
 
         _speedUpBehaviour.BeginEffectSequence();
-        MoveBeeTowardsFish();
+        StartCoroutine(MoveBeeTowardsFish());
     }
 
     private void Awake()
@@ -61,15 +53,24 @@ public class FishInteraction : MonoBehaviour,
         SubscribeToEvents();
     }
 
-    private void MoveBeeTowardsFish()
+    private void StopBeeChasing()
+    {
+        if (!_beeIsChasing) return;
+
+        _beeIsChasing = false;
+        Bee.Instance.UpdateState(BeeState.Idle);
+    }
+
+    private IEnumerator MoveBeeTowardsFish()
     {
         Bee.Instance.UpdateState(BeeState.ChasingFish);
-        StartCoroutine(MoveBeeToPosition(transform.position));
+        yield return StartCoroutine(MoveBeeToPosition(transform.position));
+        StopBeeChasing(); // Reached fish
     }
 
     private IEnumerator MoveBeeToPosition(Vector3 position)
     {
-        while (_beeIsChasing && !_beeMovement.IsInPlace(position))
+        while (_beeIsChasing && !_beeMovement.IsInPlace(position, 1))
         {
             _beeMovement.MoveTo(transform.position, 3);
             yield return null;
@@ -79,10 +80,11 @@ public class FishInteraction : MonoBehaviour,
     private void HandleInteractionDone()
     {
         StopAllCoroutines();
+        StopBeeChasing();
         _canSpeedUp = true;
-        _beeIsChasing = false;
+
+
         OnEventDone?.Invoke();
-        Bee.Instance.UpdateState(BeeState.Idle);
     }
 
     private void SubscribeToEvents()
@@ -103,8 +105,8 @@ public class FishInteraction : MonoBehaviour,
     public void InterruptEvent()
     {
         StopAllCoroutines();
-        Bee.Instance.UpdateState(BeeState.Idle);
-        _beeIsChasing = false;
+        StopBeeChasing();
+
         OnInterruptedDone?.Invoke(this);
     }
 }
