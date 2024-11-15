@@ -1,11 +1,8 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BurbbleStormEvent : PlotEvent
 {
-    [SerializeField] internal GameObject _tornado;
+    [SerializeField] internal Tornado _tornado;
     
     private void Awake()
     {
@@ -17,9 +14,11 @@ public class BurbbleStormEvent : PlotEvent
         SubscribeToEvents();
         SetUpPassiveEvent();
     }
+    
     private void Update() {
         _cooldown.DecreaseCooldown(Time.deltaTime);
     }
+    
     internal void SetUpPassiveEvent() {
         _state = EventState.InitialWaiting;
         _cooldown.StartCooldown(_config.Timing.StartDelay);
@@ -31,7 +30,10 @@ public class BurbbleStormEvent : PlotEvent
         base.StartEvent();
         UpdatePassiveEventCollection metadata = SetupStartEventMetadata(_tornado.transform);
         
-        _tornado.SetActive(true);
+        _tornado.PullStrengthIncreaseDuration = _config.Timing.Duration;
+        
+        _tornado.gameObject.SetActive(true);
+        
         FireStartEvent(metadata);
     }
 
@@ -39,8 +41,10 @@ public class BurbbleStormEvent : PlotEvent
     {
         if(_state != EventState.Waiting) return;
         
-        _tornado.SetActive(false);
+        _tornado.gameObject.SetActive(false);
+        
         base.HandleWaitingStatus();
+        
         UpdatePassiveEventCollection metadata = SetupEndEventMetadata();
 
         FireEndEvent(metadata);
@@ -48,7 +52,7 @@ public class BurbbleStormEvent : PlotEvent
 
     internal protected override void HandleDoneStatus()
     {
-        _tornado.SetActive(false);
+        _tornado.gameObject.SetActive(false);
         base.HandleDoneStatus();
     }
 

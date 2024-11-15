@@ -1,11 +1,7 @@
 using System;
-
 using UnityEngine;
 
-[
-    RequireComponent(typeof(CaughtObject)),
-    RequireComponent(typeof(Rigidbody)),
-]
+[RequireComponent(typeof(CaughtObject)),]
 public class BeeSuckInBurbbleStorm : MonoBehaviour
 {
     private CaughtObject _caughtObject;
@@ -22,22 +18,21 @@ public class BeeSuckInBurbbleStorm : MonoBehaviour
     private void SetUp()
     {
         _caughtObject = GetComponent<CaughtObject>();
+        
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.isKinematic = true;
+        _rigidbody.useGravity = false;
     }
 
-    private void OnSuckInStorm() {
+    private void HandleStormStart(UpdatePassiveEventCollection eventMetadata) 
+    {
+        if(eventMetadata.CurrentEvent != PassiveEvent.BurbbleStorm) return;
+        _rigidbody.isKinematic = false;
         SuckInStorm?.Invoke();
     }
 
-    private void HandleStormStart(UpdatePassiveEventCollection eventMetadata) {
-        if(eventMetadata.CurrentEvent != PassiveEvent.BurbbleStorm) return;
-        
-        OnSuckInStorm();
-        _rigidbody.isKinematic = false;
-    }
-
-    private void HandleStormEnd(UpdatePassiveEventCollection eventMetadata) {
+    private void HandleStormEnd(UpdatePassiveEventCollection eventMetadata)
+    {
         if(eventMetadata.PreviousEvent != PassiveEvent.BurbbleStorm) return;
 
         _rigidbody.isKinematic = true;
@@ -46,7 +41,6 @@ public class BeeSuckInBurbbleStorm : MonoBehaviour
     private void SubscribeToEvents() {
         PlotEvent.OnPassiveEventStart += HandleStormStart;
         PlotEvent.OnPasiveEventEnd += HandleStormEnd;
-        
     }
 
     private void UnsubscribeFromEvents() {
@@ -54,8 +48,6 @@ public class BeeSuckInBurbbleStorm : MonoBehaviour
         PlotEvent.OnPasiveEventEnd -= HandleStormEnd;
     }
 
-    private void OnDestroy()
-    {
-        UnsubscribeFromEvents();
-    }
+    private void OnDestroy() => UnsubscribeFromEvents();
+    
 }

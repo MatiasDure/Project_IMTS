@@ -4,14 +4,11 @@
     <list default="true" id="579f6007-33de-4bfa-83d1-02aaba1d5149" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Child hospital gamification/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Child hospital gamification/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/BurbbleStorm.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/BurbbleStorm.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/HideAndSeaPassiveEvent.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/HideAndSeaPassiveEvent.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Events/Ocean/BurbbleStorm/BeeSuckInBurbbleStorm.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Events/Ocean/BurbbleStorm/BeeSuckInBurbbleStorm.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Events/Ocean/BurbbleStorm/BurbbleStormConfig.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Events/Ocean/BurbbleStorm/BurbbleStormConfig.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Events/Ocean/BurbbleStorm/BurbbleStormEvent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Events/Ocean/BurbbleStorm/BurbbleStormEvent.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Events/Ocean/BurbbleStorm/CaughtObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Events/Ocean/BurbbleStorm/CaughtObject.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Events/Ocean/BurbbleStorm/Tornado.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Events/Ocean/BurbbleStorm/Tornado.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Events/Ocean/HideAndSea/HideAndSea.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Events/Ocean/HideAndSea/HideAndSea.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Events/PassiveEvent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Events/PassiveEvent.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Events/PlotEvent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Events/PlotEvent.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Managers/Events/EventManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Managers/Events/EventManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Player/States/BeeState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Player/States/BeeState.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,6 +29,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Game/Player/Movements/BeeMovementTestFunction.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Tests/PlayMode/Interaction/InteractionTest.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Tests/PlayMode/Portal/PortalFunctionTest.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/14f40e09d6694004b9ecb349609578171fe00/4e/74591051/ForceMode.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/57942ade5c1443d0b7b9fb728c4e754d176400/1a/edcda566/Behaviour.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
