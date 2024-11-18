@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class BeeSwimming : MonoBehaviour
 {
-    [SerializeField] private protected float _moveSpeed;
-    [SerializeField] private protected float _rotationSpeed = 1f;
+    [SerializeField] private float _moveSpeed;
+    [SerializeField] private float _rotationSpeed = 1f;
     [SerializeField] private Range _decisionDelayRange;
     [SerializeField] private EnvironmentBounds bounds;
     [SerializeField] private Transform _middlePoint;
@@ -19,9 +19,11 @@ public class BeeSwimming : MonoBehaviour
     private bool _checkVerticalDirection = true;
 
     private float _rotationDuration;
+    private bool _isIdle = true;
 
     private void Start()
     {
+        SubscribeToEvents();
         EstablishRotationDuration();
         SetupBounds();
         DoSwimmingSequence();
@@ -35,6 +37,7 @@ public class BeeSwimming : MonoBehaviour
 
     private void Move()
     {
+        if (!_isIdle) return;
         transform.position += transform.forward * _moveSpeed;
     }
 
@@ -252,5 +255,47 @@ public class BeeSwimming : MonoBehaviour
     {
         _activeChangeDirectionCoroutine =
             StartCoroutine(ChangeDirectionCoroutine(_decisionDelayRange.GetRandomValueWithinRange()));
+    }
+
+    private IEnumerator RestartSwimmingSequence()
+    {
+        yield return StartCoroutine(
+            SmoothRotationCoroutine(GetLevelledRotationToMiddlePoint(_middlePoint.position), _rotationDuration));
+        DoSwimmingSequence();
+    }
+
+    private void StopSwimmingSequence()
+    {
+        StopAllCoroutines();
+    }
+
+    private void HandleBeeStateChanged(BeeState state)
+    {
+        switch (state)
+        {
+            case BeeState.Idle:
+                _isIdle = true;
+                StartCoroutine(RestartSwimmingSequence());
+                break;
+            case BeeState.ChasingFish:
+                _isIdle = false;
+                StopSwimmingSequence();
+                break;
+        }
+    }
+
+    private void SubscribeToEvents()
+    {
+        Bee.OnBeeStateChanged += HandleBeeStateChanged;
+    }
+
+    private void UnsubscribeFromEvents()
+    {
+        Bee.OnBeeStateChanged -= HandleBeeStateChanged;
+    }
+
+    private void OnDestroy()
+    {
+        UnsubscribeFromEvents();
     }
 }

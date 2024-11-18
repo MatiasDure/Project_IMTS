@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-public class FishSwimmingInteraction : MonoBehaviour, IInteractable
+public class FishSpeedUpBehaviour : MonoBehaviour
 {
     [SerializeField] internal float _moveSpeed = 0.1f;
     [SerializeField] private float _speedUpMultiplier = 2f;
@@ -10,14 +11,14 @@ public class FishSwimmingInteraction : MonoBehaviour, IInteractable
     [SerializeField] private float _speedChangeDuration = 0.5f;
     [SerializeField] private ParticleSystem _particleSystem;
 
-    private bool _canSpeedUp = true;
     private float _multipliedSpeed;
+    private float _originalMoveSpeed;
 
-	public bool CanInterrupt { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-	public bool MultipleInteractions { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+    public event Action OnEffectDone;
 
 	private void Start()
     {
+        _originalMoveSpeed = _moveSpeed;
         _multipliedSpeed = _moveSpeed * _speedUpMultiplier;
     }
 
@@ -26,11 +27,9 @@ public class FishSwimmingInteraction : MonoBehaviour, IInteractable
         Swim();
     }
 
-    public void Interact()
+    public void BeginEffectSequence()
     {
-        if (!_canSpeedUp) return;
-
-        StartCoroutine(FishTappedCoroutine(_moveSpeed, _speedUpDuration));
+        StartCoroutine(FishTappedCoroutine(_originalMoveSpeed, _speedUpDuration));
     }
 
     private void Swim()
@@ -40,17 +39,15 @@ public class FishSwimmingInteraction : MonoBehaviour, IInteractable
 
     private void ApplySpeedUpEffect(float originalMoveSpeed, float targetSpeed)
     {
-        _canSpeedUp = false;
-
         StartCoroutine(SmoothSpeedChangeCoroutine(originalMoveSpeed, targetSpeed, _speedChangeDuration));
         _particleSystem.Play();
     }
 
     private void RemoveSpeedUpEffect(float originalMoveSpeed)
     {
-        _canSpeedUp = true;
-
         StartCoroutine(SmoothSpeedChangeCoroutine(_moveSpeed, originalMoveSpeed, _speedChangeDuration));
+        OnEffectDone?.Invoke();
+        //TODO: Handle particles from FishInteraction
         _particleSystem.Stop();
     }
     

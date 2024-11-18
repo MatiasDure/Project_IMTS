@@ -12,7 +12,21 @@ public class ObjectMovement : MonoBehaviour
 		transform.position = Vector3.MoveTowards(transform.position, position, speed * Time.deltaTime);
 	}
 
-	public bool IsInPlace(Vector3 position) => approximatelyInPlace(position, DISTANCE_TOLERANCE);
+    public void SnapRotationTowards(Vector3 targetPosition)
+    {
+        Vector3 direction = (targetPosition - transform.position).normalized;
+        if (direction == Vector3.zero) return;
 
-	public bool approximatelyInPlace(Vector3 position, float tolerance) => Vector3.Distance(transform.position, position) <= tolerance;
+        Quaternion targetRotation = Quaternion.LookRotation(direction);
+        transform.rotation = targetRotation;
+    }
+
+    public void SmoothRotate(Quaternion startRotation, Quaternion targetRotation, float percentageCompleted)
+    {
+        transform.rotation = Quaternion.Slerp(startRotation, targetRotation, percentageCompleted);
+    }
+
+    public bool IsInPlace(Vector3 position) => ApproximatelyInPlace(position, DISTANCE_TOLERANCE);
+
+	public bool ApproximatelyInPlace(Vector3 position, float tolerance) => Vector3.Distance(transform.position, position) <= tolerance;
 }
