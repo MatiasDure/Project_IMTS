@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 593ea87214eb080459241f32be62100d
+guid: b83fd9212f52a7d469bbb97b707a3b2d
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -37,7 +37,7 @@ ModelImporter:
       takeName: Take 001
       internalID: 1827226128182048838
       firstFrame: 0
-      lastFrame: 159
+      lastFrame: 41
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -120,7 +120,7 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     globalScale: 1
-    rootMotionBoneName: 
+    rootMotionBoneName: BigCoralGroup
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
