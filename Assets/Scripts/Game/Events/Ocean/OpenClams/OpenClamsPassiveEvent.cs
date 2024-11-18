@@ -1,13 +1,16 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
-public class OpenClamsPassiveEvent : PlotEvent, IEvent
+public class OpenClamsPassiveEvent : PlotEvent, IEvent, IInterruptible
 {
 	[SerializeField] internal ToggleObjectPassiveEvent _toggleObjectEvent;
 	[SerializeField] internal ObjectMovement _beeMovement;
 
 	internal IToggleComponent _toggleComponent;
 	internal GameObject _toggleableObject;
+
+	public event Action<IInterruptible> OnInterruptedDone;
 
 	private void Awake() {
 		_toggleObjectEvent.RetrieveToggleableObjects();
@@ -32,7 +35,7 @@ public class OpenClamsPassiveEvent : PlotEvent, IEvent
 
 	private IEnumerator MoveBeeToClamp(Transform clam)
 	{
-		Vector3 target = clam.position + (clam.forward * 1f);
+		Vector3 target = clam.position + clam.forward;
 		while(!_beeMovement.IsInPlace(target))
 		{
 			_beeMovement.MoveTo(target, 4f);
@@ -89,4 +92,12 @@ public class OpenClamsPassiveEvent : PlotEvent, IEvent
 		UnsubscribeFromEvents();
 	}
 
+	public void InterruptEvent()
+	{
+		_state = _frequency.IsFrequencyOver() ? EventState.Done : EventState.Waiting;
+		if(_toggleComponent != null) _toggleComponent.OnToggleDone -= HandleCurrentClamToggle;
+
+		HandleDoneStatus();
+		OnInterruptedDone?.Invoke(this);
+	}
 }
