@@ -1,12 +1,12 @@
 using System;
 using UnityEngine;
 
-public class PlayParticle : MonoBehaviour, IToggleComponent
+public class PlayParticle : MonoBehaviour //, IToggleComponent
 {
-    public ToggleState CurrentToggleState { get; set; }
+    //public ToggleState CurrentToggleState { get; set; }
 
-    public bool ignoreInput { get; set; }
-	public ToggleState NextToggleState { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    //public bool ignoreInput { get; set; }
+	//public ToggleState NextToggleState { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
 	[SerializeField] internal ParticleSystem _particleSystemprefab;
     [SerializeField] internal Transform _origin;
@@ -17,37 +17,37 @@ public class PlayParticle : MonoBehaviour, IToggleComponent
 
 	private void Start()
     {
-        CurrentToggleState = ToggleState.Off;
-        ignoreInput = false;
+        // CurrentToggleState = ToggleState.Off;
+        // ignoreInput = false;
         
         _particleSystem = InstantiateParticleSystem(_particleSystem,_particleSystemprefab,_origin);
     }
 
-    public void Toggle()
-    {
-        if(ignoreInput) return;
+    // public void Toggle()
+    // {
+    //     if(ignoreInput) return;
         
-        //interact
-        if (CurrentToggleState == ToggleState.Off) ToggleOn(); 
-        else ToggleOff();
-    }
+    //     //interact
+    //     if (CurrentToggleState == ToggleState.Off) ToggleOn(); 
+    //     else ToggleOff();
+    // }
 
     public void ToggleOn()
     {
         _particleSystem.Play();
-        UpdateState(ToggleState.On);
+        // UpdateState(ToggleState.On);
     }
 
     public void ToggleOff()
     {
         if(_particleSystem.isPlaying) _particleSystem.Stop();
-        UpdateState(ToggleState.Off);
+        // UpdateState(ToggleState.Off);
     }
 
-    private void UpdateState(ToggleState state)
-    {
-        CurrentToggleState = state;
-    }
+    // private void UpdateState(ToggleState state)
+    // {
+    //     CurrentToggleState = state;
+    // }
     
     internal ParticleSystem InstantiateParticleSystem(ParticleSystem instatiateSystem, ParticleSystem particleSystemToInstantiate, Transform parent)
     {

@@ -6,4 +6,5 @@ public enum BeeState
     FollowingCamera,
 	Hiding,
 	ChestInspection,
+	CloseClams,
 }

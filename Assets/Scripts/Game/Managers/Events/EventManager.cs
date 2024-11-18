@@ -43,8 +43,9 @@ public class EventManager : MonoBehaviour
 		{
 			UpdateCurrentEvent(eventData.EventObject);
 			_currentEventGameObject = eventData.EventObject;
-			if(eventData.EventType == EventType.Passive)
+			if(eventData.EventType == EventType.Passive) {
 				_currentEventGameObject.GetComponent<PlotEvent>().StartEvent();
+			}
 			else {
 				var interactable = _currentEventGameObject.GetComponent<IInteractable>();
 				interactable.Interact();
