@@ -91,7 +91,7 @@ public class HideAndSea : PlotEvent
 
 	internal Transform GetRandomHideSpot(List<Transform> hideSpots, int randomIndex) => hideSpots[randomIndex];
 
-	private void OnDestory()
+	private void OnDestroy()
 	{
 		UnsubscribeFromEvents();
 	}

@@ -7,4 +7,5 @@ public enum BeeState
 	Hiding,
 	ChestInspection,
 	CloseClams,
+	SuckInStorm,
 }
