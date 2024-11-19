@@ -13,6 +13,7 @@ public abstract class PlotEvent : MonoBehaviour, IEvent
 	public static event Action<UpdatePassiveEventCollection> OnPassiveEventStart;
 	public static event Action<UpdatePassiveEventCollection> OnPasiveEventEnd;
 	public event Action OnEventDone;
+	protected bool subscribedToEvents;
 
 	public virtual void StartEvent() {
 		_state = _state == EventState.InitialReady ? EventState.InitialActive : EventState.Active;
@@ -38,7 +39,7 @@ public abstract class PlotEvent : MonoBehaviour, IEvent
 		}
 	}
 
-	internal void CheckIfEventContinuesPlaying() {
+	internal protected void CheckIfEventContinuesPlaying() {
 		if(!_frequency.IsFrequencyOver()) {
 			_state = EventState.Waiting;
 			HandleWaitingStatus();
@@ -58,12 +59,15 @@ public abstract class PlotEvent : MonoBehaviour, IEvent
 		FireEndEvent(eventMetadata);
 	}
 
+	protected abstract void HandlePlotActivated();
 	protected virtual void SubscribeToEvents() {
 		_cooldown.OnCooldownOver += UpdateEventStatus;
+		BeeMovement.OnBeeEnteredPlot += HandlePlotActivated;
 	}
 
 	protected virtual void UnsubscribeFromEvents() {
 		_cooldown.OnCooldownOver -= UpdateEventStatus;
+		BeeMovement.OnBeeEnteredPlot -= HandlePlotActivated;
 	}
 
 	protected virtual UpdatePassiveEventCollection SetupEndEventMetadata() => 

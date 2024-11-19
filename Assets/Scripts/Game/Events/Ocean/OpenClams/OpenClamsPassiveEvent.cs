@@ -6,6 +6,7 @@ public class OpenClamsPassiveEvent : PlotEvent, IEvent, IInterruptible
 {
 	[SerializeField] internal ToggleObjectPassiveEvent _toggleObjectEvent;
 	[SerializeField] internal ObjectMovement _beeMovement;
+	[SerializeField] private Movement _beeMovementConfig;
 
 	internal IToggleComponent _toggleComponent;
 	internal GameObject _toggleableObject;
@@ -16,15 +17,12 @@ public class OpenClamsPassiveEvent : PlotEvent, IEvent, IInterruptible
 		_toggleObjectEvent.RetrieveToggleableObjects();
 	}
 
-    void Start()
-    {
-        SetUpPassiveEvent();
+	private void Start() {
 		SubscribeToEvents();
-    }
+	}
 
    	private void Update() {
 		_cooldown.DecreaseCooldown(Time.deltaTime);
-		Debug.Log(_state);
 	}
 
 	internal void SetUpPassiveEvent() {
@@ -38,7 +36,7 @@ public class OpenClamsPassiveEvent : PlotEvent, IEvent, IInterruptible
 		Vector3 target = clam.position + clam.forward;
 		while(!_beeMovement.IsInPlace(target))
 		{
-			_beeMovement.MoveTo(target, 4f);
+			_beeMovement.MoveTo(target, _beeMovementConfig.MovementSpeed);
 			yield return null;
 		}
 
@@ -99,5 +97,12 @@ public class OpenClamsPassiveEvent : PlotEvent, IEvent, IInterruptible
 
 		HandleDoneStatus();
 		OnInterruptedDone?.Invoke(this);
+	}
+
+	protected override void HandlePlotActivated()
+	{
+		if (PlotsManager.Instance.CurrentPlot != Plot.Ocean) return;
+
+		SetUpPassiveEvent();
 	}
 }

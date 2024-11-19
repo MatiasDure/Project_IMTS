@@ -61,16 +61,16 @@ public class ImageTrackingResponseManager : MonoBehaviour
 				continue;
 			}
 			
-			HandleTrackedImageUpdatedResponse(trackedImage.gameObject, imageObjectReference);
+			HandleTrackedImageUpdatedResponse(trackedImage, imageObjectReference);
 		}
 	}
 
-	private void HandleTrackedImageUpdatedResponse(GameObject trackedImageGameObject, ImageObjectReference imageObjectReference)
+	private void HandleTrackedImageUpdatedResponse(ARTrackedImage trackedImage, ImageObjectReference imageObjectReference)
 	{
 		foreach (var response in _imageTrackingResponses)
 		{
 			if (response.ResponseType == imageObjectReference.UpdatedResponse)
-				response.Respond(_imageTrackingTrackRespondedObjects.GetTrackedObject(imageObjectReference.ImageName), trackedImageGameObject);
+				response.Respond(_imageTrackingTrackRespondedObjects.GetTrackedObject(imageObjectReference.ImageName), trackedImage);
 		}
 	}
 
@@ -83,16 +83,16 @@ public class ImageTrackingResponseManager : MonoBehaviour
 			// If no ImageObjectReference is found, skip to the next tracked image
 			if (!HasImageObjectReferences(imageObjectReference)) continue;
 
-			HandleTrackedImageAddedResponse(trackedImage.gameObject, imageObjectReference);
+			HandleTrackedImageAddedResponse(trackedImage, imageObjectReference);
 		}
 	}
 
-	internal void HandleTrackedImageAddedResponse(GameObject trackedImageGameObject, ImageObjectReference imageObjectReference)
+	internal void HandleTrackedImageAddedResponse(ARTrackedImage trackedImage, ImageObjectReference imageObjectReference)
 	{
 		foreach (var response in _imageTrackingResponses)
 		{
 			if (response.ResponseType == imageObjectReference.AddedResponse) {
-				GameObject manipulatedObject = response.Respond(imageObjectReference.ObjectReference, trackedImageGameObject);
+				GameObject manipulatedObject = response.Respond(imageObjectReference.ObjectReference, trackedImage);
 				_imageTrackingTrackRespondedObjects.TrackObject(imageObjectReference.ImageName, manipulatedObject);
 			}
 		}

@@ -271,27 +271,33 @@ public class BeeSwimming : MonoBehaviour
 
     private void HandleBeeStateChanged(BeeState state)
     {
-        switch (state)
-        {
-            case BeeState.Idle:
-                _isIdle = true;
-                StartCoroutine(RestartSwimmingSequence());
-                break;
-            case BeeState.ChasingFish:
-                _isIdle = false;
-                StopSwimmingSequence();
-                break;
-        }
+		if(PlotsManager.Instance.CurrentPlot != Plot.Ocean) return;
+
+		if(state == BeeState.Idle) {
+			_isIdle = true;
+			StartCoroutine(RestartSwimmingSequence());
+			return;
+		}
+
+		_isIdle = false;
+		StopSwimmingSequence();
     }
 
     private void SubscribeToEvents()
     {
         Bee.OnBeeStateChanged += HandleBeeStateChanged;
+		ImageTrackingPlotActivatedResponse.OnPlotActivated += HandlePlotActivated;
     }
 
-    private void UnsubscribeFromEvents()
+	private void HandlePlotActivated(Plot plot)
+	{
+		Bee.Instance.UpdateState(BeeState.Idle);
+	}
+
+	private void UnsubscribeFromEvents()
     {
         Bee.OnBeeStateChanged -= HandleBeeStateChanged;
+		ImageTrackingPlotActivatedResponse.OnPlotActivated -= HandlePlotActivated;
     }
 
     private void OnDestroy()

@@ -48,10 +48,9 @@ public class Tornado : MonoBehaviour
 
     public float lift => _lift;
 
-    void Awake()
-    {
+	void Start() {
         SetUp();
-    }
+	}
 
     private void SetUp()
     {

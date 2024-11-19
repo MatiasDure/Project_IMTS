@@ -10,10 +10,9 @@ public class BurbbleStormEvent : PlotEvent
             Debug.LogError("Missing tornado game object reference");
     }
 
-    private void Start() {
-        SubscribeToEvents();
-        SetUpPassiveEvent();
-    }
+	private void Start() {
+		SubscribeToEvents();
+	}
     
     private void Update() {
         _cooldown.DecreaseCooldown(Time.deltaTime);
@@ -91,4 +90,11 @@ public class BurbbleStormEvent : PlotEvent
     {
         UnsubscribeFromEvents();
     }
+
+	protected override void HandlePlotActivated()
+	{
+		if (PlotsManager.Instance.CurrentPlot != Plot.Ocean) return;
+
+		SetUpPassiveEvent();
+	}
 }

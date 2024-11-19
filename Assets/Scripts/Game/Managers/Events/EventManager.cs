@@ -8,8 +8,9 @@ public class EventManager : MonoBehaviour
     private GameObject _currentEventGameObject;
 	private GameObject _nextEventToPlay;
 	private IEvent _currentEvent;
-
+	private bool _interruptionInProcess;
 	private EventType _nextEventType = EventType.None;
+
 
 	internal void Awake()
 	{
@@ -39,6 +40,8 @@ public class EventManager : MonoBehaviour
 
 	private void StartInterruptionSequence(EventInterruption eventData)
 	{
+		if(_interruptionInProcess) return;
+
 		if(_currentEventGameObject == null)
 		{
 			UpdateCurrentEvent(eventData.EventObject);
@@ -68,11 +71,13 @@ public class EventManager : MonoBehaviour
 		_nextEventType = eventData.EventType;
 		_nextEventToPlay = eventData.EventObject;
 		interruptibleEvent.OnInterruptedDone += HandleEventInterrupted;
+		_interruptionInProcess = true;
 		interruptibleEvent.InterruptEvent();
 	}
 
 	private void HandleEventInterrupted(IInterruptible interruptibleEvent)
 	{
+		_interruptionInProcess = false;
 		interruptibleEvent.OnInterruptedDone -= HandleEventInterrupted;
 		UpdateCurrentEvent(_nextEventToPlay);
 

@@ -1,10 +1,13 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HideAndSea : PlotEvent
+public class HideAndSea : PlotEvent, IEvent, IInterruptible
 {
 	[SerializeField] internal GameObject _hideSpotsContaioner;
 	internal List<Transform> _hideSpots;
+
+	public event Action<IInterruptible> OnInterruptedDone;
 
 	private void Awake()
 	{
@@ -16,7 +19,6 @@ public class HideAndSea : PlotEvent
 
 	private void Start() {
 		SubscribeToEvents();
-		SetUpPassiveEvent();
 	}
 
 	private void Update() {
@@ -94,5 +96,21 @@ public class HideAndSea : PlotEvent
 	private void OnDestroy()
 	{
 		UnsubscribeFromEvents();
+	}
+
+	protected override void HandlePlotActivated()
+	{
+		Debug.Log("Hide and Sea event activated");
+		if (PlotsManager.Instance.CurrentPlot != Plot.Ocean) return;
+
+		SetUpPassiveEvent();
+	}
+
+	public void InterruptEvent()
+	{
+		if(_cooldown.IsOnCooldown) _cooldown.StopCooldown();
+		CheckIfEventContinuesPlaying();
+		Bee.Instance.UpdateState(BeeState.Idle);
+		OnInterruptedDone?.Invoke(this);
 	}
 }

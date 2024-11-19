@@ -9,7 +9,9 @@ public class ObjectMovement : MonoBehaviour
 	}
 
 	public void MoveTo(Vector3 position, float speed) {
-		transform.position = Vector3.MoveTowards(transform.position, position, speed * Time.deltaTime);
+		transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(position - transform.position), 100f * Time.deltaTime);
+		transform.position = transform.forward * speed * Time.deltaTime + transform.position;
+		// transform.position = Vector3.MoveTowards(transform.position, position, speed * Time.deltaTime);
 	}
 
     public void SnapRotationTowards(Vector3 targetPosition)
