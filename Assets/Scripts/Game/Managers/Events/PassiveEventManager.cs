@@ -18,11 +18,6 @@ public class PassiveEventManager : Singleton<PassiveEventManager>
 
 	public event Action<EventInterruption> OnPassiveEventReadyToStart;
 
-	protected override void Awake()
-	{
-		base.Awake();
-	}
-
 	private void Start() {
 		Setup();
 		SubscribeToEvents();
@@ -86,7 +81,7 @@ public class PassiveEventManager : Singleton<PassiveEventManager>
 		PlotEvent.OnPasiveEventEnd += HandlePassiveEventEnd;
 	}
 
-	private void OnDestory() {
+	private void OnDestroy() {
 		UnsubscribeFromEvents();
 	}
 }

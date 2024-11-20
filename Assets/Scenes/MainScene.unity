@@ -469,6 +469,63 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 491879930}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &657449366
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1510206754}
+    m_Modifications:
+    - target: {fileID: 7193050208448093313, guid: e3e256f10c3d342839fe19a896b3e9bd, type: 3}
+      propertyPath: m_Name
+      value: PlaceHolderTornado
+      objectReference: {fileID: 0}
+    - target: {fileID: 7281258248374173118, guid: e3e256f10c3d342839fe19a896b3e9bd, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7281258248374173118, guid: e3e256f10c3d342839fe19a896b3e9bd, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7281258248374173118, guid: e3e256f10c3d342839fe19a896b3e9bd, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7281258248374173118, guid: e3e256f10c3d342839fe19a896b3e9bd, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7281258248374173118, guid: e3e256f10c3d342839fe19a896b3e9bd, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7281258248374173118, guid: e3e256f10c3d342839fe19a896b3e9bd, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7281258248374173118, guid: e3e256f10c3d342839fe19a896b3e9bd, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7281258248374173118, guid: e3e256f10c3d342839fe19a896b3e9bd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 7281258248374173118, guid: e3e256f10c3d342839fe19a896b3e9bd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7281258248374173118, guid: e3e256f10c3d342839fe19a896b3e9bd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e3e256f10c3d342839fe19a896b3e9bd, type: 3}
 --- !u!1 &685441854
 GameObject:
   m_ObjectHideFlags: 0
@@ -1431,8 +1488,8 @@ MonoBehaviour:
   - _plot: 1
     _plotEvents:
     - {fileID: 1508390331}
-    - {fileID: 2110136463}
     - {fileID: 1474467937}
+    - {fileID: 2110136463}
 --- !u!4 &1210314740
 Transform:
   m_ObjectHideFlags: 0
@@ -1570,13 +1627,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b954794e941041399b46e2eeab12571, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxDistance: 1.5
+  _maxDistance: 1
   _rotationAxis: {x: 0, y: 1, z: 0}
   _rotationAngle: 130
   _lift: 10
   rotationRotationStrength: 10
-  _minTornadoStrength: 4
-  _maxTornadoStrength: 100
+  _minTornadoStrength: 2
+  _maxTornadoStrength: 30
   _caughtObjectsHolder: {fileID: 0}
 --- !u!54 &1510206753
 Rigidbody:
@@ -1617,7 +1674,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: -3.88}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2075129411}
   m_Father: {fileID: 840753269}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1534319990
@@ -2315,7 +2373,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 443dfee7770034db4a7ed4520a373270, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rigid: {fileID: 0}
+  allowUpdate: 0
 --- !u!54 &2073747478
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2392,6 +2450,11 @@ MonoBehaviour:
   _middlePoint: {fileID: 1901057583}
   _turnLimitRange: {x: 60, y: 5}
   _verticalRotationBound: 10
+--- !u!4 &2075129411 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7281258248374173118, guid: e3e256f10c3d342839fe19a896b3e9bd, type: 3}
+  m_PrefabInstance: {fileID: 657449366}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2082319627
 GameObject:
   m_ObjectHideFlags: 0

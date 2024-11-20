@@ -19,7 +19,6 @@ public class BeeSwimming : MonoBehaviour
     private bool _checkVerticalDirection = true;
 
     private float _rotationDuration;
-    private bool _isIdle = true;
 
     private void Start()
     {
@@ -37,7 +36,7 @@ public class BeeSwimming : MonoBehaviour
 
     private void Move()
     {
-        if (!_isIdle) return;
+        if (Bee.Instance.State != BeeState.Idle) return;
         transform.position += transform.forward * _moveSpeed;
     }
 
@@ -274,22 +273,20 @@ public class BeeSwimming : MonoBehaviour
 		if(PlotsManager.Instance.CurrentPlot != Plot.Ocean) return;
 
 		if(state == BeeState.Idle) {
-			_isIdle = true;
-			StartCoroutine(RestartSwimmingSequence());
+            StartCoroutine(RestartSwimmingSequence());
 			return;
 		}
-
-		_isIdle = false;
+        
 		StopSwimmingSequence();
     }
 
     private void SubscribeToEvents()
     {
         Bee.OnBeeStateChanged += HandleBeeStateChanged;
-		ImageTrackingPlotActivatedResponse.OnPlotActivated += HandlePlotActivated;
+		BeeMovement.OnBeeEnteredPlot += HandlePlotActivated;
     }
 
-	private void HandlePlotActivated(Plot plot)
+	private void HandlePlotActivated()
 	{
 		Bee.Instance.UpdateState(BeeState.Idle);
 	}
@@ -297,7 +294,7 @@ public class BeeSwimming : MonoBehaviour
 	private void UnsubscribeFromEvents()
     {
         Bee.OnBeeStateChanged -= HandleBeeStateChanged;
-		ImageTrackingPlotActivatedResponse.OnPlotActivated -= HandlePlotActivated;
+        BeeMovement.OnBeeEnteredPlot -= HandlePlotActivated;
     }
 
     private void OnDestroy()

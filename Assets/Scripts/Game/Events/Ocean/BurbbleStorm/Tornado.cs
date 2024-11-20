@@ -27,13 +27,12 @@ public class Tornado : MonoBehaviour
     [SerializeField] private float _minTornadoStrength = 4;
     [SerializeField] private float _maxTornadoStrength = 100;
 
+    private GameObject _bee;
     private float _tornadoStrength;
     
     public float PullStrengthIncreaseDuration { get; set; }
 
     [SerializeField] private GameObject _caughtObjectsHolder;
-
-    private GameObject _bee;
 
     private Rigidbody _rb;
 
@@ -48,7 +47,7 @@ public class Tornado : MonoBehaviour
 
     public float lift => _lift;
 
-	void Start() {
+	void Awake() {
         SetUp();
 	}
 
@@ -56,14 +55,10 @@ public class Tornado : MonoBehaviour
     {
         _tornadoStrength = _minTornadoStrength;
         
-        _bee = Bee.Instance.gameObject;
-        
         _rotationAxis.Normalize();
 
         _rb = GetComponent<Rigidbody>();
         _rb.isKinematic = true;
-        
-        AddCaughtObjects();
     }
 
     private void AddCaughtObjects()
@@ -86,6 +81,7 @@ public class Tornado : MonoBehaviour
 
     private void AddBee()
     {
+        _bee = Bee.Instance.gameObject;
         if (_bee.TryGetComponent(typeof(CaughtObject), out Component c))
             _caughtObjects.Add(_bee.GetComponent<CaughtObject>());
     }
@@ -107,17 +103,20 @@ public class Tornado : MonoBehaviour
                 if (pull.magnitude > _maxDistance)
                 {
                     _caughtObjects[i].rigid.AddForce(pull.normalized * pull.magnitude, ForceMode.Force);
-                    _caughtObjects[i].enabled = false;
+                    _caughtObjects[i].allowUpdate = false;
                 }
                 else 
-                    _caughtObjects[i].enabled = true;
+                    _caughtObjects[i].allowUpdate = true;
             }
         }
     }
 
     private void OnEnable()
     {
-        if(_caughtObjects == null || _caughtObjects.Count<=0) return;
+        if (_caughtObjects == null || _caughtObjects.Count <= 0)
+        {
+            AddCaughtObjects();
+        }
         
         InitCaughtObjects();
 
@@ -159,13 +158,32 @@ public class Tornado : MonoBehaviour
         while (currentValue < threshold)
         {
             elapseTime += Time.deltaTime;
-            currentValue = Mathf.Lerp(startValue, threshold, elapseTime / duration);
-
+            currentValue = Mathf.Lerp(startValue, threshold, elapseTime / (duration/2));
+            
             updateValue(currentValue);
             yield return null;
         }
 
-        updateValue(currentValue);
+        updateValue(threshold);
+        StartCoroutine(DecreaseTilThreshold(threshold, startValue, duration, UpdateTornadoStrength));
+    }
+    
+    private IEnumerator DecreaseTilThreshold(float startValue, float threshold, float duration,
+        Action<float>updateValue)
+    {
+        float elapseTime = 0f;
+        float currentValue = startValue;
+
+        while (currentValue > threshold)
+        {
+            elapseTime += Time.deltaTime;
+            currentValue = Mathf.Lerp(startValue, threshold, elapseTime / ((duration-0.5f)/2));
+            
+            updateValue(currentValue);
+            yield return null;
+        }
+
+        updateValue(threshold);
     }
 
     private void UpdateTornadoStrength(float updateValue)
