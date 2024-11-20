@@ -112,7 +112,7 @@ public class PlotEventTest
 
 		hideAndSea.HandleDoneStatus();
 
-		Assert.AreEqual(BeeState.FollowingCamera, metadata.State);
+		Assert.AreEqual(BeeState.Idle, metadata.State);
 		Assert.AreEqual(null, metadata.Metadata);
 		Assert.AreEqual(PassiveEvent.None, metadata.CurrentEvent);
 		Assert.AreEqual(PassiveEvent.HideAndSea, metadata.PreviousEvent);
