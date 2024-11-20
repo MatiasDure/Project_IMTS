@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HideAndSea : PlotEvent, IEvent, IInterruptible
+public class HideAndSea : PlotEvent, IInterruptible
 {
 	[SerializeField] internal GameObject _hideSpotsContaioner;
 	internal List<Transform> _hideSpots;
@@ -100,7 +100,6 @@ public class HideAndSea : PlotEvent, IEvent, IInterruptible
 
 	protected override void HandlePlotActivated()
 	{
-		Debug.Log("Hide and Sea event activated");
 		if (PlotsManager.Instance.CurrentPlot != Plot.Ocean) return;
 
 		SetUpPassiveEvent();

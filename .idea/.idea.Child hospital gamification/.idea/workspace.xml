@@ -3,12 +3,15 @@
   <component name="ChangeListManager">
     <list default="true" id="579f6007-33de-4bfa-83d1-02aaba1d5149" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Child hospital gamification/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Child hospital gamification/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/BurbbleStorm.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/BurbbleStorm.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Events/Ocean/BurbbleStorm/BeeSuckInBurbbleStorm.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Events/Ocean/BurbbleStorm/BeeSuckInBurbbleStorm.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Events/Ocean/BurbbleStorm/BurbbleStormConfig.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Events/Ocean/BurbbleStorm/BurbbleStormConfig.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Events/Ocean/BurbbleStorm/BurbbleStormEvent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Events/Ocean/BurbbleStorm/BurbbleStormEvent.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/BeeMovementTest.unity" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/BeeMovementTest.unity.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Events/Ocean/BurbbleStorm/CaughtObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Events/Ocean/BurbbleStorm/CaughtObject.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Events/Ocean/BurbbleStorm/Tornado.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Events/Ocean/BurbbleStorm/Tornado.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Events/Ocean/HideAndSea/HideAndSea.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Events/Ocean/HideAndSea/HideAndSea.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Interaction/PlayParticle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Interaction/PlayParticle.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Managers/Events/PassiveEventManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Managers/Events/PassiveEventManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Player/Bee.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Player/Bee.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
