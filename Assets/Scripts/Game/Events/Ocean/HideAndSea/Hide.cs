@@ -4,7 +4,8 @@ using UnityEngine;
 public class Hide : MonoBehaviour
 {
 	[SerializeField] private Vector3 _hideOffset;
-	[SerializeField] private Movement _movement;
+	[SerializeField] private Movement _movementConfig;
+	[SerializeField] private ObjectMovement _movement;
 	private Transform _hideSpot;
 	private bool _isMovingToHidingSpot = false;
     
@@ -40,7 +41,8 @@ public class Hide : MonoBehaviour
 	}
 
 	private void MoveTowardsHidingSpot() {
-		transform.position = Vector3.Lerp(transform.position, _hideSpot.position + _hideOffset, _movement.MovementSpeed * Time.deltaTime);
+		_movement.MoveTo(_hideSpot.position + _hideOffset, _movementConfig.MovementSpeed);
+		// transform.position = Vector3.Lerp(transform.position, _hideSpot.position + _hideOffset, _movementConfig.MovementSpeed * Time.deltaTime);
 	}
 
 	private bool IsHidden() => Vector3.Distance(transform.position, _hideSpot.position + _hideOffset) < 0.1f;

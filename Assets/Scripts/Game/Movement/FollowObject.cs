@@ -14,8 +14,6 @@ public class FollowObject : MonoBehaviour
 		if(_followConfiguration == null || _followConfiguration.Target == null) return;
 		// Calling this in LateUpdate to make sure the target has moved before we move the object that follows
 		Follow();
-
-		if(_followConfiguration.LookAtTarget) transform.LookAt(_followConfiguration.Target);
 	}
 
 	protected internal virtual void Follow() 

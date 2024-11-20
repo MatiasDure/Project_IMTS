@@ -3,4 +3,5 @@ public enum ImageTrackingResponses {
 	SpawnObject,
 	ActivateObject,
 	SyncObjectWithImage,
+	ActivatePlot,
 }

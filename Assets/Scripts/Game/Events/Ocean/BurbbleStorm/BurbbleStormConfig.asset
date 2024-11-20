@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BurbbleStormConfig
   m_EditorClassIdentifier: 
   Timing:
-    Frequency: 90
-    Cooldown: 5
+    Frequency: 3
+    Cooldown: 20
     Duration: 8
-    StartDelay: 5
+    StartDelay: 15

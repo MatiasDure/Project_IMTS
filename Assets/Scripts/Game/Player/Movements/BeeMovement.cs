@@ -1,16 +1,20 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class BeeMovement : MonoBehaviour
 {
     [SerializeField] internal Movement _beeMovementStat;
     [SerializeField] internal LayerMask _portalLayerMask;
+	[SerializeField] private Transform _otherWorldAnchor;
+    [SerializeField] private Transform _portal;
+    [SerializeField] private Transform _target;
     private bool _overPortal;
     private bool _castRay;
     private RaycastHit _targetRaycastHit;
     private GameObject _hitPointObject;
 
-    public static event Action BeeMovementEnd;
+    public static event Action OnBeeEnteredPlot;
 
     private void Start()
     {
@@ -37,14 +41,11 @@ public class BeeMovement : MonoBehaviour
 
         if (!reachTarget)
         {
-            transform.position = Vector3.MoveTowards(transform.position, 
-                targetPosition + targetOffset, 
-                _beeMovementStat.MovementSpeed * Time.deltaTime);
+			transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(targetPosition - transform.position), 100f * Time.deltaTime);
+			transform.position = transform.forward * _beeMovementStat.MovementSpeed * Time.deltaTime + transform.position;
         }
         else
-        {
-            OnBeeMovementEnd();
-        }
+			HandleDone();
     }
     
     /// <summary>
@@ -52,78 +53,80 @@ public class BeeMovement : MonoBehaviour
     /// If the raycast hits an object, the movement is adjusted to the hit point; otherwise, it moves directly from the portal to the target.
     /// </summary>
     /// <param name="portal">The current portal's transform (starting point for the raycast).</param>
-    /// <param name="targetPortal">The target portal's transform (destination for the movement).</param>
+    /// <param name="anchor">The target portal's transform (destination for the movement).</param>
     /// <param name="target">The target transform to move towards.</param>
     /// <param name="targetOffset">The offset applied to the target position during movement.</param>
-    public void MoveTowardPositionThroughPortal(Transform portal, Transform targetPortal, Transform target, Vector3 targetOffset)
+    public void MoveTowardPositionThroughPortal(Transform portal, Transform anchor, Transform target, Vector3 targetOffset)
     {
         if (!_castRay)
         {
             _castRay = true;
-            CastingRaycastThroughPortal(portal, targetPortal, target, out _targetRaycastHit);
+            CastingRaycastThroughPortal(portal, anchor, target, out _targetRaycastHit);
             
             if(_targetRaycastHit.collider != null)
                 _hitPointObject.transform.position = _targetRaycastHit.point;
         }
         
         if (_targetRaycastHit.collider != null)
-            MoveThroughPortal(AdjustPosition(targetPortal,portal,_hitPointObject.transform),
+            MoveThroughPortal(AdjustPosition(anchor,portal,_hitPointObject.transform),
                 _targetRaycastHit.point,
                 target.position,
                 targetOffset);
         else
             MoveThroughPortal(portal.position, 
-                targetPortal.position, 
+                anchor.position, 
                 target.position,
                 targetOffset);
     }
 
-    private void MoveThroughPortal(Vector3 portalPosition, Vector3 targetPortalPos, Vector3 targetPosition, Vector3 targetOffset)
-    {
-        Vector3 thisTransformPosition = transform.position;
+	
+    private IEnumerator MoveThroughPortal(Vector3 portalPosition, Vector3 targetPortalPos, Vector3 targetPosition, Vector3 targetOffset)
+    {        
+        bool reachTarget = false;
+        bool isAtPortal = false;
         
-        bool reachTarget = MathHelper.AreVectorApproximatelyEqual(thisTransformPosition, targetPosition,0.1f);
-        bool isAtPortal = MathHelper.AreVectorApproximatelyEqual(thisTransformPosition, portalPosition,0.1f);
-        
-        if (reachTarget)
-        {
-            OnBeeMovementEnd();
-            return;
-        }
-        
-        if (!isAtPortal && !_overPortal)
-            MoveToPortalPosition(portalPosition);
-        else if (isAtPortal)
-            EnterPortal(targetPortalPos);
-        else
-            MoveTowardPosition(targetPosition, targetOffset);
+		while(!isAtPortal && !_overPortal)
+		{
+			isAtPortal = MathHelper.AreVectorApproximatelyEqual(transform.position, _portal.position, 0.1f);
+			MoveToPortalPosition(_portal.position);
+			yield return null;
+		}
+
+		EnterPortal(_otherWorldAnchor.position);
+
+		while(!reachTarget) {
+        	reachTarget = MathHelper.AreVectorApproximatelyEqual(transform.position, _target.position, 0.1f);
+			MoveTowardPosition(_target.position, targetOffset);
+			yield return null;
+		}
+
+		HandleDone();
+		OnBeeEnteredPlot?.Invoke();
+		Bee.Instance.UpdateState(BeeState.Idle);
     }
-    
+
     private void MoveToPortalPosition(Vector3 portalPosition)
     {
-        transform.position = Vector3.MoveTowards(
-            transform.position,
-            portalPosition,
-            _beeMovementStat.MovementSpeed * Time.deltaTime
-        );
+		transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(portalPosition - transform.position), 100f * Time.deltaTime);
+		transform.position = transform.forward * _beeMovementStat.MovementSpeed * Time.deltaTime + transform.position;
     }
     
     private void EnterPortal(Vector3 targetCameraPosition)
     {
-        transform.position = targetCameraPosition;
+        transform.position = targetCameraPosition + (_portal.position - Camera.main.transform.position);
         _overPortal = true;
     }
 
     private void CastingRaycastThroughPortal(Transform portal, Transform targetPortal, Transform target,
         out RaycastHit hit)
     {
-        Vector3 stimulateObjectPosition = AdjustPosition(portal, targetPortal,transform);
+        Vector3 simulateObjectPosition = AdjustPosition(portal, targetPortal,transform);
 
         int layerMask = _portalLayerMask;
 
         Vector3 targetPosition = target.position;
-        Vector3 direction = (stimulateObjectPosition - targetPosition).normalized;
-        float distance = Vector3.Distance(targetPosition, stimulateObjectPosition);
+        Vector3 direction = (simulateObjectPosition - targetPosition).normalized;
+        float distance = Vector3.Distance(targetPosition, simulateObjectPosition);
 
         Physics.Raycast(targetPosition, direction, out hit, distance, layerMask);
     }
@@ -138,24 +141,30 @@ public class BeeMovement : MonoBehaviour
         return stimulatePosition;
     }
     
-    private void HanddleDone()
+    private void HandleDone()
     {
         _targetRaycastHit = default; 
         _castRay = false;
         _overPortal = false;
     }
-    private void SubscribeToEvents()
+
+	private void HandlePlotActivation(Plot plot) {
+		Bee.Instance.UpdateState(BeeState.EnteringPlot);
+
+		if(plot == Plot.Ocean || plot == Plot.Space)
+			StartCoroutine(MoveThroughPortal(_portal.position, _otherWorldAnchor.position, _target.position, Vector3.zero));
+	}
+    
+	private void SubscribeToEvents()
     {
-        BeeMovementEnd += HanddleDone;
+		ImageTrackingPlotActivatedResponse.OnPlotActivated += HandlePlotActivation;
     }
-    private void UnSubscribeToEvents()
+    
+	private void UnSubscribeToEvents()
     {
-        BeeMovementEnd -= HanddleDone;
+		ImageTrackingPlotActivatedResponse.OnPlotActivated -= HandlePlotActivation;
     }
-    private static void OnBeeMovementEnd()
-    {
-        BeeMovementEnd?.Invoke();
-    }
+
     private void OnDestroy()
     {
         UnSubscribeToEvents();

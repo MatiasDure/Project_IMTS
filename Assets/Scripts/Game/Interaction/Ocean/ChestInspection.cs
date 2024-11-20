@@ -50,7 +50,6 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 	public void Interact()
 	{
 		if(!IsChestInspectionRunning()) {
-			Bee.Instance.UpdateState(BeeState.ChestInspection);
 			StartCoroutine(InitialChestAnimation());
 			return;
 		}
@@ -77,6 +76,8 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 
 		UpdateChestEventState(ChestEventState.OpeningChest);
 		yield return StartCoroutine(OpenAnimation());
+		// change the bee state after the chest opens
+		Bee.Instance.UpdateState(BeeState.ChestInspection);
 		UpdateChestEventState(ChestEventState.GoingInFrontChest);
 	}
 
@@ -96,7 +97,7 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 	}
 
 	private void ReleaseBeeFromEvent() {
-		Bee.Instance.UpdateState(BeeState.FollowingCamera);
+		Bee.Instance.UpdateState(BeeState.Idle);
 	}
 
 	private IEnumerator FinishUpdatingAnimationState(string stateName) {
@@ -180,6 +181,7 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 
 	public void InterruptEvent()
 	{
+		Debug.Log("Chest inspection event interrupted");
 		StopAllCoroutines();
 		InterruptionSetup();
 		StartCoroutine(InterruptionCleanup());
@@ -221,6 +223,7 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 				break;
 		}
 
+		Debug.Log("Chest inspection event interrupted done");
 		OnInterruptedDone?.Invoke(this);
 		_isEventInterrupted = false;
 	}

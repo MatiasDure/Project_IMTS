@@ -35,11 +35,13 @@ public class Bee : Singleton<Bee>
 
 	private void UpdateState(UpdatePassiveEventCollection newState) {
 		_state = newState.State;
+		Debug.Log("Bee state through event: " + _state);
 		OnBeeStateChanged?.Invoke(_state);
 	}
 
 	public void UpdateState(BeeState newState) {
 		_state = newState;
+		Debug.Log("Bee state through instance call: " + _state);
 		OnBeeStateChanged?.Invoke(_state);
 	}
 

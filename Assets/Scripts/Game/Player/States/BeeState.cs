@@ -1,6 +1,7 @@
 public enum BeeState
 {
 	None,
+	EnteringPlot,
 	Idle,
 	ChasingFish,
     FollowingCamera,

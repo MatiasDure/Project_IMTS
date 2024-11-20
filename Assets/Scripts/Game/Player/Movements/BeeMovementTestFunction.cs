@@ -44,12 +44,12 @@ public class BeeMovementTestFunction : MonoBehaviour
 
     private void SubscribeToEvents()
     {
-        BeeMovement.BeeMovementEnd += HandleMovementEnd;
+        // BeeMovement.BeeMovementEnd += HandleMovementEnd;
     }
     
     private void UnSubscribeToEvents()
     {
-        BeeMovement.BeeMovementEnd -= HandleMovementEnd;
+        // BeeMovement.BeeMovementEnd -= HandleMovementEnd;
     }
     private void HandleMovementEnd()
     {
