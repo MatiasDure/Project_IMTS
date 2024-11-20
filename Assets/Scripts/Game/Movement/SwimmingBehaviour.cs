@@ -1,9 +1,9 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class BeeSwimming : MonoBehaviour
+public class SwimmingBehaviour : MonoBehaviour
 {
-    [SerializeField] private float _moveSpeed;
     [SerializeField] private float _rotationSpeed = 1f;
     [SerializeField] private Range _decisionDelayRange;
     [SerializeField] private EnvironmentBounds bounds;
@@ -12,6 +12,8 @@ public class BeeSwimming : MonoBehaviour
     [Tooltip("Limit rotation on the X axis (pitch) to prevent unrealistic movement")]
     [SerializeField] private float _verticalRotationBound = 10;
 
+    public bool CheckBounds { get; set; } = false;
+
     private Coroutine _activeChangeDirectionCoroutine;
     private Coroutine _activeSmoothRotationCoroutine;
 
@@ -19,29 +21,28 @@ public class BeeSwimming : MonoBehaviour
     private bool _checkVerticalDirection = true;
 
     private float _rotationDuration;
+    private bool _isIdle = true;
 
     private void Start()
     {
-        SubscribeToEvents();
         EstablishRotationDuration();
         SetupBounds();
-        DoSwimmingSequence();
     }
 
     private void FixedUpdate()
     {
-        Move();
         CheckPositionInBounds();
     }
 
-    private void Move()
+    public void Move(float speed)
     {
-        if (Bee.Instance.State != BeeState.Idle) return;
-        transform.position += transform.forward * _moveSpeed;
+        transform.position += transform.forward * speed * Time.deltaTime;
     }
 
     private void CheckPositionInBounds()
     {
+        if (!CheckBounds) return;
+
         CheckHorizontalPosition();
         CheckVerticalPosition();
     }
@@ -146,7 +147,7 @@ public class BeeSwimming : MonoBehaviour
         transform.rotation = targetRotation;
     }
 
-    IEnumerator DisableDirectionCheckCoroutine(Direction directionToDisableChecking ,float disableDuration)
+    IEnumerator DisableDirectionCheckCoroutine(Direction directionToDisableChecking, float disableDuration)
     {
         UpdateDirectionChecks(directionToDisableChecking, false);
 
@@ -250,55 +251,26 @@ public class BeeSwimming : MonoBehaviour
         bounds.SetCenter(_middlePoint.position);
     }
 
-    private void DoSwimmingSequence()
+    public void DoSwimmingSequence()
     {
         _activeChangeDirectionCoroutine =
             StartCoroutine(ChangeDirectionCoroutine(_decisionDelayRange.GetRandomValueWithinRange()));
     }
 
-    private IEnumerator RestartSwimmingSequence()
+    public void RestartSwimmingSequence()
+    {
+        StartCoroutine(RestartSwimmingSequenceCoroutine());
+    }
+
+    private IEnumerator RestartSwimmingSequenceCoroutine()
     {
         yield return StartCoroutine(
             SmoothRotationCoroutine(GetLevelledRotationToMiddlePoint(_middlePoint.position), _rotationDuration));
         DoSwimmingSequence();
     }
 
-    private void StopSwimmingSequence()
+    public void StopSwimmingSequence()
     {
         StopAllCoroutines();
-    }
-
-    private void HandleBeeStateChanged(BeeState state)
-    {
-		if(PlotsManager.Instance.CurrentPlot != Plot.Ocean) return;
-
-		if(state == BeeState.Idle) {
-            StartCoroutine(RestartSwimmingSequence());
-			return;
-		}
-        
-		StopSwimmingSequence();
-    }
-
-    private void SubscribeToEvents()
-    {
-        Bee.OnBeeStateChanged += HandleBeeStateChanged;
-		BeeMovement.OnBeeEnteredPlot += HandlePlotActivated;
-    }
-
-	private void HandlePlotActivated()
-	{
-		Bee.Instance.UpdateState(BeeState.Idle);
-	}
-
-	private void UnsubscribeFromEvents()
-    {
-        Bee.OnBeeStateChanged -= HandleBeeStateChanged;
-        BeeMovement.OnBeeEnteredPlot -= HandlePlotActivated;
-    }
-
-    private void OnDestroy()
-    {
-        UnsubscribeFromEvents();
     }
 }

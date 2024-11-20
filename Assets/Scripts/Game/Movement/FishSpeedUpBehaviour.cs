@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+[RequireComponent(typeof(Fish))]
 public class FishSpeedUpBehaviour : MonoBehaviour
 {
     [SerializeField] internal float _moveSpeed = 0.1f;
@@ -11,30 +12,28 @@ public class FishSpeedUpBehaviour : MonoBehaviour
     [SerializeField] private float _speedChangeDuration = 0.5f;
     [SerializeField] private ParticleSystem _particleSystem;
 
+    private Fish _fish;
+
     private float _multipliedSpeed;
     private float _originalMoveSpeed;
 
     public event Action OnEffectDone;
 
-	private void Start()
+    private void Awake()
     {
-        _originalMoveSpeed = _moveSpeed;
-        _multipliedSpeed = _moveSpeed * _speedUpMultiplier;
+        _fish = GetComponent<Fish>();
     }
 
-    private void FixedUpdate()
+    private void Start()
     {
-        Swim();
+        _originalMoveSpeed = _fish.MoveSpeed;
+        _moveSpeed = _fish.MoveSpeed;
+        _multipliedSpeed = _moveSpeed * _speedUpMultiplier;
     }
 
     public void BeginEffectSequence()
     {
         StartCoroutine(FishTappedCoroutine(_originalMoveSpeed, _speedUpDuration));
-    }
-
-    private void Swim()
-    {
-        transform.position += transform.forward * _moveSpeed;
     }
 
     private void ApplySpeedUpEffect(float originalMoveSpeed, float targetSpeed)
@@ -47,13 +46,13 @@ public class FishSpeedUpBehaviour : MonoBehaviour
     {
         StartCoroutine(SmoothSpeedChangeCoroutine(_moveSpeed, originalMoveSpeed, _speedChangeDuration));
         OnEffectDone?.Invoke();
-        //TODO: Handle particles from FishInteraction
         _particleSystem.Stop();
     }
     
     private void ChangeMoveSpeed(float originalMoveSpeed, float targetMoveSpeed, float percentageComplete)
     {
         _moveSpeed = Mathf.Lerp(originalMoveSpeed, targetMoveSpeed, percentageComplete);
+        _fish.MoveSpeed = _moveSpeed;
     }
 
     IEnumerator FishTappedCoroutine(float originalMoveSpeed, float speedUpDuration)
@@ -81,5 +80,6 @@ public class FishSpeedUpBehaviour : MonoBehaviour
 
         // Ensure move speed reaches the exact target speed
         _moveSpeed = targetMoveSpeed;
+        _fish.MoveSpeed = _moveSpeed;
     }
 }
