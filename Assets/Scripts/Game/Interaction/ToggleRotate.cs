@@ -2,16 +2,9 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class ToggleRotate : MonoBehaviour, IToggleComponent
+public class ToggleRotate : MonoBehaviour
 {
-    public ToggleState CurrentToggleState{ get; set; }
-	/// <summary>
-	/// UPDATE THIS: This boolean should be another state in the toggle state (something like switching)
-	/// </summary>
-    public bool ignoreInput { get; set; }
-	public ToggleState NextToggleState { get; set; }
-
-	[SerializeField] internal float _openAngle = 90.0f;
+    [SerializeField] internal float _openAngle = 90.0f;
     [SerializeField] internal float _rotateSpeed = 15f;
 
     [SerializeField] internal Axis _rotationAxis = Axis.Y;
@@ -20,60 +13,41 @@ public class ToggleRotate : MonoBehaviour, IToggleComponent
     private Quaternion _closedRotation;
     private Quaternion _openRotation;
 
-	public event Action OnToggleDone;
-
-	public void Start()
+    public IEnumerator RotateCoroutine(Quaternion targetRotation)
     {
-        CurrentToggleState = ToggleState.Off;
-    }
-    
-    public void Toggle()
-    {
-        if(CurrentToggleState == ToggleState.Switching) return;
-        
-        //interact
-        if (CurrentToggleState == ToggleState.Off) ToggleOn(); 
-        else ToggleOff();
-    }
-    
-    public void ToggleOn()
-    {
-		NextToggleState = ToggleState.On;
-        SetRotationToToggelOn();
-        StartCoroutine(RotateCoroutine(_openRotation));
-    }
-
-    public void ToggleOff()
-    {
-		NextToggleState = ToggleState.Off;
-        SetRotationToToggelOff();
-        StartCoroutine(RotateCoroutine(_closedRotation));
-    }
-	
-    private void UpdateState(ToggleState state)
-	{
-		CurrentToggleState = state;
-
-		if (IsToggleDone(state))
-			OnToggleDone?.Invoke();
-	}
-
-	private bool IsToggleDone(ToggleState state) => state != ToggleState.Switching;
-
-	private IEnumerator RotateCoroutine(Quaternion targetRotation)
-    {
-        ignoreInput = true;
-		UpdateState(ToggleState.Switching);
         while (Quaternion.Angle(_objectToRotate.rotation, targetRotation) > 0.01f)
         {
             _objectToRotate.rotation = RotateToTarget(_objectToRotate.rotation, targetRotation, _rotateSpeed);
             yield return null; // Wait for the next frame
         }
-		UpdateState(NextToggleState);
         //make sure the rotation reach to the target rotation
         _objectToRotate.rotation = targetRotation;
     }
-
+    
+    public IEnumerator OpenCoroutine()
+    {
+        SetRotationToOpen();
+        while (Quaternion.Angle(_objectToRotate.rotation, _openRotation) > 0.01f)
+        {
+            _objectToRotate.rotation = RotateToTarget(_objectToRotate.rotation, _openRotation, _rotateSpeed);
+            yield return null; // Wait for the next frame
+        }
+        //make sure the rotation reach to the target rotation
+        _objectToRotate.rotation = _openRotation;
+    }
+    
+    public IEnumerator CloseCoroutine()
+    {
+        SetRotationToClose();
+        while (Quaternion.Angle(_objectToRotate.rotation, _closedRotation) > 0.01f)
+        {
+            _objectToRotate.rotation = RotateToTarget(_objectToRotate.rotation, _closedRotation, _rotateSpeed);
+            yield return null; // Wait for the next frame
+        }
+        //make sure the rotation reach to the target rotation
+        _objectToRotate.rotation = _closedRotation;
+    }
+    
     internal Quaternion RotateToTarget(Quaternion origin, Quaternion target, float speed) =>
         Quaternion.RotateTowards(origin, target, speed * Time.deltaTime);
 
@@ -116,12 +90,12 @@ public class ToggleRotate : MonoBehaviour, IToggleComponent
         return Quaternion.Euler(rotationVector);
     }
 
-    private void SetRotationToToggelOn()
+    private void SetRotationToOpen()
     {
         _closedRotation = _objectToRotate.rotation;
         _openRotation = GetOpenRotation(_rotationAxis);
     }
-    private void SetRotationToToggelOff()
+    private void SetRotationToClose()
     {
         _openRotation = _objectToRotate.rotation;
         _closedRotation = GetCloseRotation(_rotationAxis);
