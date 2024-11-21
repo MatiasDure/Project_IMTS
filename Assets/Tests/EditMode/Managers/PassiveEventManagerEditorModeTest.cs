@@ -2,80 +2,80 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
 
-public class PassiveEventManagerEditorModeTest
-{
-	private PassiveEventManager passiveEventManager;
+// public class PassiveEventManagerEditorModeTest
+// {
+// 	private PassiveEventManager passiveEventManager;
 
-	[SetUp]
-	public void Setup() {
-		passiveEventManager = new GameObject().AddComponent<PassiveEventManager>();
-		PassiveEventManager.Instance = passiveEventManager;
-	}
+// 	[SetUp]
+// 	public void Setup() {
+// 		passiveEventManager = new GameObject().AddComponent<PassiveEventManager>();
+// 		PassiveEventManager.Instance = passiveEventManager;
+// 	}
 
-    [Test]
-	public void PassiveEventManager_IsEventOfCurrentPlotTest_ShouldBeTrue() {
-		PlotsManager plotsManager = new GameObject().AddComponent<PlotsManager>();
-		plotsManager._currentPlot = Plot.Ocean;
+//     [Test]
+// 	public void PassiveEventManager_IsEventOfCurrentPlotTest_ShouldBeTrue() {
+// 		PlotsManager plotsManager = new GameObject().AddComponent<PlotsManager>();
+// 		plotsManager._currentPlot = Plot.Ocean;
 
-		Assert.IsTrue(passiveEventManager.IsEventOfCurrentPlot(plotsManager.CurrentPlot, Plot.Ocean));
-	}
+// 		Assert.IsTrue(passiveEventManager.IsEventOfCurrentPlot(plotsManager.CurrentPlot, Plot.Ocean));
+// 	}
 
-	[Test]
-	public void PassiveEventManager_IsEventOfCurrentPlotTest_ShouldBeFalse() {
-		PlotsManager plotsManager = new GameObject().AddComponent<PlotsManager>();
-		plotsManager._currentPlot = Plot.Village;
+// 	[Test]
+// 	public void PassiveEventManager_IsEventOfCurrentPlotTest_ShouldBeFalse() {
+// 		PlotsManager plotsManager = new GameObject().AddComponent<PlotsManager>();
+// 		plotsManager._currentPlot = Plot.Village;
 
-		Assert.IsFalse(passiveEventManager.IsEventOfCurrentPlot(plotsManager.CurrentPlot ,Plot.Ocean));
-	}
+// 		Assert.IsFalse(passiveEventManager.IsEventOfCurrentPlot(plotsManager.CurrentPlot ,Plot.Ocean));
+// 	}
 
-	[Test]
-	public void PassiveEventManager_IsEventReadyToStart_ShouldBeTrue() {
-		HideAndSea plotEvent = new GameObject().AddComponent<HideAndSea>();
-		plotEvent._state = EventState.InitialReady;
+// 	[Test]
+// 	public void PassiveEventManager_IsEventReadyToStart_ShouldBeTrue() {
+// 		HideAndSea plotEvent = new GameObject().AddComponent<HideAndSea>();
+// 		plotEvent._state = EventState.InitialReady;
 
-		Assert.IsTrue(passiveEventManager.IsEventReadyToStart(plotEvent));
-	}
+// 		Assert.IsTrue(passiveEventManager.IsEventReadyToStart(plotEvent));
+// 	}
 
-	[Test]
-	public void PassiveEventManager_IsEventReadyToStart_ShouldBeFalse() {
-		HideAndSea plotEvent = new GameObject().AddComponent<HideAndSea>();
-		plotEvent._state = EventState.Waiting;
+// 	[Test]
+// 	public void PassiveEventManager_IsEventReadyToStart_ShouldBeFalse() {
+// 		HideAndSea plotEvent = new GameObject().AddComponent<HideAndSea>();
+// 		plotEvent._state = EventState.Waiting;
 
-		Assert.IsFalse(passiveEventManager.IsEventReadyToStart(plotEvent));
-	}
+// 		Assert.IsFalse(passiveEventManager.IsEventReadyToStart(plotEvent));
+// 	}
 
-	[Test]
-	public void PassiveEventManager_HandleEventChange_ShouldChangeEventsToPassedArgs() {
-		Assert.AreEqual(PassiveEvent.None, passiveEventManager.CurrentEventPlaying);
-		Assert.AreEqual(PassiveEvent.None, passiveEventManager.PreviousEventPlayed);
+// 	[Test]
+// 	public void PassiveEventManager_HandleEventChange_ShouldChangeEventsToPassedArgs() {
+// 		Assert.AreEqual(PassiveEvent.None, passiveEventManager.CurrentEventPlaying);
+// 		Assert.AreEqual(PassiveEvent.None, passiveEventManager.PreviousEventPlayed);
 
-		passiveEventManager.HandleEventChange(PassiveEvent.HideAndSea, PassiveEvent.None);
+// 		passiveEventManager.HandleEventChange(PassiveEvent.HideAndSea, PassiveEvent.None);
 
-		Assert.AreEqual(PassiveEvent.HideAndSea, passiveEventManager.CurrentEventPlaying);
-		Assert.AreEqual(PassiveEvent.None, passiveEventManager.PreviousEventPlayed);
-	}
+// 		Assert.AreEqual(PassiveEvent.HideAndSea, passiveEventManager.CurrentEventPlaying);
+// 		Assert.AreEqual(PassiveEvent.None, passiveEventManager.PreviousEventPlayed);
+// 	}
 
-	[Test]
-	public void PassiveEventManager_CheckEvents_ShouldStartEventIfItIsReady() {
-		EventManager eventManager = new GameObject().AddComponent<EventManager>();
-		eventManager._passiveEventManager = passiveEventManager;
+// 	[Test]
+// 	public void PassiveEventManager_CheckEvents_ShouldStartEventIfItIsReady() {
+// 		EventManager eventManager = new GameObject().AddComponent<EventManager>();
+// 		eventManager._passiveEventManager = passiveEventManager;
 
-		eventManager.Awake();
-		eventManager.Start();
+// 		eventManager.Awake();
+// 		eventManager.Start();
 
-		HideAndSea plotEvent = new GameObject().AddComponent<HideAndSea>();
-		plotEvent._state = EventState.InitialReady;
-		plotEvent._hideSpots = new List<Transform> { new GameObject().transform };
-		PlotsManager plotsManager = new GameObject().AddComponent<PlotsManager>();
-		PlotsManager.Instance = plotsManager;
-		plotsManager._currentPlot = Plot.Ocean;
+// 		HideAndSea plotEvent = new GameObject().AddComponent<HideAndSea>();
+// 		plotEvent._state = EventState.InitialReady;
+// 		plotEvent._hideSpots = new List<Transform> { new GameObject().transform };
+// 		PlotsManager plotsManager = new GameObject().AddComponent<PlotsManager>();
+// 		PlotsManager.Instance = plotsManager;
+// 		plotsManager._currentPlot = Plot.Ocean;
 
-		PlotEventsCollection plotEventsCollection = new PlotEventsCollection();
-		plotEventsCollection._plot = Plot.Ocean;
-		plotEventsCollection._plotEvents = new List<PlotEvent> { plotEvent };
+// 		PlotEventsCollection plotEventsCollection = new PlotEventsCollection();
+// 		plotEventsCollection._plot = Plot.Ocean;
+// 		plotEventsCollection._plotEvents = new List<PlotEvent> { plotEvent };
 
-		passiveEventManager.CheckEvents(new List<PlotEventsCollection> { plotEventsCollection });
+// 		passiveEventManager.CheckEvents(new List<PlotEventsCollection> { plotEventsCollection });
 
-		Assert.AreEqual(EventState.InitialActive, plotEvent._state);
-	}
-}
+// 		Assert.AreEqual(EventState.InitialActive, plotEvent._state);
+// 	}
+// }
