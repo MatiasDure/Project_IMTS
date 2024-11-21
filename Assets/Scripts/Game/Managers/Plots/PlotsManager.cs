@@ -9,7 +9,7 @@ public class PlotsManager : Singleton<PlotsManager>
 
 	public Plot CurrentPlot => _currentPlot;
 
-    protected override void Awake() {
+    internal protected override void Awake() {
 		base.Awake();
 		if(_plotObjects.Length != AMOUNT_OF_PLOTS)
 			Debug.LogWarning($"The amount of plot objects in the PlotsManager is not equal to the amount of plots in the game.\nThere should be {AMOUNT_OF_PLOTS} plot objects in the PlotsManager, but there are only {_plotObjects.Length} plot objects.");

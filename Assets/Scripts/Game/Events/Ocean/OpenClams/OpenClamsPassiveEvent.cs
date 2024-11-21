@@ -21,14 +21,14 @@ public class OpenClamsPassiveEvent : PlotEvent, IEvent, IInterruptible
 		SubscribeToEvents();
 	}
 
-   	private void Update() {
-		_cooldown.DecreaseCooldown(Time.deltaTime);
-	}
+   	// private void Update() {
+	// 	// _cooldown.DecreaseCooldown(Time.deltaTime);
+	// }
 
 	internal void SetUpPassiveEvent() {
 		_state = EventState.InitialWaiting;
-		_cooldown.StartCooldown(_config.Timing.StartDelay);
-		_frequency.FrequencyAmount = _config.Timing.Frequency;
+		// _cooldown.StartCooldown(_config.Timing.StartDelay);
+		// _frequency.FrequencyAmount = _config.Timing.Frequency;
 	}
 
 	private IEnumerator MoveBeeToClamp(Transform clam)
@@ -63,13 +63,24 @@ public class OpenClamsPassiveEvent : PlotEvent, IEvent, IInterruptible
 	internal protected override void UpdateEventStatus()
 	{
 		if(!_toggleObjectEvent.TryGetRandomObjectWithStateOn(out IToggleComponent toggleComponent, out GameObject toggleableObject)) {
-			_cooldown.StartCooldown(_state == EventState.InitialWaiting ? _config.Timing.StartDelay : _config.Timing.Cooldown);
+			// _cooldown.StartCooldown(_state == EventState.InitialWaiting ? _config.Timing.StartDelay : _config.Timing.Cooldown);
 			return;
 		}
 		
 		_toggleComponent = toggleComponent;
 		_toggleableObject = toggleableObject;
 		base.UpdateEventStatus();
+	}
+
+	private bool TryGetOpenClam() {
+		if(!_toggleObjectEvent.TryGetRandomObjectWithStateOn(out IToggleComponent toggleComponent, out GameObject toggleableObject)) {
+			return false;
+		}
+		
+		_toggleComponent = toggleComponent;
+		_toggleableObject = toggleableObject;
+		
+		return true;
 	}
 
 	internal UpdatePassiveEventCollection SetupStartEventMetadata(Transform openClam)
@@ -92,7 +103,7 @@ public class OpenClamsPassiveEvent : PlotEvent, IEvent, IInterruptible
 
 	public void InterruptEvent()
 	{
-		_state = _frequency.IsFrequencyOver() ? EventState.Done : EventState.Waiting;
+		_state = EventState.Waiting;
 		if(_toggleComponent != null) _toggleComponent.OnToggleDone -= HandleCurrentClamToggle;
 
 		HandleDoneStatus();
@@ -105,4 +116,6 @@ public class OpenClamsPassiveEvent : PlotEvent, IEvent, IInterruptible
 
 		SetUpPassiveEvent();
 	}
+
+	public override bool CanPlay() => TryGetOpenClam();
 }
