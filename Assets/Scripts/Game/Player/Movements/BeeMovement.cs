@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(SwimmingBehaviour))]
 public class BeeMovement : MonoBehaviour
 {
     [SerializeField] internal Movement _beeMovementStat;
@@ -14,12 +15,35 @@ public class BeeMovement : MonoBehaviour
     private RaycastHit _targetRaycastHit;
     private GameObject _hitPointObject;
 
+    private SwimmingBehaviour _swimmingBehaviour;
+
     public static event Action OnBeeEnteredPlot;
+
+    private void Awake()
+    {
+        _swimmingBehaviour = GetComponent<SwimmingBehaviour>();
+    }
 
     private void Start()
     {
         SetUp();
         SubscribeToEvents();
+    }
+
+    private void Update()
+    {
+        Move();
+    }
+
+    //TODO: Adjust implementation when handling movement in village plot - see how it goes because
+    // the same movement could be used for all 3 plots in my opinion (Orestis). Up to discussion
+    private void Move()
+    {
+        if (PlotsManager.Instance.CurrentPlot != Plot.Ocean) return;
+
+        if (Bee.Instance.State != BeeState.Idle) return;
+
+        _swimmingBehaviour.Move(_beeMovementStat.MovementSpeed);
     }
 
     private void SetUp()
@@ -154,15 +178,30 @@ public class BeeMovement : MonoBehaviour
 		if(plot == Plot.Ocean || plot == Plot.Space)
 			StartCoroutine(MoveThroughPortal(_portal.position, _otherWorldAnchor.position, _target.position, Vector3.zero));
 	}
-    
-	private void SubscribeToEvents()
+
+    private void HandleBeeStateChange(BeeState state)
+    {
+        if (PlotsManager.Instance.CurrentPlot != Plot.Ocean) return;
+
+        if (state == BeeState.Idle)
+        {
+            _swimmingBehaviour.RestartSwimmingSequence();
+            return;
+        }
+
+        _swimmingBehaviour.StopSwimmingSequence();
+    }
+
+    private void SubscribeToEvents()
     {
 		ImageTrackingPlotActivatedResponse.OnPlotActivated += HandlePlotActivation;
+        Bee.OnBeeStateChanged += HandleBeeStateChange;
     }
     
 	private void UnSubscribeToEvents()
     {
 		ImageTrackingPlotActivatedResponse.OnPlotActivated -= HandlePlotActivation;
+        Bee.OnBeeStateChanged -= HandleBeeStateChange;
     }
 
     private void OnDestroy()
