@@ -6,7 +6,7 @@ public class InputManager : Singleton<InputManager>
 
 	public InputState InputState => _inputState;
 
-	protected override void Awake() {
+	internal protected override void Awake() {
 		base.Awake();
 		_inputState = InputState.None;
 	}

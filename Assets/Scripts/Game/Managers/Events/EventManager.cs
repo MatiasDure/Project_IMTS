@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EventManager : MonoBehaviour
+public class EventManager : Singleton<EventManager>
 {
 	[SerializeField] internal PassiveEventManager _passiveEventManager;
 	[SerializeField] internal InteractionManager _interactionManager;
@@ -11,9 +11,11 @@ public class EventManager : MonoBehaviour
 	private bool _interruptionInProcess;
 	private EventType _nextEventType = EventType.None;
 
+	public bool PlayingEvent => _currentEventGameObject != null;
 
-	internal void Awake()
+	internal protected override void Awake()
 	{
+		base.Awake();
 		if(_passiveEventManager == null || _interactionManager == null) Debug.LogWarning("Interaction Manager or Passive Event Manager is not set in Event Manager");
 	}
 

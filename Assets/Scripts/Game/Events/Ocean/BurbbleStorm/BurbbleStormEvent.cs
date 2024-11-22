@@ -3,6 +3,7 @@ using UnityEngine;
 public class BurbbleStormEvent : PlotEvent
 {
     [SerializeField] internal Tornado _tornado;
+	internal Cooldown _cooldown = new Cooldown();
     
     private void Awake()
     {
@@ -20,8 +21,6 @@ public class BurbbleStormEvent : PlotEvent
     
     internal void SetUpPassiveEvent() {
         _state = EventState.InitialWaiting;
-        _cooldown.StartCooldown(_config.Timing.StartDelay);
-        _frequency.FrequencyAmount = _config.Timing.Frequency;
     }
     
     public override void StartEvent()
@@ -37,9 +36,7 @@ public class BurbbleStormEvent : PlotEvent
     }
 
     internal protected override void HandleWaitingStatus()
-    {
-        if(_state != EventState.Waiting) return;
-        
+    {   
         _tornado.gameObject.SetActive(false);
         
         base.HandleWaitingStatus();
@@ -73,12 +70,14 @@ public class BurbbleStormEvent : PlotEvent
     {
         base.SubscribeToEvents();
         BeeSuckInBurbbleStorm.SuckInStorm += HandleBeeSuckInStorm;
+		_cooldown.OnCooldownOver += UpdateEventStatus;
     }
 
     protected override void UnsubscribeFromEvents()
     {
         base.UnsubscribeFromEvents();
         BeeSuckInBurbbleStorm.SuckInStorm -= HandleBeeSuckInStorm;
+		_cooldown.OnCooldownOver -= UpdateEventStatus;
     }
     
     private void HandleBeeSuckInStorm()
@@ -97,4 +96,6 @@ public class BurbbleStormEvent : PlotEvent
 
 		SetUpPassiveEvent();
 	}
+
+	public override bool CanPlay() => true;
 }

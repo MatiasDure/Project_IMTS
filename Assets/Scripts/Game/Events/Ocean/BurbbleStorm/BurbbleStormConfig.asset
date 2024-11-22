@@ -15,5 +15,5 @@ MonoBehaviour:
   Timing:
     Frequency: 3
     Cooldown: 20
-    Duration: 8
+    Duration: 5
     StartDelay: 15
