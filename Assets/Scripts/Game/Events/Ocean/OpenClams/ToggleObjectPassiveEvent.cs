@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class ToggleObjectPassiveEvent//: MonoBehaviour
+public class ToggleObjectPassiveEvent
 {
 	[Tooltip("Container that holds all toggleable objects")]
    	public GameObject _toggleableObjectContainer;

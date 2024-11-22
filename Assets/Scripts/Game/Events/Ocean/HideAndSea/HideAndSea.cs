@@ -6,6 +6,7 @@ public class HideAndSea : PlotEvent, IInterruptible
 {
 	[SerializeField] internal GameObject _hideSpotsContaioner;
 	internal List<Transform> _hideSpots;
+	internal Cooldown _cooldown = new Cooldown();
 
 	public event Action<IInterruptible> OnInterruptedDone;
 
@@ -27,8 +28,6 @@ public class HideAndSea : PlotEvent, IInterruptible
 
 	internal void SetUpPassiveEvent() {
 		_state = EventState.InitialWaiting;
-		_cooldown.StartCooldown(_config.Timing.StartDelay);
-		_frequency.FrequencyAmount = _config.Timing.Frequency;
 	}
 
 	internal void LoadHideSpots()
@@ -66,8 +65,6 @@ public class HideAndSea : PlotEvent, IInterruptible
 
 	internal protected override void HandleWaitingStatus()
 	{
-		if(_state != EventState.Waiting) return;
-
 		base.HandleWaitingStatus();
 		UpdatePassiveEventCollection metadata = SetupEndEventMetadata();
 
@@ -78,6 +75,7 @@ public class HideAndSea : PlotEvent, IInterruptible
 	{
 		base.SubscribeToEvents();
 		Hide.OnHidden += HandleHidden;
+		_cooldown.OnCooldownOver += UpdateEventStatus;
 	}
 
 	private void HandleHidden()
@@ -89,6 +87,7 @@ public class HideAndSea : PlotEvent, IInterruptible
 	{
 		base.UnsubscribeFromEvents();
 		Hide.OnHidden -= HandleHidden;
+		_cooldown.OnCooldownOver -= UpdateEventStatus;
 	}
 
 	internal Transform GetRandomHideSpot(List<Transform> hideSpots, int randomIndex) => hideSpots[randomIndex];
@@ -108,8 +107,10 @@ public class HideAndSea : PlotEvent, IInterruptible
 	public void InterruptEvent()
 	{
 		if(_cooldown.IsOnCooldown) _cooldown.StopCooldown();
-		CheckIfEventContinuesPlaying();
+
 		Bee.Instance.UpdateState(BeeState.Idle);
 		OnInterruptedDone?.Invoke(this);
 	}
+
+	public override bool CanPlay() => _hideSpots.Count > 0;
 }
