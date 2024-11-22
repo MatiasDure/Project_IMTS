@@ -783,6 +783,18 @@ PrefabInstance:
       value: clam_particles
       objectReference: {fileID: 0}
     - target: {fileID: 5907343963368670225, guid: 196ed0f633eac9f40bf979fffe012eb7, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5907343963368670225, guid: 196ed0f633eac9f40bf979fffe012eb7, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5907343963368670225, guid: 196ed0f633eac9f40bf979fffe012eb7, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5907343963368670225, guid: 196ed0f633eac9f40bf979fffe012eb7, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.01
       objectReference: {fileID: 0}
