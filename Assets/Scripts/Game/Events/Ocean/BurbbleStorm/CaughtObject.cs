@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Rigidbody))]
 public class CaughtObject : MonoBehaviour
@@ -6,8 +7,9 @@ public class CaughtObject : MonoBehaviour
     private Tornado _tornadoReference;
     private SpringJoint _spring;
     
-    [HideInInspector]
-    public Rigidbody rigid;
+    public Rigidbody rigid { get; set; }
+
+    public bool allowUpdate;
 
     private void Awake()
     {
@@ -22,18 +24,26 @@ public class CaughtObject : MonoBehaviour
     
     void Update()
     {
-        LiftObject(_spring,_tornadoReference);
+        SetSpringStrength();
+        
+        if(!allowUpdate) return;
+        
+        LiftObject();
         RotateObjectAroundTornado(_tornadoReference);
     }
 
-    private void LiftObject(SpringJoint spring,Tornado tornado)
+    private void LiftObject()
     {
-        if(spring == null || tornado == null)return;
+        if(_spring == null || _tornadoReference == null)return;
         
-        Vector3 newPosition = spring.connectedAnchor;
+        Vector3 newPosition = _spring.connectedAnchor;
         newPosition.y = transform.position.y;
-        spring.connectedAnchor = newPosition;
-        spring.spring = tornado.tornadoStrength;
+        _spring.connectedAnchor = newPosition;
+    }
+
+    private void SetSpringStrength()
+    {
+        _spring.spring = _tornadoReference.tornadoStrength;
     }
 
     private void RotateObjectAroundTornado(Tornado tornado)
@@ -66,7 +76,8 @@ public class CaughtObject : MonoBehaviour
     public void Init(Tornado tornadoRef, Rigidbody tornadoRigidbody, float springForce)
     {
         enabled = true;
-
+        allowUpdate = true;
+        
         _tornadoReference = tornadoRef;
 
         InitSpring(tornadoRigidbody, springForce);
@@ -77,7 +88,6 @@ public class CaughtObject : MonoBehaviour
         _spring = gameObject.AddComponent<SpringJoint>();
         _spring.spring = springForce;
         _spring.connectedBody = tornadoRigidbody;
-
         _spring.autoConfigureConnectedAnchor = false;
         
         Vector3 initialPosition = Vector3.zero;
@@ -89,6 +99,7 @@ public class CaughtObject : MonoBehaviour
     public void Release()
     {
         enabled = false;
+        allowUpdate = false;
         Destroy(_spring);
     }
 }
