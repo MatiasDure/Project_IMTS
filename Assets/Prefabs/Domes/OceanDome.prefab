@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14c60baa117b1a549ac5b38258e86ba8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scrollSpeedVec: {x: -9.1, y: 0}
+  _scrollSpeedVec: {x: 0.005, y: 0}
 --- !u!135 &2075193839927514329
 SphereCollider:
   m_ObjectHideFlags: 0
