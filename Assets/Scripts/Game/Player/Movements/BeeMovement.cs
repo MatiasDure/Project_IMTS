@@ -14,6 +14,7 @@ public class BeeMovement : MonoBehaviour
     private bool _castRay;
     private RaycastHit _targetRaycastHit;
     private GameObject _hitPointObject;
+    private Plot _currentPlot;
 
     private SwimmingBehaviour _swimmingBehaviour;
 
@@ -91,13 +92,7 @@ public class BeeMovement : MonoBehaviour
                 _hitPointObject.transform.position = _targetRaycastHit.point;
         }
         
-        if (_targetRaycastHit.collider != null)
-            MoveThroughPortal(AdjustPosition(anchor,portal,_hitPointObject.transform),
-                _targetRaycastHit.point,
-                target.position,
-                targetOffset);
-        else
-            MoveThroughPortal(portal.position, 
+        MoveThroughPortal(portal.position, 
                 anchor.position, 
                 target.position,
                 targetOffset);
@@ -172,11 +167,16 @@ public class BeeMovement : MonoBehaviour
         _overPortal = false;
     }
 
-	private void HandlePlotActivation(Plot plot) {
+	private void HandleGoingToPlot() {
 		Bee.Instance.UpdateState(BeeState.EnteringPlot);
 
-		if(plot == Plot.Ocean || plot == Plot.Space)
+		if(_currentPlot == Plot.Ocean || _currentPlot == Plot.Space)
 			StartCoroutine(MoveThroughPortal(_portal.position, _otherWorldAnchor.position, _target.position, Vector3.zero));
+	}
+
+	private void SetPlot(Plot plot)
+	{
+		_currentPlot = plot;
 	}
 
     private void HandleBeeStateChange(BeeState state)
@@ -194,13 +194,15 @@ public class BeeMovement : MonoBehaviour
 
     private void SubscribeToEvents()
     {
-		ImageTrackingPlotActivatedResponse.OnPlotActivated += HandlePlotActivation;
+		    ImageTrackingPlotActivatedResponse.OnPlotActivated += SetPlot;
+		    FrameInteraction.OnFirstFrameOpen += HandleGoingToPlot; 
         Bee.OnBeeStateChanged += HandleBeeStateChange;
     }
     
-	private void UnSubscribeToEvents()
+	  private void UnSubscribeToEvents()
     {
-		ImageTrackingPlotActivatedResponse.OnPlotActivated -= HandlePlotActivation;
+		    ImageTrackingPlotActivatedResponse.OnPlotActivated -= SetPlot;
+		    FrameInteraction.OnFirstFrameOpen -= HandleGoingToPlot;
         Bee.OnBeeStateChanged -= HandleBeeStateChange;
     }
 
