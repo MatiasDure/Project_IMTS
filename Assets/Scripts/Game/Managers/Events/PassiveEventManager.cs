@@ -23,9 +23,10 @@ public class PassiveEventManager : Singleton<PassiveEventManager>
 		SubscribeToEvents();
 	}
 
+// Update this to when the bee reaches into the plot
 	void Update()
     {
-		if(PlotsManager.Instance.CurrentPlot == Plot.None || Bee.Instance.State == BeeState.EnteringPlot) return;
+		if(PlotsManager.Instance.CurrentPlot == Plot.None) return;
 
 		if(EventManager.Instance.PlayingEvent) {
 			if(_playPassiveEvent != null) {

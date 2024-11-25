@@ -691,6 +691,18 @@ PrefabInstance:
       propertyPath: _beeMovementConfig.MovementSpeed
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5197923368939177998, guid: 11e042b178257fb4983b31e6dae7605e, type: 3}
+      propertyPath: _origin
+      value: 
+      objectReference: {fileID: 769133354}
+    - target: {fileID: 5197923368939177998, guid: 11e042b178257fb4983b31e6dae7605e, type: 3}
+      propertyPath: _needsInstantiation
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5197923368939177998, guid: 11e042b178257fb4983b31e6dae7605e, type: 3}
+      propertyPath: _particleSystemprefab
+      value: 
+      objectReference: {fileID: 4172441222611883143, guid: eb5a36ccad18e094795ef52ecfda9fba, type: 3}
     - target: {fileID: 7878598846558304313, guid: 11e042b178257fb4983b31e6dae7605e, type: 3}
       propertyPath: m_IsTrigger
       value: 1
@@ -881,6 +893,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7962188794437846634, guid: 4675d5cee1a4a8c4c98ca314c9500218, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1901057583}
+    - targetCorrespondingSourceObject: {fileID: 7962188794437846634, guid: 4675d5cee1a4a8c4c98ca314c9500218, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1922534896}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3137852873422210620, guid: 4675d5cee1a4a8c4c98ca314c9500218, type: 3}
       insertIndex: -1
@@ -1025,6 +1040,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8990507523475166155, guid: 4159ead85a920884597dca0a3ae3da26, type: 3}
+      propertyPath: _middlePoint
+      value: 
+      objectReference: {fileID: 1922534896}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2045,6 +2064,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2105432131}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1922534895
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1922534896}
+  m_Layer: 0
+  m_Name: middlePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1922534896
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1922534895}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -4.02}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 840753269}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2048438547
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2175,7 +2225,7 @@ PrefabInstance:
       addedObject: {fileID: 2073747481}
     - targetCorrespondingSourceObject: {fileID: 2578086053532856187, guid: d9f2aa4274f36fe42ad921daa6c7ea9c, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2073747483}
+      addedObject: {fileID: 2073747484}
   m_SourcePrefab: {fileID: 100100000, guid: d9f2aa4274f36fe42ad921daa6c7ea9c, type: 3}
 --- !u!1 &2062608061
 GameObject:
@@ -2427,7 +2477,7 @@ MonoBehaviour:
   _otherWorldAnchor: {fileID: 840753273}
   _portal: {fileID: 805373767261073194}
   _target: {fileID: 1901057583}
---- !u!114 &2073747483
+--- !u!114 &2073747484
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2436,20 +2486,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 2073747467}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e3a5fd9eeab69c45b53e40f9a7c418a, type: 3}
+  m_Script: {fileID: 11500000, guid: 18614f59a9c97734ea0955779aa9c76c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 0.01
-  _rotationSpeed: 4
+  _rotationSpeed: 1
   _decisionDelayRange:
-    Min: 0.5
-    Max: 1.75
+    Min: 0
+    Max: 0
   bounds:
     bounds:
       m_Center: {x: 0, y: 0, z: 0}
-      m_Extent: {x: 15, y: 5, z: 15}
-  _middlePoint: {fileID: 1901057583}
-  _turnLimitRange: {x: 60, y: 5}
+      m_Extent: {x: 0, y: 0, z: 0}
+  _middlePoint: {fileID: 1922534896}
+  _turnLimitRange: {x: 0, y: 0}
   _verticalRotationBound: 10
 --- !u!4 &2075129411 stripped
 Transform:

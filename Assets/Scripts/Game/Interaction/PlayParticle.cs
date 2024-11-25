@@ -1,10 +1,10 @@
-using System;
 using UnityEngine;
 
 public class PlayParticle : MonoBehaviour 
 {
     [SerializeField] internal ParticleSystem _particleSystemprefab;
     [SerializeField] internal Transform _origin;
+	[SerializeField] internal bool _needsInstantiation = true;
 
     internal ParticleSystem _particleSystem;
 
@@ -25,6 +25,11 @@ public class PlayParticle : MonoBehaviour
 
     internal ParticleSystem InstantiateParticleSystem(ParticleSystem instatiateSystem, ParticleSystem particleSystemToInstantiate, Transform parent)
     {
+		if(!_needsInstantiation) {
+			instatiateSystem = _particleSystemprefab;
+			return instatiateSystem;
+		}
+
         if (instatiateSystem == null)
         {
             instatiateSystem = Instantiate(particleSystemToInstantiate, parent);

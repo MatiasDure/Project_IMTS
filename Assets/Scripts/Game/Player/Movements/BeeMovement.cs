@@ -103,14 +103,18 @@ public class BeeMovement : MonoBehaviour
     {        
         bool reachTarget = false;
         bool isAtPortal = false;
+
+		Debug.Log("Moving through portal");
         
 		while(!isAtPortal && !_overPortal)
 		{
+			Debug.Log("Moving to portal position");
 			isAtPortal = MathHelper.AreVectorApproximatelyEqual(transform.position, _portal.position, 0.1f);
 			MoveToPortalPosition(_portal.position);
 			yield return null;
 		}
 
+		Debug.Log("Entering portal");
 		EnterPortal(_otherWorldAnchor.position);
 
 		while(!reachTarget) {
@@ -180,6 +184,7 @@ public class BeeMovement : MonoBehaviour
 
         if (state == BeeState.Idle)
         {
+			_swimmingBehaviour.CheckBounds = true;
             _swimmingBehaviour.RestartSwimmingSequence();
             return;
         }
@@ -187,11 +192,9 @@ public class BeeMovement : MonoBehaviour
         _swimmingBehaviour.StopSwimmingSequence();
     }
 
-    private void SubscribeToEvents()
-	}
-
 	private void SetPlot(Plot plot)
 	{
+		Debug.Log("Setting plot to " + plot);
 		_currentPlot = plot;
 	}
 	
