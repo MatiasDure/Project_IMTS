@@ -717,7 +717,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1611818948576552379
 Transform:
   m_ObjectHideFlags: 0
@@ -1028,11 +1028,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_CameraStartingPose:
-    position: {x: 0, y: 0.9, z: -1.29}
-    rotation: {x: -0.104585215, y: 0.5932058, z: -0.078097, w: -0.7943989}
+    position: {x: 4.14, y: 8.44, z: 4.38}
+    rotation: {x: -0.15970886, y: 0.83690673, z: -0.40900075, w: -0.32680047}
   m_CameraMovementBounds:
-    m_Center: {x: 0.045000076, y: 0.5450001, z: 0}
-    m_Extent: {x: 10, y: 5, z: 10}
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 30, y: 10, z: 30}
   m_DefaultViewPose:
     position: {x: 0, y: 1.0609863, z: -1.5}
     rotation: {x: -0.16100603, y: 0.1567927, z: -0.025916385, w: -0.97407466}
