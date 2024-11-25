@@ -80,8 +80,9 @@ public class BeeVisit : PlotEvent, IEvent, IInterruptible
 	public void InterruptEvent()
 	{
 		StopAllCoroutines();
-		
+
 		if(_currentSubscribedInspectable != null) {
+			_currentSubscribedInspectable.StopInspecting();
 			_currentSubscribedInspectable.OnInspected -= HandleInspectableInspected;
 		}
 		
