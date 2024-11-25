@@ -178,37 +178,36 @@ public class BeeMovement : MonoBehaviour
 			StartCoroutine(MoveThroughPortal(_portal.position, _otherWorldAnchor.position, _target.position, Vector3.zero));
 	}
 
+	private void SetPlot(Plot plot)
+	{
+		_currentPlot = plot;
+	}
+
     private void HandleBeeStateChange(BeeState state)
     {
         if (PlotsManager.Instance.CurrentPlot != Plot.Ocean) return;
 
         if (state == BeeState.Idle)
         {
-			_swimmingBehaviour.CheckBounds = true;
+			      _swimmingBehaviour.CheckBounds = true;
             _swimmingBehaviour.RestartSwimmingSequence();
             return;
         }
-
+         _swimmingBehaviour.CheckBounds = false;
         _swimmingBehaviour.StopSwimmingSequence();
     }
 
-	private void SetPlot(Plot plot)
-	{
-		Debug.Log("Setting plot to " + plot);
-		_currentPlot = plot;
-	}
-	
-	private void SubscribeToEvents()
+    private void SubscribeToEvents()
     {
-		ImageTrackingPlotActivatedResponse.OnPlotActivated += SetPlot;
-		FrameInteraction.OnFirstFrameOpen += HandleGoingToPlot;
+		    ImageTrackingPlotActivatedResponse.OnPlotActivated += SetPlot;
+		    FrameInteraction.OnFirstFrameOpen += HandleGoingToPlot; 
         Bee.OnBeeStateChanged += HandleBeeStateChange;
     }
     
-	private void UnSubscribeToEvents()
+	  private void UnSubscribeToEvents()
     {
-		ImageTrackingPlotActivatedResponse.OnPlotActivated -= SetPlot;
-		FrameInteraction.OnFirstFrameOpen -= HandleGoingToPlot;
+        ImageTrackingPlotActivatedResponse.OnPlotActivated -= SetPlot;
+        FrameInteraction.OnFirstFrameOpen -= HandleGoingToPlot;
         Bee.OnBeeStateChanged -= HandleBeeStateChange;
     }
 
