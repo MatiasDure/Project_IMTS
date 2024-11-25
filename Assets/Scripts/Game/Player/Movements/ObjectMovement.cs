@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class ObjectMovement : MonoBehaviour
@@ -11,7 +12,6 @@ public class ObjectMovement : MonoBehaviour
 	public void MoveTo(Vector3 position, float speed) {
 		transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(position - transform.position), 100f * Time.deltaTime);
 		transform.position = transform.forward * speed * Time.deltaTime + transform.position;
-		// transform.position = Vector3.MoveTowards(transform.position, position, speed * Time.deltaTime);
 	}
 
     public void SnapRotationTowards(Vector3 targetPosition)
@@ -22,6 +22,13 @@ public class ObjectMovement : MonoBehaviour
         Quaternion targetRotation = Quaternion.LookRotation(direction);
         transform.rotation = targetRotation;
     }
+
+	public IEnumerator MoveUntilObjectReached(Vector3 targetPosition, float speed) {
+		while (!IsInPlace(targetPosition)) {
+			MoveTo(targetPosition, speed);
+			yield return null;
+		}
+	}
 
     public void SmoothRotate(Quaternion startRotation, Quaternion targetRotation, float percentageCompleted)
     {

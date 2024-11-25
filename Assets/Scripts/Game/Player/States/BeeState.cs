@@ -9,4 +9,5 @@ public enum BeeState
 	ChestInspection,
 	CloseClams,
 	SuckInStorm,
+	Inspecting,
 }
