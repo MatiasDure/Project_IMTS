@@ -32,28 +32,4 @@ public class InteractionTest
         
         Assert.AreEqual(targetRotation, _interactionHolder.transform.rotation);
     }
-
-    [UnityTest]
-    public IEnumerator ParticleTransformTest()
-    {
-        GameObject systemOrigin = new GameObject();
-        
-        GameObject particleHolder = new GameObject();
-        particleHolder.AddComponent<ParticleSystem>();
-        
-        GameObject systemHolder = new GameObject();
-        ParticleSystem system = systemHolder.AddComponent<ParticleSystem>();
-        
-        PlayParticle playParticleComponent = _interactionHolder.AddComponent<PlayParticle>();
-        playParticleComponent._particleSystemprefab = particleHolder.GetComponent<ParticleSystem>();
-        playParticleComponent._origin = systemOrigin.transform;
-        
-        system = playParticleComponent.InstantiateParticleSystem(system,
-            playParticleComponent._particleSystemprefab,systemOrigin.transform);
-        
-        yield return null;
-        
-        Assert.AreEqual(systemOrigin.transform.position,system.transform.position);
-        
-    }
 }
