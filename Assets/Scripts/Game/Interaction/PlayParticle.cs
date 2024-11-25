@@ -8,7 +8,7 @@ public class PlayParticle : MonoBehaviour
 
     internal ParticleSystem _particleSystem;
 
-    private void Start()
+    private void Awake()
     {
         _particleSystem = InstantiateParticleSystem(_particleSystem,_particleSystemprefab,_origin);
     }
