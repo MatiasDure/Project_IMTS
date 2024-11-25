@@ -257,6 +257,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01b312852b415b842b9fda7d0001483c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _beeMovement: {fileID: 0}
   _currentPlot: 0
   _plotObjects:
   - Plot: 1
@@ -696,6 +697,14 @@ PrefabInstance:
       propertyPath: _beeMovementConfig.MovementSpeed
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5197923368939177998, guid: 11e042b178257fb4983b31e6dae7605e, type: 3}
+      propertyPath: _origin
+      value: 
+      objectReference: {fileID: 769133354}
+    - target: {fileID: 5197923368939177998, guid: 11e042b178257fb4983b31e6dae7605e, type: 3}
+      propertyPath: _particleSystemprefab
+      value: 
+      objectReference: {fileID: 1435589737}
     - target: {fileID: 7878598846558304313, guid: 11e042b178257fb4983b31e6dae7605e, type: 3}
       propertyPath: m_IsTrigger
       value: 1
@@ -889,6 +898,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7962188794437846634, guid: 4675d5cee1a4a8c4c98ca314c9500218, type: 3}
       insertIndex: -1
       addedObject: {fileID: 339646659}
+    - targetCorrespondingSourceObject: {fileID: 7962188794437846634, guid: 4675d5cee1a4a8c4c98ca314c9500218, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1454438380}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3137852873422210620, guid: 4675d5cee1a4a8c4c98ca314c9500218, type: 3}
       insertIndex: -1
@@ -1033,6 +1045,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8990507523475166155, guid: 4159ead85a920884597dca0a3ae3da26, type: 3}
+      propertyPath: _middlePoint
+      value: 
+      objectReference: {fileID: 1454438380}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1356,7 +1372,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _plotTrackedImageCollections:
-  - TrackedImageName: bandageImage
+  - TrackedImageName: FishPoster
     Plot: 1
 --- !u!1 &1206951675
 GameObject:
@@ -1511,6 +1527,42 @@ MonoBehaviour:
   - _plot: 1
     _plotEvents: []
   _delayedEventStartDuration: 4
+--- !u!198 &1435589737 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 7132049909454602284, guid: 4159ead85a920884597dca0a3ae3da26, type: 3}
+  m_PrefabInstance: {fileID: 997524302}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1454438379
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1454438380}
+  m_Layer: 0
+  m_Name: MiddlePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1454438380
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1454438379}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -2.264}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 840753269}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1474467936
 GameObject:
   m_ObjectHideFlags: 0
@@ -2180,7 +2232,7 @@ PrefabInstance:
       addedObject: {fileID: 2073747481}
     - targetCorrespondingSourceObject: {fileID: 2578086053532856187, guid: d9f2aa4274f36fe42ad921daa6c7ea9c, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2073747483}
+      addedObject: {fileID: 2073747484}
   m_SourcePrefab: {fileID: 100100000, guid: d9f2aa4274f36fe42ad921daa6c7ea9c, type: 3}
 --- !u!1 &2062608061
 GameObject:
@@ -2432,7 +2484,7 @@ MonoBehaviour:
   _otherWorldAnchor: {fileID: 840753273}
   _portal: {fileID: 805373767261073194}
   _target: {fileID: 1901057583}
---- !u!114 &2073747483
+--- !u!114 &2073747484
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2441,20 +2493,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 2073747467}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e3a5fd9eeab69c45b53e40f9a7c418a, type: 3}
+  m_Script: {fileID: 11500000, guid: 18614f59a9c97734ea0955779aa9c76c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 0.01
-  _rotationSpeed: 4
+  _rotationSpeed: 1
   _decisionDelayRange:
-    Min: 0.5
-    Max: 1.75
+    Min: 0
+    Max: 0
   bounds:
     bounds:
       m_Center: {x: 0, y: 0, z: 0}
-      m_Extent: {x: 15, y: 5, z: 15}
-  _middlePoint: {fileID: 1901057583}
-  _turnLimitRange: {x: 60, y: 5}
+      m_Extent: {x: 0, y: 0, z: 0}
+  _middlePoint: {fileID: 1454438380}
+  _turnLimitRange: {x: 0, y: 0}
   _verticalRotationBound: 10
 --- !u!4 &2075129411 stripped
 Transform:
