@@ -4,12 +4,13 @@ using System.Collections;
 
 [
 	RequireComponent(typeof(PlayAnimation)),
+	RequireComponent(typeof(PlayParticle)),
 ]
 public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterruptible
 {
 	private const string STARTED_ANIMATION_PARAMETER_NAME = "HasStarted";
-	private const string OPEN_STATE_NAME = "OpenChestAnimation";
-	private const string CLOSE_STATE_NAME = "CloseChestAnimation";
+	private const string OPEN_STATE_NAME = "chest_open_animation";
+	private const string CLOSE_STATE_NAME = "chest_close_animation";
 
 	[SerializeField] private string _boolAnimatorParameterName;
 	[SerializeField] private ObjectMovement _beeMovement;
@@ -19,6 +20,7 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 	[SerializeField] private float _cooldownTimeToForceReleaseBee = 2f;
 	private Cooldown _cooldown;
 	private PlayAnimation _playAnimation;
+	private PlayParticle _playParticle;
 	private bool _hasAnimationStarted = false;
 	private ChestEventState _chestEventState = ChestEventState.None;
 	private bool _isEventInterrupted = false; 
@@ -33,6 +35,7 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 
 	private void Awake() {
 		_playAnimation = GetComponent<PlayAnimation>();
+		_playParticle = GetComponent<PlayParticle>();
 		_cooldown = new Cooldown();
 	}
 
@@ -181,13 +184,13 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 
 	public void InterruptEvent()
 	{
-		Debug.Log("Chest inspection event interrupted");
 		StopAllCoroutines();
 		InterruptionSetup();
 		StartCoroutine(InterruptionCleanup());
 	}
 
 	private IEnumerator CloseAnimation() {
+		_playParticle.ToggleOff();
 		SetCloseChestAnimation();
 		yield return StartCoroutine(FinishAnimation(CLOSE_STATE_NAME));
 	}
@@ -195,6 +198,7 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 	private IEnumerator OpenAnimation() {
 		SetOpenChestAnimation();
 		yield return StartCoroutine(FinishAnimation(OPEN_STATE_NAME));
+		_playParticle.ToggleOn();
 	}
 
 	private IEnumerator FinishAnimation(string animationStateName) {

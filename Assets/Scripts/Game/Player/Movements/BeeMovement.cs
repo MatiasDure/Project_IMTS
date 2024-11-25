@@ -103,14 +103,18 @@ public class BeeMovement : MonoBehaviour
     {        
         bool reachTarget = false;
         bool isAtPortal = false;
+
+		Debug.Log("Moving through portal");
         
 		while(!isAtPortal && !_overPortal)
 		{
+			Debug.Log("Moving to portal position");
 			isAtPortal = MathHelper.AreVectorApproximatelyEqual(transform.position, _portal.position, 0.1f);
 			MoveToPortalPosition(_portal.position);
 			yield return null;
 		}
 
+		Debug.Log("Entering portal");
 		EnterPortal(_otherWorldAnchor.position);
 
 		while(!reachTarget) {
@@ -185,10 +189,11 @@ public class BeeMovement : MonoBehaviour
 
         if (state == BeeState.Idle)
         {
+			      _swimmingBehaviour.CheckBounds = true;
             _swimmingBehaviour.RestartSwimmingSequence();
             return;
         }
-
+         _swimmingBehaviour.CheckBounds = false;
         _swimmingBehaviour.StopSwimmingSequence();
     }
 
@@ -201,8 +206,8 @@ public class BeeMovement : MonoBehaviour
     
 	  private void UnSubscribeToEvents()
     {
-		    ImageTrackingPlotActivatedResponse.OnPlotActivated -= SetPlot;
-		    FrameInteraction.OnFirstFrameOpen -= HandleGoingToPlot;
+        ImageTrackingPlotActivatedResponse.OnPlotActivated -= SetPlot;
+        FrameInteraction.OnFirstFrameOpen -= HandleGoingToPlot;
         Bee.OnBeeStateChanged -= HandleBeeStateChange;
     }
 

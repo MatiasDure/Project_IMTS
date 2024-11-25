@@ -21,6 +21,7 @@ public class SwimmingBehaviour : MonoBehaviour
     private bool _checkVerticalDirection = true;
 
     private float _rotationDuration;
+    private bool _isIdle = true;
 
     private void Start()
     {

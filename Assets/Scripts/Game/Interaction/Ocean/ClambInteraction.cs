@@ -12,8 +12,8 @@ public class ClambInteraction : MonoBehaviour,
 								IToggleComponent
 {
 	private const string INITIAL_ANIMATION_PARAMETER_NAME = "HasStarted";
-	private const string OPEN_ANIMATION_STATE = "OpenClam";
-	private const string CLOSE_ANIMATION_STATE = "CloseClam";
+	private const string OPEN_ANIMATION_STATE = "clam_open_Animation";
+	private const string CLOSE_ANIMATION_STATE = "clam_close_Animation";
 
 	[SerializeField] private string _clamAnimationToggleParameterName;
 
@@ -75,6 +75,7 @@ public class ClambInteraction : MonoBehaviour,
 		_playParticle.ToggleOn();
 		UpdateState(ToggleState.On);
 		OnToggleDone?.Invoke();
+		Debug.Log("Clam is open");
 	}
 
 	private void SetOpenAnimationState()

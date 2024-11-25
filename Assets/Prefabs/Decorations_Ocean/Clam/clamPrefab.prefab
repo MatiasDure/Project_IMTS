@@ -108,14 +108,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 832321939550113750}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0.60876137, w: 0.7933534}
   m_LocalPosition: {x: 0.64, y: 0.497, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 388584331972028297}
   m_Father: {fileID: 2625682703626158667}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 75}
 --- !u!33 &3079250929778348121
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -176,8 +176,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 4
-  MaxDistance: 8
+  MinDistance: 0.4
+  MaxDistance: 0.8
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -338,8 +338,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 4
-  MaxDistance: 8
+  MinDistance: 0.4
+  MaxDistance: 0.8
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -549,8 +549,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 4
-  MaxDistance: 8
+  MinDistance: 0.4
+  MaxDistance: 0.8
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -719,7 +719,7 @@ GameObject:
   - component: {fileID: 4067925299574146555}
   - component: {fileID: 1267890779166053094}
   m_Layer: 0
-  m_Name: ClamPrefab
+  m_Name: clamPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -735,8 +735,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2625682703626158667}
   - {fileID: 3165695776122002156}
@@ -781,6 +781,18 @@ PrefabInstance:
     - target: {fileID: 3741178882457765436, guid: 196ed0f633eac9f40bf979fffe012eb7, type: 3}
       propertyPath: m_Name
       value: clam_particles
+      objectReference: {fileID: 0}
+    - target: {fileID: 5907343963368670225, guid: 196ed0f633eac9f40bf979fffe012eb7, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5907343963368670225, guid: 196ed0f633eac9f40bf979fffe012eb7, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5907343963368670225, guid: 196ed0f633eac9f40bf979fffe012eb7, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 5907343963368670225, guid: 196ed0f633eac9f40bf979fffe012eb7, type: 3}
       propertyPath: m_LocalPosition.x

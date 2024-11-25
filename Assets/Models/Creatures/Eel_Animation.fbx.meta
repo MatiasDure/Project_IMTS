@@ -33,7 +33,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Sweeeeem
+      name: swimm
       takeName: Take 001
       internalID: 1827226128182048838
       firstFrame: 1
@@ -120,7 +120,7 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     globalScale: 1
-    rootMotionBoneName: Root
+    rootMotionBoneName: Eel
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
