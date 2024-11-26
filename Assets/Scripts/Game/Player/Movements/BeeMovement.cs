@@ -103,18 +103,14 @@ public class BeeMovement : MonoBehaviour
     {        
         bool reachTarget = false;
         bool isAtPortal = false;
-
-		Debug.Log("Moving through portal");
         
 		while(!isAtPortal && !_overPortal)
 		{
-			Debug.Log("Moving to portal position");
 			isAtPortal = MathHelper.AreVectorApproximatelyEqual(transform.position, _portal.position, 0.1f);
 			MoveToPortalPosition(_portal.position);
 			yield return null;
 		}
 
-		Debug.Log("Entering portal");
 		EnterPortal(_otherWorldAnchor.position);
 
 		while(!reachTarget) {
