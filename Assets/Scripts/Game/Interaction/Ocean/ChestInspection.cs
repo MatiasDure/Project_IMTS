@@ -227,7 +227,6 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 				break;
 		}
 
-		Debug.Log("Chest inspection event interrupted done");
 		OnInterruptedDone?.Invoke(this);
 		_isEventInterrupted = false;
 	}

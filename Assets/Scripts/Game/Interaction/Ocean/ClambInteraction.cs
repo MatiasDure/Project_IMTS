@@ -75,7 +75,6 @@ public class ClambInteraction : MonoBehaviour,
 		_playParticle.ToggleOn();
 		UpdateState(ToggleState.On);
 		OnToggleDone?.Invoke();
-		Debug.Log("Clam is open");
 	}
 
 	private void SetOpenAnimationState()

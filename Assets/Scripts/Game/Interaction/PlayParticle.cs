@@ -8,9 +8,9 @@ public class PlayParticle : MonoBehaviour
 
     internal ParticleSystem _particleSystem;
 
-    private void Start()
+    private void Awake()
     {
-        _particleSystem = InstantiateParticleSystem(_particleSystem,_particleSystemprefab,_origin);
+        _particleSystem = _needsInstantiation ? InstantiateParticleSystem(_particleSystem,_particleSystemprefab,_origin) : _particleSystemprefab;
     }
 
     public void ToggleOn()
@@ -25,11 +25,6 @@ public class PlayParticle : MonoBehaviour
 
     internal ParticleSystem InstantiateParticleSystem(ParticleSystem instatiateSystem, ParticleSystem particleSystemToInstantiate, Transform parent)
     {
-		if(!_needsInstantiation) {
-			instatiateSystem = _particleSystemprefab;
-			return instatiateSystem;
-		}
-
         if (instatiateSystem == null)
         {
             instatiateSystem = Instantiate(particleSystemToInstantiate, parent);
