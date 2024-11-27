@@ -5,12 +5,14 @@ public class PlotsManager : Singleton<PlotsManager>
 {
 	const ushort AMOUNT_OF_PLOTS = 3;
 
-	[SerializeField] BeeMovement _beeMovement;
 	[SerializeField] internal Plot _currentPlot;
 	[SerializeField] internal PlotCollection[] _plotObjects;
+	[SerializeField] internal DistanceTracker _distanceTracker;
 
 	private Plot _nextPlot;
 	public Plot CurrentPlot => _currentPlot;
+
+	public static event Action<Plot> OnPlotDeactivated;
 
     internal protected override void Awake() {
 		base.Awake();
@@ -22,6 +24,23 @@ public class PlotsManager : Singleton<PlotsManager>
 	{
 		BeeMovement.OnBeeEnteredPlot += HandleBeeEnteredPlot;
 		ImageTrackingPlotActivatedResponse.OnPlotActivated += HandlePlotActivated;
+		_distanceTracker.OnMaxDistanceReached += HandleMaxDistanceReached;
+	}
+
+	private void HandleMaxDistanceReached()
+	{
+		foreach (var plotObject in _plotObjects)
+		{
+			if (plotObject.Plot != _currentPlot) continue;
+
+			plotObject.PlotObject.SetActive(false);
+			break;
+		}
+
+		OnPlotDeactivated?.Invoke(_currentPlot);
+
+		_currentPlot = Plot.None;
+		_nextPlot = Plot.None;
 	}
 
 	private void HandleBeeEnteredPlot()
@@ -51,5 +70,6 @@ public class PlotsManager : Singleton<PlotsManager>
 	{
 		BeeMovement.OnBeeEnteredPlot -= HandleBeeEnteredPlot;
 		ImageTrackingPlotActivatedResponse.OnPlotActivated -= HandlePlotActivated;
+		_distanceTracker.OnMaxDistanceReached -= HandleMaxDistanceReached;
 	}
 }

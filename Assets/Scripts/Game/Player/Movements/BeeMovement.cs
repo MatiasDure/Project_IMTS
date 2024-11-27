@@ -192,9 +192,16 @@ public class BeeMovement : MonoBehaviour
     {
 		ImageTrackingPlotActivatedResponse.OnPlotActivated += HandleGoingToPlot;
         Bee.OnBeeStateChanged += HandleBeeStateChange;
+		PlotsManager.OnPlotDeactivated += HandlePlotDeactivated;
     }
-    
-	  private void UnSubscribeToEvents()
+
+	private void HandlePlotDeactivated(Plot plot)
+	{
+		Bee.Instance.UpdateState(BeeState.FollowingCamera);
+		transform.position = Camera.main.transform.position + Camera.main.transform.forward * -2f;
+	}
+
+	private void UnSubscribeToEvents()
     {
         ImageTrackingPlotActivatedResponse.OnPlotActivated -= HandleGoingToPlot;
         Bee.OnBeeStateChanged -= HandleBeeStateChange;
