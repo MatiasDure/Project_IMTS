@@ -14,7 +14,6 @@ public class BeeMovement : MonoBehaviour
     private bool _castRay;
     private RaycastHit _targetRaycastHit;
     private GameObject _hitPointObject;
-    private Plot _currentPlot;
 
     private SwimmingBehaviour _swimmingBehaviour;
 
@@ -167,17 +166,13 @@ public class BeeMovement : MonoBehaviour
         _overPortal = false;
     }
 
-	private void HandleGoingToPlot() {
+	private void HandleGoingToPlot(Plot plot) {
 		Bee.Instance.UpdateState(BeeState.EnteringPlot);
 
-		if(_currentPlot == Plot.Ocean || _currentPlot == Plot.Space)
+		if(plot == Plot.Ocean || plot == Plot.Space)
 			StartCoroutine(MoveThroughPortal(_portal.position, _otherWorldAnchor.position, _target.position, Vector3.zero));
 	}
 
-	private void SetPlot(Plot plot)
-	{
-		_currentPlot = plot;
-	}
 
     private void HandleBeeStateChange(BeeState state)
     {
@@ -195,15 +190,13 @@ public class BeeMovement : MonoBehaviour
 
     private void SubscribeToEvents()
     {
-		    ImageTrackingPlotActivatedResponse.OnPlotActivated += SetPlot;
-		    FrameInteraction.OnFirstFrameOpen += HandleGoingToPlot; 
+		ImageTrackingPlotActivatedResponse.OnPlotActivated += HandleGoingToPlot;
         Bee.OnBeeStateChanged += HandleBeeStateChange;
     }
     
 	  private void UnSubscribeToEvents()
     {
-        ImageTrackingPlotActivatedResponse.OnPlotActivated -= SetPlot;
-        FrameInteraction.OnFirstFrameOpen -= HandleGoingToPlot;
+        ImageTrackingPlotActivatedResponse.OnPlotActivated -= HandleGoingToPlot;
         Bee.OnBeeStateChanged -= HandleBeeStateChange;
     }
 
