@@ -5,135 +5,137 @@ using UnityEngine;
 
 [RequireComponent(typeof(FishSpeedUpBehaviour))]
 public class FishInteraction : MonoBehaviour,
-                               IInteractable,
-                               IInterruptible,
-                               IEvent
+							   IInteractable,
+							   IInterruptible,
+							   IEvent
 {
 
-    [SerializeField] private ObjectMovement _beeMovement;
 
-    public bool CanInterrupt { get; set; } = true;
-    public EventState State { get; set; }
-    public bool MultipleInteractions { get; set; } = false;
+	[SerializeField] private ObjectMovement _beeMovement;
+	[SerializeField] private Sound _swimSFX;
 
-    public event Action OnEventDone;
-    public event Action<IInterruptible> OnInterruptedDone;
+	public bool CanInterrupt { get; set; } = true;
+	public EventState State { get; set; }
+	public bool MultipleInteractions { get; set; } = false;
 
-    private FishSpeedUpBehaviour _speedUpBehaviour;
+	public event Action OnEventDone;
+	public event Action<IInterruptible> OnInterruptedDone;
 
-    private bool _canSpeedUp = true;
-    private bool _beeIsChasing = false;
+	private FishSpeedUpBehaviour _speedUpBehaviour;
 
-    public void Interact()
-    {
-        // Fish is already interacted with
-        if (!_canSpeedUp) return;
+	private bool _canSpeedUp = true;
+	private bool _beeIsChasing = false;
 
-        _canSpeedUp = false;
-        _beeIsChasing = true;
+	public void Interact()
+	{
+		// Fish is already interacted with
+		if (!_canSpeedUp) return;
 
-        _speedUpBehaviour.BeginEffectSequence();
-        MoveBeeTowardsFish();
-    }
+		_canSpeedUp = false;
+		_beeIsChasing = true;
 
-    private void Awake()
-    {
-        _speedUpBehaviour = GetComponent<FishSpeedUpBehaviour>();
-    }
+		_speedUpBehaviour.BeginEffectSequence();
+		MoveBeeTowardsFish();
+	}
 
-    private void Start()
-    {
-        Setup();
-    }
+	private void Awake()
+	{
+		_speedUpBehaviour = GetComponent<FishSpeedUpBehaviour>();
+	}
 
-    private void Setup()
-    {
-        CanInterrupt = true;
+	private void Start()
+	{
+		Setup();
+	}
 
-        SubscribeToEvents();
-    }
+	private void Setup()
+	{
+		CanInterrupt = true;
 
-    private void StopBeeChasing()
-    {
-        if (!_beeIsChasing) return;
+		SubscribeToEvents();
+	}
 
-        _beeIsChasing = false;
-        Bee.Instance.UpdateState(BeeState.Idle);
-    }
+	private void StopBeeChasing()
+	{
+		if (!_beeIsChasing) return;
 
-    private void MoveBeeTowardsFish()
-    {
-        Bee.Instance.UpdateState(BeeState.ChasingFish);
-        StartCoroutine(MoveBeeToPosition(transform.position));
-    }
+		_beeIsChasing = false;
+		Bee.Instance.UpdateState(BeeState.Idle);
+	}
 
-    private IEnumerator MoveBeeToPosition(Vector3 position)
-    {
-        Quaternion targetRotation = 
-            Quaternion.LookRotation((transform.position - _beeMovement.transform.position).normalized);
-        yield return StartCoroutine(SmoothRotationCoroutine(targetRotation, 0.25f));
-        // Snap to the target rotation after smooth rotation
+	private void MoveBeeTowardsFish()
+	{
+		Bee.Instance.UpdateState(BeeState.ChasingFish);
+		StartCoroutine(MoveBeeToPosition(transform.position));
+	}
 
-        while (_beeIsChasing && !_beeMovement.IsInPlace(position))
-        {
-            _beeMovement.MoveTo(transform.position, 3);
-            _beeMovement.SnapRotationTowards(transform.position);
-            yield return null;
-        }
+	private IEnumerator MoveBeeToPosition(Vector3 position)
+	{
+		Quaternion targetRotation = 
+			Quaternion.LookRotation((transform.position - _beeMovement.transform.position).normalized);
+		yield return StartCoroutine(SmoothRotationCoroutine(targetRotation, 0.25f));
+		// Snap to the target rotation after smooth rotation
 
-        StopBeeChasing(); // Reached fish
-    }
+		while (_beeIsChasing && !_beeMovement.IsInPlace(position))
+		{
+			_beeMovement.MoveTo(transform.position, 3);
+			_beeMovement.SnapRotationTowards(transform.position);
+			yield return null;
+		}
 
-    IEnumerator SmoothRotationCoroutine(Quaternion targetRotation, float duration)
-    {
-        Quaternion startRotation = _beeMovement.transform.rotation;
-        float timeElapsed = 0f;
-        float percentageCompleted;
+		StopBeeChasing(); // Reached fish
+	}
 
-        while (timeElapsed < duration)
-        {
-            // Slerp from start rotation to the target rotation
-            percentageCompleted = timeElapsed / duration;
-            _beeMovement.SmoothRotate(startRotation, targetRotation, percentageCompleted);
-            timeElapsed += Time.deltaTime;
+	IEnumerator SmoothRotationCoroutine(Quaternion targetRotation, float duration)
+	{
+		Quaternion startRotation = _beeMovement.transform.rotation;
+		float timeElapsed = 0f;
+		float percentageCompleted;
 
-            yield return null;
-        }
+		while (timeElapsed < duration)
+		{
+			// Slerp from start rotation to the target rotation
+			percentageCompleted = timeElapsed / duration;
+			_beeMovement.SmoothRotate(startRotation, targetRotation, percentageCompleted);
+			timeElapsed += Time.deltaTime;
 
-        // Ensure the final rotation is exactly the target rotation
-        _beeMovement.transform.rotation = targetRotation;
-    }
+			yield return null;
+		}
 
-    private void HandleInteractionDone()
-    {
-        StopAllCoroutines();
-        StopBeeChasing();
-        _canSpeedUp = true;
+		// Ensure the final rotation is exactly the target rotation
+		_beeMovement.transform.rotation = targetRotation;
+	}
+
+	private void HandleInteractionDone()
+	{
+		StopAllCoroutines();
+		StopBeeChasing();
+		_canSpeedUp = true;
 
 
-        OnEventDone?.Invoke();
-    }
+		OnEventDone?.Invoke();
+	}
 
-    private void SubscribeToEvents()
-    {
-        _speedUpBehaviour.OnEffectDone += HandleInteractionDone;
-    }
+	private void SubscribeToEvents()
+	{
+		_speedUpBehaviour.OnEffectDone += HandleInteractionDone;
+	}
 
-    private void OnDestroy()
-    {
-        UnsubscribeFromEvents();
-    }
+	private void OnDestroy()
+	{
+		UnsubscribeFromEvents();
+	}
 
-    private void UnsubscribeFromEvents()
-    {
-        _speedUpBehaviour.OnEffectDone -= HandleInteractionDone;
-    }
+	private void UnsubscribeFromEvents()
+	{
+		_speedUpBehaviour.OnEffectDone -= HandleInteractionDone;
+	}
 
-    public void InterruptEvent()
-    {
-        StopAllCoroutines();
-        StopBeeChasing();
+	public void InterruptEvent()
+	{
+		StopAllCoroutines();
+		StopBeeChasing();
 
-        OnInterruptedDone?.Invoke(this);
-    }
+		OnInterruptedDone?.Invoke(this);
+	}
 }
