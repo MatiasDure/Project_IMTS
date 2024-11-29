@@ -56,7 +56,6 @@ public class PlotTutorial : MonoBehaviour
 		if (lookPosition.IsDiscovered) return;
 		
 		lookPosition.DiscoverPosition();
-		Debug.Log("Position discovered.");
 		CheckDiscoveredLookPositions();
 	}
 	
@@ -72,7 +71,6 @@ public class PlotTutorial : MonoBehaviour
 	
 	private void HandleAllPositionsDiscovered()
 	{
-		Debug.Log("All positions discovered.");
 		UpdateState(PlotTutorialState.Tap);
 	}
 	
@@ -133,7 +131,6 @@ public class PlotTutorial : MonoBehaviour
 		foreach(Transform child in _lookPositionsContainer.transform)
 		{
 			_lookPositions.Add(child.GetComponent<PlotTutorialLookPosition>());
-			Debug.Log("Added look position in list");
 		}
 	}
 }
