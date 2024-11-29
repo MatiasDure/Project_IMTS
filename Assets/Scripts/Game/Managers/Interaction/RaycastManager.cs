@@ -13,23 +13,23 @@ public class RaycastManager : MonoBehaviour
 	private Camera _mainCamera;
 	public event Action<Collider> OnRaycastHit;
 
-    void Start()
-    {
-	    _mainCamera = Camera.main;
-	    
-	    if(_mainCamera != null)
+	void Start()
+	{
+		_mainCamera = Camera.main;
+		
+		if(_mainCamera != null)
 			_mainRaycastPointer = _mainCamera.transform.GetChild(0).gameObject;
-	    if(_secondaryCamera != null)
+		if(_secondaryCamera != null)
 			_secondraycastPointer = _secondaryCamera.transform.GetChild(0).gameObject;
-    }
+	}
 
-    // Update is called once per frame
-    void Update()
-    {
-	    if(_mainCamera == null || InputManager.Instance.InputState != InputState.Interact) return;
-	    
-	    Raycast();
-    }
+	// Update is called once per frame
+	void Update()
+	{
+		if(_mainCamera == null || InputManager.Instance.InputState != InputState.Interact) return;
+		
+		Raycast();
+	}
 
 	private void Raycast()
 	{
@@ -39,7 +39,7 @@ public class RaycastManager : MonoBehaviour
 			OnRaycastHit?.Invoke(hit.collider);
 		}
 	}
-
+	
 	internal Ray SecondCameraRay(Ray mainCameraRay, GameObject mainRaycastPointer, GameObject secondRaycastPointer)
 	{	
 		//cast the direction to local rotation for main camera using a child

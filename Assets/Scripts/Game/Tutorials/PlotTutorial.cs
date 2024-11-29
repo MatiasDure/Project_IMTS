@@ -17,7 +17,7 @@ public class PlotTutorial : MonoBehaviour
 		SetupLookPositions();
 		UpdateState(PlotTutorialState.LookAround);
 	}
-
+	
 	private void Update()
 	{
 		CheckState();
@@ -54,7 +54,6 @@ public class PlotTutorial : MonoBehaviour
 	private void DiscoverLookPosition(PlotTutorialLookPosition lookPosition)
 	{
 		if (lookPosition.IsDiscovered) return;
-		
 		
 		lookPosition.DiscoverPosition();
 		Debug.Log("Position discovered.");
