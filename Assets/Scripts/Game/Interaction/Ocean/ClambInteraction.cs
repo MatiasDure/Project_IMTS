@@ -120,4 +120,9 @@ public class ClambInteraction : MonoBehaviour,
 				break;
 		}
 	}
+
+	public void StopEvent()
+	{
+		StopAllCoroutines();
+	}
 }

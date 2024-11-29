@@ -242,4 +242,9 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 	private void OnDestroy() {
 		UnsubscribeToEvents();
 	}
+
+	public void StopEvent()
+	{
+		StopAllCoroutines();
+	}
 }

@@ -636,6 +636,7 @@ GameObject:
   m_Component:
   - component: {fileID: 399814097}
   - component: {fileID: 399814096}
+  - component: {fileID: 399814098}
   m_Layer: 0
   m_Name: PlotsManager
   m_TagString: Untagged
@@ -655,11 +656,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01b312852b415b842b9fda7d0001483c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _beeMovement: {fileID: 0}
   _currentPlot: 0
   _plotObjects:
   - Plot: 1
     PlotObject: {fileID: 1090165629}
+  _distanceTracker: {fileID: 399814098}
 --- !u!4 &399814097
 Transform:
   m_ObjectHideFlags: 0
@@ -675,6 +676,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &399814098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 399814095}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af67e4bb9c8140b46b1ebae9e4966a02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _object1: {fileID: 2105432131}
+  _object2: {fileID: 1389377815}
+  _maxDistance: 10
 --- !u!198 &438315156 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 3129860337276508266, guid: 578f51361a2c1544f802e09ef44e9502, type: 3}
@@ -1146,6 +1162,53 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6880331219512930639, guid: 6bdf3647bdd6d2b498d2129d88859db0, type: 3}
   m_PrefabInstance: {fileID: 690497740}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &721829062
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 721829064}
+  - component: {fileID: 721829063}
+  m_Layer: 0
+  m_Name: PlotDistanceTracker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &721829063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 721829062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af67e4bb9c8140b46b1ebae9e4966a02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _object1: {fileID: 0}
+  _object2: {fileID: 0}
+  _maxDistance: 7
+--- !u!4 &721829064
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 721829062}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.12425828, y: 1.3424916, z: 0.011832062}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &730888229
 GameObject:
   m_ObjectHideFlags: 0
@@ -2502,6 +2565,7 @@ GameObject:
   - component: {fileID: 1176037029}
   - component: {fileID: 1176037031}
   - component: {fileID: 1176037032}
+  - component: {fileID: 1176037033}
   m_Layer: 0
   m_Name: ImageTrackingResponses
   m_TagString: Untagged
@@ -2575,6 +2639,25 @@ MonoBehaviour:
   _plotTrackedImageCollections:
   - TrackedImageName: FishPoster
     Plot: 1
+--- !u!114 &1176037033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1176037027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7712bec7504f4f640b78ac9037135cf0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _plotTrackedImageCollections:
+  - TrackedImageName: FishPoster
+    Plot: 1
+  _plotGameObjectCollections:
+  - Plot: 1
+    GameObject: {fileID: 1389377814}
+  _distanceTracker: {fileID: 721829063}
 --- !u!1 &1210314738
 GameObject:
   m_ObjectHideFlags: 0
@@ -2774,7 +2857,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7744263291163995274, guid: 16fb933c8038d514d9018d8536ab0693, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7877695745315307413, guid: 16fb933c8038d514d9018d8536ab0693, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3287,7 +3370,7 @@ MonoBehaviour:
   - _imageName: FishPoster
     _objectReference: {fileID: 1389377814}
     _addedResponse: 4
-    _updatedResponse: 3
+    _updatedResponse: 5
   _imageTrackingResponsesContainer: {fileID: 1176037027}
 --- !u!4 &1678905018
 Transform:
@@ -4544,3 +4627,4 @@ SceneRoots:
   - {fileID: 4299130247990585179}
   - {fileID: 1391470289}
   - {fileID: 1844058056}
+  - {fileID: 721829064}
