@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(SwimmingBehaviour))]
 public class BeeMovement : MonoBehaviour
@@ -49,8 +50,7 @@ public class BeeMovement : MonoBehaviour
     private void SetUp()
     {
         _targetRaycastHit = default;
-        _hitPointObject = new GameObject();
-        _hitPointObject.name = "RaycastHitforPortal";
+        _hitPointObject = new GameObject("RaycastHitforPortal");
     }
     
     /// <summary>
@@ -100,7 +100,7 @@ public class BeeMovement : MonoBehaviour
 	
     private IEnumerator MoveThroughPortal(Vector3 portalPosition, Vector3 targetPortalPos, Vector3 targetPosition, Vector3 targetOffset)
     {        
-        bool reachTarget = false;
+        // bool reachTarget = false;
         bool isAtPortal = false;
         
 		while(!isAtPortal && !_overPortal)
@@ -112,15 +112,16 @@ public class BeeMovement : MonoBehaviour
 
 		EnterPortal(_otherWorldAnchor.position);
 
-		while(!reachTarget) {
-        	reachTarget = MathHelper.AreVectorApproximatelyEqual(transform.position, _target.position, 0.1f);
-			MoveTowardPosition(_target.position, targetOffset);
-			yield return null;
-		}
+		// while(!reachTarget) {
+        // 	reachTarget = MathHelper.AreVectorApproximatelyEqual(transform.position, _target.position, 0.1f);
+		// 	MoveTowardPosition(_target.position, targetOffset);
+		// 	yield return null;
+		// }
 
 		HandleDone();
 		OnBeeEnteredPlot?.Invoke();
 		Bee.Instance.UpdateState(BeeState.Idle);
+		_overPortal = false;
     }
 
     private void MoveToPortalPosition(Vector3 portalPosition)
@@ -167,6 +168,8 @@ public class BeeMovement : MonoBehaviour
     }
 
 	private void HandleGoingToPlot(Plot plot) {
+		if(Bee.Instance.State != BeeState.FollowingCamera) return;
+
 		Bee.Instance.UpdateState(BeeState.EnteringPlot);
 
 		if(plot == Plot.Ocean || plot == Plot.Space)
@@ -191,12 +194,15 @@ public class BeeMovement : MonoBehaviour
     private void SubscribeToEvents()
     {
 		ImageTrackingPlotActivatedResponse.OnPlotActivated += HandleGoingToPlot;
+		ImageTrackingPlotUpdatedResponse.OnPlotActivated += HandleGoingToPlot;
         Bee.OnBeeStateChanged += HandleBeeStateChange;
-		PlotsManager.OnPlotDeactivated += HandlePlotDeactivated;
+		ImageTrackingPlotUpdatedResponse.OnPlotDeactivated += HandlePlotDeactivated;
     }
 
 	private void HandlePlotDeactivated(Plot plot)
 	{
+		if(Bee.Instance.State == BeeState.FollowingCamera) return;
+
 		Bee.Instance.UpdateState(BeeState.FollowingCamera);
 		transform.position = Camera.main.transform.position + Camera.main.transform.forward * -2f;
 	}
@@ -204,7 +210,9 @@ public class BeeMovement : MonoBehaviour
 	private void UnSubscribeToEvents()
     {
         ImageTrackingPlotActivatedResponse.OnPlotActivated -= HandleGoingToPlot;
+		ImageTrackingPlotUpdatedResponse.OnPlotActivated -= HandleGoingToPlot;
         Bee.OnBeeStateChanged -= HandleBeeStateChange;
+		ImageTrackingPlotUpdatedResponse.OnPlotDeactivated -= HandlePlotDeactivated;
     }
 
     private void OnDestroy()

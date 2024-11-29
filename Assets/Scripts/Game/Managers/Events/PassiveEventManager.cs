@@ -10,7 +10,7 @@ public class PassiveEventManager : Singleton<PassiveEventManager>
 
 	internal PassiveEvent _currentEventPlaying;
 	private PassiveEvent _previousEventPlayed;
-	private Coroutine _playPassiveEvent;
+	private Coroutine _findPassiveEvent;
 	private List<PlotEvent> _playedEvents = new List<PlotEvent>();
 
 	public PassiveEvent CurrentEventPlaying => _currentEventPlaying;
@@ -29,26 +29,22 @@ public class PassiveEventManager : Singleton<PassiveEventManager>
 		if(PlotsManager.Instance.CurrentPlot == Plot.None) return;
 
 		if(EventManager.Instance.PlayingEvent) {
-			if(_playPassiveEvent != null) {
-				StopCoroutine(_playPassiveEvent);
-				_playPassiveEvent = null;
-			}
-
+			StopLookingForEvent();
 			return;
 		} 
 		
-		if(_playPassiveEvent == null){
-			_playPassiveEvent = StartCoroutine(PlayPassiveEvent());
+		if(_findPassiveEvent == null){
+			_findPassiveEvent = StartCoroutine(FindPassiveEvent());
 		} 
     }
 
-	private IEnumerator PlayPassiveEvent() {
+	private IEnumerator FindPassiveEvent() {
 		yield return new WaitForSeconds(_delayedEventStartDuration);
 
 		PlotEvent plotEvent = GetRandomPlotEventToPlay();
 
 		if(plotEvent == null) {
-			_playPassiveEvent = null;
+			_findPassiveEvent = null;
 			yield break;
 		}
 
@@ -103,6 +99,22 @@ public class PassiveEventManager : Singleton<PassiveEventManager>
 	private void SubscribeToEvents() {
 		PlotEvent.OnPassiveEventStart += HandlePassiveEventStateChanged;
 		PlotEvent.OnPasiveEventEnd += HandlePassiveEventStateChanged;
+		ImageTrackingPlotUpdatedResponse.OnPlotDeactivated += HandlePlotDeactivated;
+	}
+
+	private void HandlePlotDeactivated(Plot plot)
+	{
+		_currentEventPlaying = PassiveEvent.None;
+		StopLookingForEvent();
+	}
+
+	private void StopLookingForEvent()
+	{
+		if (_findPassiveEvent != null)
+		{
+			StopCoroutine(_findPassiveEvent);
+			_findPassiveEvent = null;
+		}
 	}
 
 	private void HandlePassiveEventStateChanged(UpdatePassiveEventCollection eventChangeArgs)
@@ -118,6 +130,7 @@ public class PassiveEventManager : Singleton<PassiveEventManager>
 	private void UnsubscribeFromEvents() {
 		PlotEvent.OnPassiveEventStart -= HandlePassiveEventStateChanged;
 		PlotEvent.OnPasiveEventEnd -= HandlePassiveEventStateChanged;
+		ImageTrackingPlotUpdatedResponse.OnPlotDeactivated -= HandlePlotDeactivated;
 	}
 
 	private void OnDestroy() {

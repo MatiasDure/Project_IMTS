@@ -43,6 +43,15 @@ public class ImageTrackingResponseManager : MonoBehaviour
 		HandleUpdatedImages(eventArgs.updated);
 	}
 
+	private void Update() {
+		// Debug.Log($"There are {_arTrackedImageManager.trackables.count} images being tracked");
+
+		// foreach (var trackedImage in _arTrackedImageManager.trackables)
+		// {
+		// 	Debug.Log($"Tracked image: {trackedImage.trackingState}");
+		// }
+	}
+
 	private void HandleUpdatedImages(List<ARTrackedImage> updatedImages)
 	{
 		foreach (var trackedImage in updatedImages)

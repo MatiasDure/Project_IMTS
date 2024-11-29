@@ -24,7 +24,8 @@ public class PlotsManager : Singleton<PlotsManager>
 	{
 		BeeMovement.OnBeeEnteredPlot += HandleBeeEnteredPlot;
 		ImageTrackingPlotActivatedResponse.OnPlotActivated += HandlePlotActivated;
-		_distanceTracker.OnMaxDistanceReached += HandleMaxDistanceReached;
+		ImageTrackingPlotUpdatedResponse.OnPlotActivated += HandlePlotActivated;
+		// _distanceTracker.OnMaxDistanceReached += HandleMaxDistanceReached;
 	}
 
 	private void HandleMaxDistanceReached()
@@ -70,6 +71,7 @@ public class PlotsManager : Singleton<PlotsManager>
 	{
 		BeeMovement.OnBeeEnteredPlot -= HandleBeeEnteredPlot;
 		ImageTrackingPlotActivatedResponse.OnPlotActivated -= HandlePlotActivated;
-		_distanceTracker.OnMaxDistanceReached -= HandleMaxDistanceReached;
+		ImageTrackingPlotUpdatedResponse.OnPlotActivated -= HandlePlotActivated;
+		// _distanceTracker.OnMaxDistanceReached -= HandleMaxDistanceReached;
 	}
 }
