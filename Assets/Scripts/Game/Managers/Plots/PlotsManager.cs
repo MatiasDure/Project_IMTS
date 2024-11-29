@@ -25,21 +25,21 @@ public class PlotsManager : Singleton<PlotsManager>
 		BeeMovement.OnBeeEnteredPlot += HandleBeeEnteredPlot;
 		ImageTrackingPlotActivatedResponse.OnPlotActivated += HandlePlotActivated;
 		ImageTrackingPlotUpdatedResponse.OnPlotActivated += HandlePlotActivated;
+		ImageTrackingPlotUpdatedResponse.OnPlotDeactivated += HandleMaxDistanceReached;
 		// _distanceTracker.OnMaxDistanceReached += HandleMaxDistanceReached;
 	}
 
-	private void HandleMaxDistanceReached()
+	private void HandleMaxDistanceReached(Plot plot)
 	{
-		foreach (var plotObject in _plotObjects)
-		{
-			if (plotObject.Plot != _currentPlot) continue;
+		// foreach (var plotObject in _plotObjects)
+		// {
+		// 	if (plotObject.Plot != _currentPlot) continue;
 
-			plotObject.PlotObject.SetActive(false);
-			break;
-		}
+		// 	plotObject.PlotObject.SetActive(false);
+		// 	break;
+		// }
 
-		OnPlotDeactivated?.Invoke(_currentPlot);
-
+		// OnPlotDeactivated?.Invoke(_currentPlot);
 		_currentPlot = Plot.None;
 		_nextPlot = Plot.None;
 	}

@@ -66,4 +66,9 @@ public class ChimneyInteraction : MonoBehaviour, IInteractable, IEvent
 		OnEventDone?.Invoke();
 		_isPlaying = false;
 	}
+
+	public void StopEvent()
+	{
+		StopAllCoroutines();
+	}
 }

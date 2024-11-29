@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class EventManager : Singleton<EventManager>
@@ -30,6 +31,15 @@ public class EventManager : Singleton<EventManager>
 			_passiveEventManager.OnPassiveEventReadyToStart += StartInterruptionSequence;
 		if(_interactionManager != null) 
 			_interactionManager.OnInteractionReadyToStart += StartInterruptionSequence;
+
+		ImageTrackingPlotUpdatedResponse.OnPlotDeactivated += HandlePlotDeactivated;
+	}
+
+	private void HandlePlotDeactivated(Plot plot)
+	{
+		if(_currentEvent == null) return;
+
+		_currentEvent.StopEvent();
 	}
 
 	private void UnsubscribeFromEvents()
@@ -38,6 +48,8 @@ public class EventManager : Singleton<EventManager>
 			_passiveEventManager.OnPassiveEventReadyToStart -= StartInterruptionSequence;
 		if(_interactionManager != null) 
 			_interactionManager.OnInteractionReadyToStart -= StartInterruptionSequence;
+
+		ImageTrackingPlotUpdatedResponse.OnPlotDeactivated -= HandlePlotDeactivated;
 	}
 
 	private void StartInterruptionSequence(EventInterruption eventData)

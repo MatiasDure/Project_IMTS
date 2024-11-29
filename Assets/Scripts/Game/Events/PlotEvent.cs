@@ -70,4 +70,9 @@ public abstract class PlotEvent : MonoBehaviour, IEvent
 		OnPasiveEventEnd?.Invoke(eventMetadata);
 		OnEventDone?.Invoke();
 	}
+
+	public void StopEvent()
+	{
+		StopAllCoroutines();
+	}
 }

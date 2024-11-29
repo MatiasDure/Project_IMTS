@@ -7,7 +7,7 @@ public class Portal : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-		PlotsManager.OnPlotDeactivated += HandlePlotDeactivated;
+		// ImageTrackingPlotUpdatedResponse.OnPlotDeactivated += HandlePlotDeactivated;
     }
 
 	private void HandlePlotDeactivated(Plot plot)
@@ -19,6 +19,6 @@ public class Portal : MonoBehaviour
 
 	private void OnDestroy()
 	{
-		PlotsManager.OnPlotDeactivated -= HandlePlotDeactivated;
+		// ImageTrackingPlotUpdatedResponse.OnPlotDeactivated -= HandlePlotDeactivated;
 	}
 }

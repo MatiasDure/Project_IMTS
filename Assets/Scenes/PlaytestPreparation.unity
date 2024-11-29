@@ -2651,7 +2651,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7712bec7504f4f640b78ac9037135cf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _beeCompanion: {fileID: 2073747467}
   _plotTrackedImageCollections:
   - TrackedImageName: FishPoster
     Plot: 1
@@ -2858,7 +2857,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7744263291163995274, guid: 16fb933c8038d514d9018d8536ab0693, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7877695745315307413, guid: 16fb933c8038d514d9018d8536ab0693, type: 3}
       propertyPath: m_LocalPosition.x

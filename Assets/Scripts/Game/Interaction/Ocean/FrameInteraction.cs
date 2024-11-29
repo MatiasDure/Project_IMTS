@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(ToggleRotate))]
-public class FrameInteraction : MonoBehaviour, IInteractable, IEvent,IToggleComponent
+public class FrameInteraction : MonoBehaviour, IInteractable, IEvent, IToggleComponent
 {
     public event Action OnToggleDone;
     public ToggleState CurrentToggleState { get; set; }
@@ -92,4 +92,9 @@ public class FrameInteraction : MonoBehaviour, IInteractable, IEvent,IToggleComp
         
         UpdateState(NextToggleState);
     }
+
+	public void StopEvent()
+	{
+		StopAllCoroutines();
+	}
 }
