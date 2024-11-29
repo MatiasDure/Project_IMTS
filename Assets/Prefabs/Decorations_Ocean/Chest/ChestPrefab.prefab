@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 7747803927514631017}
   - component: {fileID: 3250035185734264770}
   m_Layer: 0
-  m_Name: lockedSoundEffect
+  m_Name: onceBeeTrappedInSFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -135,8 +135,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 130
   DopplerLevel: 1
-  MinDistance: 4
-  MaxDistance: 10
+  MinDistance: 1
+  MaxDistance: 2
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -432,7 +432,7 @@ GameObject:
   - component: {fileID: 4772753556026378366}
   - component: {fileID: 3159970733360755616}
   m_Layer: 0
-  m_Name: tapSoundEffect
+  m_Name: tapSFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -591,7 +591,7 @@ GameObject:
   - component: {fileID: 4496468547447417134}
   - component: {fileID: 8767571011309556674}
   m_Layer: 0
-  m_Name: openSoundEffect
+  m_Name: onceOpeningSFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -632,8 +632,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 4
-  MaxDistance: 10
+  MinDistance: 1
+  MaxDistance: 2
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -781,7 +781,7 @@ GameObject:
   - component: {fileID: 1302610389948711756}
   - component: {fileID: 530215314795973214}
   m_Layer: 0
-  m_Name: closedSoundEffec
+  m_Name: onceClosingSFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -822,8 +822,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 4
-  MaxDistance: 10
+  MinDistance: 1
+  MaxDistance: 2
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
