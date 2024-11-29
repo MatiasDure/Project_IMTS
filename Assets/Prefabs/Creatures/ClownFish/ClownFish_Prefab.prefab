@@ -616,7 +616,7 @@ GameObject:
   - component: {fileID: 710779527008128520}
   - component: {fileID: 5172531227117937572}
   m_Layer: 0
-  m_Name: FishTapSFX
+  m_Name: TapSFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -647,7 +647,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: d63a83f3cb145524aab8e3a8fca919e0, type: 3}
+  m_audioClip: {fileID: 8300000, guid: e9f8cff2acb7afd47aa4a57c65a920b0, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -657,8 +657,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
+  MinDistance: 0.4
+  MaxDistance: 0.8
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
