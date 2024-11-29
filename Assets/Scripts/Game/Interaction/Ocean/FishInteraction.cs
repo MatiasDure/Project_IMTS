@@ -12,7 +12,6 @@ public class FishInteraction : MonoBehaviour,
 
 
 	[SerializeField] private ObjectMovement _beeMovement;
-	[SerializeField] private Sound _swimSFX;
 
 	public bool CanInterrupt { get; set; } = true;
 	public EventState State { get; set; }

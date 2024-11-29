@@ -5,6 +5,7 @@ using System.Collections;
 [
 	RequireComponent(typeof(PlayAnimation)),
 	RequireComponent(typeof(PlayParticle)),
+	RequireComponent(typeof(SoundComponent)),
 ]
 public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterruptible
 {
@@ -18,8 +19,13 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 	[SerializeField] private Transform _inChestPosition;
 	[SerializeField] private Movement _beeMovementConfig;
 	[SerializeField] private float _cooldownTimeToForceReleaseBee = 2f;
+	[SerializeField] private Sound _tapSFX;
+	[SerializeField] private Sound _onceChestOpenSFX;
+	[SerializeField] private Sound _onceChestCloseSFX;
+	[SerializeField] private Sound _chestLockSFX;
 	private Cooldown _cooldown;
 	private PlayAnimation _playAnimation;
+	private SoundComponent _soundComponent;
 	private PlayParticle _playParticle;
 	private bool _hasAnimationStarted = false;
 	private ChestEventState _chestEventState = ChestEventState.None;
@@ -36,6 +42,7 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 	private void Awake() {
 		_playAnimation = GetComponent<PlayAnimation>();
 		_playParticle = GetComponent<PlayParticle>();
+		_soundComponent = GetComponent<SoundComponent>();
 		_cooldown = new Cooldown();
 	}
 
@@ -73,6 +80,7 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 
 	private IEnumerator InitialChestAnimation() {
 		if(!_hasAnimationStarted) {
+			_soundComponent.PlaySound(_tapSFX);
 			_hasAnimationStarted = true;
 			EnableChestAnimation();
 		}
@@ -190,12 +198,14 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 	}
 
 	private IEnumerator CloseAnimation() {
+		_soundComponent.PlaySound(_onceChestCloseSFX);
 		_playParticle.ToggleOff();
 		SetCloseChestAnimation();
 		yield return StartCoroutine(FinishAnimation(CLOSE_STATE_NAME));
 	}
 
 	private IEnumerator OpenAnimation() {
+		_soundComponent.PlaySound(_onceChestOpenSFX);
 		SetOpenChestAnimation();
 		yield return StartCoroutine(FinishAnimation(OPEN_STATE_NAME));
 		_playParticle.ToggleOn();
