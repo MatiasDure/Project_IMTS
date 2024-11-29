@@ -5,6 +5,7 @@ using UnityEngine;
 [
 	RequireComponent(typeof(PlayAnimation)),
 	RequireComponent(typeof(PlayParticle)),
+	RequireComponent(typeof(SoundComponent)),
 ]
 public class ClambInteraction : MonoBehaviour, 
 								IInteractable, 
@@ -17,7 +18,11 @@ public class ClambInteraction : MonoBehaviour,
 
 	[SerializeField] private string _clamAnimationToggleParameterName;
 	[SerializeField] private float _scaleIncreaseRate = 1.5f;
-	
+		[SerializeField] private Sound _tapSFX;
+	[SerializeField] private Sound _onceClamOpenSFX;
+	[SerializeField] private Sound _onceClamCloseSFX;
+	[SerializeField] private Sound _oncePearlSparkOnOpenSFX;
+
 	public bool CanInterrupt { get; set; }
 	public bool MultipleInteractions { get; set; }
 	public EventState State { get; set; }
@@ -27,7 +32,8 @@ public class ClambInteraction : MonoBehaviour,
 	internal PlayAnimation _playAnimation;
 	internal PlayParticle _playParticle;
 	internal bool _hasStartedAnimation;
-	
+
+	private SoundComponent _soundComponent;
 	
 	public event Action OnEventDone;
 	public event Action OnToggleDone;
@@ -39,6 +45,7 @@ public class ClambInteraction : MonoBehaviour,
 		_collider = GetComponent<BoxCollider>();
 		_playAnimation = GetComponent<PlayAnimation>();
 		_playParticle = GetComponent<PlayParticle>();
+		_soundComponent = GetComponent<SoundComponent>();
 	}
 
 	private void Start()
@@ -77,10 +84,14 @@ public class ClambInteraction : MonoBehaviour,
 
 	private IEnumerator OpenClam() {
 		UpdateColliderScale(_scaleIncreaseRate);
+		_soundComponent.PlaySound(_tapSFX);
+		_soundComponent.PlaySound(_onceClamOpenSFX);
 		SetOpenAnimationState();
 		yield return StartCoroutine(WaitForAnimationStateToPlay(OPEN_ANIMATION_STATE));
 		_playParticle.ToggleOn();
 		UpdateState(ToggleState.On);
+		
+		_soundComponent.PlaySound(_oncePearlSparkOnOpenSFX);
 		OnToggleDone?.Invoke();
 	}
 
@@ -97,6 +108,7 @@ public class ClambInteraction : MonoBehaviour,
 	private IEnumerator CloseClam()
 	{
 		UpdateColliderScale(-_scaleIncreaseRate);
+		_soundComponent.PlaySound(_onceClamCloseSFX);
 		_playParticle.ToggleOff();
 		SetCloseAnimationState();
 		yield return StartCoroutine(WaitForAnimationStateToPlay(CLOSE_ANIMATION_STATE));
