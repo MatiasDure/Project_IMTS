@@ -40,6 +40,13 @@ public class EventManager : Singleton<EventManager>
 		if(_currentEvent == null) return;
 
 		_currentEvent.StopEvent();
+
+		_currentEvent.OnEventDone -= HandleCurrentEventDone;
+		_currentEventGameObject = null;
+		_currentEvent = null;
+		_nextEventToPlay = null;
+		_nextEventType = EventType.None;
+		_interruptionInProcess = false;
 	}
 
 	private void UnsubscribeFromEvents()

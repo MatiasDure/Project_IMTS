@@ -10,7 +10,6 @@ public class ImageTrackingSyncWithImageResponse : MonoBehaviour, IImageTrackingR
 		// if(objectToSync.transform.parent != trackedImage.transform) objectToSync.transform.SetParent(trackedImage.transform);
 		
 		// objectToSync.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-		if(!objectToSync.activeInHierarchy) objectToSync.SetActive(true);
 		objectToSync.transform.SetPositionAndRotation(trackedImage.transform.position, trackedImage.transform.rotation);
 		// objectToSync.transform.rotation = trackedImage.transform.rotation;
 		return objectToSync;
