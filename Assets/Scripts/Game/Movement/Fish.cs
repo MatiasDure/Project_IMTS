@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(SwimmingBehaviour))]
+[RequireComponent(typeof(AvoidObjectSwimmingBehavior))]
 public class Fish : MonoBehaviour
 {
     public float MoveSpeed { get; set; } = 0.5f;
 
     private SwimmingBehaviour _swimmingBehaviour;
+    private AvoidObjectSwimmingBehavior _avoidObjectSwimmingBehavior;
 
     private void Awake()
     {
+        _avoidObjectSwimmingBehavior = GetComponent<AvoidObjectSwimmingBehavior>();
         _swimmingBehaviour = GetComponent<SwimmingBehaviour>();
     }
 
@@ -22,7 +25,7 @@ public class Fish : MonoBehaviour
 
     private void Update()
     {
-        Move();
+        AvoidObjectMove();
     }
 
     private void BeginSwimming()
@@ -33,5 +36,10 @@ public class Fish : MonoBehaviour
     private void Move()
     {
         _swimmingBehaviour.Move(MoveSpeed);
+    }
+
+    private void AvoidObjectMove()
+    {
+        _avoidObjectSwimmingBehavior.Move(MoveSpeed);
     }
 }
