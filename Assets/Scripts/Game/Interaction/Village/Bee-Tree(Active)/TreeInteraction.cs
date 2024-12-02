@@ -22,8 +22,7 @@ public class TreeInteraction : MonoBehaviour, IInteractable, IEvent, IInterrupti
     [SerializeField] private Transform _coneHolder;
 
     [SerializeField] private Transform _inspectPosition;
-
-    private List<int> _remainingConeIndex = new List<int>();
+    
     private int _lastSelectedConeIndex;
     private List<Cone> _cones = new List<Cone>();
     private List<Cone> _conesOnGround = new List<Cone>();
@@ -34,7 +33,6 @@ public class TreeInteraction : MonoBehaviour, IInteractable, IEvent, IInterrupti
     public event Action<IInterruptible> OnInterruptedDone;
     public EventState State { get; set; }
     
-
     internal PlayAnimation _playAnimation;
     internal bool _ready;
     
@@ -72,7 +70,7 @@ public class TreeInteraction : MonoBehaviour, IInteractable, IEvent, IInterrupti
     {
         if (_ready)
         {
-            StartCoroutine(ShakeTree(GetRandomConeListWithCycle(_cones)));
+            StartCoroutine(ShakeTree(GetRandomCone(_cones)));
             
             BeeMoveToInspectPosition();
         }
@@ -172,44 +170,26 @@ public class TreeInteraction : MonoBehaviour, IInteractable, IEvent, IInterrupti
 
         return randomPosition;
     }
-    
-    public TCone GetRandomConeListWithCycle<TCone>(List<TCone> list)
+
+    private Cone GetRandomCone(List<Cone> list)
     {
         if (list == null || list.Count == 0)
         {
-            return default;
+            return null;
         }
         
-        if (_remainingConeIndex.Count == 0)
+        Cone chosen;
+        int randomIndex;
+        
+        do
         {
-            for (int i = 0; i < list.Count; i++)
-            {
-                _remainingConeIndex.Add(i);
-            }
-            Shuffle(_remainingConeIndex);
-        }
-        
-        int selectedIndex = _remainingConeIndex[0];
-        _remainingConeIndex.RemoveAt(0);
-        
-        if (selectedIndex == _lastSelectedConeIndex && list.Count > 1)
-        {
-            _remainingConeIndex.Add(selectedIndex); 
-            selectedIndex = _remainingConeIndex[0];
-            _remainingConeIndex.RemoveAt(0);
-        }
+            randomIndex = Random.Range(0, _cones.Count-1);
 
-        _lastSelectedConeIndex = selectedIndex;
-        return list[selectedIndex];
-    }
-    
-    private void Shuffle(List<int> indices)
-    {
-        for (int i = indices.Count - 1; i > 0; i--)
-        {
-            int j = Random.Range(0, i + 1);
-            (indices[i], indices[j]) = (indices[j], indices[i]);
-        }
+            chosen = _cones[randomIndex];
+        } 
+        while (_conesOnGround.Contains(chosen));
+        
+        return chosen;
     }
     
     public void InterruptEvent()
