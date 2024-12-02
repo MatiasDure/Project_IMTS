@@ -4,19 +4,43 @@ using UnityEngine;
 
 public class PlotTutorial : MonoBehaviour
 {
+	[SerializeField] float _lookAroundSkipTime;
+	[SerializeField] float _tapSkipTime;
+	[Header("")]
 	[SerializeField] GameObject _lookPositionsContainer;
 	[SerializeField] GameObject _lookTutorialUI;
-	[SerializeField] GameObject _tapTutorialUI;
+	[SerializeField] GameObject _tapTutorialObject;
 	[SerializeField] GameObject _raycastCamera;
-	
+	[SerializeField] RaycastManager _raycastManager;
+
 	private PlotTutorialState _state;
 	private List<PlotTutorialLookPosition> _lookPositions;
-	
+
 	private void OnEnable()
 	{
 		SetupLookPositions();
 		UpdateState(PlotTutorialState.LookAround);
+
+		_raycastManager.OnRaycastHit += OnInteract;
 	}
+
+	private void OnDisable()
+	{
+		_raycastManager.OnRaycastHit -= OnInteract;
+	}
+	
+	private void OnInteract(Collider collider)
+	{
+		if(_state != PlotTutorialState.Tap) return;
+		
+		UpdateState(PlotTutorialState.Finished);
+	}
+	
+	private IEnumerator SkipTutorialSectionCoroutine(float secondsToWait, PlotTutorialState nextStateToSet)
+	{
+		yield return new WaitForSeconds(secondsToWait);
+		UpdateState(nextStateToSet);
+	} 
 	
 	private void Update()
 	{
@@ -31,7 +55,6 @@ public class PlotTutorial : MonoBehaviour
 				DoRaycast();
 				break;
 			case PlotTutorialState.Tap:
-				//TODO: Implement
 				break;
 		}
 	}
@@ -50,7 +73,7 @@ public class PlotTutorial : MonoBehaviour
 				}
 			}
 	}
-	
+		
 	private void DiscoverLookPosition(PlotTutorialLookPosition lookPosition)
 	{
 		if (lookPosition.IsDiscovered) return;
@@ -71,6 +94,7 @@ public class PlotTutorial : MonoBehaviour
 	
 	private void HandleAllPositionsDiscovered()
 	{
+		_lookPositionsContainer.SetActive(false);
 		UpdateState(PlotTutorialState.Tap);
 	}
 	
@@ -94,19 +118,27 @@ public class PlotTutorial : MonoBehaviour
 	
 	private void StartLookAroundTutorial()
 	{
-		DisableTutorialObject(_tapTutorialUI);
+		StopAllCoroutines();
+		StartCoroutine(SkipTutorialSectionCoroutine(_lookAroundSkipTime, PlotTutorialState.Tap));
+
+		DisableTutorialObject(_tapTutorialObject);
 		EnableTutorialObject(_lookTutorialUI);
 	}
 	
 	private void StartTapTutorial()
 	{
+		StopAllCoroutines();
+		StartCoroutine(SkipTutorialSectionCoroutine(_tapSkipTime, PlotTutorialState.Finished));
+
 		DisableTutorialObject(_lookTutorialUI);
-		EnableTutorialObject(_tapTutorialUI);
+		EnableTutorialObject(_tapTutorialObject);
 	}
-	
+		
 	private void FinishTutorial()
 	{
-		//TODO: Implement
+		StopAllCoroutines();
+		DisableTutorialObject(_tapTutorialObject);
+		gameObject.SetActive(false);
 	}
 	
 	private void EnableTutorialObject(GameObject gameObject)
