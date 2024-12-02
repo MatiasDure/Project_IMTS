@@ -9,10 +9,8 @@ public class RiverSurfaceFishInteraction : MonoBehaviour,
 										   IInterruptible
 {
 	[SerializeField] GameObject fishPrefab;
-	[SerializeField] float spawnFishDelay = 1f;
 	[SerializeField] float spawnFishRandomAngleAmount = 15f;
-	[SerializeField] Range spawnFishDistanceRange;
-	[SerializeField] int maxFishCount = 3;
+	[SerializeField] int maxSequencePlaysAmount = 3;
 	[SerializeField] float sphereCastRadius = 5f;
 	[SerializeField] float extendWaypointForwardDistance = 3f;
 	
@@ -24,7 +22,8 @@ public class RiverSurfaceFishInteraction : MonoBehaviour,
 
 	// The location in the river where the last action took place (Either spawned fish OR raycast hitpoint)
 	private Vector3 lastRiverActionLocation;
-	private int spawnedFish = 0;
+	private int sequencePlayedAmount = 0;
+	private RiverFish _spawnedRiverFish;
 
 	public void Interact()
 	{
@@ -33,24 +32,14 @@ public class RiverSurfaceFishInteraction : MonoBehaviour,
 		State = EventState.Active;
 		
 		lastRiverActionLocation = RaycastManager.Instance.HitPoint;
-		StartCoroutine(DoSpawnFishSequence(spawnFishDelay));
+		DoSpawnFishSequence();
 	}
 	
-	private IEnumerator DoSpawnFishSequence(float spawnDelay)
+	private void DoSpawnFishSequence()
 	{
 		List<RiverWaypoint> nearbyWaypoints = GetNearbyWaypoints(lastRiverActionLocation);
 		RiverWaypoint targetWaypoint = GetFurthestDownstreamWaypoint(nearbyWaypoints);
 		SpawnFish(targetWaypoint);
-
-		yield return new WaitForSeconds(spawnDelay);
-		
-		if (spawnedFish >= maxFishCount) // Interaction done - reset
-		{
-			HandleEventDone();
-			yield return null;
-		}
-
-		StartCoroutine(DoSpawnFishSequence(spawnDelay));
 	}
 	
 	private void SpawnFish(RiverWaypoint targetWaypoint)
@@ -59,16 +48,31 @@ public class RiverSurfaceFishInteraction : MonoBehaviour,
 			new Vector3(0, GetNewRandomHorizontalDirectionDegrees(spawnFishRandomAngleAmount), 0);
 		Quaternion rotation = Quaternion.Euler(targetWaypoint.transform.eulerAngles + randomRotationVector);
 		
-		GameObject spawnedObject = Instantiate(fishPrefab, lastRiverActionLocation, rotation);
-		
-		if(spawnedFish != 0)
+		if(sequencePlayedAmount == 0)
 		{
-			spawnedObject.transform.position += 
-				spawnedObject.transform.forward * spawnFishDistanceRange.GetRandomValueWithinRange();
+			GameObject spawnedObject = Instantiate(fishPrefab, lastRiverActionLocation, rotation);
+			_spawnedRiverFish = spawnedObject.GetComponent<RiverFish>();
+			SubscribeToSpawnedFish();
+		}else
+		{
+			_spawnedRiverFish.ResetFish(_spawnedRiverFish.transform.position, rotation);
 		}
 
-		lastRiverActionLocation = spawnedObject.transform.position;
-		spawnedFish++;
+		sequencePlayedAmount++;
+	}
+	
+	
+	private void HandleFishAnimationDone(RiverFish riverFish)
+	{
+		return;
+		if (sequencePlayedAmount >= maxSequencePlaysAmount) // Interaction done - reset
+		{
+			HandleEventDone();
+			return;
+		}
+		
+		lastRiverActionLocation = riverFish.transform.position;
+		DoSpawnFishSequence();
 	}
 
 	private List<RiverWaypoint> GetNearbyWaypoints(Vector3 point)
@@ -119,10 +123,21 @@ public class RiverSurfaceFishInteraction : MonoBehaviour,
 	
 	private void HandleEventDone()
 	{
-		StopAllCoroutines();
-		spawnedFish = 0;
+		UnsubscriveFromSpawnedFish();
+		Destroy(_spawnedRiverFish.gameObject);
+		sequencePlayedAmount = 0;
 		State = EventState.None;
 		OnEventDone?.Invoke();
+	}
+	
+	private void SubscribeToSpawnedFish()
+	{
+		_spawnedRiverFish.OnAnimationFinished += HandleFishAnimationDone;
+	}
+	
+	private void UnsubscriveFromSpawnedFish()
+	{
+		_spawnedRiverFish.OnAnimationFinished -= HandleFishAnimationDone;
 	}
 
 	// No interruption needed - implemented to not break managers

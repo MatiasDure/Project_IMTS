@@ -3242,7 +3242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a153d6f51aaa7f54fb73261f67826579, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fishPrefab: {fileID: 8015884809649789607, guid: 505991dadb04b0b4aa69ca29e7b4b8f0, type: 3}
+  fishPrefab: {fileID: 4658798669769164709, guid: 96b5e508de16dd24bb43a18b2b4d4e59, type: 3}
   spawnFishDelay: 1
   spawnFishRandomAngleAmount: 15
   spawnFishDistanceRange:
@@ -3439,63 +3439,6 @@ Transform:
   - {fileID: 666290333}
   m_Father: {fileID: 2726935511382197088}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &8404622804328864021
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 204414363901901689, guid: 96b5e508de16dd24bb43a18b2b4d4e59, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 204414363901901689, guid: 96b5e508de16dd24bb43a18b2b4d4e59, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 204414363901901689, guid: 96b5e508de16dd24bb43a18b2b4d4e59, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 204414363901901689, guid: 96b5e508de16dd24bb43a18b2b4d4e59, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 204414363901901689, guid: 96b5e508de16dd24bb43a18b2b4d4e59, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 204414363901901689, guid: 96b5e508de16dd24bb43a18b2b4d4e59, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 204414363901901689, guid: 96b5e508de16dd24bb43a18b2b4d4e59, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 204414363901901689, guid: 96b5e508de16dd24bb43a18b2b4d4e59, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 204414363901901689, guid: 96b5e508de16dd24bb43a18b2b4d4e59, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 204414363901901689, guid: 96b5e508de16dd24bb43a18b2b4d4e59, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4658798669769164709, guid: 96b5e508de16dd24bb43a18b2b4d4e59, type: 3}
-      propertyPath: m_Name
-      value: RiverFish
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 96b5e508de16dd24bb43a18b2b4d4e59, type: 3}
 --- !u!65 &8509805152881834582
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3581,4 +3524,3 @@ SceneRoots:
   - {fileID: 777136294}
   - {fileID: 1735088852}
   - {fileID: 399814097}
-  - {fileID: 8404622804328864021}

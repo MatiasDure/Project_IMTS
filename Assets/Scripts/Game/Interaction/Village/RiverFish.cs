@@ -11,6 +11,7 @@ public class RiverFish : MonoBehaviour
 	private bool _inInteractionSequence = false;
 
 	private const string ANIMATION_JUMP_PARAMETER = "Jump";
+	private const string ANIMATION_JUMP_STATE = "Jumping";
 	public event Action<RiverFish> OnAnimationFinished;
 	
 	private void Start()
@@ -34,14 +35,14 @@ public class RiverFish : MonoBehaviour
 
 	private void Move()
 	{
-		//TODO: Implement
+		transform.position += transform.forward * _moveSpeed * Time.deltaTime;
 	}
 
 	private void CheckAnimation()
 	{
 		if (!AnimatorIsPlaying())
 		{
-			HandleAnimationDone();
+			//HandleAnimationDone();
 		}
 	}
 	
@@ -54,8 +55,10 @@ public class RiverFish : MonoBehaviour
 
 	private bool AnimatorIsPlaying()
 	{
-		return _animator.GetCurrentAnimatorStateInfo(0).length >
-		   _animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+		AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
+		Debug.Log(stateInfo.IsName(ANIMATION_JUMP_STATE));
+		return stateInfo.IsName(ANIMATION_JUMP_STATE) && 
+			   stateInfo.length > stateInfo.normalizedTime;
 	}
 
 	private void SetTransform(Vector3 position, Quaternion rotation)
