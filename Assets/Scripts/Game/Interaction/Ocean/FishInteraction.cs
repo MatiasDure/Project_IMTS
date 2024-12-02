@@ -136,4 +136,9 @@ public class FishInteraction : MonoBehaviour,
 
         OnInterruptedDone?.Invoke(this);
     }
+
+	public void StopEvent()
+	{
+		StopAllCoroutines();
+	}
 }
