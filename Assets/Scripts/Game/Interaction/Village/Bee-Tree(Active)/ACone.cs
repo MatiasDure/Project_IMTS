@@ -7,7 +7,7 @@ using UnityEngine;
     RequireComponent(typeof(FadeObject)),
     RequireComponent(typeof(DropObject)),
 ]
-public class Cone : MonoBehaviour
+public class ACone : MonoBehaviour
 {
     private FadeObject _fadeObject;
     private DropObject _dropObject;

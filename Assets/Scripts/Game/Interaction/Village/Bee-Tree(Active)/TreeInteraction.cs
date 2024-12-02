@@ -24,8 +24,8 @@ public class TreeInteraction : MonoBehaviour, IInteractable, IEvent, IInterrupti
     [SerializeField] private Transform _inspectPosition;
     
     private int _lastSelectedConeIndex;
-    private List<Cone> _cones = new List<Cone>();
-    private List<Cone> _conesOnGround = new List<Cone>();
+    private List<ACone> _cones = new List<ACone>();
+    private List<ACone> _conesOnGround = new List<ACone>();
     public bool CanInterrupt { get; set; }
     public bool MultipleInteractions { get; set; }
     
@@ -59,9 +59,9 @@ public class TreeInteraction : MonoBehaviour, IInteractable, IEvent, IInterrupti
     {
         foreach (Transform cone in _coneHolder)
         {
-            if (cone.GetComponent<Cone>())
+            if (cone.GetComponent<ACone>())
             {
-                _cones.Add(cone.GetComponent<Cone>());
+                _cones.Add(cone.GetComponent<ACone>());
             }
         }
     }
@@ -77,18 +77,18 @@ public class TreeInteraction : MonoBehaviour, IInteractable, IEvent, IInterrupti
         
     }
 
-    private IEnumerator ShakeTree(Cone cone)
+    private IEnumerator ShakeTree(ACone aCone)
     {
         _ready = false;
         
-        yield return RepareConeAndPlayAnimation(cone);
+        yield return RepareConeAndPlayAnimation(aCone);
 
-        yield return DropTheCone(cone);
+        yield return DropTheCone(aCone);
 
         OnEventDone?.Invoke();
         _ready = true;
         
-        yield return FadeAndResetCone(cone);
+        yield return FadeAndResetCone(aCone);
 
         if (_conesOnGround.Count < 1)
         {
@@ -96,26 +96,26 @@ public class TreeInteraction : MonoBehaviour, IInteractable, IEvent, IInterrupti
         }
     }
 
-    private IEnumerator FadeAndResetCone(Cone cone)
+    private IEnumerator FadeAndResetCone(ACone aCone)
     {
-        yield return cone.FadeCone(_resetTime / 2);
-        cone.ResetCone(GetRandomPointInBox());
-        _conesOnGround.Remove(cone);
+        yield return aCone.FadeCone(_resetTime / 2);
+        aCone.ResetCone(GetRandomPointInBox());
+        _conesOnGround.Remove(aCone);
     }
 
-    private IEnumerator DropTheCone(Cone cone)
+    private IEnumerator DropTheCone(ACone aCone)
     {
-        cone.DropCone();
+        aCone.DropCone();
 
         yield return new WaitForSeconds(_resetTime / 2);
     }
 
-    private IEnumerator RepareConeAndPlayAnimation(Cone cone)
+    private IEnumerator RepareConeAndPlayAnimation(ACone aCone)
     {
         _playAnimation.SetTrigger(_animationTriggerVariable);
 
-        _conesOnGround.Add(cone);
-        cone.ResetCone(GetRandomPointInBox());
+        _conesOnGround.Add(aCone);
+        aCone.ResetCone(GetRandomPointInBox());
 
         yield return WaitForAnimationStateToPlay(_animationState);
     }
@@ -171,14 +171,14 @@ public class TreeInteraction : MonoBehaviour, IInteractable, IEvent, IInterrupti
         return randomPosition;
     }
 
-    private Cone GetRandomCone(List<Cone> list)
+    private ACone GetRandomCone(List<ACone> list)
     {
         if (list == null || list.Count == 0)
         {
             return null;
         }
         
-        Cone chosen;
+        ACone chosen;
         int randomIndex;
         
         do
