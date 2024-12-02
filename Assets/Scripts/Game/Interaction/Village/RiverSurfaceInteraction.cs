@@ -47,11 +47,10 @@ public class RiverSurfaceFishInteraction : MonoBehaviour,
 		if (spawnedFish >= maxFishCount) // Interaction done - reset
 		{
 			HandleEventDone();
+			yield return null;
 		}
-		else
-		{
-			StartCoroutine(DoSpawnFishSequence(spawnDelay));
-		}
+
+		StartCoroutine(DoSpawnFishSequence(spawnDelay));
 	}
 	
 	private void SpawnFish(RiverWaypoint targetWaypoint)
