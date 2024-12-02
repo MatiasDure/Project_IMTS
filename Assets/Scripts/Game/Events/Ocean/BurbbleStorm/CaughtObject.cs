@@ -9,7 +9,7 @@ public class CaughtObject : MonoBehaviour
     
     public Rigidbody rigid { get; set; }
 
-    public bool allowUpdate;
+    public bool allowUpdate{ get; set; }
 
     private void Awake()
     {
@@ -25,13 +25,27 @@ public class CaughtObject : MonoBehaviour
     void Update()
     {
         SetSpringStrength();
+        Rotate();
         
         if(!allowUpdate) return;
         
-        LiftObject();
+        if(_tornadoReference.allowConstrain) LockZ();
+        
+        
+        //LiftObject();
         RotateObjectAroundTornado(_tornadoReference);
     }
 
+    private void LockZ()
+    {
+        rigid.constraints = RigidbodyConstraints.FreezePositionZ;
+    }
+
+    private void Rotate()
+    {
+        transform.Rotate(_tornadoReference.rotationAxis,_tornadoReference.tornadoStrength*10 *Time.deltaTime,Space.Self);
+    }
+    
     private void LiftObject()
     {
         if(_spring == null || _tornadoReference == null)return;
@@ -66,7 +80,7 @@ public class CaughtObject : MonoBehaviour
     
         // Apply a secondary rotation to simulate "lift" in the direction of the swirl,
         // creating an upward (or downward) draft effect around the tornado
-        normal = Quaternion.AngleAxis(tornado.lift, projection) * normal;
+        //normal = Quaternion.AngleAxis(tornado.lift, projection) * normal;
     
         // Add force in the direction of the calculated vector `normal`, scaled by the tornado's strength
         // This results in the object following a swirling, lifting motion
@@ -91,13 +105,16 @@ public class CaughtObject : MonoBehaviour
         _spring.autoConfigureConnectedAnchor = false;
         
         Vector3 initialPosition = Vector3.zero;
-        initialPosition.y = transform.position.y;
+        //initialPosition.y = transform.position.y;
         
         _spring.connectedAnchor = initialPosition;
     }
 
     public void Release()
     {
+        if(this==null) return;
+
+        rigid.constraints = RigidbodyConstraints.None;
         enabled = false;
         allowUpdate = false;
         Destroy(_spring);
