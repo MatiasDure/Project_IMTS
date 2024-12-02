@@ -34,6 +34,7 @@ public class TreeInteraction : MonoBehaviour, IInteractable, IEvent, IInterrupti
     public event Action<IInterruptible> OnInterruptedDone;
     public EventState State { get; set; }
     
+
     internal PlayAnimation _playAnimation;
     internal bool _ready;
     
@@ -217,5 +218,10 @@ public class TreeInteraction : MonoBehaviour, IInteractable, IEvent, IInterrupti
         ReleaseBee();
         
         OnInterruptedDone?.Invoke(this);
+    }
+    
+    public void StopEvent()
+    {
+        StopAllCoroutines();
     }
 }
