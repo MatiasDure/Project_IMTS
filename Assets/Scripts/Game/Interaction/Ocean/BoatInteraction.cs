@@ -21,7 +21,7 @@ public class BoatInteraction : MonoBehaviour, IInteractable, IEvent
 	private PlayAnimation _playAnimation;
 	private AudioSource _audioSource;
 	private bool _hasStartedAnimation;
-	private Coroutine _floatBoatCoroutine;
+	private Coroutine _boatInteractionCoroutine;
 
 	public event Action OnEventDone;
 
@@ -29,50 +29,62 @@ public class BoatInteraction : MonoBehaviour, IInteractable, IEvent
 	public bool MultipleInteractions { get; set; }
 	public EventState State { get; set; }
 
-	void Awake() {
+	void Awake() 
+	{
 		_playAnimation = GetComponent<PlayAnimation>();
 		_audioSource = GetComponent<AudioSource>();
 	}
 
     void Start()
-    {
-     	MultipleInteractions = false;
+	{
+		Setup();
+	}
+
+	private void Setup()
+	{
+		MultipleInteractions = false;
 		CanInterrupt = false;
-    }
+	}
 
 	public void Interact()
 	{
-		Debug.Log("Interacting with boat");
-		if(_floatBoatCoroutine != null) return;
+		if(_boatInteractionCoroutine != null) return;
 
 		if(!_hasStartedAnimation) {
 			_hasStartedAnimation = true;
 			_playAnimation.SetBoolParameter(_initialAnimationParameterName, true);
 		}
 
-		_floatBoatCoroutine = StartCoroutine(FloatBoat());
+		_boatInteractionCoroutine = StartCoroutine(BoatInteractionCoroutine());
 	}
 
-	private IEnumerator FloatBoat()
+	private IEnumerator BoatInteractionCoroutine()
 	{
 		_audioSource.Play();
+		yield return PlayInteractedAnimation();
+		DisableInteractedAnimation();
+		_boatInteractionCoroutine = null;
+	}
+
+	private IEnumerator PlayInteractedAnimation()
+	{
 		SetInteractedAnimation();
 		yield return _playAnimation.WaitForAnimationToStart(_boatAnimationState);
 		yield return _playAnimation.WaitForAnimationToEnd();
-		DisableInteractedAnimation();
-		_floatBoatCoroutine	= null;
 	}
 
-	private void SetInteractedAnimation() {
+	private void SetInteractedAnimation() 
+	{
 		_playAnimation.SetBoolParameter(_interactedAnimationParametedName, true);
 	}
 
-	private void DisableInteractedAnimation() {
+	private void DisableInteractedAnimation() 
+	{
 		_playAnimation.SetBoolParameter(_interactedAnimationParametedName, false);
 	}
 
-	public void StopEvent()
+	public void StopEvent()	
 	{
-		StopAllCoroutines();
+		if(_boatInteractionCoroutine != null) StopCoroutine(_boatInteractionCoroutine);
 	}
 }
