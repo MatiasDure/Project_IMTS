@@ -836,11 +836,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01b312852b415b842b9fda7d0001483c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _beeMovement: {fileID: 0}
   _currentPlot: 0
   _plotObjects:
   - Plot: 1
     PlotObject: {fileID: 1090165629}
+  _distanceTracker: {fileID: 0}
 --- !u!4 &399814097
 Transform:
   m_ObjectHideFlags: 0
@@ -2429,6 +2429,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4662856377762174059, guid: 578f51361a2c1544f802e09ef44e9502, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4803259180666889192, guid: 578f51361a2c1544f802e09ef44e9502, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.7071068
@@ -3194,6 +3198,7 @@ MonoBehaviour:
   _tapTutorialObject: {fileID: 1672687945}
   _raycastCamera: {fileID: 91516121}
   _raycastManager: {fileID: 2082319630}
+  _tutorialFishManager: {fileID: 774205183}
 --- !u!1 &1366667454 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8422739601375550610, guid: 578f51361a2c1544f802e09ef44e9502, type: 3}

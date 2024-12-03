@@ -12,6 +12,7 @@ public class PlotTutorial : MonoBehaviour
 	[SerializeField] GameObject _tapTutorialObject;
 	[SerializeField] GameObject _raycastCamera;
 	[SerializeField] RaycastManager _raycastManager;
+	[SerializeField] TutorialFishManager _tutorialFishManager;
 
 	private PlotTutorialState _state;
 	private List<PlotTutorialLookPosition> _lookPositions;
@@ -49,29 +50,24 @@ public class PlotTutorial : MonoBehaviour
 	
 	private void CheckState()
 	{
-		switch(_state)
-		{
-			case PlotTutorialState.LookAround:
-				DoRaycast();
-				break;
-			case PlotTutorialState.Tap:
-				break;
-		}
+		if(_state != PlotTutorialState.LookAround) return;
+		
+		DoRaycast();
 	}
-	
+
 	private void DoRaycast()
 	{
 		RaycastHit hit;
 		PlotTutorialLookPosition lookPositionScript;
 
-		if (Physics.Raycast(_raycastCamera.transform.position, _raycastCamera.transform.forward, 
+		if (!Physics.Raycast(_raycastCamera.transform.position, _raycastCamera.transform.forward,
 			out hit, Mathf.Infinity, Physics.AllLayers, QueryTriggerInteraction.Collide))
-			{
-				if(hit.collider.TryGetComponent<PlotTutorialLookPosition>(out lookPositionScript))
-				{
-					DiscoverLookPosition(lookPositionScript);
-				}
-			}
+		return;
+
+		if (!hit.collider.TryGetComponent<PlotTutorialLookPosition>(out lookPositionScript))
+		return;
+		
+		DiscoverLookPosition(lookPositionScript);
 	}
 		
 	private void DiscoverLookPosition(PlotTutorialLookPosition lookPosition)
@@ -137,6 +133,7 @@ public class PlotTutorial : MonoBehaviour
 	private void FinishTutorial()
 	{
 		StopAllCoroutines();
+		_tutorialFishManager.EndTutorial();
 		DisableTutorialObject(_tapTutorialObject);
 		gameObject.SetActive(false);
 	}
@@ -155,7 +152,7 @@ public class PlotTutorial : MonoBehaviour
 	{
 		if (_lookPositionsContainer == null)
 		{
-			Debug.LogError("Hide spots container was not passed to HideAndSea event");
+			Debug.LogError("Look positions container was not passed to PlotTutorial");
 			return;
 		}
 
