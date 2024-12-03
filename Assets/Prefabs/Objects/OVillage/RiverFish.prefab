@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 204414363901901689}
   - component: {fileID: 1154404087677760428}
+  - component: {fileID: 2856045295472282887}
+  - component: {fileID: 6653339376381394243}
   m_Layer: 0
   m_Name: RiverFish
   m_TagString: Untagged
@@ -45,8 +47,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2decd657c837e641bc07f9a82ce986a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 0.05
-  _animator: {fileID: 3295471730755703766}
+  _moveSpeed: 2
+--- !u!114 &2856045295472282887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4658798669769164709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46598763e5932ca46994453e8ffb6816, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!95 &6653339376381394243
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4658798669769164709}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: df63b50e6682e1543bd40b88852abb98, type: 3}
+  m_Controller: {fileID: 9100000, guid: 9056ce4e29ddf6644a5768a7fd3d7c36, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &9212245110420181882
 PrefabInstance:
   m_ObjectHideFlags: 0

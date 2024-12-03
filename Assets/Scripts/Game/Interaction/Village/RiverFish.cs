@@ -3,34 +3,36 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+[RequireComponent(typeof(PlayAnimation))]
 public class RiverFish : MonoBehaviour
 {
 	[SerializeField] float _moveSpeed;
-	[SerializeField] Animator _animator;
 
-	private bool _inInteractionSequence = false;
+	private PlayAnimation _playAnimation;
 
+	private bool _isPlayingAnimation = true;
 	private const string ANIMATION_JUMP_PARAMETER = "Jump";
 	private const string ANIMATION_JUMP_STATE = "Jumping";
 	public event Action<RiverFish> OnAnimationFinished;
 	
-	private void Start()
+	private void Awake()
 	{
-		Initialize();
+		_playAnimation = GetComponent<PlayAnimation>();
 	}
 	
-	private void Initialize()
+	private void Start()
 	{
 		PlayAnimation();
-		_inInteractionSequence = true;
 	}
 
 	private void Update()
 	{
-		if (!_inInteractionSequence) return;
-		
-		Move();
+		return;
 		CheckAnimation();
+		if(!_isPlayingAnimation) return;
+		
+		if (!_playAnimation.IsPlaying()) return;
+		Move();
 	}
 
 	private void Move()
@@ -40,25 +42,19 @@ public class RiverFish : MonoBehaviour
 
 	private void CheckAnimation()
 	{
-		if (!AnimatorIsPlaying())
-		{
-			//HandleAnimationDone();
-		}
+		if (!_playAnimation.IsAnimationOver()) return;
+
+		if (!_isPlayingAnimation) return;
+		
+		_isPlayingAnimation = false;
+		Debug.Log("OVER");
+		PlayAnimation();
+		HandleAnimationDone();
 	}
 	
 	private void HandleAnimationDone()
-	{
-		_inInteractionSequence = false;
-		_animator.SetBool(ANIMATION_JUMP_PARAMETER, false);
-		OnAnimationFinished?.Invoke(this);
-	}
-
-	private bool AnimatorIsPlaying()
-	{
-		AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
-		Debug.Log(stateInfo.IsName(ANIMATION_JUMP_STATE));
-		return stateInfo.IsName(ANIMATION_JUMP_STATE) && 
-			   stateInfo.length > stateInfo.normalizedTime;
+	{		
+		OnAnimationFinished?.Invoke(this); 
 	}
 
 	private void SetTransform(Vector3 position, Quaternion rotation)
@@ -69,14 +65,13 @@ public class RiverFish : MonoBehaviour
 
 	private void PlayAnimation()
 	{
-		_animator.SetBool(ANIMATION_JUMP_PARAMETER, true);
+		_playAnimation.SetBoolParameter(ANIMATION_JUMP_PARAMETER, true);
+		_isPlayingAnimation = true;
 	}
 		
 	public void ResetFish(Vector3 position, Quaternion rotation)
 	{
 		SetTransform(position, rotation);
 		PlayAnimation();
-		
-		_inInteractionSequence = true;
 	}
 }
