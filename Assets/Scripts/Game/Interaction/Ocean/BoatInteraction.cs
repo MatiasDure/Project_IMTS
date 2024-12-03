@@ -64,6 +64,7 @@ public class BoatInteraction : MonoBehaviour, IInteractable, IEvent
 		yield return PlayInteractedAnimation();
 		DisableInteractedAnimation();
 		_boatInteractionCoroutine = null;
+		OnEventDone?.Invoke();
 	}
 
 	private IEnumerator PlayInteractedAnimation()
@@ -85,6 +86,10 @@ public class BoatInteraction : MonoBehaviour, IInteractable, IEvent
 
 	public void StopEvent()	
 	{
-		if(_boatInteractionCoroutine != null) StopCoroutine(_boatInteractionCoroutine);
+		if(_boatInteractionCoroutine != null){
+			StopCoroutine(_boatInteractionCoroutine);
+			DisableInteractedAnimation();
+			_boatInteractionCoroutine = null;
+		} 
 	}
 }
