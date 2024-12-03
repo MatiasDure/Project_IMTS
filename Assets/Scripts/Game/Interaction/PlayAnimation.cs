@@ -36,7 +36,6 @@ public class PlayAnimation : MonoBehaviour
 
 	public IEnumerator WaitForAnimationToEnd() {
 		while(!IsAnimationOver()) {
-			Debug.Log("_animation.GetCurrentAnimatorStateInfo(0).normalizedTime: " + _animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
 			yield return null;
 		}
 	}
