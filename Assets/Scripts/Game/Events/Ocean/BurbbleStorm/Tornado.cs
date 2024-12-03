@@ -27,6 +27,8 @@ public class Tornado : MonoBehaviour
     [SerializeField] private float _minTornadoStrength = 4;
     [SerializeField] private float _maxTornadoStrength = 100;
 
+    public bool allowConstrain;
+    
     private GameObject _bee;
     private float _tornadoStrength;
     
@@ -86,8 +88,9 @@ public class Tornado : MonoBehaviour
             _caughtObjects.Add(_bee.GetComponent<CaughtObject>());
     }
 
-    void FixedUpdate()
+    void Update()
     {
+        
         //try pull object in the center if it exceed maxdistance
         ApplyForce();
     }
