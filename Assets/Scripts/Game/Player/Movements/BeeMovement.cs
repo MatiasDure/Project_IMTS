@@ -3,7 +3,10 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(SwimmingBehaviour))]
+[
+	RequireComponent(typeof(SwimmingBehaviour)),
+	RequireComponent(typeof(PlayAnimation))
+]
 public class BeeMovement : MonoBehaviour
 {
     [SerializeField] internal Movement _beeMovementStat;
@@ -11,12 +14,20 @@ public class BeeMovement : MonoBehaviour
 	[SerializeField] private Transform _otherWorldAnchor;
     [SerializeField] private Transform _portal;
     [SerializeField] private Transform _target;
+
+	[Header("Animation")]
+	[Tooltip("The name of the animation parameter that triggers the bee swimming animation")]
+	[SerializeField] private string _beeSwimmingAnimationParameterName;
+	[Tooltip("The name of the animation state that contains the bee swimming animation")]
+	[SerializeField] private string _beeSwimmingAnimationStateName;
+
     private bool _overPortal;
     private bool _castRay;
     private RaycastHit _targetRaycastHit;
     private GameObject _hitPointObject;
 	private Coroutine _portalMovementCoroutine;
 
+	private PlayAnimation _playAnimation;
     private SwimmingBehaviour _swimmingBehaviour;
 
     public static event Action OnBeeEnteredPlot;
@@ -24,6 +35,7 @@ public class BeeMovement : MonoBehaviour
     private void Awake()
     {
         _swimmingBehaviour = GetComponent<SwimmingBehaviour>();
+		_playAnimation = GetComponent<PlayAnimation>();
     }
 
     private void Start()
@@ -41,9 +53,22 @@ public class BeeMovement : MonoBehaviour
     // the same movement could be used for all 3 plots in my opinion (Orestis). Up to discussion
     private void Move()
     {
-        if (PlotsManager.Instance.CurrentPlot != Plot.Ocean) return;
+		// This is for now until the movement for the village plot is implemented. 
+		// Currently the movement is just made for the ocean plot. We should check the Plot and based on that decided the animation, etc.
+		if(PlotsManager.Instance._currentPlot != Plot.Ocean) {
+			// If the bee is not in the ocean plot, we should stop the swimming animation
+			if(_playAnimation.CurrentAnimationState(_beeSwimmingAnimationStateName)) {
+				_playAnimation.SetBoolParameter(_beeSwimmingAnimationParameterName, false);
+			}
 
-        if (Bee.Instance.State != BeeState.Idle) return;
+			return;
+		}
+		if(Bee.Instance.State != BeeState.Idle) return;
+
+		// Playing bee swimming animation if it is not already playing
+		if(!_playAnimation.CurrentAnimationState(_beeSwimmingAnimationStateName)) {
+			_playAnimation.SetBoolParameter(_beeSwimmingAnimationParameterName, true);
+		};
 
         _swimmingBehaviour.Move(_beeMovementStat.MovementSpeed);
     }
