@@ -5,6 +5,7 @@ using UnityEngine;
 [
 	RequireComponent(typeof(PlayAnimation)),
 	RequireComponent(typeof(PlayParticle)),
+	RequireComponent(typeof(SoundComponent)),
 ]
 public class ClambInteraction : MonoBehaviour, 
 								IInteractable, 
@@ -16,6 +17,10 @@ public class ClambInteraction : MonoBehaviour,
 	private const string CLOSE_ANIMATION_STATE = "clam_close_Animation";
 
 	[SerializeField] private string _clamAnimationToggleParameterName;
+	[SerializeField] private Sound _tapSFX;
+	[SerializeField] private Sound _onceClamOpenSFX;
+	[SerializeField] private Sound _onceClamCloseSFX;
+	[SerializeField] private Sound _oncePearlSparkOnOpenSFX;
 
 	public bool CanInterrupt { get; set; }
 	public bool MultipleInteractions { get; set; }
@@ -27,12 +32,15 @@ public class ClambInteraction : MonoBehaviour,
 	internal PlayParticle _playParticle;
 	internal bool _hasStartedAnimation;
 
+	private SoundComponent _soundComponent;
+
 	public event Action OnEventDone;
 	public event Action OnToggleDone;
 
 	private void Awake() {
 		_playAnimation = GetComponent<PlayAnimation>();
 		_playParticle = GetComponent<PlayParticle>();
+		_soundComponent = GetComponent<SoundComponent>();
 	}
 
 	private void Start()
@@ -70,10 +78,14 @@ public class ClambInteraction : MonoBehaviour,
 	}
 
 	private IEnumerator OpenClam() {
+		_soundComponent.PlaySound(_tapSFX);
+		_soundComponent.PlaySound(_onceClamOpenSFX);
 		SetOpenAnimationState();
 		yield return StartCoroutine(WaitForAnimationStateToPlay(OPEN_ANIMATION_STATE));
 		_playParticle.ToggleOn();
 		UpdateState(ToggleState.On);
+		
+		_soundComponent.PlaySound(_oncePearlSparkOnOpenSFX);
 		OnToggleDone?.Invoke();
 	}
 
@@ -88,6 +100,7 @@ public class ClambInteraction : MonoBehaviour,
 	}
 
 	private IEnumerator CloseClam() {
+		_soundComponent.PlaySound(_onceClamCloseSFX);
 		_playParticle.ToggleOff();
 		SetCloseAnimationState();
 		yield return StartCoroutine(WaitForAnimationStateToPlay(CLOSE_ANIMATION_STATE));
