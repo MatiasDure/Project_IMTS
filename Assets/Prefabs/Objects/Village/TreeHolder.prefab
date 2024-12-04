@@ -243,12 +243,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 877830c806892496a88db7627f947050, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _beeMovement: {fileID: 0}
   _animationTriggerVariable: CallRotate
   _animationState: TreeRotate
   _resetTime: 2
   _randomRangeCollider: {fileID: 309596789052531426}
   _minDistanceFromCenter: 0.3
-  _coneHolder: {fileID: 7389667927943711757}
+  _aCornHolder: {fileID: 7389667927943711757}
+  _inspectPosition: {fileID: 6559447536714070281}
 --- !u!1 &4097670287617230424
 GameObject:
   m_ObjectHideFlags: 0
@@ -832,6 +834,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9931bf3411cc342409e4e75e42c89627, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &6809830263598494744
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6559447536714070281}
+  m_Layer: 0
+  m_Name: BeeInspectPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6559447536714070281
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6809830263598494744}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.33, z: 0.649}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9024043039192951035}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7397865735021885435
 GameObject:
   m_ObjectHideFlags: 0
@@ -1201,5 +1234,6 @@ Transform:
   m_Children:
   - {fileID: 6956918034090636685}
   - {fileID: 7389667927943711757}
+  - {fileID: 6559447536714070281}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

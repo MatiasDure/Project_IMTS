@@ -655,11 +655,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01b312852b415b842b9fda7d0001483c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _beeMovement: {fileID: 0}
   _currentPlot: 0
   _plotObjects:
   - Plot: 1
     PlotObject: {fileID: 1090165629}
+  _distanceTracker: {fileID: 0}
 --- !u!4 &399814097
 Transform:
   m_ObjectHideFlags: 0
@@ -1012,6 +1012,7 @@ MonoBehaviour:
   rotationRotationStrength: 10
   _minTornadoStrength: 2
   _maxTornadoStrength: 30
+  allowConstrain: 0
   _caughtObjectsHolder: {fileID: 0}
 --- !u!54 &502391844
 Rigidbody:
@@ -3248,37 +3249,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a061d580da112d428831ae8b84e044d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1717513765
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1717513766}
-  m_Layer: 0
-  m_Name: BeeInspectPosition
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1717513766
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1717513765}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.33, z: 0.649}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1635228725}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1735088850
 GameObject:
   m_ObjectHideFlags: 0
@@ -3945,7 +3915,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 443dfee7770034db4a7ed4520a373270, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allowUpdate: 0
 --- !u!54 &2073747478
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4454,10 +4423,6 @@ PrefabInstance:
       propertyPath: _beeMovement
       value: 
       objectReference: {fileID: 2073747475}
-    - target: {fileID: 4476368372323408630, guid: 5f920c624ddb543c789eaac3ad2d5e2e, type: 3}
-      propertyPath: _inspectPosition
-      value: 
-      objectReference: {fileID: 1717513766}
     - target: {fileID: 8560304656125903641, guid: 5f920c624ddb543c789eaac3ad2d5e2e, type: 3}
       propertyPath: m_Name
       value: TreeHolder
@@ -4504,10 +4469,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 9024043039192951035, guid: 5f920c624ddb543c789eaac3ad2d5e2e, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1717513766}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f920c624ddb543c789eaac3ad2d5e2e, type: 3}
 --- !u!1660057539 &9223372036854775807

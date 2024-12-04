@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 [
@@ -19,13 +20,13 @@ public class TreeInteraction : MonoBehaviour, IInteractable, IEvent, IInterrupti
     [SerializeField] private Collider _randomRangeCollider;
     [SerializeField] private float _minDistanceFromCenter;
     
-    [SerializeField] private Transform _coneHolder;
+    [SerializeField] private Transform _aCornHolder;
 
     [SerializeField] private Transform _inspectPosition;
     
     private int _lastSelectedConeIndex;
-    private List<ACone> _cones = new List<ACone>();
-    private List<ACone> _conesOnGround = new List<ACone>();
+    private List<ACorn> _aCorns = new List<ACorn>();
+    private List<ACorn> _aCornsOnGround = new List<ACorn>();
     public bool CanInterrupt { get; set; }
     public bool MultipleInteractions { get; set; }
     
@@ -57,11 +58,11 @@ public class TreeInteraction : MonoBehaviour, IInteractable, IEvent, IInterrupti
 
     private void GetCone()
     {
-        foreach (Transform cone in _coneHolder)
+        foreach (Transform cone in _aCornHolder)
         {
-            if (cone.GetComponent<ACone>())
+            if (cone.GetComponent<ACorn>())
             {
-                _cones.Add(cone.GetComponent<ACone>());
+                _aCorns.Add(cone.GetComponent<ACorn>());
             }
         }
     }
@@ -70,52 +71,52 @@ public class TreeInteraction : MonoBehaviour, IInteractable, IEvent, IInterrupti
     {
         if (_ready)
         {
-            StartCoroutine(ShakeTree(GetRandomCone(_cones)));
+            StartCoroutine(ShakeTree(GetRandomCone(_aCorns)));
             
             BeeMoveToInspectPosition();
         }
         
     }
 
-    private IEnumerator ShakeTree(ACone aCone)
+    private IEnumerator ShakeTree(ACorn aCorn)
     {
         _ready = false;
         
-        yield return RepareConeAndPlayAnimation(aCone);
+        yield return RepareConeAndPlayAnimation(aCorn);
 
-        yield return DropTheCone(aCone);
+        yield return DropTheCone(aCorn);
 
         OnEventDone?.Invoke();
         _ready = true;
         
-        yield return FadeAndResetCone(aCone);
+        yield return FadeAndResetCone(aCorn);
 
-        if (_conesOnGround.Count < 1)
+        if (_aCornsOnGround.Count < 1)
         {
             if(Bee.Instance.State == BeeState.InspectTree) ReleaseBee();
         }
     }
 
-    private IEnumerator FadeAndResetCone(ACone aCone)
+    private IEnumerator FadeAndResetCone(ACorn aCorn)
     {
-        yield return aCone.FadeCone(_resetTime / 2);
-        aCone.ResetCone(GetRandomPointInBox());
-        _conesOnGround.Remove(aCone);
+        yield return aCorn.FadeCone(_resetTime / 2);
+        aCorn.ResetCone(GetRandomPointInBox());
+        _aCornsOnGround.Remove(aCorn);
     }
 
-    private IEnumerator DropTheCone(ACone aCone)
+    private IEnumerator DropTheCone(ACorn aCorn)
     {
-        aCone.DropCone();
+        aCorn.DropCone();
 
         yield return new WaitForSeconds(_resetTime / 2);
     }
 
-    private IEnumerator RepareConeAndPlayAnimation(ACone aCone)
+    private IEnumerator RepareConeAndPlayAnimation(ACorn aCorn)
     {
         _playAnimation.SetTrigger(_animationTriggerVariable);
 
-        _conesOnGround.Add(aCone);
-        aCone.ResetCone(GetRandomPointInBox());
+        _aCornsOnGround.Add(aCorn);
+        aCorn.ResetCone(GetRandomPointInBox());
 
         yield return WaitForAnimationStateToPlay(_animationState);
     }
@@ -171,23 +172,23 @@ public class TreeInteraction : MonoBehaviour, IInteractable, IEvent, IInterrupti
         return randomPosition;
     }
 
-    private ACone GetRandomCone(List<ACone> list)
+    private ACorn GetRandomCone(List<ACorn> list)
     {
         if (list == null || list.Count == 0)
         {
             return null;
         }
         
-        ACone chosen;
+        ACorn chosen;
         int randomIndex;
         
         do
         {
-            randomIndex = Random.Range(0, _cones.Count-1);
+            randomIndex = Random.Range(0, list.Count);
 
-            chosen = _cones[randomIndex];
+            chosen = list[randomIndex];
         } 
-        while (_conesOnGround.Contains(chosen));
+        while (_aCornsOnGround.Contains(chosen));
         
         return chosen;
     }
