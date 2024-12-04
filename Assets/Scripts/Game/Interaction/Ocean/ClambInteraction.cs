@@ -30,7 +30,11 @@ public class ClambInteraction : MonoBehaviour,
 	public event Action OnEventDone;
 	public event Action OnToggleDone;
 
-	private void Awake() {
+	private BoxCollider _collider;
+	
+	private void Awake()
+	{
+		_collider = GetComponent<BoxCollider>();
 		_playAnimation = GetComponent<PlayAnimation>();
 		_playParticle = GetComponent<PlayParticle>();
 	}
@@ -70,6 +74,7 @@ public class ClambInteraction : MonoBehaviour,
 	}
 
 	private IEnumerator OpenClam() {
+		UpdateColliderScale(1.5f);
 		SetOpenAnimationState();
 		yield return StartCoroutine(WaitForAnimationStateToPlay(OPEN_ANIMATION_STATE));
 		_playParticle.ToggleOn();
@@ -87,7 +92,9 @@ public class ClambInteraction : MonoBehaviour,
 		_playAnimation.SetBoolParameter(_clamAnimationToggleParameterName, false);
 	}
 
-	private IEnumerator CloseClam() {
+	private IEnumerator CloseClam()
+	{
+		UpdateColliderScale(-1.5f);
 		_playParticle.ToggleOff();
 		SetCloseAnimationState();
 		yield return StartCoroutine(WaitForAnimationStateToPlay(CLOSE_ANIMATION_STATE));
@@ -124,5 +131,12 @@ public class ClambInteraction : MonoBehaviour,
 	public void StopEvent()
 	{
 		StopAllCoroutines();
+	}
+
+	private void UpdateColliderScale(float increaseRate)
+	{
+		if(_collider == null) return;
+		_collider.center += new Vector3(0, increaseRate/2, 0);
+		_collider.size += new Vector3(0, increaseRate, 0);
 	}
 }

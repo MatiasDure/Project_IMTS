@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AvoidObstacle : MonoBehaviour
 {
-    private Vector3 currentObstacleAvoidanceVelocity;
+    private Vector3 _currentObstacleAvoidanceVelocity;
     
     public Vector3 CalculateObstacleAvoidance(float speed, Transform transform, float obstacleDistance, Vector3[] directionsToCheck)
     {
@@ -16,7 +16,7 @@ public class AvoidObstacle : MonoBehaviour
         }
         else
         {
-            currentObstacleAvoidanceVelocity = Vector3.zero;
+            _currentObstacleAvoidanceVelocity = Vector3.zero;
         }
 
         return obstacleVector;
@@ -27,7 +27,7 @@ public class AvoidObstacle : MonoBehaviour
         // Check if the current avoidance velocity can still be used
         if (IsClearPathAhead(transform, obstacleDistance))
         {
-            return currentObstacleAvoidanceVelocity;
+            return _currentObstacleAvoidanceVelocity;
         }
         
         return DetermineBestAvoidanceDirection(speed, transform, obstacleDistance, directionsToCheck);
@@ -35,7 +35,7 @@ public class AvoidObstacle : MonoBehaviour
 
     private bool IsClearPathAhead(Transform transform, float obstacleDistance)
     {
-        if (currentObstacleAvoidanceVelocity != Vector3.zero)
+        if (_currentObstacleAvoidanceVelocity != Vector3.zero)
         {
             if (!Physics.Raycast(transform.position, transform.forward, out _, obstacleDistance))
             {
@@ -65,8 +65,8 @@ public class AvoidObstacle : MonoBehaviour
             else
             {
                 // No obstacles detected, use this direction immediately
-                currentObstacleAvoidanceVelocity = (worldDirection.normalized * speed) - transform.forward;
-                return Vector3.ClampMagnitude(currentObstacleAvoidanceVelocity, 4f);
+                _currentObstacleAvoidanceVelocity = (worldDirection.normalized * speed) - transform.forward;
+                return Vector3.ClampMagnitude(_currentObstacleAvoidanceVelocity, 4f);
             }
         }
         

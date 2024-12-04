@@ -11,9 +11,8 @@ public class BeeMovement : MonoBehaviour
     [SerializeField] internal Movement _beeMovementStat;
     [SerializeField] private Transform _otherWorldAnchor;
     [SerializeField] private Transform _portal;
-    [SerializeField] private Transform _target;
 
-	[Header("Animation")]
+    [Header("Animation")]
 	[Tooltip("The name of the animation parameter that triggers the bee swimming animation")]
 	[SerializeField] private string _beeSwimmingAnimationParameterName;
 	[Tooltip("The name of the animation state that contains the bee swimming animation")]
@@ -67,7 +66,7 @@ public class BeeMovement : MonoBehaviour
 		_avoidObjectSwimmingBehavior.Move(_beeMovementStat.MovementSpeed);
     }
 
-    private IEnumerator MoveThroughPortal(Vector3 portalPosition, Vector3 targetPortalPos, Vector3 targetPosition, Vector3 targetOffset)
+    private IEnumerator MoveThroughPortal()
     {
 	    bool isAtPortal = false;
         
@@ -87,7 +86,7 @@ public class BeeMovement : MonoBehaviour
 
     private void MoveToPortalPosition(Vector3 portalPosition)
     {
-		transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(portalPosition - transform.position), 100f * Time.deltaTime);
+		transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(portalPosition - transform.position), 200f * Time.deltaTime);
 		transform.position = transform.forward * _beeMovementStat.MovementSpeed * Time.deltaTime + transform.position;
     }
     
@@ -103,7 +102,7 @@ public class BeeMovement : MonoBehaviour
 		Bee.Instance.UpdateState(BeeState.EnteringPlot);
 
 		if(plot == Plot.Ocean || plot == Plot.Space)
-			_portalMovementCoroutine = StartCoroutine(MoveThroughPortal(_portal.position, _otherWorldAnchor.position, _target.position, Vector3.zero));
+			_portalMovementCoroutine = StartCoroutine(MoveThroughPortal());
 	}
 
 	private void SubscribeToEvents()
