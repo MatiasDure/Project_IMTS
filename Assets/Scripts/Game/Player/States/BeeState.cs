@@ -10,4 +10,5 @@ public enum BeeState
 	CloseClams,
 	SuckInStorm,
 	Inspecting,
+	InspectTree,
 }
