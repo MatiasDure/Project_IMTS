@@ -26,7 +26,7 @@ public class PlayAnimation : MonoBehaviour
 
 	public bool IsAnimationOver() => _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1;
 
-	public bool CurrentAnimationState(string animaitonStateName) => _animator.GetCurrentAnimatorStateInfo(0).IsName(animaitonStateName);
+	public bool CurrentAnimationState(string animationStateName) => _animator.GetCurrentAnimatorStateInfo(0).IsName(animationStateName);
 	
 	public IEnumerator WaitForAnimationToStart(string animationName) {
 		while(!CurrentAnimationState(animationName)) {
