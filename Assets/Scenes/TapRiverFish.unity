@@ -3243,12 +3243,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fishPrefab: {fileID: 4658798669769164709, guid: 96b5e508de16dd24bb43a18b2b4d4e59, type: 3}
-  spawnFishDelay: 1
   spawnFishRandomAngleAmount: 15
-  spawnFishDistanceRange:
-    Min: 1
-    Max: 2.5
-  maxFishCount: 3
+  maxSequencePlaysAmount: 3
   sphereCastRadius: 1.5
   extendWaypointForwardDistance: 3
 --- !u!1 &6632505739458816203
