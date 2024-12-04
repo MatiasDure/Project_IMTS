@@ -38,7 +38,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: ChestOpen_LP_Model/pivot
+    path: chestOpen_diamonds_LP_Model/pivot
   m_PositionCurves: []
   m_ScaleCurves: []
   m_FloatCurves: []
@@ -51,7 +51,7 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 3937089078
+      path: 4260004924
       attribute: 4
       script: {fileID: 0}
       typeID: 4
@@ -107,10 +107,10 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.x
-    path: ChestOpen_LP_Model/pivot
+    path: chestOpen_diamonds_LP_Model/pivot
     classID: 4
     script: {fileID: 0}
-    flags: 16
+    flags: 0
   - serializedVersion: 2
     curve:
       serializedVersion: 2
@@ -137,10 +137,10 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.y
-    path: ChestOpen_LP_Model/pivot
+    path: chestOpen_diamonds_LP_Model/pivot
     classID: 4
     script: {fileID: 0}
-    flags: 16
+    flags: 0
   - serializedVersion: 2
     curve:
       serializedVersion: 2
@@ -167,10 +167,10 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: ChestOpen_LP_Model/pivot
+    path: chestOpen_diamonds_LP_Model/pivot
     classID: 4
     script: {fileID: 0}
-    flags: 16
+    flags: 0
   m_EulerEditorCurves:
   - serializedVersion: 2
     curve:
@@ -179,8 +179,8 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: m_LocalEulerAngles.x
-    path: ChestOpen_LP_Model/pivot
+    attribute: m_LocalEulerAngles.z
+    path: chestOpen_diamonds_LP_Model/pivot
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -192,7 +192,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: ChestOpen_LP_Model/pivot
+    path: chestOpen_diamonds_LP_Model/pivot
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -203,8 +203,8 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: m_LocalEulerAngles.z
-    path: ChestOpen_LP_Model/pivot
+    attribute: m_LocalEulerAngles.x
+    path: chestOpen_diamonds_LP_Model/pivot
     classID: 4
     script: {fileID: 0}
     flags: 0
