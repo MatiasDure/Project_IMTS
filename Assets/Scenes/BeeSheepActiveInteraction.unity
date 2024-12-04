@@ -655,11 +655,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01b312852b415b842b9fda7d0001483c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _beeMovement: {fileID: 0}
   _currentPlot: 0
   _plotObjects:
   - Plot: 1
     PlotObject: {fileID: 1090165629}
+  _distanceTracker: {fileID: 0}
 --- !u!4 &399814097
 Transform:
   m_ObjectHideFlags: 0
@@ -1012,6 +1012,7 @@ MonoBehaviour:
   rotationRotationStrength: 10
   _minTornadoStrength: 2
   _maxTornadoStrength: 30
+  allowConstrain: 0
   _caughtObjectsHolder: {fileID: 0}
 --- !u!54 &502391844
 Rigidbody:
@@ -4003,7 +4004,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 443dfee7770034db4a7ed4520a373270, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allowUpdate: 0
 --- !u!54 &2073747478
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4056,6 +4056,8 @@ MonoBehaviour:
   _otherWorldAnchor: {fileID: 91516122}
   _portal: {fileID: 1389377815}
   _target: {fileID: 1585795340}
+  _beeSwimmingAnimationParameterName: 
+  _beeSwimmingAnimationStateName: 
 --- !u!114 &2073747485
 MonoBehaviour:
   m_ObjectHideFlags: 0
