@@ -22,8 +22,13 @@ public class PlayAnimation : MonoBehaviour
 		_animator.SetBool(parameterName, value);
 	}
 
-	public bool IsPlaying() => _animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1;
+	public void SetTrigger(string triggerName)
+	{
+		_animator.SetTrigger(triggerName);
+	}
 
+	public bool IsPlaying() => _animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1;
+	
 	public bool IsAnimationOver() => _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1;
 
 	public bool CurrentAnimationState(string animationStateName) => _animator.GetCurrentAnimatorStateInfo(0).IsName(animationStateName);
@@ -39,7 +44,7 @@ public class PlayAnimation : MonoBehaviour
 			yield return null;
 		}
 	}
-
+	
 	public void Stop() {
 		_animator.StopPlayback();
 	}
