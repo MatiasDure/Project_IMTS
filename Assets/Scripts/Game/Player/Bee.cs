@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class Bee : Singleton<Bee>
 {
-    private BeeState _state;
+	private BeeState _state;
 
 	public BeeState State => _state;
 
 	public static event Action<BeeState> OnBeeStateChanged;
-
+	
 	private void Start()
 	{
 		_state = BeeState.FollowingCamera;
