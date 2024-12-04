@@ -10,6 +10,8 @@ public class RiverFish : MonoBehaviour
 
 	private PlayAnimation _playAnimation;
 
+	private bool _inAnimationSequence = false;
+
 	private const string ANIMATION_JUMP_PARAMETER = "Jump";
 	private const string ANIMATION_JUMP_STATE = "Jumping";
 	public event Action<RiverFish> OnAnimationFinished;
@@ -26,7 +28,7 @@ public class RiverFish : MonoBehaviour
 
 	private void Update()
 	{
-		if (!_playAnimation.CurrentAnimationState(ANIMATION_JUMP_STATE)) return;
+		if (!_inAnimationSequence) return;
 		
 		CheckAnimation();
 		Move();
@@ -40,13 +42,12 @@ public class RiverFish : MonoBehaviour
 	private void CheckAnimation()
 	{
 		if (!_playAnimation.IsAnimationOver()) return;
-		DisableJump();
-		//PlayAnimation();
 		HandleAnimationDone();
 	}
 	
 	private void HandleAnimationDone()
-	{		
+	{
+		_inAnimationSequence = false;
 		OnAnimationFinished?.Invoke(this); 
 	}
 
@@ -58,12 +59,8 @@ public class RiverFish : MonoBehaviour
 
 	private void PlayAnimation()
 	{
-		_playAnimation.SetBoolParameter(ANIMATION_JUMP_PARAMETER, true);
-	}
-	
-	private void DisableJump()
-	{
-		_playAnimation.SetBoolParameter(ANIMATION_JUMP_PARAMETER, false);
+		_playAnimation.SetTrigger(ANIMATION_JUMP_PARAMETER);
+		_inAnimationSequence = true;
 	}
 
 	public void ResetFish(Vector3 position, Quaternion rotation)

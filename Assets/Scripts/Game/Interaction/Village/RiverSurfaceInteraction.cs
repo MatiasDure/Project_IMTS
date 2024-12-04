@@ -63,10 +63,9 @@ public class RiverSurfaceFishInteraction : MonoBehaviour,
 	
 	
 	private void HandleFishAnimationDone(RiverFish riverFish)
-	{
-		return;
+	{	
 		if (sequencePlayedAmount >= maxSequencePlaysAmount) // Interaction done - reset
-		{
+		{		
 			HandleEventDone();
 			return;
 		}
@@ -144,5 +143,10 @@ public class RiverSurfaceFishInteraction : MonoBehaviour,
 	public void InterruptEvent()
 	{
 		OnInterruptedDone?.Invoke(this);
+	}
+
+	public void StopEvent()
+	{
+		OnEventDone?.Invoke();
 	}
 }
