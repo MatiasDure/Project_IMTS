@@ -537,7 +537,7 @@ MonoBehaviour:
   _speedChangeDuration: 0.5
   _particleSystem: {fileID: 203033405}
   _tapSFX:
-    clip: {fileID: 8300000, guid: c302ed1a5ed9c374dba8c0ea8bda2332, type: 3}
+    clip: {fileID: 8300000, guid: 3542002f510b22445ac1ebef1996262f, type: 3}
     volume: 1
     priority: 128
     loop: 0
@@ -956,7 +956,7 @@ MonoBehaviour:
   _speedChangeDuration: 0.5
   _particleSystem: {fileID: 1421259756}
   _tapSFX:
-    clip: {fileID: 8300000, guid: c302ed1a5ed9c374dba8c0ea8bda2332, type: 3}
+    clip: {fileID: 8300000, guid: 1bfbf364ebe85944dbb32c6d59c2f369, type: 3}
     volume: 1
     priority: 128
     loop: 0
@@ -1525,7 +1525,7 @@ MonoBehaviour:
   _speedChangeDuration: 0.5
   _particleSystem: {fileID: 1676793420}
   _tapSFX:
-    clip: {fileID: 8300000, guid: c302ed1a5ed9c374dba8c0ea8bda2332, type: 3}
+    clip: {fileID: 8300000, guid: 63c557529260e204b96dc70a68bf7eb7, type: 3}
     volume: 1
     priority: 128
     loop: 0
@@ -1988,7 +1988,7 @@ MonoBehaviour:
   _speedChangeDuration: 0.5
   _particleSystem: {fileID: 1515609258}
   _tapSFX:
-    clip: {fileID: 8300000, guid: e9f8cff2acb7afd47aa4a57c65a920b0, type: 3}
+    clip: {fileID: 8300000, guid: 1bfbf364ebe85944dbb32c6d59c2f369, type: 3}
     volume: 1
     priority: 128
     loop: 0
@@ -3653,7 +3653,7 @@ MonoBehaviour:
   _speedChangeDuration: 0.5
   _particleSystem: {fileID: 1383303214}
   _tapSFX:
-    clip: {fileID: 8300000, guid: cff51191aad4a4f4798fe747d3dae0e9, type: 3}
+    clip: {fileID: 8300000, guid: 63c557529260e204b96dc70a68bf7eb7, type: 3}
     volume: 1
     priority: 128
     loop: 0
@@ -4887,7 +4887,7 @@ MonoBehaviour:
   _speedChangeDuration: 0.5
   _particleSystem: {fileID: 438315156}
   _tapSFX:
-    clip: {fileID: 8300000, guid: c302ed1a5ed9c374dba8c0ea8bda2332, type: 3}
+    clip: {fileID: 8300000, guid: 1bfbf364ebe85944dbb32c6d59c2f369, type: 3}
     volume: 1
     priority: 128
     loop: 0
