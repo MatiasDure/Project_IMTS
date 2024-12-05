@@ -9,8 +9,11 @@ using System.Collections;
 public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterruptible
 {
 	private const string STARTED_ANIMATION_PARAMETER_NAME = "HasStarted";
+	private const string OPEN_ANIMATION_PARAMETER_NAME = "IsOpen";
+	private const string RATTLE_ANIMATION_PARAMETER_NAME = "IsRattling";
 	private const string OPEN_STATE_NAME = "chest_open_animation";
 	private const string CLOSE_STATE_NAME = "chest_close_animation";
+	private const string RATTLE_STATE_NAME = "RattleAnimation";
 
 	[SerializeField] private string _boolAnimatorParameterName;
 	[SerializeField] private ObjectMovement _beeMovement;
@@ -60,6 +63,7 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 		switch (_chestEventState)
 		{
 			case ChestEventState.InforntOfChest:
+				if(_cooldown.IsOnCooldown) _cooldown.StopCooldown();
 				UpdateChestEventState(ChestEventState.GoingInsideChest);				
 				break;
 			case ChestEventState.InsideChest:
@@ -86,6 +90,7 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 
 	private IEnumerator MoveBeeOutOfChest()
 	{		
+		_playAnimation.SetBoolParameter(RATTLE_ANIMATION_PARAMETER_NAME, false);
 		yield return StartCoroutine(OpenAnimation());
 		yield return StartCoroutine(MoveBeeToPosition(_infrontOfChestPosition.position));
 		EventDoneSetup();
@@ -161,7 +166,8 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 	private IEnumerator MoveBeeInfrontOfChest() {
 		yield return StartCoroutine(MoveBeeToPosition(_infrontOfChestPosition.position));
 
-		_chestEventState = ChestEventState.InforntOfChest;
+		_cooldown.StartCooldown(_cooldownTimeToForceReleaseBee);
+		UpdateChestEventState(ChestEventState.InforntOfChest);
 	}
 
 	private IEnumerator MoveBeeInChest()
@@ -169,12 +175,19 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 		yield return StartCoroutine(MoveBeeToPosition(_inChestPosition.position));
 		UpdateChestEventState(ChestEventState.ClosingChest);
 		yield return CloseAnimation();
+		_playAnimation.SetBoolParameter(RATTLE_ANIMATION_PARAMETER_NAME, true);
 		_cooldown.StartCooldown(_cooldownTimeToForceReleaseBee);
 		UpdateChestEventState(ChestEventState.InsideChest);
 	}
 
-	private void ForceReleaseFromChest() {
-		StartCoroutine(MoveBeeOutOfChest());
+	private void HandleCooldownDone() {
+		if(_chestEventState == ChestEventState.InforntOfChest) {
+			UpdateChestEventState(ChestEventState.GoingInsideChest);
+			return;
+		}
+
+		// bee is inside the chest and bee should leave
+		UpdateChestEventState(ChestEventState.LeavingChest);
 	}
 
 	public void InterruptionSetup() {
@@ -232,11 +245,11 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 	}
 
 	private void SubscribeToEvents() {
-		_cooldown.OnCooldownOver += ForceReleaseFromChest;
+		_cooldown.OnCooldownOver += HandleCooldownDone;
 	}
 
 	private void UnsubscribeToEvents() {
-		_cooldown.OnCooldownOver -= ForceReleaseFromChest;
+		_cooldown.OnCooldownOver -= HandleCooldownDone;
 	}
 
 	private void OnDestroy() {
