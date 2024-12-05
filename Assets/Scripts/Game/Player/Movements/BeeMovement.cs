@@ -8,10 +8,14 @@ using UnityEngine;
 ]
 public class BeeMovement : MonoBehaviour
 {
+	[Header("Reference")]
     [SerializeField] internal Movement _beeMovementStat;
     [SerializeField] private Transform _otherWorldAnchor;
     [SerializeField] private Transform _portal;
-
+    
+    [Header("Setting")]
+    [SerializeField] private float _maxRotationAngle = 200f;
+    
     [Header("Animation")]
 	[Tooltip("The name of the animation parameter that triggers the bee swimming animation")]
 	[SerializeField] private string _beeSwimmingAnimationParameterName;
@@ -86,7 +90,7 @@ public class BeeMovement : MonoBehaviour
 
     private void MoveToPortalPosition(Vector3 portalPosition)
     {
-		transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(portalPosition - transform.position), 200f * Time.deltaTime);
+		transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(portalPosition - transform.position), _maxRotationAngle * Time.deltaTime);
 		transform.position = transform.forward * _beeMovementStat.MovementSpeed * Time.deltaTime + transform.position;
     }
     
