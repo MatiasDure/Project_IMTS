@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
@@ -19,7 +17,10 @@ public class SoundComponent : MonoBehaviour
 		_audioSource.priority = sound.priority;
 		_audioSource.loop = sound.loop;
 		
-		_audioSource.PlayOneShot(sound.clip, sound.volume);
+		if(sound.loop)
+			_audioSource.Play();
+		else
+			_audioSource.PlayOneShot(sound.clip, sound.volume);
 	}
 	
 	public void StopSound()

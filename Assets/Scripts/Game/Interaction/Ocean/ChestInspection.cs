@@ -10,11 +10,9 @@ using System.Collections;
 public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterruptible
 {
 	private const string STARTED_ANIMATION_PARAMETER_NAME = "HasStarted";
-	private const string OPEN_ANIMATION_PARAMETER_NAME = "IsOpen";
 	private const string RATTLE_ANIMATION_PARAMETER_NAME = "IsRattling";
 	private const string OPEN_STATE_NAME = "chest_open_animation";
 	private const string CLOSE_STATE_NAME = "chest_close_animation";
-	private const string RATTLE_STATE_NAME = "RattleAnimation";
 
 	[SerializeField] private string _boolAnimatorParameterName;
 	[SerializeField] private ObjectMovement _beeMovement;
@@ -183,6 +181,7 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 		yield return StartCoroutine(MoveBeeToPosition(_inChestPosition.position));
 		UpdateChestEventState(ChestEventState.ClosingChest);
 		yield return CloseAnimation();
+		_soundComponent.PlaySound(_chestLockSFX);
 		_playAnimation.SetBoolParameter(RATTLE_ANIMATION_PARAMETER_NAME, true);
 		_cooldown.StartCooldown(_cooldownTimeToForceReleaseBee);
 		UpdateChestEventState(ChestEventState.InsideChest);
