@@ -16,7 +16,8 @@ public class ClambInteraction : MonoBehaviour,
 	private const string CLOSE_ANIMATION_STATE = "clam_close_Animation";
 
 	[SerializeField] private string _clamAnimationToggleParameterName;
-
+	[SerializeField] private float _scaleIncreaseRate = 1.5f;
+	
 	public bool CanInterrupt { get; set; }
 	public bool MultipleInteractions { get; set; }
 	public EventState State { get; set; }
@@ -26,11 +27,16 @@ public class ClambInteraction : MonoBehaviour,
 	internal PlayAnimation _playAnimation;
 	internal PlayParticle _playParticle;
 	internal bool _hasStartedAnimation;
-
+	
+	
 	public event Action OnEventDone;
 	public event Action OnToggleDone;
 
-	private void Awake() {
+	private BoxCollider _collider;
+	
+	private void Awake()
+	{
+		_collider = GetComponent<BoxCollider>();
 		_playAnimation = GetComponent<PlayAnimation>();
 		_playParticle = GetComponent<PlayParticle>();
 	}
@@ -70,6 +76,7 @@ public class ClambInteraction : MonoBehaviour,
 	}
 
 	private IEnumerator OpenClam() {
+		UpdateColliderScale(_scaleIncreaseRate);
 		SetOpenAnimationState();
 		yield return StartCoroutine(WaitForAnimationStateToPlay(OPEN_ANIMATION_STATE));
 		_playParticle.ToggleOn();
@@ -87,7 +94,9 @@ public class ClambInteraction : MonoBehaviour,
 		_playAnimation.SetBoolParameter(_clamAnimationToggleParameterName, false);
 	}
 
-	private IEnumerator CloseClam() {
+	private IEnumerator CloseClam()
+	{
+		UpdateColliderScale(-_scaleIncreaseRate);
 		_playParticle.ToggleOff();
 		SetCloseAnimationState();
 		yield return StartCoroutine(WaitForAnimationStateToPlay(CLOSE_ANIMATION_STATE));
@@ -124,5 +133,12 @@ public class ClambInteraction : MonoBehaviour,
 	public void StopEvent()
 	{
 		StopAllCoroutines();
+	}
+
+	private void UpdateColliderScale(float increaseRate)
+	{
+		if(_collider == null) return;
+		_collider.center += new Vector3(0, increaseRate/2, 0);
+		_collider.size += new Vector3(0, increaseRate, 0);
 	}
 }
