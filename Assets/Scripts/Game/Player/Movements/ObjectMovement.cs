@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -75,9 +76,23 @@ public class ObjectMovement : MonoBehaviour
 		}
 	}
 
-    public void SmoothRotate(Quaternion startRotation, Quaternion targetRotation, float percentageCompleted)
+	public IEnumerator RotateUntilLookAt(Vector3 targetPosition, float speed) {
+		while (!IsLookingAt(targetPosition)) {
+			SmoothRotate(transform.rotation, Quaternion.LookRotation(targetPosition - transform.position), speed);
+			yield return null;
+		}
+	}
+
+	private bool IsLookingAt(Vector3 targetPosition)
+	{
+		Vector3 direction = (targetPosition - transform.position).normalized;
+		Quaternion targetRotation = Quaternion.LookRotation(direction);
+		return Quaternion.Angle(transform.rotation, targetRotation) < 1f;
+	}
+
+	public void SmoothRotate(Quaternion startRotation, Quaternion targetRotation, float rotationSpeed)
     {
-        transform.rotation = Quaternion.Slerp(startRotation, targetRotation, percentageCompleted);
+        transform.rotation = Quaternion.Slerp(startRotation, targetRotation, rotationSpeed);
     }
 
     public bool IsInPlace(Vector3 position) => ApproximatelyInPlace(position, DISTANCE_TOLERANCE);

@@ -61,6 +61,7 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 	public void Interact()
 	{
 		if(!IsChestInspectionRunning()) {
+			_soundComponent.PlaySound(_tapSFX);
 			StartCoroutine(InitialChestAnimation());
 			return;
 		}
@@ -82,7 +83,6 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 
 	private IEnumerator InitialChestAnimation() {
 		if(!_hasAnimationStarted) {
-			_soundComponent.PlaySound(_tapSFX);
 			_hasAnimationStarted = true;
 			EnableChestAnimation();
 		}
