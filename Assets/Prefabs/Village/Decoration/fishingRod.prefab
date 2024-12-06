@@ -48,6 +48,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 658894913504574581, guid: d779b2b01f670a34f88cc868dba95b36, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 8bdeaa429b76f7c45b22e0b488b97557, type: 2}
     - target: {fileID: 919132149155446097, guid: d779b2b01f670a34f88cc868dba95b36, type: 3}
       propertyPath: m_Name
       value: fishingRod

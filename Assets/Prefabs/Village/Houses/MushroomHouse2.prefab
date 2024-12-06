@@ -48,6 +48,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8595521817293738200, guid: 4b7564f8ba98a3345b7d024729bb84a0, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3b3546b365ad3284a939dae8f3b1e2e2, type: 2}
+    - target: {fileID: -1138973328029030713, guid: 4b7564f8ba98a3345b7d024729bb84a0, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: da223b67c4171db41bb6fc099db383a7, type: 2}
+    - target: {fileID: 22333059192613649, guid: 4b7564f8ba98a3345b7d024729bb84a0, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3b3546b365ad3284a939dae8f3b1e2e2, type: 2}
     - target: {fileID: 919132149155446097, guid: 4b7564f8ba98a3345b7d024729bb84a0, type: 3}
       propertyPath: m_Name
       value: MushroomHouse2
