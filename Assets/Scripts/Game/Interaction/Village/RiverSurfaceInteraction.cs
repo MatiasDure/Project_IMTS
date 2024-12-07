@@ -45,10 +45,10 @@ public class RiverSurfaceFishInteraction : MonoBehaviour,
 	}
 
 	private void SpawnFish(RiverWaypoint targetWaypoint)
-	{
-		Vector3 randomRotationVector =
-			new Vector3(0, GetNewRandomHorizontalDirectionDegrees(_spawnFishRandomAngleAmount), 0);
-		Quaternion rotation = Quaternion.Euler(targetWaypoint.transform.eulerAngles + randomRotationVector);
+	{	
+		// First fish gets rotates towards the target waypoint in order to stay within the river
+		Quaternion rotation = _sequencePlayedAmount == 0 ? GetRotationToWaypoint(targetWaypoint) : 
+														   GetRandomRotationFromWaypoint(targetWaypoint);
 
 		GameObject spawnedObject = Instantiate(_fishPrefab, _lastRiverActionLocation, rotation);
 		_spawnedRiverFish = spawnedObject.GetComponent<RiverFish>();
@@ -110,6 +110,18 @@ public class RiverSurfaceFishInteraction : MonoBehaviour,
 	{
 		return Physics.SphereCastAll(point, _sphereCastRadius, Vector3.forward, 
 		_sphereCastRadius, Physics.AllLayers, QueryTriggerInteraction.Collide);
+	}
+	
+	private Quaternion GetRotationToWaypoint(RiverWaypoint waypoint)
+	{
+		Vector3 direction = (waypoint.transform.position - _lastRiverActionLocation).normalized;
+		return Quaternion.LookRotation(direction);
+	}
+	
+	private Quaternion GetRandomRotationFromWaypoint(RiverWaypoint waypoint)
+	{
+		Vector3 randomRotationVector = new Vector3(0, GetNewRandomHorizontalDirectionDegrees(_spawnFishRandomAngleAmount), 0);
+		return Quaternion.Euler(waypoint.transform.eulerAngles + randomRotationVector);
 	}
 	
 	private float GetNewRandomHorizontalDirectionDegrees(float newAngleAmount)
