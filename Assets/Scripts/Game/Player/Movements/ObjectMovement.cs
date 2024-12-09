@@ -9,6 +9,7 @@ public class ObjectMovement : MonoBehaviour
 	private AvoidObstacle _avoidObstacle;
 	private Vector3[] _directionsToCheck;
 	private Vector3 _currentVelocity;
+	private Vector3 _previousPosition;
 
 	private readonly int _directionCount = 20;
 	private readonly float _obstacleDistance = 1f;
@@ -37,6 +38,41 @@ public class ObjectMovement : MonoBehaviour
 		SmootherAndApplyMovement(speed, moveVector);
 	}
 
+	public void MoveAroundPivot(Vector3 position, Vector3 axis,  float distance, float rotateSpeed, float moveSpeed)
+	{ 
+		Vector3 direction = (transform.position - position).normalized;
+		
+		Vector3 target = position + direction * distance;
+
+		if (!IsInPlace(target))
+		{
+			Debug.Log("move");
+			MoveTo(target, moveSpeed);
+		}
+		else
+		{
+			Debug.Log("rotate");
+			transform.RotateAround(position,axis,rotateSpeed * Time.deltaTime);
+			
+			direction = (transform.position - position).normalized;
+		
+			target = position + direction * distance;
+			
+			transform.position = target;
+			FaceDirection();
+		}
+	}
+
+	private void FaceDirection()
+	{
+		Vector3 movementDirection = (transform.position - _previousPosition).normalized;
+		
+		if (movementDirection != Vector3.zero)
+			transform.forward = movementDirection;
+		
+		_previousPosition = transform.position;
+	}
+	
 	private Vector3 CalculateMovement(Vector3 position, float speed)
 	{
 		Vector3 targetVector = position - transform.position;
