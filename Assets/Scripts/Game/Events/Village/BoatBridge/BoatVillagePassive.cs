@@ -9,8 +9,8 @@ public class BoatVillagePassive : PlotEvent, IInterruptible
 	[Tooltip("The bee companion prefab which contains the ObjectMovement component.")]
 	[SerializeField] private ObjectMovement _beeMovement;
 	
-	[Tooltip("The boat movement.")]
-	[SerializeField] private ObjectMovement _boat;
+	[Tooltip("The boat object to activate and move.")]
+	[SerializeField] private ObjectMovement _boatObject;
 
 	[Tooltip("The waypoints the boat will follow.")]
 	[SerializeField] private BoatWaypoint[] _waypoints;
@@ -22,14 +22,13 @@ public class BoatVillagePassive : PlotEvent, IInterruptible
 	[Tooltip("The boat speed movement.")]
 	[SerializeField] private float _boatSpeed = .5f;
 
-
 	public event Action<IInterruptible> OnInterruptedDone;
 
 	public override bool CanPlay() => true;
 
 	public void InterruptEvent()
 	{
-		
+		OnInterruptedDone?.Invoke(this);
 	}
 
 	public override void StartEvent()
@@ -44,19 +43,26 @@ public class BoatVillagePassive : PlotEvent, IInterruptible
 
 	private IEnumerator BoatPassiveEvent()
 	{
+		if(_waypoints.Length == 0) yield break;
+
+		Vector3 firstWaypoint = _waypoints[0].Waypoint.position;
+		_boatObject.transform.position = firstWaypoint;
+		_boatObject.transform.rotation = Quaternion.LookRotation(_waypoints[0].Waypoint.forward);
+
 		foreach (BoatWaypoint waypoint in _waypoints)
 		{
 			// don't block the movement of the boat to move the bee towards the bridge
 			if(waypoint.IsWaypointInfrontBridge) {
+				Bee.Instance.UpdateState(BeeState.MovingToBridge);
 				Vector3 bridgePosition = _bridgeTargetPosition.position;
-				StartCoroutine(_beeMovement.RotateUntilLookAt(bridgePosition, 1f));
-				StartCoroutine(_boat.MoveUntilObjectReached(bridgePosition, 1f));
+				StartCoroutine(_beeMovement.RotateUntilLookAt(bridgePosition, .75f));
+				StartCoroutine(_beeMovement.MoveUntilObjectReached(bridgePosition, .75f));
 			}
 			
 			Vector3 waypointPosition = waypoint.Waypoint.position;
 
-			yield return StartCoroutine(_boat.RotateUntilLookAt(waypointPosition, _boatSpeed));
-			yield return StartCoroutine(_boat.MoveUntilObjectReached(waypointPosition, _boatSpeed));
+			yield return StartCoroutine(_boatObject.RotateUntilLookAt(waypointPosition, .2f));
+			yield return StartCoroutine(_boatObject.MoveUntilObjectReached(waypointPosition, _boatSpeed, 0.05f));
 		}
 
 		FireEndEvent(SetupEndEventMetadata());
@@ -78,8 +84,7 @@ public class BoatVillagePassive : PlotEvent, IInterruptible
 		return new UpdatePassiveEventCollection
 		{
 			PreviousEvent = PassiveEventManager.Instance.CurrentEventPlaying,
-			CurrentEvent = PassiveEvent.BeeVisit,
-			State = BeeState.Inspecting,
+			CurrentEvent = PassiveEvent.BoatTrip,
 		};
 	}
 }
