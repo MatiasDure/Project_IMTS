@@ -11,4 +11,5 @@ public enum BeeState
 	SuckInStorm,
 	Inspecting,
 	InspectTree,
+	PettingSheep,
 }

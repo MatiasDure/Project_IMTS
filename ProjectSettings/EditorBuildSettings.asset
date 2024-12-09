@@ -6,8 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/MainScene.unity
-    guid: c56a47f8ea9605b40976f5f9e34837a1
+    path: Assets/Scenes/OceanFunctionality.unity
+    guid: 23b9b52b378d34643b61975be90dab1e
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: ccc0a43f198f1434ca5b5aadc7c3d46b, type: 2}
     UnityEditor.XR.ARKit.ARKitSettings: {fileID: 11400000, guid: 57ad71c0eb303c84fa89676d43683061, type: 2}
