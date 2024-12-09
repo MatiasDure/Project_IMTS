@@ -5,10 +5,12 @@ using System.Collections;
 [
 	RequireComponent(typeof(PlayAnimation)),
 	RequireComponent(typeof(PlayParticle)),
+	RequireComponent(typeof(SoundComponent)),
 ]
 public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterruptible
 {
 	private const string STARTED_ANIMATION_PARAMETER_NAME = "HasStarted";
+	private const string RATTLE_ANIMATION_PARAMETER_NAME = "IsRattling";
 	private const string OPEN_STATE_NAME = "chest_open_animation";
 	private const string CLOSE_STATE_NAME = "chest_close_animation";
 
@@ -18,8 +20,13 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 	[SerializeField] private Transform _inChestPosition;
 	[SerializeField] private Movement _beeMovementConfig;
 	[SerializeField] private float _cooldownTimeToForceReleaseBee = 2f;
+	[SerializeField] private Sound _tapSFX;
+	[SerializeField] private Sound _onceChestOpenSFX;
+	[SerializeField] private Sound _onceChestCloseSFX;
+	[SerializeField] private Sound _chestLockSFX;
 	private Cooldown _cooldown;
 	private PlayAnimation _playAnimation;
+	private SoundComponent _soundComponent;
 	private PlayParticle _playParticle;
 	private bool _hasAnimationStarted = false;
 	private ChestEventState _chestEventState = ChestEventState.None;
@@ -36,6 +43,7 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 	private void Awake() {
 		_playAnimation = GetComponent<PlayAnimation>();
 		_playParticle = GetComponent<PlayParticle>();
+		_soundComponent = GetComponent<SoundComponent>();
 		_cooldown = new Cooldown();
 	}
 
@@ -53,6 +61,7 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 	public void Interact()
 	{
 		if(!IsChestInspectionRunning()) {
+			_soundComponent.PlaySound(_tapSFX);
 			StartCoroutine(InitialChestAnimation());
 			return;
 		}
@@ -60,6 +69,7 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 		switch (_chestEventState)
 		{
 			case ChestEventState.InforntOfChest:
+				if(_cooldown.IsOnCooldown) _cooldown.StopCooldown();
 				UpdateChestEventState(ChestEventState.GoingInsideChest);				
 				break;
 			case ChestEventState.InsideChest:
@@ -86,6 +96,7 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 
 	private IEnumerator MoveBeeOutOfChest()
 	{		
+		_playAnimation.SetBoolParameter(RATTLE_ANIMATION_PARAMETER_NAME, false);
 		yield return StartCoroutine(OpenAnimation());
 		yield return StartCoroutine(MoveBeeToPosition(_infrontOfChestPosition.position));
 		EventDoneSetup();
@@ -161,7 +172,8 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 	private IEnumerator MoveBeeInfrontOfChest() {
 		yield return StartCoroutine(MoveBeeToPosition(_infrontOfChestPosition.position));
 
-		_chestEventState = ChestEventState.InforntOfChest;
+		_cooldown.StartCooldown(_cooldownTimeToForceReleaseBee);
+		UpdateChestEventState(ChestEventState.InforntOfChest);
 	}
 
 	private IEnumerator MoveBeeInChest()
@@ -169,12 +181,20 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 		yield return StartCoroutine(MoveBeeToPosition(_inChestPosition.position));
 		UpdateChestEventState(ChestEventState.ClosingChest);
 		yield return CloseAnimation();
+		_soundComponent.PlaySound(_chestLockSFX);
+		_playAnimation.SetBoolParameter(RATTLE_ANIMATION_PARAMETER_NAME, true);
 		_cooldown.StartCooldown(_cooldownTimeToForceReleaseBee);
 		UpdateChestEventState(ChestEventState.InsideChest);
 	}
 
-	private void ForceReleaseFromChest() {
-		StartCoroutine(MoveBeeOutOfChest());
+	private void HandleCooldownDone() {
+		if(_chestEventState == ChestEventState.InforntOfChest) {
+			UpdateChestEventState(ChestEventState.GoingInsideChest);
+			return;
+		}
+
+		// bee is inside the chest and bee should leave
+		UpdateChestEventState(ChestEventState.LeavingChest);
 	}
 
 	public void InterruptionSetup() {
@@ -190,12 +210,14 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 	}
 
 	private IEnumerator CloseAnimation() {
+		_soundComponent.PlaySound(_onceChestCloseSFX);
 		_playParticle.ToggleOff();
 		SetCloseChestAnimation();
 		yield return StartCoroutine(FinishAnimation(CLOSE_STATE_NAME));
 	}
 
 	private IEnumerator OpenAnimation() {
+		_soundComponent.PlaySound(_onceChestOpenSFX);
 		SetOpenChestAnimation();
 		yield return StartCoroutine(FinishAnimation(OPEN_STATE_NAME));
 		_playParticle.ToggleOn();
@@ -232,11 +254,11 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 	}
 
 	private void SubscribeToEvents() {
-		_cooldown.OnCooldownOver += ForceReleaseFromChest;
+		_cooldown.OnCooldownOver += HandleCooldownDone;
 	}
 
 	private void UnsubscribeToEvents() {
-		_cooldown.OnCooldownOver -= ForceReleaseFromChest;
+		_cooldown.OnCooldownOver -= HandleCooldownDone;
 	}
 
 	private void OnDestroy() {

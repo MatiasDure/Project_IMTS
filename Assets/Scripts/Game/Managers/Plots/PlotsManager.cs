@@ -7,7 +7,6 @@ public class PlotsManager : Singleton<PlotsManager>
 
 	[SerializeField] internal Plot _currentPlot;
 	[SerializeField] internal PlotCollection[] _plotObjects;
-	[SerializeField] internal DistanceTracker _distanceTracker;
 
 	private Plot _nextPlot;
 	public Plot CurrentPlot => _currentPlot;
