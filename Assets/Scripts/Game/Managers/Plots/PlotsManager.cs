@@ -42,20 +42,8 @@ public class PlotsManager : Singleton<PlotsManager>
 	private void HandlePlotActivated(Plot plot)
 	{
 		_nextPlot = plot;
-		//ActivateCurrentPlotObject(plot);
 	}
-
-	private void ActivateCurrentPlotObject(Plot plotToActivate)
-	{
-		foreach (var plotObject in _plotObjects)
-		{
-			if (plotObject.Plot != plotToActivate) continue;
-			
-			//plotObject.PlotObject.SetActive(true);
-			break;
-		}
-	}
-
+	
 	private void OnDestroy()
 	{
 		BeeMovement.OnBeeEnteredPlot -= HandleBeeEnteredPlot;

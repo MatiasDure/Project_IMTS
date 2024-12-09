@@ -46,12 +46,10 @@ public class ObjectMovement : MonoBehaviour
 
 		if (!IsInPlace(target))
 		{
-			Debug.Log("move");
 			MoveTo(target, moveSpeed);
 		}
 		else
 		{
-			Debug.Log("rotate");
 			transform.RotateAround(position,axis,rotateSpeed * Time.deltaTime);
 			
 			direction = (transform.position - position).normalized;
@@ -59,16 +57,16 @@ public class ObjectMovement : MonoBehaviour
 			target = position + direction * distance;
 			
 			transform.position = target;
-			FaceDirection();
+			FaceDirection(rotateSpeed);
 		}
 	}
 
-	private void FaceDirection()
+	private void FaceDirection(float rotateSpeed)
 	{
 		Vector3 movementDirection = (transform.position - _previousPosition).normalized;
 		
 		if (movementDirection != Vector3.zero)
-			transform.forward = movementDirection;
+			transform.forward = Vector3.Lerp(transform.forward,movementDirection,rotateSpeed * Time.deltaTime);
 		
 		_previousPosition = transform.position;
 	}

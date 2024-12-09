@@ -9,8 +9,7 @@ public class ImageTrackingPlotActivatedResponse : MonoBehaviour, IImageTrackingR
 	public static event Action<Plot> OnPlotActivated;
 
 	public GameObject Respond(GameObject portal, ARTrackedImage trackedImage)
-	{	
-		
+	{
 		portal.transform.SetPositionAndRotation(trackedImage.transform.position, trackedImage.transform.rotation);
 		portal.SetActive(true);
 		Plot plotActivated = GetPlot(trackedImage.referenceImage.name);
