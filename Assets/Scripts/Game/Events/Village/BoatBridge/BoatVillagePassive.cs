@@ -43,9 +43,11 @@ public class BoatVillagePassive : PlotEvent, IInterruptible
 	[Tooltip("Speed to scale down the boat.")]
 	[SerializeField] private float _scaleDownSpeed = 1f;
 
+	private Coroutine _boatPassiveEventCoroutine = null;
+
 	public event Action<IInterruptible> OnInterruptedDone;
 
-	public override bool CanPlay() => true;
+	public override bool CanPlay() => _boatPassiveEventCoroutine == null;
 
 	public void InterruptEvent()
 	{
@@ -62,7 +64,7 @@ public class BoatVillagePassive : PlotEvent, IInterruptible
 
 		FireStartEvent(metadata);
 
-		StartCoroutine(BoatPassiveEvent());
+		_boatPassiveEventCoroutine = StartCoroutine(BoatPassiveEvent());
 	}
 
 	private IEnumerator BoatPassiveEvent()
@@ -92,6 +94,8 @@ public class BoatVillagePassive : PlotEvent, IInterruptible
 		_boatObject.gameObject.SetActive(false);
 
 		FireEndEvent(SetupEndEventMetadata());
+
+		_boatPassiveEventCoroutine = null;
 	}
 
 	private IEnumerator ScaleUpBoat(Vector3 firstWaypointPosition, Vector3 secondWaypointPosition) {
@@ -172,5 +176,11 @@ public class BoatVillagePassive : PlotEvent, IInterruptible
 			PreviousEvent = PassiveEventManager.Instance.CurrentEventPlaying,
 			CurrentEvent = PassiveEvent.BoatTrip,
 		};
+	}
+
+	public override void StopEvent()
+	{
+		base.StopEvent();
+		_boatPassiveEventCoroutine = null;
 	}
 }
