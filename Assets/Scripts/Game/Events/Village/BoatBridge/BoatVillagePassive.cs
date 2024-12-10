@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Codice.ThemeImages;
+using UnityEditor;
 using UnityEngine;
 
 public class BoatVillagePassive : PlotEvent, IInterruptible
@@ -18,9 +20,15 @@ public class BoatVillagePassive : PlotEvent, IInterruptible
 	[Tooltip("The target position on the bridge for the bee to move to.")]
 	[SerializeField] private Transform _bridgeTargetPosition;
 
-	[Space]
+	[Header("Settings")]
 	[Tooltip("The boat speed movement.")]
 	[SerializeField] private float _boatSpeed = .5f;
+
+	[Tooltip("The initial scale of the boat.")]
+	[SerializeField] private float _boatInitialScale = 0.03f;
+
+	[Tooltip("Speed to scale up the boat.")]
+	[SerializeField] private float _scaleUpSpeed = 1.2f;
 
 	public event Action<IInterruptible> OnInterruptedDone;
 
@@ -43,29 +51,68 @@ public class BoatVillagePassive : PlotEvent, IInterruptible
 
 	private IEnumerator BoatPassiveEvent()
 	{
-		if(_waypoints.Length == 0) yield break;
+		if (_waypoints.Length == 0) yield break;
 
-		Vector3 firstWaypoint = _waypoints[0].Waypoint.position;
-		_boatObject.transform.position = firstWaypoint;
-		_boatObject.transform.rotation = Quaternion.LookRotation(_waypoints[0].Waypoint.forward);
+		SpawnAtFirstPosition(_waypoints[0].Waypoint.position, _waypoints[0].Waypoint.forward);
 
-		foreach (BoatWaypoint waypoint in _waypoints)
+		for (int i = 0; i < _waypoints.Length; i++)
 		{
-			// don't block the movement of the boat to move the bee towards the bridge
-			if(waypoint.IsWaypointInfrontBridge) {
-				Bee.Instance.UpdateState(BeeState.MovingToBridge);
-				Vector3 bridgePosition = _bridgeTargetPosition.position;
-				StartCoroutine(_beeMovement.RotateUntilLookAt(bridgePosition, .75f));
-				StartCoroutine(_beeMovement.MoveUntilObjectReached(bridgePosition, .75f));
-			}
+			BoatWaypoint waypoint = _waypoints[i];
+
+			if (waypoint.IsWaypointInfrontBridge)
+				MoveBeeToBridge();
 			
 			Vector3 waypointPosition = waypoint.Waypoint.position;
+
+			if (i == 0) 
+				StartCoroutine(ScaleUpBoat(waypointPosition, _waypoints[1].Waypoint.position));
+			else if(i == _waypoints.Length - 1)
+				StartCoroutine(ScaleDownBoat(waypointPosition, _waypoints[_waypoints.Length - 2].Waypoint.position));
 
 			yield return StartCoroutine(_boatObject.RotateUntilLookAt(waypointPosition, .2f));
 			yield return StartCoroutine(_boatObject.MoveUntilObjectReached(waypointPosition, _boatSpeed, 0.05f));
 		}
 
+		_boatObject.gameObject.SetActive(false);
+
 		FireEndEvent(SetupEndEventMetadata());
+	}
+
+	private IEnumerator ScaleUpBoat(Vector3 firstWaypointPosition, Vector3 secondWaypointPosition) {
+		while(_boatObject.transform.localScale.x < _boatInitialScale) {
+			float distanceBetweenWaypoints = Vector3.Distance(firstWaypointPosition, secondWaypointPosition);
+			float distanceToSecondWaypoint = Vector3.Distance(firstWaypointPosition, _boatObject.transform.position);
+			float scale = distanceToSecondWaypoint / distanceBetweenWaypoints;
+
+			_boatObject.transform.localScale = Vector3.one * scale * _boatInitialScale * _scaleUpSpeed;
+			yield return null;
+		}
+	}
+
+	private IEnumerator ScaleDownBoat(Vector3 lastWaypointPosition, Vector3 oneBeforeLastWaypointPosition) {
+		while(_boatObject.transform.localScale.x > 0) {
+			float distanceBetweenWaypoints = Vector3.Distance(lastWaypointPosition, oneBeforeLastWaypointPosition);
+			float distanceToSecondWaypoint = Vector3.Distance(lastWaypointPosition, _boatObject.transform.position);
+			float scale = distanceToSecondWaypoint / distanceBetweenWaypoints;
+
+			_boatObject.transform.localScale = Vector3.one * scale * _boatInitialScale * _scaleUpSpeed;
+			yield return null;
+		}
+	}
+
+	private void MoveBeeToBridge()
+	{
+		Bee.Instance.UpdateState(BeeState.MovingToBridge);
+		Vector3 bridgePosition = _bridgeTargetPosition.position;
+		StartCoroutine(_beeMovement.RotateUntilLookAt(bridgePosition, .75f));
+		StartCoroutine(_beeMovement.MoveUntilObjectReached(bridgePosition, .75f));
+	}
+
+	private void SpawnAtFirstPosition(Vector3 firstWaypointPosition, Vector3 firstWaypointForward)
+	{
+		_boatObject.gameObject.SetActive(true);
+		_boatObject.transform.localScale = Vector3.zero;
+		_boatObject.transform.SetPositionAndRotation(firstWaypointPosition, Quaternion.LookRotation(firstWaypointForward));
 	}
 
 	protected override void HandlePlotActivated()
