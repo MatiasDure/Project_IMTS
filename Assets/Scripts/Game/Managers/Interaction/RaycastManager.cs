@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class RaycastManager : Singleton<RaycastManager>
+public class RaycastManager : MonoBehaviour
 {
 	[SerializeField] internal GameObject _secondaryCamera;
 	[SerializeField] private LayerMask _portalMask;

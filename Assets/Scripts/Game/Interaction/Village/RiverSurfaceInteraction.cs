@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class RiverSurfaceFishInteraction : MonoBehaviour, 
 										   IEvent, 
-										   IInteractable,
-										   IInterruptible
+										   IInteractable
 {
 	[SerializeField] GameObject _fishPrefab;
+	[SerializeField] RaycastManager _raycastManager;
 	[SerializeField] float _spawnFishRandomAngleAmount = 15f;
 	[SerializeField] int _maxSequencePlaysAmount = 3;
 	[SerializeField] float _sphereCastRadius = 5f;
@@ -19,7 +19,6 @@ public class RiverSurfaceFishInteraction : MonoBehaviour,
 	public bool MultipleInteractions { get; set; } = false;
 	public EventState State { get; set; } = EventState.None;
 	public event Action OnEventDone;
-	public event Action<IInterruptible> OnInterruptedDone;
 
 	// The location in the river where the last action took place (Either spawned fish OR raycast hitpoint)
 	private Vector3 _lastRiverActionLocation;
@@ -32,7 +31,7 @@ public class RiverSurfaceFishInteraction : MonoBehaviour,
 		
 		State = EventState.Active;
 		
-		_lastRiverActionLocation = RaycastManager.Instance.HitPoint;
+		_lastRiverActionLocation = _raycastManager.HitPoint;
 		_lastRiverActionLocation.y -= _hitpointYOffset;
 		DoSpawnFishSequence();
 	}
@@ -40,6 +39,12 @@ public class RiverSurfaceFishInteraction : MonoBehaviour,
 	private void DoSpawnFishSequence()
 	{
 		List<RiverWaypoint> nearbyWaypoints = GetNearbyWaypoints(_lastRiverActionLocation);
+		if(nearbyWaypoints.Count == 0)
+		{
+			HandleEventDone();
+			return;
+		}
+		
 		RiverWaypoint targetWaypoint = GetFurthestDownstreamWaypoint(nearbyWaypoints);
 		SpawnFish(targetWaypoint);
 	}
@@ -76,15 +81,14 @@ public class RiverSurfaceFishInteraction : MonoBehaviour,
 		RaycastHit[] hitArray = GetSphereCastCollisions(point);
 		List<RiverWaypoint> waypoints = new List<RiverWaypoint>();
 		
-		RiverWaypoint waypoint;
 		for (int i = 0; i < hitArray.Length; i++)
 		{
-			if (hitArray[i].collider.gameObject.TryGetComponent<RiverWaypoint>(out waypoint))
+			if (hitArray[i].collider.gameObject.TryGetComponent<RiverWaypoint>(out RiverWaypoint waypoint))
 			{
 				waypoints.Add(waypoint);
 			}
 		}
-		Debug.Log(waypoints.Count);
+
 		return waypoints;
 	}
 	
@@ -131,8 +135,11 @@ public class RiverSurfaceFishInteraction : MonoBehaviour,
 	
 	private void HandleEventDone()
 	{
-		UnsubscriveFromSpawnedFish();
-		Destroy(_spawnedRiverFish.gameObject);
+		if(_spawnedRiverFish != null)
+		{
+			UnsubscriveFromSpawnedFish();
+			Destroy(_spawnedRiverFish.gameObject);
+		}
 		_sequencePlayedAmount = 0;
 		State = EventState.None;
 		OnEventDone?.Invoke();
@@ -146,12 +153,6 @@ public class RiverSurfaceFishInteraction : MonoBehaviour,
 	private void UnsubscriveFromSpawnedFish()
 	{
 		_spawnedRiverFish.OnAnimationFinished -= HandleFishAnimationDone;
-	}
-
-	// No interruption needed - implemented to not break managers
-	public void InterruptEvent()
-	{
-		OnInterruptedDone?.Invoke(this);
 	}
 
 	public void StopEvent()
