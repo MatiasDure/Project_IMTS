@@ -41,6 +41,8 @@ public class ObjectMovement : MonoBehaviour
 	public void MoveAroundPivot(Vector3 position, Vector3 axis,  float distance, float rotateSpeed, float moveSpeed)
 	{ 
 		Vector3 direction = (transform.position - position).normalized;
+
+		direction = Vector3.ProjectOnPlane(direction, axis);
 		
 		Vector3 target = position + direction * distance;
 
@@ -57,7 +59,7 @@ public class ObjectMovement : MonoBehaviour
 			target = position + direction * distance;
 			
 			transform.position = target;
-			FaceDirection(rotateSpeed);
+			FaceDirection(rotateSpeed/10);
 		}
 	}
 
