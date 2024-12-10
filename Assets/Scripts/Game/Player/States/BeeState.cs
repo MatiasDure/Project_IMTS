@@ -12,4 +12,5 @@ public enum BeeState
 	Inspecting,
 	InspectTree,
 	PettingSheep,
+	MovingToBridge,
 }
