@@ -327,16 +327,6 @@ MonoBehaviour:
   _speedUpDuration: 1.5
   _speedChangeDuration: 0.5
   _particleSystem: {fileID: 47347472}
-  _tapSFX:
-    clip: {fileID: 8300000, guid: c09c1829f7f11304995cae37dfeb2fe7, type: 3}
-    volume: 1
-    priority: 128
-    loop: 0
-  _swimSFX:
-    clip: {fileID: 8300000, guid: 5ead5b4bc386f0b41a78220da8143830, type: 3}
-    volume: 1
-    priority: 128
-    loop: 1
 --- !u!114 &186750286
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -536,16 +526,6 @@ MonoBehaviour:
   _speedUpDuration: 1.5
   _speedChangeDuration: 0.5
   _particleSystem: {fileID: 203033405}
-  _tapSFX:
-    clip: {fileID: 8300000, guid: c302ed1a5ed9c374dba8c0ea8bda2332, type: 3}
-    volume: 1
-    priority: 128
-    loop: 0
-  _swimSFX:
-    clip: {fileID: 8300000, guid: 5ead5b4bc386f0b41a78220da8143830, type: 3}
-    volume: 1
-    priority: 128
-    loop: 1
 --- !u!114 &190683453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -723,26 +703,6 @@ MonoBehaviour:
     JumpForce: 0
     Gravity: 0
   _cooldownTimeToForceReleaseBee: 2
-  _tapSFX:
-    clip: {fileID: 8300000, guid: 39889940857e92841bad49f4f6fd6277, type: 3}
-    volume: 1
-    priority: 128
-    loop: 0
-  _onceChestOpenSFX:
-    clip: {fileID: 8300000, guid: b03879bdf3df23746bb316b6a1b4d563, type: 3}
-    volume: 1
-    priority: 128
-    loop: 0
-  _onceChestCloseSFX:
-    clip: {fileID: 8300000, guid: 22c98bcce12e6b240b88b6448a69d786, type: 3}
-    volume: 1
-    priority: 128
-    loop: 0
-  _chestLockSFX:
-    clip: {fileID: 8300000, guid: 18de1fa01422d2d4fa79ecb3b58384b8, type: 3}
-    volume: 1
-    priority: 128
-    loop: 1
 --- !u!114 &253698870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -955,16 +915,6 @@ MonoBehaviour:
   _speedUpDuration: 1.5
   _speedChangeDuration: 0.5
   _particleSystem: {fileID: 1421259756}
-  _tapSFX:
-    clip: {fileID: 8300000, guid: c302ed1a5ed9c374dba8c0ea8bda2332, type: 3}
-    volume: 1
-    priority: 128
-    loop: 0
-  _swimSFX:
-    clip: {fileID: 8300000, guid: 5ead5b4bc386f0b41a78220da8143830, type: 3}
-    volume: 1
-    priority: 128
-    loop: 1
 --- !u!114 &328870047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1315,16 +1265,6 @@ MonoBehaviour:
   _speedUpDuration: 1.5
   _speedChangeDuration: 0.5
   _particleSystem: {fileID: 1581988457}
-  _tapSFX:
-    clip: {fileID: 8300000, guid: 183c80544f70e854ca7e782a7174ca7a, type: 3}
-    volume: 1
-    priority: 128
-    loop: 0
-  _swimSFX:
-    clip: {fileID: 8300000, guid: 5ead5b4bc386f0b41a78220da8143830, type: 3}
-    volume: 1
-    priority: 128
-    loop: 1
 --- !u!114 &493027458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1524,16 +1464,6 @@ MonoBehaviour:
   _speedUpDuration: 1.5
   _speedChangeDuration: 0.5
   _particleSystem: {fileID: 1676793420}
-  _tapSFX:
-    clip: {fileID: 8300000, guid: c302ed1a5ed9c374dba8c0ea8bda2332, type: 3}
-    volume: 1
-    priority: 128
-    loop: 0
-  _swimSFX:
-    clip: {fileID: 8300000, guid: 5ead5b4bc386f0b41a78220da8143830, type: 3}
-    volume: 1
-    priority: 128
-    loop: 1
 --- !u!114 &498375218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1875,7 +1805,6 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
 --- !u!82 &730888230
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1888,7 +1817,6 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 731b98e3f57187045a8eaa33c98928b0, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -2048,16 +1976,6 @@ MonoBehaviour:
   _speedUpDuration: 1.5
   _speedChangeDuration: 0.5
   _particleSystem: {fileID: 1515609258}
-  _tapSFX:
-    clip: {fileID: 8300000, guid: e9f8cff2acb7afd47aa4a57c65a920b0, type: 3}
-    volume: 1
-    priority: 128
-    loop: 0
-  _swimSFX:
-    clip: {fileID: 8300000, guid: 5ead5b4bc386f0b41a78220da8143830, type: 3}
-    volume: 1
-    priority: 128
-    loop: 1
 --- !u!114 &774205178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3007,7 +2925,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8589149297904050142, guid: 578f51361a2c1544f802e09ef44e9502, type: 3}
       propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8605376598096930193, guid: 578f51361a2c1544f802e09ef44e9502, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3336,26 +3253,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _clamAnimationToggleParameterName: IsOpen
-  _tapSFX:
-    clip: {fileID: 8300000, guid: 2655996f2002b504c832cf486c6bee2f, type: 3}
-    volume: 1
-    priority: 128
-    loop: 0
-  _onceClamOpenSFX:
-    clip: {fileID: 8300000, guid: 1296b9918c5a73c4482a9b7de000219a, type: 3}
-    volume: 1
-    priority: 128
-    loop: 0
-  _onceClamCloseSFX:
-    clip: {fileID: 8300000, guid: e926293da8570684ea28ec60f47141e2, type: 3}
-    volume: 1
-    priority: 128
-    loop: 0
-  _oncePearlSparkOnOpenSFX:
-    clip: {fileID: 8300000, guid: 6c749484d68ef9e4f9ab130cd0c5ac43, type: 3}
-    volume: 1
-    priority: 128
-    loop: 0
 --- !u!114 &1090165634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3702,16 +3599,6 @@ MonoBehaviour:
   _speedUpDuration: 1.5
   _speedChangeDuration: 0.5
   _particleSystem: {fileID: 1383303214}
-  _tapSFX:
-    clip: {fileID: 8300000, guid: cff51191aad4a4f4798fe747d3dae0e9, type: 3}
-    volume: 1
-    priority: 128
-    loop: 0
-  _swimSFX:
-    clip: {fileID: 8300000, guid: 5ead5b4bc386f0b41a78220da8143830, type: 3}
-    volume: 1
-    priority: 128
-    loop: 1
 --- !u!114 &1366667458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4071,12 +3958,10 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1483281776}
-  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 2bd3960336b017e4eb9a0149b59f2f19, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -4680,16 +4565,6 @@ MonoBehaviour:
   _speedUpDuration: 1.5
   _speedChangeDuration: 0.5
   _particleSystem: {fileID: 438315156}
-  _tapSFX:
-    clip: {fileID: 8300000, guid: c302ed1a5ed9c374dba8c0ea8bda2332, type: 3}
-    volume: 1
-    priority: 128
-    loop: 0
-  _swimSFX:
-    clip: {fileID: 8300000, guid: 5ead5b4bc386f0b41a78220da8143830, type: 3}
-    volume: 1
-    priority: 128
-    loop: 1
 --- !u!114 &1851209284
 MonoBehaviour:
   m_ObjectHideFlags: 0

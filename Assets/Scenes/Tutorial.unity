@@ -336,21 +336,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 53d6bacd3e0cb4b459cec3d85b3bf3b6, type: 3}
---- !u!4 &98220132
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 4128037695298795061, guid: 53d6bacd3e0cb4b459cec3d85b3bf3b6, type: 3}
-  m_PrefabInstance: {fileID: 98220131}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1230286747}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.44608063, z: -0, w: 0.8949928}
-  m_LocalPosition: {x: -2.1519995, y: 0.00000008940697, z: 1.2050018}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1878891158}
-  m_LocalEulerAnglesHint: {x: 0, y: 52.985, z: 0}
 --- !u!1 &143175737
 GameObject:
   m_ObjectHideFlags: 0
@@ -846,7 +831,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01b312852b415b842b9fda7d0001483c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _beeMovement: {fileID: 0}
   _currentPlot: 0
   _plotObjects:
   - Plot: 1
@@ -970,24 +954,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 596790421}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &441599151
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 2366994442487766390, guid: 53d6bacd3e0cb4b459cec3d85b3bf3b6, type: 3}
-  m_PrefabInstance: {fileID: 758308811}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 758308812}
-  - component: {fileID: 758308814}
-  - component: {fileID: 758308813}
-  m_Layer: 0
-  m_Name: Tutorial Look Position
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &462124491
 GameObject:
   m_ObjectHideFlags: 0
@@ -1661,55 +1627,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 53d6bacd3e0cb4b459cec3d85b3bf3b6, type: 3}
---- !u!4 &758308812
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 4128037695298795061, guid: 53d6bacd3e0cb4b459cec3d85b3bf3b6, type: 3}
-  m_PrefabInstance: {fileID: 758308811}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 441599151}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.27420056, z: -0, w: 0.9616725}
-  m_LocalPosition: {x: 1.4029999, y: 0, z: 0.6419983}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1878891158}
-  m_LocalEulerAnglesHint: {x: 0, y: -31.829, z: 0}
---- !u!65 &758308813
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 7250242495448305370, guid: 53d6bacd3e0cb4b459cec3d85b3bf3b6, type: 3}
-  m_PrefabInstance: {fileID: 758308811}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 441599151}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 6.6917424, z: 0.01}
-  m_Center: {x: 0, y: 1.2359278, z: 0}
---- !u!114 &758308814
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 8430812565134661031, guid: 53d6bacd3e0cb4b459cec3d85b3bf3b6, type: 3}
-  m_PrefabInstance: {fileID: 758308811}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 441599151}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f924ef953c925234b8022f0d18579f50, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _isDiscovered: 0
 --- !u!1 &774205174 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5632141041048911681, guid: 578f51361a2c1544f802e09ef44e9502, type: 3}
@@ -1832,8 +1749,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a4205f1bc37aa74ab94597049c1c1c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <CanInterrupt>k__BackingField: 0
-  <MultipleInteractions>k__BackingField: 0
   _fishScript: {fileID: 774205178}
   _fishInteractionScript: {fileID: 774205176}
   _tutorialFishMovementScript: {fileID: 774205181}
@@ -3216,58 +3131,6 @@ MonoBehaviour:
     _plotEvents:
     - {fileID: 1844058055}
   _delayedEventStartDuration: 5
---- !u!1 &1230286747
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 2366994442487766390, guid: 53d6bacd3e0cb4b459cec3d85b3bf3b6, type: 3}
-  m_PrefabInstance: {fileID: 98220131}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 98220132}
-  - component: {fileID: 1230286749}
-  - component: {fileID: 1230286748}
-  m_Layer: 0
-  m_Name: Tutorial Look Position (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!65 &1230286748
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 7250242495448305370, guid: 53d6bacd3e0cb4b459cec3d85b3bf3b6, type: 3}
-  m_PrefabInstance: {fileID: 98220131}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1230286747}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 5.9613113, z: 0.01}
-  m_Center: {x: 0, y: 0.88304627, z: 0}
---- !u!114 &1230286749
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 8430812565134661031, guid: 53d6bacd3e0cb4b459cec3d85b3bf3b6, type: 3}
-  m_PrefabInstance: {fileID: 98220131}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1230286747}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f924ef953c925234b8022f0d18579f50, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _isDiscovered: 0
 --- !u!1 &1312287134
 GameObject:
   m_ObjectHideFlags: 0
@@ -3320,8 +3183,6 @@ MonoBehaviour:
   _tapTutorialObject: {fileID: 1672687945}
   _raycastCamera: {fileID: 91516121}
   _raycastManager: {fileID: 2082319630}
-  _state: 0
-  _lookPositions: []
 --- !u!1 &1366667454 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8422739601375550610, guid: 578f51361a2c1544f802e09ef44e9502, type: 3}
