@@ -1,21 +1,29 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [
 	RequireComponent(typeof(PlayAnimation)),
-	RequireComponent(typeof(AvoidObjectSwimmingBehavior))
+	RequireComponent(typeof(AvoidObjectSwimmingBehavior)),
+	RequireComponent(typeof(ObjectMovement)),
 ]
 public class BeeMovement : MonoBehaviour
 {
-	[Header("Reference")]
-    [SerializeField] internal Movement _beeMovementStat;
-    [SerializeField] private Transform _otherWorldAnchor;
-    [SerializeField] private Transform _portal;
-    
-    [Header("Setting")]
-    [SerializeField] private float _maxRotationAngle = 200f;
-    
+	[Header("Setting")]
+	[SerializeField] private float _maxRotationAngle = 200f;
+	[SerializeField] internal Movement _beeMovementStat;
+	
+	[Header("Ocean Reference")]
+	[SerializeField] private Transform _oceanAnchor;
+    [SerializeField] private Transform _oceanPortal;
+
+    [FormerlySerializedAs("_villageStartPosition")]
+    [Header("Village Reference")] 
+    [SerializeField] private Transform _villageStartTransform;
+    [SerializeField] private Vector3 _idleRotateAxis = new Vector3(0,1,0);
+    [SerializeField] private float _distanceToPivot = 1;
+
     [Header("Animation")]
 	[Tooltip("The name of the animation parameter that triggers the bee swimming animation")]
 	[SerializeField] private string _beeSwimmingAnimationParameterName;
@@ -25,14 +33,17 @@ public class BeeMovement : MonoBehaviour
 	private PlayAnimation _playAnimation;
 
 	private bool _overPortal;
-    private Coroutine _portalMovementCoroutine;
+    private Coroutine _movementCoroutine;
 	
     private AvoidObjectSwimmingBehavior _avoidObjectSwimmingBehavior;
 
+    private ObjectMovement _objectMovement;
+    
     public static event Action OnBeeEnteredPlot;
 
     private void Awake()
     {
+	    _objectMovement = GetComponent<ObjectMovement>();
 	    _playAnimation = GetComponent<PlayAnimation>();
 		_avoidObjectSwimmingBehavior = GetComponent<AvoidObjectSwimmingBehavior>();
     }
@@ -51,37 +62,49 @@ public class BeeMovement : MonoBehaviour
     // the same movement could be used for all 3 plots in my opinion (Orestis). Up to discussion
     private void Move()
     {
-		// This is for now until the movement for the village plot is implemented. 
-		// Currently the movement is just made for the ocean plot. We should check the Plot and based on that decided the animation, etc.
-		if(PlotsManager.Instance._currentPlot != Plot.Ocean) {
-			// If the bee is not in the ocean plot, we should stop the swimming animation
-			if(_playAnimation.CurrentAnimationState(_beeSwimmingAnimationStateName)) {
-				_playAnimation.SetBoolParameter(_beeSwimmingAnimationParameterName, false);
-			}
-			return;
+	    if(Bee.Instance.State != BeeState.Idle) return;
+	    
+	    if (PlotsManager.Instance._currentPlot == Plot.Ocean)
+		{
+			// Playing bee swimming animation if it is not already playing
+			if(!_playAnimation.CurrentAnimationState(_beeSwimmingAnimationStateName)) {
+				_playAnimation.SetBoolParameter(_beeSwimmingAnimationParameterName, true);
+			};
+				
+			_avoidObjectSwimmingBehavior.Move(_beeMovementStat.MovementSpeed);
+		}else 
+		if (PlotsManager.Instance._currentPlot == Plot.Village)
+		{
+			_objectMovement.MoveAroundPivot(_villageStartTransform.position,_idleRotateAxis,_distanceToPivot,
+				_beeMovementStat.RotationSpeed,_beeMovementStat.MovementSpeed);
 		}
-		if(Bee.Instance.State != BeeState.Idle) return;
 
-		// Playing bee swimming animation if it is not already playing
-		if(!_playAnimation.CurrentAnimationState(_beeSwimmingAnimationStateName)) {
-			_playAnimation.SetBoolParameter(_beeSwimmingAnimationParameterName, true);
-		};
-
-		_avoidObjectSwimmingBehavior.Move(_beeMovementStat.MovementSpeed);
     }
 
-    private IEnumerator MoveThroughPortal()
+    private void HandlePlotChange()
+    {
+	    // This is for now until the movement for the village plot is implemented. 
+	    // Currently the movement is just made for the ocean plot. We should check the Plot and based on that decided the animation, etc.
+	    if(PlotsManager.Instance._currentPlot != Plot.Ocean) {
+		    // If the bee is not in the ocean plot, we should stop the swimming animation
+		    if(_playAnimation.CurrentAnimationState(_beeSwimmingAnimationStateName)) {
+			    _playAnimation.SetBoolParameter(_beeSwimmingAnimationParameterName, false);
+		    }
+	    }
+    }
+
+    private IEnumerator MoveThroughPortal(Transform achor, Transform portal)
     {
 	    bool isAtPortal = false;
         
 		while(!isAtPortal && !_overPortal)
 		{
-			isAtPortal = MathHelper.AreVectorApproximatelyEqual(transform.position, _portal.position, 0.1f);
-			MoveToPortalPosition(_portal.position);
+			isAtPortal = MathHelper.AreVectorApproximatelyEqual(transform.position, portal.position, 0.1f);
+			MoveToPortalPosition(portal.position);
 			yield return null;
 		}
 
-		EnterPortal(_otherWorldAnchor.position);
+		EnterPortal(achor.position, portal.position);
 		
 		OnBeeEnteredPlot?.Invoke();
 		Bee.Instance.UpdateState(BeeState.Idle);
@@ -94,19 +117,52 @@ public class BeeMovement : MonoBehaviour
 		transform.position = transform.forward * _beeMovementStat.MovementSpeed * Time.deltaTime + transform.position;
     }
     
-    private void EnterPortal(Vector3 targetCameraPosition)
+    private void EnterPortal(Vector3 targetCameraPosition, Vector3 portalPosition)
     {
-        transform.position = targetCameraPosition + (_portal.position - Camera.main.transform.position);
+        transform.position = targetCameraPosition + (portalPosition - Camera.main.transform.position);
         _overPortal = true;
+    }
+
+    private IEnumerator UpdateVillage()
+    {
+	    OnBeeEnteredPlot?.Invoke();
+	    Bee.Instance.UpdateState(BeeState.Idle);
+	    yield return null;
+    }
+
+    private IEnumerator MoveToplot(Transform plotPosition)
+    {
+	    Bee.Instance.UpdateState(BeeState.EnteringPlot);
+
+	    do
+	    {
+		    _objectMovement.MoveTo(plotPosition.position, _beeMovementStat.MovementSpeed);
+		    yield return null;
+	    } while (!_objectMovement.IsInPlace(plotPosition.position));
+	    
+	    OnBeeEnteredPlot?.Invoke();
+	    Bee.Instance.UpdateState(BeeState.Idle);
     }
 
     private void HandleGoingToPlot(Plot plot) {
 		if(Bee.Instance.State != BeeState.FollowingCamera) return;
 
 		Bee.Instance.UpdateState(BeeState.EnteringPlot);
-
-		if(plot == Plot.Ocean || plot == Plot.Space)
-			_portalMovementCoroutine = StartCoroutine(MoveThroughPortal());
+		
+		switch (plot)
+		{
+			case Plot.None:
+				//Debug.LogError(this + ": Can not find plot for bee to handle");
+				break;
+			case Plot.Ocean:
+				_movementCoroutine = StartCoroutine(MoveThroughPortal(_oceanAnchor,_oceanPortal));
+				break;
+			case Plot.Village:
+				_movementCoroutine = StartCoroutine(MoveToplot(_villageStartTransform));
+				break;
+		}
+		
+		HandlePlotChange();
 	}
 
 	private void SubscribeToEvents()
@@ -120,8 +176,8 @@ public class BeeMovement : MonoBehaviour
 	{
 		if(Bee.Instance.State == BeeState.FollowingCamera) return;
 
-		if(_portalMovementCoroutine != null)
-			StopCoroutine(_portalMovementCoroutine);
+		if(_movementCoroutine != null)
+			StopCoroutine(_movementCoroutine);
 		
 		Bee.Instance.UpdateState(BeeState.FollowingCamera);
 		transform.position = Camera.main.transform.position + Camera.main.transform.forward * -2f;

@@ -71,7 +71,7 @@ public abstract class PlotEvent : MonoBehaviour, IEvent
 		OnEventDone?.Invoke();
 	}
 
-	public void StopEvent()
+	public virtual void StopEvent()
 	{
 		StopAllCoroutines();
 	}

@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 
 [RequireComponent(typeof(Animator))]
 public class PlayAnimation : MonoBehaviour
@@ -29,7 +30,7 @@ public class PlayAnimation : MonoBehaviour
 
 	public bool IsPlaying() => _animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1;
 	
-	public bool IsAnimationOver() => _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1;
+	public bool IsAnimationOver(int animationLoops = 1) => _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= animationLoops;
 
 	public bool CurrentAnimationState(string animationStateName) => _animator.GetCurrentAnimatorStateInfo(0).IsName(animationStateName);
 	
@@ -39,8 +40,8 @@ public class PlayAnimation : MonoBehaviour
 		}
 	}
 
-	public IEnumerator WaitForAnimationToEnd() {
-		while(!IsAnimationOver()) {
+	public IEnumerator WaitForAnimationToEnd(int animationLoops = 1) {
+		while(!IsAnimationOver(animationLoops)) {
 			yield return null;
 		}
 	}
