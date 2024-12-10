@@ -1,34 +1,47 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using Codice.ThemeImages;
-using UnityEditor;
 using UnityEngine;
 
 public class BoatVillagePassive : PlotEvent, IInterruptible
 {
-	[Header("References")]
+	[Header("Movement")]
 	[Tooltip("The bee companion prefab which contains the ObjectMovement component.")]
 	[SerializeField] private ObjectMovement _beeMovement;
 	
 	[Tooltip("The boat object to activate and move.")]
 	[SerializeField] private ObjectMovement _boatObject;
 
-	[Tooltip("The waypoints the boat will follow.")]
+	[Tooltip("The waypoints the boat will follow. Note: The first waypoint should be rotated facing the second waypoint.")]
 	[SerializeField] private BoatWaypoint[] _waypoints;
 
 	[Tooltip("The target position on the bridge for the bee to move to.")]
 	[SerializeField] private Transform _bridgeTargetPosition;
 
-	[Header("Settings")]
 	[Tooltip("The boat speed movement.")]
 	[SerializeField] private float _boatSpeed = .5f;
+
+	[Header("Animation")]
+
+	[Tooltip("The bee companion prefab which contains the PlayAnimation component.")]
+	[SerializeField] private PlayAnimation _beeAnimation;
+
+	[Tooltip("The wave animation state name.")]
+	[SerializeField] private string _waveAnimationStateName = "Wave";
+	
+	[Tooltip("The wave animation parameter name.")]
+	[SerializeField] private string _waveAnimationParameterName = "IsWaving"; 
+
+	[Tooltip("The amount of times the wave animation will play.")]
+	[SerializeField] private byte _waveAnimationFrequency = 2;
 
 	[Tooltip("The initial scale of the boat.")]
 	[SerializeField] private float _boatInitialScale = 0.03f;
 
 	[Tooltip("Speed to scale up the boat.")]
-	[SerializeField] private float _scaleUpSpeed = 1.2f;
+	[SerializeField] private float _scaleUpSpeed = 1f;
+
+	[Tooltip("Speed to scale down the boat.")]
+	[SerializeField] private float _scaleDownSpeed = 1f;
 
 	public event Action<IInterruptible> OnInterruptedDone;
 
@@ -36,6 +49,9 @@ public class BoatVillagePassive : PlotEvent, IInterruptible
 
 	public void InterruptEvent()
 	{
+		if(Bee.Instance.State == BeeState.MovingToBridge)
+			Bee.Instance.UpdateState(BeeState.Idle);
+	
 		OnInterruptedDone?.Invoke(this);
 	}
 
@@ -60,7 +76,7 @@ public class BoatVillagePassive : PlotEvent, IInterruptible
 			BoatWaypoint waypoint = _waypoints[i];
 
 			if (waypoint.IsWaypointInfrontBridge)
-				MoveBeeToBridge();
+				StartCoroutine(BeeSequence());
 			
 			Vector3 waypointPosition = waypoint.Waypoint.position;
 
@@ -82,9 +98,9 @@ public class BoatVillagePassive : PlotEvent, IInterruptible
 		while(_boatObject.transform.localScale.x < _boatInitialScale) {
 			float distanceBetweenWaypoints = Vector3.Distance(firstWaypointPosition, secondWaypointPosition);
 			float distanceToSecondWaypoint = Vector3.Distance(firstWaypointPosition, _boatObject.transform.position);
-			float scale = distanceToSecondWaypoint / distanceBetweenWaypoints;
+			float scale = MathF.Min(distanceToSecondWaypoint / distanceBetweenWaypoints, 1);
 
-			_boatObject.transform.localScale = Vector3.one * scale * _boatInitialScale * _scaleUpSpeed;
+			_boatObject.transform.localScale = scale * _boatInitialScale * _scaleUpSpeed * Vector3.one;
 			yield return null;
 		}
 	}
@@ -93,19 +109,42 @@ public class BoatVillagePassive : PlotEvent, IInterruptible
 		while(_boatObject.transform.localScale.x > 0) {
 			float distanceBetweenWaypoints = Vector3.Distance(lastWaypointPosition, oneBeforeLastWaypointPosition);
 			float distanceToSecondWaypoint = Vector3.Distance(lastWaypointPosition, _boatObject.transform.position);
-			float scale = distanceToSecondWaypoint / distanceBetweenWaypoints;
+			float scale = MathF.Min(distanceToSecondWaypoint / distanceBetweenWaypoints, 1f);
 
-			_boatObject.transform.localScale = Vector3.one * scale * _boatInitialScale * _scaleUpSpeed;
+			_boatObject.transform.localScale = scale * _boatInitialScale * _scaleDownSpeed * Vector3.one ;
 			yield return null;
 		}
 	}
 
-	private void MoveBeeToBridge()
+	private IEnumerator BeeSequence()
+	{
+		yield return StartCoroutine(MoveBeeToBridge());
+		yield return StartCoroutine(BeeLookAtBoat());
+		yield return StartCoroutine(BeeWaveAnimation());
+
+		Bee.Instance.UpdateState(BeeState.Idle);
+	}
+
+	private IEnumerator BeeWaveAnimation()
+	{
+		_beeAnimation.SetBoolParameter(_waveAnimationParameterName, true);
+		yield return StartCoroutine(_beeAnimation.WaitForAnimationToStart(_waveAnimationStateName));
+		yield return StartCoroutine(_beeAnimation.WaitForAnimationToEnd(_waveAnimationFrequency));
+		_beeAnimation.SetBoolParameter(_waveAnimationParameterName, false);
+		yield return StartCoroutine(_beeAnimation.WaitForAnimationToStart("Fly"));
+	}
+
+	private IEnumerator BeeLookAtBoat()
+	{
+		yield return StartCoroutine(_beeMovement.RotateUntilLookAt(_boatObject.transform.position, .1f));
+	}
+
+	private IEnumerator MoveBeeToBridge()
 	{
 		Bee.Instance.UpdateState(BeeState.MovingToBridge);
 		Vector3 bridgePosition = _bridgeTargetPosition.position;
 		StartCoroutine(_beeMovement.RotateUntilLookAt(bridgePosition, .75f));
-		StartCoroutine(_beeMovement.MoveUntilObjectReached(bridgePosition, .75f));
+		yield return StartCoroutine(_beeMovement.MoveUntilObjectReached(bridgePosition, .75f));
 	}
 
 	private void SpawnAtFirstPosition(Vector3 firstWaypointPosition, Vector3 firstWaypointForward)
