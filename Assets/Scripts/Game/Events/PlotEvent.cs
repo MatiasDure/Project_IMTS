@@ -62,6 +62,14 @@ public abstract class PlotEvent : MonoBehaviour, IEvent
 		};
 	}
 
+	protected virtual UpdatePassiveEventCollection SetupForceEndEventMetadata() {
+		return new UpdatePassiveEventCollection{
+			PreviousEvent = PassiveEvent.None,
+			CurrentEvent = PassiveEvent.None,
+			State = BeeState.FollowingCamera,
+		};
+	}
+
 	internal protected void FireStartEvent(UpdatePassiveEventCollection eventMetadata) {
 		OnPassiveEventStart?.Invoke(eventMetadata);
 	}

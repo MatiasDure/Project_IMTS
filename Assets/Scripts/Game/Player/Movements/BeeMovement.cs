@@ -176,8 +176,10 @@ public class BeeMovement : MonoBehaviour
 	{
 		if(Bee.Instance.State == BeeState.FollowingCamera) return;
 
-		if(_movementCoroutine != null)
+		if(_movementCoroutine != null) {
 			StopCoroutine(_movementCoroutine);
+			_movementCoroutine = null;
+		}
 		
 		Bee.Instance.UpdateState(BeeState.FollowingCamera);
 		transform.position = Camera.main.transform.position + Camera.main.transform.forward * -2f;

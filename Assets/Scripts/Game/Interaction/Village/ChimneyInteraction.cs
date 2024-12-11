@@ -57,10 +57,10 @@ public class ChimneyInteraction : MonoBehaviour, IInteractable, IEvent
 	private IEnumerator PlayChimneyAnimation()
 	{
 		_isPlaying = true;
-		yield return StartCoroutine(ShrinkChimney());
+		// yield return StartCoroutine(ShrinkChimney());
 		_playParticle.ToggleOn();
-		yield return StartCoroutine(ExpandChimney());
-		_playAnimation.SetBoolParameter(_smokeAnimationParameterName, false);
+		// yield return StartCoroutine(ExpandChimney());
+		// _playAnimation.SetBoolParameter(_smokeAnimationParameterName, false);
 		yield return new WaitForSeconds(_particleDuration);
 		_playParticle.ToggleOff();
 		OnEventDone?.Invoke();

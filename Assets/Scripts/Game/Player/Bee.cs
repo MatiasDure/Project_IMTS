@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using System.Diagnostics;
 
 public class Bee : Singleton<Bee>
 {
@@ -29,11 +30,15 @@ public class Bee : Singleton<Bee>
 	}
 
 	private void UpdateState(UpdatePassiveEventCollection newState) {
+		// StackTrace stackTrace = new StackTrace();
+		// UnityEngine.Debug.Log($"Bee.UpdateState() to {newState.State} called from {stackTrace.GetFrame(1).GetMethod().Name}");
 		_state = newState.State;
 		OnBeeStateChanged?.Invoke(_state);
 	}
 
 	public void UpdateState(BeeState newState) {
+		// StackTrace stackTrace = new StackTrace();
+		// UnityEngine.Debug.Log($"Bee.UpdateState() to {newState} called from {stackTrace.GetFrame(1).GetMethod().Name}");
 		_state = newState;
 		OnBeeStateChanged?.Invoke(_state);
 	}

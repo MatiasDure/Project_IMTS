@@ -6,7 +6,7 @@ public class EventManager : Singleton<EventManager>
 	[SerializeField] internal PassiveEventManager _passiveEventManager;
 	[SerializeField] internal InteractionManager _interactionManager;
 
-    private GameObject _currentEventGameObject;
+    public GameObject _currentEventGameObject;
 	private GameObject _nextEventToPlay;
 	private IEvent _currentEvent;
 	private bool _interruptionInProcess;
@@ -39,9 +39,8 @@ public class EventManager : Singleton<EventManager>
 	{
 		if(_currentEvent == null) return;
 
-		_currentEvent.StopEvent();
-
 		_currentEvent.OnEventDone -= HandleCurrentEventDone;
+		_currentEvent.StopEvent();
 		_currentEventGameObject = null;
 		_currentEvent = null;
 		_nextEventToPlay = null;

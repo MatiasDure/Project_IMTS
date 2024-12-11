@@ -44,11 +44,12 @@ public class PassiveEventManager : Singleton<PassiveEventManager>
 		PlotEvent plotEvent = GetRandomPlotEventToPlay();
 
 		if(plotEvent == null) {
-			_findPassiveEvent = null;
+			StopLookingForEvent();
 			yield break;
 		}
 
 		InformEventReadyToPlay(plotEvent);
+		_findPassiveEvent = null;
 	}
 
 	private PlotEvent GetRandomPlotEventToPlay() {

@@ -57,7 +57,7 @@ public class SheepInteraction : MonoBehaviour, IInteractable, IEvent, IInterrupt
 
 		yield return MoveBeeToSheep();
 		// This needs to be updated when the petting animation is added, because currently it just disables the swimming animation in the ocean plot
-		yield return PetSheepAnimation();
+		// yield return PetSheepAnimation();
 		yield return SheepReaction();
 
 		Bee.Instance.UpdateState(BeeState.Idle);

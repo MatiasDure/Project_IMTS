@@ -98,4 +98,17 @@ public class BurbbleStormEvent : PlotEvent
 	}
 
 	public override bool CanPlay() => true;
+
+	private void DisableEvent()
+	{
+		_cooldown.StopCooldown();
+		_tornado.gameObject.SetActive(false);
+		FireEndEvent(SetupForceEndEventMetadata());
+	}
+
+	public override void StopEvent()
+	{
+		DisableEvent();
+		base.StopEvent();
+	}
 }

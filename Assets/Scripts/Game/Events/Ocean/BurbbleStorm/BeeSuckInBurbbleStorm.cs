@@ -33,7 +33,7 @@ public class BeeSuckInBurbbleStorm : MonoBehaviour
 
     private void HandleStormEnd(UpdatePassiveEventCollection eventMetadata)
     {
-        if(eventMetadata.PreviousEvent != PassiveEvent.BurbbleStorm) return;
+        if(eventMetadata.PreviousEvent != PassiveEvent.BurbbleStorm && PlotsManager.Instance.CurrentPlot != Plot.None) return;
 
         _rigidbody.isKinematic = true;
     }
