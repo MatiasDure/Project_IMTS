@@ -13,5 +13,6 @@ public enum BeeState
 	InspectTree,
 	PettingSheep,
 	MovingToBridge,
+	WindowInteraction,
 	Fishing,
 }
