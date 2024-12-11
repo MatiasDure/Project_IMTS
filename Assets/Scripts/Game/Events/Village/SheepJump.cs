@@ -7,7 +7,6 @@ public class SheepJump : PlotEvent, IInterruptible
 {
     [SerializeField] private Transform _sheepHolder;
     [SerializeField] private float jumpForce;
-    internal Cooldown _cooldown = new Cooldown();
 
     private List<Sheep> _sheeps = new List<Sheep>();
 
@@ -23,10 +22,6 @@ public class SheepJump : PlotEvent, IInterruptible
     
     private void Start() {
         SubscribeToEvents();
-    }
-    
-    private void Update() {
-        _cooldown.DecreaseCooldown(Time.deltaTime);
     }
 
     private void LoadSheep()
@@ -46,7 +41,11 @@ public class SheepJump : PlotEvent, IInterruptible
         FireStartEvent(metadata);
         
         sheep.Jump(jumpForce);
-        _cooldown.StartCooldown(_config.Timing.Duration);
+        
+        metadata = SetupEndEventMetadata();
+
+        FireEndEvent(metadata);
+        base.UpdateEventStatus();
     }
     
     internal Sheep GetRandomSheep(List<Sheep> sheep, int randomIndex) => sheep[randomIndex];
@@ -64,28 +63,7 @@ public class SheepJump : PlotEvent, IInterruptible
             }
         };
     }
-    
-    internal protected override void HandleWaitingStatus()
-    {
-        base.HandleWaitingStatus();
-        UpdatePassiveEventCollection metadata = SetupEndEventMetadata();
 
-        FireEndEvent(metadata);
-    }
-    
-    protected override void SubscribeToEvents()
-    {
-        base.SubscribeToEvents();
-        _cooldown.OnCooldownOver += UpdateEventStatus;
-    }
-    
-    protected override void UnsubscribeFromEvents()
-    {
-        base.UnsubscribeFromEvents();
-        
-        _cooldown.OnCooldownOver -= UpdateEventStatus;
-    }
-    
     private void OnDestroy()
     {
         UnsubscribeFromEvents();
@@ -106,8 +84,6 @@ public class SheepJump : PlotEvent, IInterruptible
 
     public void InterruptEvent()
     {
-        if(_cooldown.IsOnCooldown) _cooldown.StopCooldown();
-        
         OnInterruptedDone?.Invoke(this);
     }
 }
