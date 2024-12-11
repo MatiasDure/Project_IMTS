@@ -110,7 +110,7 @@ Transform:
   m_GameObject: {fileID: 151741716194520652}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 2.6, z: -0}
   m_LocalScale: {x: 1, y: 1.4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1028,11 +1028,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_CameraStartingPose:
-    position: {x: 0, y: 0.9, z: -1.29}
-    rotation: {x: -0.104585215, y: 0.5932058, z: -0.078097, w: -0.7943989}
+    position: {x: -0.1, y: 0.5, z: -0.79}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
   m_CameraMovementBounds:
-    m_Center: {x: 0.045000076, y: 0.5450001, z: 0}
-    m_Extent: {x: 10, y: 5, z: 10}
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 30, y: 10, z: 30}
   m_DefaultViewPose:
     position: {x: 0, y: 1.0609863, z: -1.5}
     rotation: {x: -0.16100603, y: 0.1567927, z: -0.025916385, w: -0.97407466}

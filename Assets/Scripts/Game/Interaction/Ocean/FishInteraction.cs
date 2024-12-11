@@ -12,6 +12,7 @@ public class FishInteraction : MonoBehaviour,
 
 
 	[SerializeField] private ObjectMovement _beeMovement;
+	[SerializeField] private BeeMovement _beeStats;
 
 	public bool CanInterrupt { get; set; } = true;
 	public EventState State { get; set; }
@@ -77,7 +78,7 @@ public class FishInteraction : MonoBehaviour,
 
 		while (_beeIsChasing && !_beeMovement.IsInPlace(position))
 		{
-			_beeMovement.MoveTo(transform.position, 3);
+			_beeMovement.MoveTo(transform.position, _beeStats._beeMovementStat.MovementSpeed);
 			_beeMovement.SnapRotationTowards(transform.position);
 			yield return null;
 		}
@@ -135,8 +136,8 @@ public class FishInteraction : MonoBehaviour,
 		StopAllCoroutines();
 		StopBeeChasing();
 
-        OnInterruptedDone?.Invoke(this);
-    }
+		OnInterruptedDone?.Invoke(this);
+	}
 
 	public void StopEvent()
 	{

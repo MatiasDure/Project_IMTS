@@ -4,7 +4,7 @@ public enum BeeState
 	EnteringPlot,
 	Idle,
 	ChasingFish,
-    FollowingCamera,
+	FollowingCamera,
 	Hiding,
 	ChestInspection,
 	CloseClams,
@@ -13,4 +13,6 @@ public enum BeeState
 	InspectTree,
 	PettingSheep,
 	MovingToBridge,
+	WindowInteraction,
+	Fishing,
 }

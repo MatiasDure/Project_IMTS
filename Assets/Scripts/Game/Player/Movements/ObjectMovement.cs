@@ -13,8 +13,8 @@ public class ObjectMovement : MonoBehaviour
 
 	private readonly int _directionCount = 20;
 	private readonly float _obstacleDistance = 1f;
-	private readonly float _smoothTime = 01f;
 	
+	private const float SMOOTHNESS = 0.1f;
 	private const float DISTANCE_TOLERANCE = 0.2f;
 
 	private void Awake()
@@ -31,16 +31,18 @@ public class ObjectMovement : MonoBehaviour
 		transform.position = position;
 	}
 
-	public void MoveTo(Vector3 position, float speed, float tolerance = DISTANCE_TOLERANCE)
+	public void MoveTo(Vector3 position, float speed, float tolerance = DISTANCE_TOLERANCE , float smoothness = SMOOTHNESS)
 	{
 		Vector3 moveVector = CalculateMovement(position, speed);
 
-		SmootherAndApplyMovement(speed, moveVector);
+		SmootherAndApplyMovement(speed, moveVector, smoothness);
 	}
 
 	public void MoveAroundPivot(Vector3 position, Vector3 axis,  float distance, float rotateSpeed, float moveSpeed)
 	{ 
 		Vector3 direction = (transform.position - position).normalized;
+
+		direction = Vector3.ProjectOnPlane(direction, axis);
 		
 		Vector3 target = position + direction * distance;
 
@@ -57,7 +59,7 @@ public class ObjectMovement : MonoBehaviour
 			target = position + direction * distance;
 			
 			transform.position = target;
-			FaceDirection(rotateSpeed);
+			FaceDirection(rotateSpeed/10);
 		}
 	}
 
@@ -84,9 +86,9 @@ public class ObjectMovement : MonoBehaviour
 		return moveVector;
 	}
 
-	private void SmootherAndApplyMovement(float speed, Vector3 moveVector)
+	private void SmootherAndApplyMovement(float speed, Vector3 moveVector , float smoothTime)
 	{
-		moveVector = Vector3.SmoothDamp(transform.forward, moveVector, ref _currentVelocity, _smoothTime);
+		moveVector = Vector3.SmoothDamp(transform.forward, moveVector, ref _currentVelocity, smoothTime);
 		moveVector = moveVector.normalized * speed;
 
 		transform.forward = moveVector;
