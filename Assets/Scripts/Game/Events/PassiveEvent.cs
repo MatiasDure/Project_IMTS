@@ -7,4 +7,5 @@ public enum PassiveEvent
    BeeVisit,
    BoatTrip,
    SheepJump,
+	FishingRod,
 }

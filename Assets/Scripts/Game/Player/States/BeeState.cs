@@ -14,4 +14,5 @@ public enum BeeState
 	PettingSheep,
 	MovingToBridge,
 	WindowInteraction,
+	Fishing,
 }
