@@ -5,11 +5,16 @@ using UnityEngine;
 
 public class FishingRodPassive : PlotEvent, IInterruptible
 {
+	private const string LOOK_DOWN_ANIMATION_PARAMETER = "IsLookingDown";
+	[SerializeField] float _lookingAtRiverDuration;
 	[SerializeField] Transform _treeStumpHover;
+	[Tooltip("Look at this position in front of the tree stump before looking down with animation")]
 	[SerializeField] Transform _riverLook;
 	[SerializeField] BeeMovement _beeMovement;
 	[SerializeField] ObjectMovement _beeObjectMovement;
-	
+	[SerializeField] PlayAnimation _beePlayAnimation;
+	[SerializeField] RotateObject _fishingRodRotate;
+
 	public event Action<IInterruptible> OnInterruptedDone;
 	
 	private FishingRodPassiveState _fishingRodEventState;
@@ -63,23 +68,31 @@ public class FishingRodPassive : PlotEvent, IInterruptible
 	
 	private IEnumerator LookAtRiver()
 	{
-		Debug.Log("FishingRodPassive: Play fishing rod animation here.");
-		yield return DelayCoroutine(2);
+		_beePlayAnimation.SetTrigger(LOOK_DOWN_ANIMATION_PARAMETER);
+		_fishingRodRotate.EnableRotation();
+		
+		yield return DelayCoroutine(_lookingAtRiverDuration);
 		UpdateState(FishingRodPassiveState.LeavingStump);
 	}
 	
 	private void LeaveStump()
 	{
-		StopAllCoroutines();
+		StopAnimations();
 		Bee.Instance.UpdateState(BeeState.Idle);
 		HandleEventDone();
 	}
 	
 	private void HandleEventDone()
 	{
-		StopAllCoroutines();
+		StopAnimations();
 		_fishingRodEventState = FishingRodPassiveState.None;
 		FireEndEvent(SetupEndEventMetadata());
+	}
+	
+	private void StopAnimations()
+	{
+		StopAllCoroutines();
+		_fishingRodRotate.DisableRotation();
 	}
 	
 	// Temporary until fishing rod animation is implemented
