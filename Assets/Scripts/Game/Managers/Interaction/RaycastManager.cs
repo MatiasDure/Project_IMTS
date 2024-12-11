@@ -11,6 +11,11 @@ public class RaycastManager : MonoBehaviour
 	private GameObject _mainRaycastPointer;
 
 	private Camera _mainCamera;
+
+	private Vector3 _hitPoint;
+
+	public Vector3 HitPoint => _hitPoint;
+
 	public event Action<Collider> OnRaycastHit;
 
 	void Start()
@@ -36,6 +41,7 @@ public class RaycastManager : MonoBehaviour
 		RaycastHit hit;
 		if (DetectPerspectiveRayCast(out hit))
 		{
+			_hitPoint = hit.point;
 			OnRaycastHit?.Invoke(hit.collider);
 		}
 	}
