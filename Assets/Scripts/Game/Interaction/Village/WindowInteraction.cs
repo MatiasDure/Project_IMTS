@@ -11,10 +11,15 @@ public class WindowInteraction : MonoBehaviour, IInteractable,
 												IInterruptible,
 												IEvent
 {
+	private const string WAVE_ANIMATION_PARAMETER = "IsWaving";
+	private const string WAVE_ANIMATION_NAME = "Wave";
+	
 	[SerializeField] Transform _windowTransform;
 	[SerializeField] Transform _windowFrontPosition;
 	[SerializeField] ObjectMovement _beeObjectMovement;
 	[SerializeField] BeeMovement _beeMovement;
+	[SerializeField] PlayAnimation _beePlayAnimation;
+	[SerializeField] PlayAnimation _sheepPlayAnimation;
 	
 	// Temporary until animations are implemented
 	[SerializeField] float _secondsToWaitForAnimations;
@@ -78,9 +83,16 @@ public class WindowInteraction : MonoBehaviour, IInteractable,
 	
 	private IEnumerator Wave()
 	{
-		Debug.Log("WindowInteraction: Play bee waving animation here.");
-		yield return StartCoroutine(DelayCoroutine(_secondsToWaitForAnimations));
-		UpdateState(WindowInteractionState.OpeningWindow);
+		_beePlayAnimation.SetBoolParameter(WAVE_ANIMATION_PARAMETER, true);
+		yield return _beePlayAnimation.WaitForAnimationToStart(WAVE_ANIMATION_NAME);
+		yield return _beePlayAnimation.WaitForAnimationToEnd();
+		_beePlayAnimation.SetBoolParameter(WAVE_ANIMATION_PARAMETER, false);
+		
+		// End sequence prematurely for playtest
+		UpdateState(WindowInteractionState.LeavingWindow);
+		
+		// Normally we would continue with this sequence
+		//UpdateState(WindowInteractionState.OpeningWindow);
 	}
 	
 	private IEnumerator OpenWindow()

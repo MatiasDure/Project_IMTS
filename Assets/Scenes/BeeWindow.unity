@@ -857,6 +857,8 @@ MonoBehaviour:
   _windowFrontPosition: {fileID: 1598196883}
   _beeObjectMovement: {fileID: 2073747494}
   _beeMovement: {fileID: 2073747499}
+  _beePlayAnimation: {fileID: 2073747500}
+  _sheepPlayAnimation: {fileID: 0}
   _secondsToWaitForAnimations: 2
 --- !u!1 &1023022343
 GameObject:
@@ -2408,6 +2410,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 788fbdd672baef64683b5786763da7aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2073747500 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3259557893831891593, guid: d9f2aa4274f36fe42ad921daa6c7ea9c, type: 3}
+  m_PrefabInstance: {fileID: 2048438547}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46598763e5932ca46994453e8ffb6816, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2082319627
