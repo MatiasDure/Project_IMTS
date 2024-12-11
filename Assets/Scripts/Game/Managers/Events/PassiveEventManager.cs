@@ -27,8 +27,10 @@ public class PassiveEventManager : Singleton<PassiveEventManager>
 	void Update()
     {
 		if(PlotsManager.Instance.CurrentPlot == Plot.None) return;
+			Debug.Log("1 ");
 
 		if(EventManager.Instance.PlayingEvent) {
+			Debug.Log("2 ");
 			StopLookingForEvent();
 			return;
 		} 
@@ -39,16 +41,20 @@ public class PassiveEventManager : Singleton<PassiveEventManager>
     }
 
 	private IEnumerator FindPassiveEvent() {
+		Debug.Log("3 ");
+
 		yield return new WaitForSeconds(_delayedEventStartDuration);
 
 		PlotEvent plotEvent = GetRandomPlotEventToPlay();
 
+		Debug.Log($"Passive Event: {plotEvent}");
 		if(plotEvent == null) {
-			_findPassiveEvent = null;
+			StopLookingForEvent();
 			yield break;
 		}
 
 		InformEventReadyToPlay(plotEvent);
+		_findPassiveEvent = null;
 	}
 
 	private PlotEvent GetRandomPlotEventToPlay() {
