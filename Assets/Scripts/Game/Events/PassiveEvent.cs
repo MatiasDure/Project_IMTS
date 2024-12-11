@@ -6,4 +6,5 @@ public enum PassiveEvent
    OpenClams,
    BeeVisit,
    BoatTrip,
+   SheepJump,
 }
