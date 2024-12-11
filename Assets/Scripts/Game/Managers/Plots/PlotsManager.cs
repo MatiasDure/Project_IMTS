@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlotsManager : Singleton<PlotsManager>
 {
-	const ushort AMOUNT_OF_PLOTS = 3;
+	const ushort AMOUNT_OF_PLOTS = 2;
 
 	[SerializeField] internal Plot _currentPlot;
 	[SerializeField] internal PlotCollection[] _plotObjects;
@@ -42,20 +42,8 @@ public class PlotsManager : Singleton<PlotsManager>
 	private void HandlePlotActivated(Plot plot)
 	{
 		_nextPlot = plot;
-		ActivateCurrentPlotObject(plot);
 	}
-
-	private void ActivateCurrentPlotObject(Plot plotToActivate)
-	{
-		foreach (var plotObject in _plotObjects)
-		{
-			if (plotObject.Plot != plotToActivate) continue;
-			
-			plotObject.PlotObject.SetActive(true);
-			break;
-		}
-	}
-
+	
 	private void OnDestroy()
 	{
 		BeeMovement.OnBeeEnteredPlot -= HandleBeeEnteredPlot;
