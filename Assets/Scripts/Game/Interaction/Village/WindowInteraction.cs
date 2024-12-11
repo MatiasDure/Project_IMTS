@@ -19,7 +19,7 @@ public class WindowInteraction : MonoBehaviour, IInteractable,
 	[SerializeField] ObjectMovement _beeObjectMovement;
 	[SerializeField] BeeMovement _beeMovement;
 	[SerializeField] PlayAnimation _beePlayAnimation;
-	[SerializeField] PlayAnimation _sheepPlayAnimation;
+	// [SerializeField] PlayAnimation _sheepPlayAnimation;
 	
 	// Temporary until animations are implemented
 	[SerializeField] float _secondsToWaitForAnimations;
@@ -162,10 +162,13 @@ public class WindowInteraction : MonoBehaviour, IInteractable,
 	public void InterruptEvent()
 	{
 		HandleEventDone();
+		_beePlayAnimation.SetBoolParameter(WAVE_ANIMATION_PARAMETER, false);
+		OnInterruptedDone?.Invoke(this);
 	}
 
 	public void StopEvent()
 	{
 		HandleEventDone();
+		_beePlayAnimation.SetBoolParameter(WAVE_ANIMATION_PARAMETER, false);
 	}
 }
