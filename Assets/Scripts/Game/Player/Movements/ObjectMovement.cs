@@ -9,11 +9,12 @@ public class ObjectMovement : MonoBehaviour
 	private AvoidObstacle _avoidObstacle;
 	private Vector3[] _directionsToCheck;
 	private Vector3 _currentVelocity;
+	private Vector3 _previousPosition;
 
 	private readonly int _directionCount = 20;
 	private readonly float _obstacleDistance = 1f;
-	private readonly float _smoothTime = 0.5f;
 	
+	private const float SMOOTHNESS = 0.1f;
 	private const float DISTANCE_TOLERANCE = 0.2f;
 
 	private void Awake()
@@ -30,13 +31,48 @@ public class ObjectMovement : MonoBehaviour
 		transform.position = position;
 	}
 
-	public void MoveTo(Vector3 position, float speed)
+	public void MoveTo(Vector3 position, float speed, float tolerance = DISTANCE_TOLERANCE , float smoothness = SMOOTHNESS)
 	{
 		Vector3 moveVector = CalculateMovement(position, speed);
 
-		SmootherAndApplyMovement(speed, moveVector);
+		SmootherAndApplyMovement(speed, moveVector, smoothness);
 	}
 
+	public void MoveAroundPivot(Vector3 position, Vector3 axis,  float distance, float rotateSpeed, float moveSpeed)
+	{ 
+		Vector3 direction = (transform.position - position).normalized;
+
+		direction = Vector3.ProjectOnPlane(direction, axis);
+		
+		Vector3 target = position + direction * distance;
+
+		if (!IsInPlace(target))
+		{
+			MoveTo(target, moveSpeed);
+		}
+		else
+		{
+			transform.RotateAround(position,axis,rotateSpeed * Time.deltaTime);
+			
+			direction = (transform.position - position).normalized;
+		
+			target = position + direction * distance;
+			
+			transform.position = target;
+			FaceDirection(rotateSpeed/10);
+		}
+	}
+
+	private void FaceDirection(float rotateSpeed)
+	{
+		Vector3 movementDirection = (transform.position - _previousPosition).normalized;
+		
+		if (movementDirection != Vector3.zero)
+			transform.forward = Vector3.Lerp(transform.forward,movementDirection,rotateSpeed * Time.deltaTime);
+		
+		_previousPosition = transform.position;
+	}
+	
 	private Vector3 CalculateMovement(Vector3 position, float speed)
 	{
 		Vector3 targetVector = position - transform.position;
@@ -50,9 +86,9 @@ public class ObjectMovement : MonoBehaviour
 		return moveVector;
 	}
 
-	private void SmootherAndApplyMovement(float speed, Vector3 moveVector)
+	private void SmootherAndApplyMovement(float speed, Vector3 moveVector , float smoothTime)
 	{
-		moveVector = Vector3.SmoothDamp(transform.forward, moveVector, ref _currentVelocity, _smoothTime);
+		moveVector = Vector3.SmoothDamp(transform.forward, moveVector, ref _currentVelocity, smoothTime);
 		moveVector = moveVector.normalized * speed;
 
 		transform.forward = moveVector;
@@ -69,8 +105,8 @@ public class ObjectMovement : MonoBehaviour
         transform.rotation = targetRotation;
     }
 
-	public IEnumerator MoveUntilObjectReached(Vector3 targetPosition, float speed) {
-		while (!IsInPlace(targetPosition)) {
+	public IEnumerator MoveUntilObjectReached(Vector3 targetPosition, float speed, float tolerance = DISTANCE_TOLERANCE) {
+		while (!IsInPlace(targetPosition, tolerance)) {
 			MoveTo(targetPosition, speed);
 			yield return null;
 		}
@@ -95,7 +131,7 @@ public class ObjectMovement : MonoBehaviour
         transform.rotation = Quaternion.Slerp(startRotation, targetRotation, rotationSpeed);
     }
 
-    public bool IsInPlace(Vector3 position) => ApproximatelyInPlace(position, DISTANCE_TOLERANCE);
+    public bool IsInPlace(Vector3 position, float tolerance = DISTANCE_TOLERANCE) => ApproximatelyInPlace(position, tolerance);
 
 	public bool ApproximatelyInPlace(Vector3 position, float tolerance) => Vector3.Distance(transform.position, position) <= tolerance;
 }
