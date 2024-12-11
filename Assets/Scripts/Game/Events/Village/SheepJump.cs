@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SheepJump : PlotEvent
+public class SheepJump : PlotEvent, IInterruptible
 {
     [SerializeField] private Transform _sheepHolder;
     [SerializeField] private float jumpForce;
@@ -10,6 +11,8 @@ public class SheepJump : PlotEvent
 
     private List<Sheep> _sheeps = new List<Sheep>();
 
+    public event Action<IInterruptible> OnInterruptedDone;
+    
     private void Awake()
     {
         if (_sheepHolder == null)
@@ -99,5 +102,12 @@ public class SheepJump : PlotEvent
         if (PlotsManager.Instance.CurrentPlot != Plot.Village) return;
 
         SetUpPassiveEvent();
+    }
+
+    public void InterruptEvent()
+    {
+        if(_cooldown.IsOnCooldown) _cooldown.StopCooldown();
+        
+        OnInterruptedDone?.Invoke(this);
     }
 }
