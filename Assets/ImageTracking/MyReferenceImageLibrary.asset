@@ -23,12 +23,12 @@ MonoBehaviour:
       m_GuidLow: 5054821019515285390
       m_GuidHigh: 13148255971224976268
     m_SerializedTextureGuid:
-      m_GuidLow: 10345987228816584803
-      m_GuidHigh: 14981267109586439355
-    m_Size: {x: 0.289, y: 0.41030988}
+      m_GuidLow: 8116799385967660197
+      m_GuidHigh: 6303233509691107449
+    m_Size: {x: 0.297, y: 0.42001623}
     m_SpecifySize: 1
     m_Name: FishPoster
-    m_Texture: {fileID: 2800000, guid: b857306354918f94bb8c24e00f27e8cf, type: 3}
+    m_Texture: {fileID: 2800000, guid: 71b60ca5aa0970a479287a297b957957, type: 3}
   - m_SerializedGuid:
       m_GuidLow: 5666838353257575636
       m_GuidHigh: 18054132393171176101
