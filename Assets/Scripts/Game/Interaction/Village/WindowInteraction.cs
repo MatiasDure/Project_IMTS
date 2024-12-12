@@ -78,6 +78,7 @@ public class WindowInteraction : MonoBehaviour, IInteractable,
 	private IEnumerator ApproachWindow()
 	{
 		yield return StartCoroutine(MoveBeeToPosition(_windowFrontPosition.position));
+		yield return StartCoroutine(_beeObjectMovement.RotateUntilLookAt(_windowTransform.position, 0.25f));
 		UpdateState(WindowInteractionState.BeeWaving);
 	}
 	
@@ -161,8 +162,9 @@ public class WindowInteraction : MonoBehaviour, IInteractable,
 
 	public void InterruptEvent()
 	{
-		HandleEventDone();
 		_beePlayAnimation.SetBoolParameter(WAVE_ANIMATION_PARAMETER, false);
+		StopAllCoroutines();
+		Bee.Instance.UpdateState(BeeState.Idle);
 		OnInterruptedDone?.Invoke(this);
 	}
 

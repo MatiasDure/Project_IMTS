@@ -44,6 +44,7 @@ public class BoatVillagePassive : PlotEvent, IInterruptible
 	[SerializeField] private float _scaleDownSpeed = 1f;
 
 	private Coroutine _boatPassiveEventCoroutine = null;
+	private Coroutine _beeSequenceCoroutine = null;
 
 	public event Action<IInterruptible> OnInterruptedDone;
 
@@ -51,8 +52,9 @@ public class BoatVillagePassive : PlotEvent, IInterruptible
 
 	public void InterruptEvent()
 	{
-		if(Bee.Instance.State == BeeState.MovingToBridge)
+		if(Bee.Instance.State == BeeState.MovingToBridge) {
 			Bee.Instance.UpdateState(BeeState.Idle);
+		}
 	
 		OnInterruptedDone?.Invoke(this);
 	}
@@ -78,7 +80,7 @@ public class BoatVillagePassive : PlotEvent, IInterruptible
 			BoatWaypoint waypoint = _waypoints[i];
 
 			if (waypoint.IsWaypointInfrontBridge)
-				StartCoroutine(BeeSequence());
+				_beeSequenceCoroutine = StartCoroutine(BeeSequence());
 			
 			Vector3 waypointPosition = waypoint.Waypoint.position;
 
