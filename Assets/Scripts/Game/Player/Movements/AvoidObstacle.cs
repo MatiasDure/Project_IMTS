@@ -75,7 +75,7 @@ public class AvoidObstacle : MonoBehaviour
 
     private bool TryGetObstacleHit(Transform transform, Vector3 direction, float obstacleDistance, out float hitDistance)
     {
-        if (Physics.Raycast(transform.position, direction, out RaycastHit hit, obstacleDistance))
+        if (Physics.Raycast(transform.position, direction, out RaycastHit hit, obstacleDistance, LayerMask.GetMask("Obstacle")))
         {
             hitDistance = (hit.point - transform.position).sqrMagnitude;
             return true;

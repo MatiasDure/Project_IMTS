@@ -12,7 +12,7 @@ public class ObjectMovement : MonoBehaviour
 	private Vector3 _previousPosition;
 
 	private readonly int _directionCount = 20;
-	private readonly float _obstacleDistance = 1f;
+	private readonly float _obstacleDistance = .5f;
 	
 	private const float SMOOTHNESS = 0.1f;
 	private const float DISTANCE_TOLERANCE = 0.2f;
