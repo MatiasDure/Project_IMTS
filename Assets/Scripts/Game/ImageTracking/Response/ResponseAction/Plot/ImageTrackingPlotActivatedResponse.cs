@@ -27,7 +27,8 @@ public class ImageTrackingPlotActivatedResponse : MonoBehaviour, IImageTrackingR
 		GameObject plotObject = anchorCollection.PlotObject;
 		GameObject anchorObject = anchorCollection.AnchorObject;
 
-		plotObject.transform.SetPositionAndRotation(anchorObject.transform.position, anchorObject.transform.rotation);
+		plotObject.transform.SetParent(anchorObject.transform);
+		plotObject.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
 		plotObject.SetActive(true);
 
 		Plot plotActivated = GetPlot(anchorCollection.Image.referenceImage.name);
