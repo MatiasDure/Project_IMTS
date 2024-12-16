@@ -4691,10 +4691,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ca2b7727710f1f4ab25c87e840d58be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _smokeAnimationParameterName: 
-  _shrinkAnimationName: Shrink
+  _houseAnimationParameterName: Interacted
+  _shrinkAnimationName: tapAnimationHouse
   _expandAnimationName: Expand
-  _particleDuration: 3
+  _particleDuration: 1
 --- !u!65 &1332517648
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4738,7 +4738,7 @@ Animator:
   m_GameObject: {fileID: 1332517645}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 678d54bb80d6b65499a830b468b79558, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -4817,7 +4817,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ca2b7727710f1f4ab25c87e840d58be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _smokeAnimationParameterName: 
+  _houseAnimationParameterName: 
   _shrinkAnimationName: Shrink
   _expandAnimationName: Expand
   _particleDuration: 3
@@ -4864,7 +4864,7 @@ Animator:
   m_GameObject: {fileID: 1370734493}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 83755e03f3388c54f8a2765944919e0f, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -4987,7 +4987,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1035137682610695604, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1087440199564236347, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
       propertyPath: m_Layer
@@ -5065,6 +5065,14 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 2147091475757325167, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.901
+      objectReference: {fileID: 0}
+    - target: {fileID: 2147091475757325167, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 8.086
+      objectReference: {fileID: 0}
     - target: {fileID: 2408746912330447481, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
       propertyPath: _beeMovement
       value: 
@@ -5084,6 +5092,14 @@ PrefabInstance:
     - target: {fileID: 2945482198125110022, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4807928558262725302, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.576
+      objectReference: {fileID: 0}
+    - target: {fileID: 4807928558262725302, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 8.127
       objectReference: {fileID: 0}
     - target: {fileID: 4976482758469637397, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
       propertyPath: m_Layer
@@ -5197,6 +5213,10 @@ PrefabInstance:
       propertyPath: m_Center.y
       value: 0.46612367
       objectReference: {fileID: 0}
+    - target: {fileID: 7172088169057271626, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7184977558531931453, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -5225,6 +5245,14 @@ PrefabInstance:
       propertyPath: _inspectPosition
       value: 
       objectReference: {fileID: 747905226}
+    - target: {fileID: 8394584555203639002, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.02706913
+      objectReference: {fileID: 0}
+    - target: {fileID: 8394584555203639002, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8867116191599095329, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -5603,7 +5631,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ca2b7727710f1f4ab25c87e840d58be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _smokeAnimationParameterName: 
+  _houseAnimationParameterName: 
   _shrinkAnimationName: Shrink
   _expandAnimationName: Expand
   _particleDuration: 3
@@ -5650,7 +5678,7 @@ Animator:
   m_GameObject: {fileID: 1450924126}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 299606aeb689c8843b70c49892848884, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
