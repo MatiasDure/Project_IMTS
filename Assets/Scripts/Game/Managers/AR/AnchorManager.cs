@@ -9,6 +9,7 @@ public class AnchorManager : MonoBehaviour
 
 	[SerializeField] private ARAnchorManager _anchorManager;
 	[SerializeField] private ImageTrackingResponseManager _arTrackedImageManager;
+	[SerializeField] private GameObject _anchorVisualization;
 
 	private List<ImageAnchorCollection> _imageAnchorCollections = new List<ImageAnchorCollection>();
 
@@ -46,7 +47,7 @@ public class AnchorManager : MonoBehaviour
 	}
 
 	private GameObject CreateAnchorObject(Vector3 position, Quaternion rotation) {
-		GameObject anchorObject = new GameObject(ANCHOR_GAMEOBJECT_NAME);
+		GameObject anchorObject = Instantiate(_anchorVisualization); //new GameObject(ANCHOR_GAMEOBJECT_NAME);
 		anchorObject.transform.SetPositionAndRotation(position, rotation);
 		anchorObject.AddComponent<ARAnchor>();
 

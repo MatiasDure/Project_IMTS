@@ -6551,6 +6551,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _anchorManager: {fileID: 462124495}
   _arTrackedImageManager: {fileID: 1678905017}
+  _anchorVisualization: {fileID: 7848785326020675911, guid: dea63f0a2fee5264dbd0407c7804ba00, type: 3}
 --- !u!1001 &1602796203
 PrefabInstance:
   m_ObjectHideFlags: 0
