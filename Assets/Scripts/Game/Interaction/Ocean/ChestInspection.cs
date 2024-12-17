@@ -24,6 +24,9 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 	[SerializeField] private Sound _onceChestOpenSFX;
 	[SerializeField] private Sound _onceChestCloseSFX;
 	[SerializeField] private Sound _chestLockSFX;
+	[SerializeField] private Sound _onceBeeGoToChestSFX;
+	[SerializeField] private Sound _onceBeeLockedInChestSFX;
+	
 	private Cooldown _cooldown;
 	private PlayAnimation _playAnimation;
 	private SoundComponent _soundComponent;
@@ -170,6 +173,7 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 	}
 
 	private IEnumerator MoveBeeInfrontOfChest() {
+		_soundComponent.PlaySound(_onceBeeGoToChestSFX);
 		yield return StartCoroutine(MoveBeeToPosition(_infrontOfChestPosition.position));
 
 		_cooldown.StartCooldown(_cooldownTimeToForceReleaseBee);
@@ -180,6 +184,7 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 	{
 		yield return StartCoroutine(MoveBeeToPosition(_inChestPosition.position));
 		UpdateChestEventState(ChestEventState.ClosingChest);
+		_soundComponent.PlaySound(_onceBeeLockedInChestSFX);
 		yield return CloseAnimation();
 		_soundComponent.PlaySound(_chestLockSFX);
 		_playAnimation.SetBoolParameter(RATTLE_ANIMATION_PARAMETER_NAME, true);
