@@ -88,7 +88,7 @@ public class RiverSurfaceFishInteraction : MonoBehaviour,
 				waypoints.Add(waypoint);
 			}
 		}
-
+		Debug.Log(waypoints.Count);
 		return waypoints;
 	}
 	
