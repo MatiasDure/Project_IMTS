@@ -191,6 +191,11 @@ MonoBehaviour:
   _distanceToPivot: 0.5
   _beeSwimmingAnimationParameterName: IsSwimming
   _beeSwimmingAnimationStateName: Swim
+  _goToPlotSound:
+    clip: {fileID: 0}
+    volume: 0
+    priority: 0
+    loop: 0
 --- !u!114 &379280551444563256
 MonoBehaviour:
   m_ObjectHideFlags: 0
