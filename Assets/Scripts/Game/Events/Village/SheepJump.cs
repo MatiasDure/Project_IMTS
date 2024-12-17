@@ -1,13 +1,14 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SheepJump : PlotEvent, IInterruptible
 {
     [SerializeField] private Transform _sheepHolder;
-    [SerializeField] private float jumpForce;
-
+    [SerializeField] private float minJumpForce = 0.1f;
+    [SerializeField] private float maxJumpForce = 0.3f;
+    [SerializeField] private float jumpDuration = 1f;
+    
     private List<Sheep> _sheeps = new List<Sheep>();
 
     public event Action<IInterruptible> OnInterruptedDone;
@@ -40,7 +41,9 @@ public class SheepJump : PlotEvent, IInterruptible
         
         FireStartEvent(metadata);
         
-        sheep.Jump(jumpForce);
+        float randomJumpForce = UnityEngine.Random.Range(minJumpForce, maxJumpForce);
+
+        sheep.Jump(randomJumpForce,jumpDuration);
         
         metadata = SetupEndEventMetadata();
 
