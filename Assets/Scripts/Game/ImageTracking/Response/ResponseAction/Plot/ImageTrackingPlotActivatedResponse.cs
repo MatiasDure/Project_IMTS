@@ -9,8 +9,13 @@ public class ImageTrackingPlotActivatedResponse : MonoBehaviour, IImageTrackingR
 	public ImageTrackingResponses ResponseType => ImageTrackingResponses.ActivatePlot;
 	public static event Action<Plot> OnPlotActivated;
 
+	private void Start() {
+		_anchorManager.OnAnchorTracked += HandleAnchorActivated;
+	}
+	
 	public GameObject Respond(GameObject portal, ARTrackedImage trackedImage)
 	{
+		_anchorManager.AttachToAnchor(portal, trackedImage);
 		// portal.transform.SetPositionAndRotation(trackedImage.transform.position, trackedImage.transform.rotation);
 		// portal.SetActive(true);
 		// Plot plotActivated = GetPlot(trackedImage.referenceImage.name);
@@ -19,18 +24,13 @@ public class ImageTrackingPlotActivatedResponse : MonoBehaviour, IImageTrackingR
 		return portal;
 	}
 
-	private void Start() {
-		_anchorManager.OnAnchorTracked += HandleAnchorActivated;
-	}
-
 	private void HandleAnchorActivated(ImageAnchorCollection anchorCollection) {
-		GameObject plotObject = anchorCollection.PlotObject;
-		GameObject anchorObject = anchorCollection.AnchorObject;
+		// GameObject plotObject = anchorCollection.PlotObject;
+		// GameObject anchorObject = anchorCollection.AnchorObject;
 
-		plotObject.transform.SetParent(anchorObject.transform);
-		plotObject.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
-		plotObject.SetActive(true);
-
+		// plotObject.transform.SetParent(anchorObject.transform);
+		// plotObject.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+		// plotObject.SetActive(true);
 		Plot plotActivated = GetPlot(anchorCollection.Image.referenceImage.name);
 
 		OnPlotActivated?.Invoke(plotActivated);

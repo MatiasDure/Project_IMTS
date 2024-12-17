@@ -34,30 +34,39 @@ public class ImageTrackingPlotUpdatedResponse : MonoBehaviour, IImageTrackingRes
 		}
 
 		if(trackedImage.trackingState == TrackingState.Tracking) 
-			HandleTracking(plotGameObject, trackedImage);
+			HandleTracking(plotGameObject);
 
 		return objectToManipulate;
 	}
 
-	private void HandleMaxDistanceReached() {
-		GameObject plotGameObject = GetGameObject(_currentPlotActive);
-		_plotActiveState[_currentPlotActive] = false;
-		_currentPlotActive = Plot.None;
-		plotGameObject.SetActive(false);
+	private void HandleMaxDistanceReached()
+	{
+		DeactivateCurrentPlot();
+
 		_distanceTracker.UpdateObjects(null, null);
-		OnPlotDeactivated?.Invoke(_currentPlotActive);
 	}
 
-	private void HandleTracking(GameObject plotGameObject, ARTrackedImage trackedImage) {
-		if(_plotActiveState.ContainsKey(_currentPlotActive) && _plotActiveState[_currentPlotActive]) {
-			UpdatePlotPositionAndRotation(plotGameObject, trackedImage);
-			return;
-		}
+	private void DeactivateCurrentPlot()
+	{
+		GameObject plotGameObject = GetGameObject(_currentPlotActive);
+		_plotActiveState[_currentPlotActive] = false;
+		plotGameObject.SetActive(false);
+		OnPlotDeactivated?.Invoke(_currentPlotActive);
+		_currentPlotActive = Plot.None;
+	}
 
+	private void HandleTracking(GameObject plotGameObject)
+	{
+		if (_plotActiveState.ContainsKey(_currentPlotActive) && _plotActiveState[_currentPlotActive]) return;
+		
+		ActivatePlot(plotGameObject);
+	}
+
+	private void ActivatePlot(GameObject plotGameObject)
+	{
 		plotGameObject.SetActive(true);
 		_plotActiveState[_currentPlotActive] = true;
 		OnPlotActivated?.Invoke(_currentPlotActive);
-		UpdatePlotPositionAndRotation(plotGameObject, trackedImage);
 	}
 
 	private void UpdatePlotPositionAndRotation(GameObject plotGameObject, ARTrackedImage trackedImage) {

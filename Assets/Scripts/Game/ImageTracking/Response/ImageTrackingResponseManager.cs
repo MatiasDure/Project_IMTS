@@ -43,7 +43,7 @@ public class ImageTrackingResponseManager : MonoBehaviour
 
 	private void OnTrackedImagesChanged(ARTrackedImagesChangedEventArgs eventArgs) {
 		HandleAddedImages(eventArgs.added);
-		// HandleUpdatedImages(eventArgs.updated);
+		HandleUpdatedImages(eventArgs.updated);
 	}
 
 	private void HandleUpdatedImages(List<ARTrackedImage> updatedImages)
@@ -95,9 +95,8 @@ public class ImageTrackingResponseManager : MonoBehaviour
 		foreach (var response in _imageTrackingResponses)
 		{
 			if (response.ResponseType == imageObjectReference.AddedResponse) {
-				// GameObject manipulatedObject = response.Respond(imageObjectReference.ObjectReference, trackedImage);
-				OnImageTracked?.Invoke(new ImageAnchorCollection { Image = trackedImage, PlotObject = imageObjectReference.ObjectReference });
-				_imageTrackingTrackRespondedObjects.TrackObject(imageObjectReference.ImageName, imageObjectReference.ObjectReference);
+				GameObject manipulatedObject = response.Respond(imageObjectReference.ObjectReference, trackedImage);
+				_imageTrackingTrackRespondedObjects.TrackObject(imageObjectReference.ImageName, manipulatedObject);
 			}
 		}
 	}

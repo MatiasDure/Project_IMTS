@@ -1,8 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Codice.Foreign;
-using TMPro;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
@@ -38,16 +35,22 @@ public class AnchorManager : MonoBehaviour
 		}
 	}
 
-	private void HandleAddedImages(ImageAnchorCollection imageAnchorCollection) {
-			GameObject anchorObject = new GameObject(ANCHOR_GAMEOBJECT_NAME);
-			anchorObject.transform.SetPositionAndRotation(imageAnchorCollection.Image.transform.position, imageAnchorCollection.Image.transform.rotation);
-			anchorObject.AddComponent<ARAnchor>();
+	public void AttachToAnchor(GameObject objectToAnchor, ARTrackedImage trackedImage) {
+		GameObject anchorObject = CreateAnchorObject(trackedImage.transform.position, trackedImage.transform.rotation);
 
-			TrackImageAnchor(imageAnchorCollection, anchorObject);
+		objectToAnchor.transform.SetParent(anchorObject.transform);
+		objectToAnchor.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+		objectToAnchor.SetActive(true);
+
+		_imageAnchorCollections.Add(new ImageAnchorCollection { Image = trackedImage, PlotObject = objectToAnchor, AnchorObject = anchorObject });
 	}
 
-	private void TrackImageAnchor(ImageAnchorCollection imageCollection, GameObject anchorObject) {
-		_imageAnchorCollections.Add(new ImageAnchorCollection { Image = imageCollection.Image, PlotObject = imageCollection.PlotObject, AnchorObject = anchorObject });
+	private GameObject CreateAnchorObject(Vector3 position, Quaternion rotation) {
+		GameObject anchorObject = new GameObject(ANCHOR_GAMEOBJECT_NAME);
+		anchorObject.transform.SetPositionAndRotation(position, rotation);
+		anchorObject.AddComponent<ARAnchor>();
+
+		return anchorObject;
 	}
 
 	private ImageAnchorCollection? GetImageAnchorCollection(GameObject anchorGameObject) {
@@ -60,13 +63,11 @@ public class AnchorManager : MonoBehaviour
 
 	private void SubscribeToEvents()
 	{
-		_arTrackedImageManager.OnImageTracked += HandleAddedImages;
 		_anchorManager.anchorsChanged += HandleAnchorsChanged;
 	}
 
 	private void UnsubscribeFromEvents()
 	{
-		_arTrackedImageManager.OnImageTracked -= HandleAddedImages;
 		_anchorManager.anchorsChanged -= HandleAnchorsChanged;
 	}
 
