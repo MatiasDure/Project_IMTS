@@ -4817,10 +4817,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ca2b7727710f1f4ab25c87e840d58be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _houseAnimationParameterName: 
-  _shrinkAnimationName: Shrink
+  _houseAnimationParameterName: Interacted
+  _shrinkAnimationName: tapAnimationHouse
   _expandAnimationName: Expand
-  _particleDuration: 3
+  _particleDuration: 1
 --- !u!65 &1370734496
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5631,10 +5631,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ca2b7727710f1f4ab25c87e840d58be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _houseAnimationParameterName: 
-  _shrinkAnimationName: Shrink
+  _houseAnimationParameterName: Interacted
+  _shrinkAnimationName: tapAnimationHouse
   _expandAnimationName: Expand
-  _particleDuration: 3
+  _particleDuration: 1
 --- !u!65 &1450924129
 BoxCollider:
   m_ObjectHideFlags: 0
