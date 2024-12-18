@@ -1,23 +1,39 @@
+using System.Collections;
 using UnityEngine;
 
-[
-    RequireComponent(typeof(Rigidbody)),
-    RequireComponent(typeof(Collider)),
-]
 public class Sheep : MonoBehaviour
 {
-    private Rigidbody _rigidbody;
-
-    private void Awake()
+    public void Jump(float jumpForce,float jumpDuration)
     {
-        _rigidbody = GetComponent<Rigidbody>();
-        _rigidbody.isKinematic = false;
-        _rigidbody.useGravity = true;
+        StartCoroutine(JumpEnumerator(jumpForce, jumpDuration));
     }
 
-    public void Jump(float jumpForce)
+    private IEnumerator JumpEnumerator(float jumpForce, float jumpDuration)
     {
-        _rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        Vector3 startPosition = transform.position;
+        Vector3 peakPosition = startPosition + Vector3.up * jumpForce;
+
+        float elapsedTime = 0f;
+        
+        while (elapsedTime < jumpDuration / 2f)
+        {
+            transform.position = Vector3.Lerp(startPosition, peakPosition, (elapsedTime / (jumpDuration / 2f)));
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        
+        transform.position = peakPosition;
+
+        elapsedTime = 0f;
+        
+        while (elapsedTime < jumpDuration / 2f)
+        {
+            transform.position = Vector3.Lerp(peakPosition, startPosition, (elapsedTime / (jumpDuration / 2f)));
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        
+        transform.position = startPosition;
     }
     
 }
