@@ -9,13 +9,31 @@ public class ItemSwitcher : MonoBehaviour
 
     public void SwitchOn(WardrobeItem itemToSwitchOn)
     {
-        foreach (var item in items)
+        if (itemToSwitchOn.itemType == WardrobeItem.ItemType.goggles)
         {
-            if (item != itemToSwitchOn && item.itemType == itemToSwitchOn.itemType)
+            foreach (var item in items)
             {
-                item.gameObject.SetActive(false);
+                if (item != itemToSwitchOn)
+                {
+                    item.gameObject.SetActive(false);
+                }
+            }
+        } else
+        {
+            foreach (var item in items)
+            {
+                if (item != itemToSwitchOn && item.itemType == itemToSwitchOn.itemType)
+                {
+                    item.gameObject.SetActive(false);
+                }
+
+                if (item != itemToSwitchOn && item.itemType == WardrobeItem.ItemType.goggles)
+                {
+                    item.gameObject.SetActive(false);
+                }
             }
         }
+
 
         if (itemToSwitchOn.gameObject.activeSelf)
         {
