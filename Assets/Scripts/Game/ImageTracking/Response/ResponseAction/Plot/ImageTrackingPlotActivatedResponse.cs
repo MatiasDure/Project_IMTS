@@ -5,17 +5,25 @@ using UnityEngine.XR.ARFoundation;
 public class ImageTrackingPlotActivatedResponse : MonoBehaviour, IImageTrackingResponse
 {
 	[SerializeField] private PlotTrackedImageCollection[] _plotTrackedImageCollections;
+	[SerializeField] private AnchorManager _anchorManager;
 	public ImageTrackingResponses ResponseType => ImageTrackingResponses.ActivatePlot;
 	public static event Action<Plot> OnPlotActivated;
 
+	private void Start() {
+		_anchorManager.OnAnchorTracked += HandleAnchorActivated;
+	}
+	
 	public GameObject Respond(GameObject portal, ARTrackedImage trackedImage)
 	{
-		portal.transform.SetPositionAndRotation(trackedImage.transform.position, trackedImage.transform.rotation);
-		portal.SetActive(true);
-		Plot plotActivated = GetPlot(trackedImage.referenceImage.name);
-		OnPlotActivated?.Invoke(plotActivated);
+		_anchorManager.AttachToAnchor(portal, trackedImage);
 
 		return portal;
+	}
+
+	private void HandleAnchorActivated(ImageAnchorCollection anchorCollection) {
+		Plot plotActivated = GetPlot(anchorCollection.Image.referenceImage.name);
+
+		OnPlotActivated?.Invoke(plotActivated);
 	}
 
 	private Plot GetPlot(string trackedImageName){
@@ -27,6 +35,10 @@ public class ImageTrackingPlotActivatedResponse : MonoBehaviour, IImageTrackingR
 		}
 
 		return Plot.None;
+	}
+
+	private void OnDestroy() {
+		_anchorManager.OnAnchorTracked -= HandleAnchorActivated;
 	}
 }
 
