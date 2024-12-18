@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using System.Linq;
-using System;
 
 [
 	RequireComponent(typeof(ImageTrackingTrackRespondedObjects)),
@@ -15,8 +14,6 @@ public class ImageTrackingResponseManager : MonoBehaviour
 
 	private ImageTrackingTrackRespondedObjects _imageTrackingTrackRespondedObjects;
 	internal List<IImageTrackingResponse> _imageTrackingResponses = new List<IImageTrackingResponse>();
-
-	public event Action<ImageAnchorCollection> OnImageTracked;
     
 	private void Awake() {
 		if(_arTrackedImageManager == null) Debug.LogWarning("ImageTrackingSpawnResponse: ARTrackedImageManager is not set");//throw new System.NullReferenceException("ImageTrackingSpawnResponse: ARTrackedImageManager is not set");
