@@ -1873,10 +1873,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: RodTrunk
       objectReference: {fileID: 0}
-    - target: {fileID: 6826954360593337893, guid: c0ea9fd52b596a741908b8d56dbbdbcb, type: 3}
-      propertyPath: m_ApplyRootMotion
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1887,6 +1883,27 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 202195185755592064, guid: c0ea9fd52b596a741908b8d56dbbdbcb, type: 3}
   m_PrefabInstance: {fileID: 746352898}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &746352901 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2596433048805271673, guid: c0ea9fd52b596a741908b8d56dbbdbcb, type: 3}
+  m_PrefabInstance: {fileID: 746352898}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &746352902 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1707694563155742905, guid: c0ea9fd52b596a741908b8d56dbbdbcb, type: 3}
+  m_PrefabInstance: {fileID: 746352898}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &746352903 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7584990151082613696, guid: c0ea9fd52b596a741908b8d56dbbdbcb, type: 3}
+  m_PrefabInstance: {fileID: 746352898}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46598763e5932ca46994453e8ffb6816, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &747905225
 GameObject:
   m_ObjectHideFlags: 0
@@ -2554,12 +2571,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _config: {fileID: 0}
   _lookingAtRiverDuration: 7
-  _treeStumpHover: {fileID: 0}
-  _riverLook: {fileID: 0}
+  _treeStumpHover: {fileID: 746352902}
+  _riverLook: {fileID: 746352901}
   _beeMovement: {fileID: 2073747511}
   _beeObjectMovement: {fileID: 2073747494}
   _beePlayAnimation: {fileID: 2073747507}
-  _fishingRodRotate: {fileID: 0}
+  _rodPlayAnimation: {fileID: 746352903}
+  _catchFishDuration: 2
+  _timeToTriggerCatch:
+    Min: 2.5
+    Max: 5
 --- !u!4 &1050463079
 Transform:
   m_ObjectHideFlags: 0
@@ -3657,8 +3678,6 @@ MonoBehaviour:
     - {fileID: 2110136463}
   - _plot: 3
     _plotEvents:
-    - {fileID: 109883766}
-    - {fileID: 1811434188}
     - {fileID: 1050463078}
   _delayedEventStartDuration: 5
 --- !u!4 &1222283069 stripped
