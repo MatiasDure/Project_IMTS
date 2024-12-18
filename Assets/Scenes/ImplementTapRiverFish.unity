@@ -4987,7 +4987,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1035137682610695604, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1087440199564236347, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
       propertyPath: m_Layer
@@ -5190,16 +5190,20 @@ PrefabInstance:
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 6321187270825556367, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
+      propertyPath: _cubePrefab
+      value: 
+      objectReference: {fileID: 2284724841239713675, guid: 6481456aa6ffbf74693ae757b508dd87, type: 3}
+    - target: {fileID: 6321187270825556367, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
       propertyPath: _raycastManager
       value: 
       objectReference: {fileID: 2082319630}
     - target: {fileID: 6321187270825556367, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
       propertyPath: _hitpointYOffset
-      value: 1
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 6321187270825556367, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
       propertyPath: _sphereCastRadius
-      value: 0.37
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 6321187270825556367, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
       propertyPath: _extendWaypointForwardDistance

@@ -1204,9 +1204,9 @@ MonoBehaviour:
   _raycastManager: {fileID: 0}
   _spawnFishRandomAngleAmount: 15
   _maxSequencePlaysAmount: 3
-  _sphereCastRadius: 3
-  _extendWaypointForwardDistance: 3
-  _hitpointYOffset: 1
+  _sphereCastRadius: 0.25
+  _extendWaypointForwardDistance: 1
+  _hitpointYOffset: 0.2
 --- !u!64 &1563456700063821851
 MeshCollider:
   m_ObjectHideFlags: 0
