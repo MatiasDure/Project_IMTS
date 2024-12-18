@@ -9,7 +9,7 @@ using UnityEngine;
 ]
 public class ChimneyInteraction : MonoBehaviour, IInteractable, IEvent
 {
-	[SerializeField] private string _smokeAnimationParameterName;
+	[SerializeField] private string _houseAnimationParameterName;
 	[SerializeField] private string _shrinkAnimationName = "Shrink";
 	[SerializeField] private string _expandAnimationName = "Expand";
 	[SerializeField] private float _particleDuration = 3f;
@@ -41,9 +41,9 @@ public class ChimneyInteraction : MonoBehaviour, IInteractable, IEvent
 		StartCoroutine(PlayChimneyAnimation());
 	}
 
-	private IEnumerator ShrinkChimney()
+	private IEnumerator ShrinkHouse()
 	{
-		_playAnimation.SetBoolParameter(_smokeAnimationParameterName, true);
+		_playAnimation.SetBoolParameter(_houseAnimationParameterName, true);
 		yield return StartCoroutine(_playAnimation.WaitForAnimationToStart(_shrinkAnimationName));
 		yield return StartCoroutine(_playAnimation.WaitForAnimationToEnd());
 	}
@@ -57,10 +57,10 @@ public class ChimneyInteraction : MonoBehaviour, IInteractable, IEvent
 	private IEnumerator PlayChimneyAnimation()
 	{
 		_isPlaying = true;
-		// yield return StartCoroutine(ShrinkChimney());
-		_playParticle.ToggleOn();
-		// yield return StartCoroutine(ExpandChimney());
-		// _playAnimation.SetBoolParameter(_smokeAnimationParameterName, false);
+        _playParticle.ToggleOn();
+        yield return StartCoroutine(ShrinkHouse());
+		//yield return StartCoroutine(ExpandChimney());
+		_playAnimation.SetBoolParameter(_houseAnimationParameterName, false);
 		yield return new WaitForSeconds(_particleDuration);
 		_playParticle.ToggleOff();
 		OnEventDone?.Invoke();
