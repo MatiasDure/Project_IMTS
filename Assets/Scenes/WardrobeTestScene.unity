@@ -348,7 +348,7 @@ GameObject:
   - component: {fileID: 462671646}
   - component: {fileID: 462671645}
   m_Layer: 5
-  m_Name: WardrobeButton (1)
+  m_Name: WardrobeButtonSwitchOff
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
