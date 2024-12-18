@@ -119,6 +119,7 @@ public class RiverSurfaceFishInteraction : MonoBehaviour,
 	private Quaternion GetRotationToWaypoint(RiverWaypoint waypoint)
 	{
 		Vector3 direction = (waypoint.transform.position - _lastRiverActionLocation).normalized;
+		direction.y = _lastRiverActionLocation.y;
 		return Quaternion.LookRotation(direction);
 	}
 	
