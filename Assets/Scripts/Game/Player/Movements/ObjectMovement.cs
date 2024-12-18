@@ -55,7 +55,9 @@ public class ObjectMovement : MonoBehaviour
 			transform.RotateAround(position,axis,rotateSpeed * Time.deltaTime);
 			
 			direction = (transform.position - position).normalized;
-		
+			
+			direction = Vector3.ProjectOnPlane(direction, axis);
+			
 			target = position + direction * distance;
 			
 			transform.position = target;
