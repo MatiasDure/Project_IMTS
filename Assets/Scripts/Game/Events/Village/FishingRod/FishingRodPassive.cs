@@ -10,7 +10,6 @@ public class FishingRodPassive : PlotEvent, IInterruptible
 	private const string RELEASE_ANIMATION_PARAMETER = "FinishedCatching";
 	private const string RELEASE_ANIMATION_NAME = "Release";
 	
-	[SerializeField] float _lookingAtRiverDuration;
 	[SerializeField] Transform _treeStumpHover;
 	[Tooltip("Look at this position in front of the tree stump before looking down with animation")]
 	[SerializeField] Transform _riverLook;
@@ -19,6 +18,8 @@ public class FishingRodPassive : PlotEvent, IInterruptible
 	[SerializeField] PlayAnimation _beePlayAnimation;
 	[SerializeField] PlayAnimation _rodPlayAnimation;
 	[SerializeField] float _catchFishDuration = 2f;
+	[Tooltip("Wait this amount of seconds to end the sequence, after releasing the fish")]
+	[SerializeField] float _delayToEndSequence = 2f;
 	[SerializeField] Range _timeToTriggerCatch;
 
 	public event Action<IInterruptible> OnInterruptedDone;
@@ -90,7 +91,6 @@ public class FishingRodPassive : PlotEvent, IInterruptible
 	private IEnumerator FishingRodCatch()
 	{
 		_rodPlayAnimation.SetBoolParameter(CATCH_ANIMATION_PARAMETER, true);
-		
 		yield return new WaitForSeconds(_catchFishDuration);
 		
 		UpdateState(FishingRodPassiveState.ReleasingFish);
@@ -99,14 +99,13 @@ public class FishingRodPassive : PlotEvent, IInterruptible
 	private IEnumerator FishingRodRelease()
 	{
 		_rodPlayAnimation.SetBoolParameter(RELEASE_ANIMATION_PARAMETER, true);
-		
 		yield return _rodPlayAnimation.WaitForAnimationToEnd();
 		
 		_rodPlayAnimation.SetBoolParameter(RELEASE_ANIMATION_PARAMETER, false);
 		_rodPlayAnimation.SetBoolParameter(CATCH_ANIMATION_PARAMETER, false);
 		
 		// Small delay before ending the sequence
-		yield return new WaitForSeconds(2f);
+		yield return new WaitForSeconds(_delayToEndSequence);
 
 		UpdateState(FishingRodPassiveState.LeavingStump);
 	}
