@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(SoundComponent))]
 public class BoatVillagePassive : PlotEvent, IInterruptible
 {
 	[Header("Movement")]
@@ -42,14 +43,28 @@ public class BoatVillagePassive : PlotEvent, IInterruptible
 
 	[Tooltip("Speed to scale down the boat.")]
 	[SerializeField] private float _scaleDownSpeed = 1f;
+	
+	[SerializeField] private Range _playHornSoundTimeRange;
+	[SerializeField] private Sound _boatEngineSFX;
+	[SerializeField] private Sound _onceBoatHornSFX;
+	
+	// Different sound component in order to play looped and one shot sounds at the same time
+	[SerializeField] private SoundComponent _hornSoundComponent;
+
+	private SoundComponent _soundComponent;
 
 	private Coroutine _boatPassiveEventCoroutine = null;
 	private Coroutine _beeSequenceCoroutine = null;
 
 	public event Action<IInterruptible> OnInterruptedDone;
 
+	private void Awake()
+	{
+		_soundComponent = GetComponent<SoundComponent>();
+	}
+	
 	public override bool CanPlay() => _boatPassiveEventCoroutine == null;
-
+	
 	public void InterruptEvent()
 	{
 		if(Bee.Instance.State == BeeState.MovingToBridge) {
@@ -74,6 +89,7 @@ public class BoatVillagePassive : PlotEvent, IInterruptible
 		if (_waypoints.Length == 0) yield break;
 
 		SpawnAtFirstPosition(_waypoints[0].Waypoint.position, _waypoints[0].Waypoint.forward);
+		StartCoroutine(PlayHornCoroutine(_playHornSoundTimeRange.GetRandomValueWithinRange()));
 
 		for (int i = 0; i < _waypoints.Length; i++)
 		{
@@ -94,10 +110,12 @@ public class BoatVillagePassive : PlotEvent, IInterruptible
 		}
 
 		_boatObject.gameObject.SetActive(false);
+		_soundComponent.StopSound();
 
 		FireEndEvent(SetupEndEventMetadata());
 
 		_boatPassiveEventCoroutine = null;
+		StopAllCoroutines();
 	}
 
 	private IEnumerator ScaleUpBoat(Vector3 firstWaypointPosition, Vector3 secondWaypointPosition) {
@@ -155,9 +173,19 @@ public class BoatVillagePassive : PlotEvent, IInterruptible
 
 	private void SpawnAtFirstPosition(Vector3 firstWaypointPosition, Vector3 firstWaypointForward)
 	{
+		_soundComponent.PlaySound(_boatEngineSFX);
+		
 		_boatObject.gameObject.SetActive(true);
 		_boatObject.transform.localScale = Vector3.zero;
 		_boatObject.transform.SetPositionAndRotation(firstWaypointPosition, Quaternion.LookRotation(firstWaypointForward));
+	}
+	
+	private IEnumerator PlayHornCoroutine(float secondsToWait)
+	{
+		yield return new WaitForSeconds(secondsToWait);
+		_hornSoundComponent.PlaySound(_onceBoatHornSFX);
+		
+		StartCoroutine(PlayHornCoroutine(_playHornSoundTimeRange.GetRandomValueWithinRange()));
 	}
 
 	protected override void HandlePlotActivated()

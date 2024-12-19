@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(SoundComponent))]
 public class FishingRodPassive : PlotEvent, IInterruptible
 {
 	private const string LOOK_DOWN_ANIMATION_PARAMETER = "IsLookingDown";
@@ -21,10 +22,18 @@ public class FishingRodPassive : PlotEvent, IInterruptible
 	[Tooltip("Wait this amount of seconds to end the sequence, after releasing the fish")]
 	[SerializeField] float _delayToEndSequence = 2f;
 	[SerializeField] Range _timeToTriggerCatch;
+	[SerializeField] Sound _fishingRodIdleSFX;
+	[SerializeField] Sound _onceFishingRodReleaseSFX;
 
 	public event Action<IInterruptible> OnInterruptedDone;
 	
 	private FishingRodPassiveState _fishingRodEventState;
+	private SoundComponent _soundComponent;
+	
+	private void Awake()
+	{
+		_soundComponent = GetComponent<SoundComponent>();
+	}
 
 	public override bool CanPlay() => _fishingRodEventState == FishingRodPassiveState.None;
 
@@ -98,6 +107,7 @@ public class FishingRodPassive : PlotEvent, IInterruptible
 	
 	private IEnumerator FishingRodRelease()
 	{
+		_soundComponent.PlaySound(_onceFishingRodReleaseSFX);
 		_rodPlayAnimation.SetBoolParameter(RELEASE_ANIMATION_PARAMETER, true);
 		yield return _rodPlayAnimation.WaitForAnimationToEnd();
 		

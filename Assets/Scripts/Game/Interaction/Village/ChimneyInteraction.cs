@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 
 [
+	RequireComponent(typeof(SoundComponent)),
 	RequireComponent(typeof(PlayParticle)),
 	RequireComponent(typeof(PlayAnimation)),
 	RequireComponent(typeof(BoxCollider)),
@@ -13,9 +14,12 @@ public class ChimneyInteraction : MonoBehaviour, IInteractable, IEvent
 	[SerializeField] private string _shrinkAnimationName = "Shrink";
 	[SerializeField] private string _expandAnimationName = "Expand";
 	[SerializeField] private float _particleDuration = 3f;
+	[SerializeField] private Sound _onceTapHouseSFX;
+	[SerializeField] private Sound _onceChimneySmokeSFX;
 
 	private PlayParticle _playParticle;
 	private PlayAnimation _playAnimation;
+	private SoundComponent _soundComponent;
 	private bool _isPlaying;
 
 	public event Action OnEventDone;
@@ -28,6 +32,7 @@ public class ChimneyInteraction : MonoBehaviour, IInteractable, IEvent
 	{
 		_playParticle = GetComponent<PlayParticle>();
 		_playAnimation = GetComponent<PlayAnimation>();
+		_soundComponent = GetComponent<SoundComponent>();
 	}
 	private void Start()
 	{
@@ -38,6 +43,8 @@ public class ChimneyInteraction : MonoBehaviour, IInteractable, IEvent
 	public void Interact()
 	{
 		if(_isPlaying) return;
+		
+		_soundComponent.PlaySound(_onceTapHouseSFX);
 		StartCoroutine(PlayChimneyAnimation());
 	}
 
@@ -57,8 +64,9 @@ public class ChimneyInteraction : MonoBehaviour, IInteractable, IEvent
 	private IEnumerator PlayChimneyAnimation()
 	{
 		_isPlaying = true;
-        _playParticle.ToggleOn();
-        yield return StartCoroutine(ShrinkHouse());
+		_playParticle.ToggleOn();
+		_soundComponent.PlaySound(_onceChimneySmokeSFX);
+		yield return StartCoroutine(ShrinkHouse());
 		//yield return StartCoroutine(ExpandChimney());
 		_playAnimation.SetBoolParameter(_houseAnimationParameterName, false);
 		yield return new WaitForSeconds(_particleDuration);
