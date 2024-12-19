@@ -9,9 +9,10 @@ using UnityEngine;
 ]
 public class ChimneyInteraction : MonoBehaviour, IInteractable, IEvent
 {
+	[Tooltip("The name of the animation parameter that triggers the house animation")]
 	[SerializeField] private string _houseAnimationParameterName;
-	[SerializeField] private string _shrinkAnimationName = "Shrink";
-	[SerializeField] private string _expandAnimationName = "Expand";
+	[Tooltip("The name of the animation state that contains the house animation")]
+	[SerializeField] private string _houseAnimationStateName;
 	[SerializeField] private float _particleDuration = 3f;
 
 	private PlayParticle _playParticle;
@@ -38,19 +39,14 @@ public class ChimneyInteraction : MonoBehaviour, IInteractable, IEvent
 	public void Interact()
 	{
 		if(_isPlaying) return;
+
 		StartCoroutine(PlayChimneyAnimation());
 	}
 
-	private IEnumerator ShrinkHouse()
+	private IEnumerator HouseAnimation()
 	{
 		_playAnimation.SetBoolParameter(_houseAnimationParameterName, true);
-		yield return StartCoroutine(_playAnimation.WaitForAnimationToStart(_shrinkAnimationName));
-		yield return StartCoroutine(_playAnimation.WaitForAnimationToEnd());
-	}
-
-	private IEnumerator ExpandChimney()
-	{
-		yield return StartCoroutine(_playAnimation.WaitForAnimationToStart(_expandAnimationName));
+		yield return StartCoroutine(_playAnimation.WaitForAnimationToStart(_houseAnimationStateName));
 		yield return StartCoroutine(_playAnimation.WaitForAnimationToEnd());
 	}
 
@@ -58,8 +54,7 @@ public class ChimneyInteraction : MonoBehaviour, IInteractable, IEvent
 	{
 		_isPlaying = true;
         _playParticle.ToggleOn();
-        yield return StartCoroutine(ShrinkHouse());
-		//yield return StartCoroutine(ExpandChimney());
+        yield return StartCoroutine(HouseAnimation());
 		_playAnimation.SetBoolParameter(_houseAnimationParameterName, false);
 		yield return new WaitForSeconds(_particleDuration);
 		_playParticle.ToggleOff();
@@ -70,5 +65,8 @@ public class ChimneyInteraction : MonoBehaviour, IInteractable, IEvent
 	public void StopEvent()
 	{
 		StopAllCoroutines();
+		_playParticle.ToggleOff();
+		_playAnimation.SetBoolParameter(_houseAnimationParameterName, false);
+		_isPlaying = false;
 	}
 }
