@@ -1774,6 +1774,7 @@ GameObject:
   - component: {fileID: 462124493}
   - component: {fileID: 462124492}
   - component: {fileID: 462124494}
+  - component: {fileID: 462124495}
   m_Layer: 0
   m_Name: XR Origin
   m_TagString: Untagged
@@ -1829,6 +1830,19 @@ MonoBehaviour:
   m_SerializedLibrary: {fileID: 11400000, guid: 5878629c9a2899144af5b1caf1937004, type: 2}
   m_MaxNumberOfMovingImages: 0
   m_TrackedImagePrefab: {fileID: 0}
+--- !u!114 &462124495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 462124491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 728ad7fae8e460a4ba41265c7308d757, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AnchorPrefab: {fileID: 0}
 --- !u!1 &463846319
 GameObject:
   m_ObjectHideFlags: 0
@@ -4332,6 +4346,7 @@ MonoBehaviour:
     Plot: 1
   - TrackedImageName: bandageImage
     Plot: 3
+  _anchorManager: {fileID: 1574511158}
 --- !u!114 &1176037033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4691,10 +4706,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ca2b7727710f1f4ab25c87e840d58be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _houseAnimationParameterName: Interacted
-  _shrinkAnimationName: tapAnimationHouse
+  _smokeAnimationParameterName: 
+  _shrinkAnimationName: Shrink
   _expandAnimationName: Expand
-  _particleDuration: 1
+  _particleDuration: 3
 --- !u!65 &1332517648
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4738,7 +4753,7 @@ Animator:
   m_GameObject: {fileID: 1332517645}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 678d54bb80d6b65499a830b468b79558, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -4817,10 +4832,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ca2b7727710f1f4ab25c87e840d58be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _houseAnimationParameterName: Interacted
-  _shrinkAnimationName: tapAnimationHouse
+  _smokeAnimationParameterName: 
+  _shrinkAnimationName: Shrink
   _expandAnimationName: Expand
-  _particleDuration: 1
+  _particleDuration: 3
 --- !u!65 &1370734496
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4864,7 +4879,7 @@ Animator:
   m_GameObject: {fileID: 1370734493}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 83755e03f3388c54f8a2765944919e0f, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -4987,7 +5002,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1035137682610695604, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1087440199564236347, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
       propertyPath: m_Layer
@@ -5065,14 +5080,6 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
-    - target: {fileID: 2147091475757325167, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.901
-      objectReference: {fileID: 0}
-    - target: {fileID: 2147091475757325167, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 8.086
-      objectReference: {fileID: 0}
     - target: {fileID: 2408746912330447481, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
       propertyPath: _beeMovement
       value: 
@@ -5092,14 +5099,6 @@ PrefabInstance:
     - target: {fileID: 2945482198125110022, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
       propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4807928558262725302, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.576
-      objectReference: {fileID: 0}
-    - target: {fileID: 4807928558262725302, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 8.127
       objectReference: {fileID: 0}
     - target: {fileID: 4976482758469637397, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
       propertyPath: m_Layer
@@ -5213,10 +5212,6 @@ PrefabInstance:
       propertyPath: m_Center.y
       value: 0.46612367
       objectReference: {fileID: 0}
-    - target: {fileID: 7172088169057271626, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7184977558531931453, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -5245,14 +5240,6 @@ PrefabInstance:
       propertyPath: _inspectPosition
       value: 
       objectReference: {fileID: 747905226}
-    - target: {fileID: 8394584555203639002, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.02706913
-      objectReference: {fileID: 0}
-    - target: {fileID: 8394584555203639002, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8867116191599095329, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -5631,10 +5618,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ca2b7727710f1f4ab25c87e840d58be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _houseAnimationParameterName: Interacted
-  _shrinkAnimationName: tapAnimationHouse
+  _smokeAnimationParameterName: 
+  _shrinkAnimationName: Shrink
   _expandAnimationName: Expand
-  _particleDuration: 1
+  _particleDuration: 3
 --- !u!65 &1450924129
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5678,7 +5665,7 @@ Animator:
   m_GameObject: {fileID: 1450924126}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 299606aeb689c8843b70c49892848884, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -6518,6 +6505,53 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1566191905}
   m_Mesh: {fileID: 5623691753684549296, guid: 5d0d0f996902c3640828ec73217ed894, type: 3}
+--- !u!1 &1574511156
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1574511157}
+  - component: {fileID: 1574511158}
+  m_Layer: 0
+  m_Name: AnchorManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1574511157
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1574511156}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.057462215, y: 3.3084977, z: -0.6973723}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1574511158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1574511156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94c6951fa8a903b44a4e38eb28bd9305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _anchorManager: {fileID: 462124495}
+  _arTrackedImageManager: {fileID: 1678905017}
+  _anchorVisualization: {fileID: 7848785326020675911, guid: dea63f0a2fee5264dbd0407c7804ba00, type: 3}
 --- !u!1001 &1602796203
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10422,3 +10456,4 @@ SceneRoots:
   - {fileID: 654874947}
   - {fileID: 1647925941}
   - {fileID: 1240588057}
+  - {fileID: 1574511157}
