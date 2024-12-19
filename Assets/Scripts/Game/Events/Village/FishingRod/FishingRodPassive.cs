@@ -6,14 +6,21 @@ using UnityEngine;
 public class FishingRodPassive : PlotEvent, IInterruptible
 {
 	private const string LOOK_DOWN_ANIMATION_PARAMETER = "IsLookingDown";
-	[SerializeField] float _lookingAtRiverDuration;
+	private const string CATCH_ANIMATION_PARAMETER = "Caught";
+	private const string RELEASE_ANIMATION_PARAMETER = "FinishedCatching";
+	private const string RELEASE_ANIMATION_NAME = "Release";
+	
 	[SerializeField] Transform _treeStumpHover;
 	[Tooltip("Look at this position in front of the tree stump before looking down with animation")]
 	[SerializeField] Transform _riverLook;
 	[SerializeField] BeeMovement _beeMovement;
 	[SerializeField] ObjectMovement _beeObjectMovement;
 	[SerializeField] PlayAnimation _beePlayAnimation;
-	[SerializeField] RotateObject _fishingRodRotate;
+	[SerializeField] PlayAnimation _rodPlayAnimation;
+	[SerializeField] float _catchFishDuration = 2f;
+	[Tooltip("Wait this amount of seconds to end the sequence, after releasing the fish")]
+	[SerializeField] float _delayToEndSequence = 2f;
+	[SerializeField] Range _timeToTriggerCatch;
 
 	public event Action<IInterruptible> OnInterruptedDone;
 	
@@ -54,6 +61,12 @@ public class FishingRodPassive : PlotEvent, IInterruptible
 			case FishingRodPassiveState.LookingAtRiver:
 				StartCoroutine(LookAtRiver());
 				break;
+			case FishingRodPassiveState.CatchingFish:
+				StartCoroutine(FishingRodCatch());
+				break;
+			case FishingRodPassiveState.ReleasingFish:
+				StartCoroutine(FishingRodRelease());
+				break;
 			case FishingRodPassiveState.LeavingStump:
 				LeaveStump();
 				break;
@@ -69,9 +82,31 @@ public class FishingRodPassive : PlotEvent, IInterruptible
 	private IEnumerator LookAtRiver()
 	{
 		_beePlayAnimation.SetTrigger(LOOK_DOWN_ANIMATION_PARAMETER);
-		_fishingRodRotate.EnableRotation();
 		
-		yield return DelayCoroutine(_lookingAtRiverDuration);
+		yield return new WaitForSeconds(_timeToTriggerCatch.GetRandomValueWithinRange());
+			
+		UpdateState(FishingRodPassiveState.CatchingFish);
+	}
+	
+	private IEnumerator FishingRodCatch()
+	{
+		_rodPlayAnimation.SetBoolParameter(CATCH_ANIMATION_PARAMETER, true);
+		yield return new WaitForSeconds(_catchFishDuration);
+		
+		UpdateState(FishingRodPassiveState.ReleasingFish);
+	}
+	
+	private IEnumerator FishingRodRelease()
+	{
+		_rodPlayAnimation.SetBoolParameter(RELEASE_ANIMATION_PARAMETER, true);
+		yield return _rodPlayAnimation.WaitForAnimationToEnd();
+		
+		_rodPlayAnimation.SetBoolParameter(RELEASE_ANIMATION_PARAMETER, false);
+		_rodPlayAnimation.SetBoolParameter(CATCH_ANIMATION_PARAMETER, false);
+		
+		// Small delay before ending the sequence
+		yield return new WaitForSeconds(_delayToEndSequence);
+
 		UpdateState(FishingRodPassiveState.LeavingStump);
 	}
 	
@@ -92,13 +127,6 @@ public class FishingRodPassive : PlotEvent, IInterruptible
 	private void StopAnimations()
 	{
 		StopAllCoroutines();
-		_fishingRodRotate.DisableRotation();
-	}
-	
-	// Temporary until fishing rod animation is implemented
-	private IEnumerator DelayCoroutine(float secondsToWait)
-	{
-		yield return new WaitForSeconds(secondsToWait);
 	}
 	
 	private IEnumerator MoveBeeToPosition(Vector3 position)
