@@ -64,6 +64,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -2397580048147426941, guid: 8a1edf7922000a0409c77ed0547c6691, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8a1edf7922000a0409c77ed0547c6691, type: 3}
       propertyPath: m_Name
       value: bigMushroomsTogether (1)
@@ -72,6 +76,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: ea23f328f5b01bf4f9bcfcc977ab8ab8, type: 2}
+    - target: {fileID: 4506813658100016888, guid: 8a1edf7922000a0409c77ed0547c6691, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6363550237819889539, guid: 8a1edf7922000a0409c77ed0547c6691, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
