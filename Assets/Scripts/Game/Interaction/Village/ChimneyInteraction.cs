@@ -7,7 +7,7 @@ using UnityEngine;
 	RequireComponent(typeof(PlayAnimation)),
 	RequireComponent(typeof(BoxCollider)),
 ]
-public class ChimneyInteraction : MonoBehaviour, IInteractable, IEvent
+public class ChimneyInteraction : MonoBehaviour, IInteractable
 {
 	[Tooltip("The name of the animation parameter that triggers the house animation")]
 	[SerializeField] private string _houseAnimationParameterName;
@@ -19,11 +19,8 @@ public class ChimneyInteraction : MonoBehaviour, IInteractable, IEvent
 	private PlayAnimation _playAnimation;
 	private bool _isPlaying;
 
-	public event Action OnEventDone;
-
 	public bool CanInterrupt { get; set; }
 	public bool MultipleInteractions { get; set; }
-	public EventState State { get; set; }
 
 	private void Awake()
 	{
@@ -58,15 +55,14 @@ public class ChimneyInteraction : MonoBehaviour, IInteractable, IEvent
 		_playAnimation.SetBoolParameter(_houseAnimationParameterName, false);
 		yield return new WaitForSeconds(_particleDuration);
 		_playParticle.ToggleOff();
-		OnEventDone?.Invoke();
 		_isPlaying = false;
 	}
 
-	public void StopEvent()
+	private void OnDisable()
 	{
 		StopAllCoroutines();
 		_playParticle.ToggleOff();
-		_playAnimation.SetBoolParameter(_houseAnimationParameterName, false);
 		_isPlaying = false;
 	}
+
 }
