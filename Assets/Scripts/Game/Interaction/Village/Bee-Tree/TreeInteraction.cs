@@ -11,6 +11,7 @@ using Random = UnityEngine.Random;
 ]
 public class TreeInteraction : MonoBehaviour, IInteractable, IEvent, IInterruptible
 {
+    private const string LOOK_DOWN_ANIMATION_PARAMETER = "IsLookingDown";
     [SerializeField] private ObjectMovement _beeMovement;
     
     [SerializeField] private string _animationTriggerVariable;
@@ -23,7 +24,8 @@ public class TreeInteraction : MonoBehaviour, IInteractable, IEvent, IInterrupti
     [SerializeField] private Transform _aCornHolder;
 
     [SerializeField] private Transform _inspectPosition;
-    
+
+    private PlayAnimation _beePlayAnimation;
     private int _lastSelectedConeIndex;
     private List<ACorn> _aCorns = new List<ACorn>();
     private List<ACorn> _aCornsOnGround = new List<ACorn>();
@@ -40,6 +42,7 @@ public class TreeInteraction : MonoBehaviour, IInteractable, IEvent, IInterrupti
 
     private void Awake()
     {
+        _beePlayAnimation = _beeMovement.gameObject.GetComponent<PlayAnimation>();
         _playAnimation = GetComponent<PlayAnimation>();
     }
     
@@ -137,6 +140,7 @@ public class TreeInteraction : MonoBehaviour, IInteractable, IEvent, IInterrupti
             yield return null;
         }
         _beeMovement.SnapRotationTowards(transform.position);
+        _beePlayAnimation.SetTrigger(LOOK_DOWN_ANIMATION_PARAMETER);
     }
 
     private void ReleaseBee()
