@@ -4,11 +4,16 @@ using UnityEngine;
 using System;
 
 [RequireComponent(typeof(PlayAnimation))]
+[RequireComponent(typeof(SoundComponent))]
 public class RiverFish : MonoBehaviour
 {
 	[SerializeField] float _moveSpeed;
+	[SerializeField] Sound _fishSplashOutSFX;
+	[SerializeField] Sound _fishSplashInSFX;
 
 	private PlayAnimation _playAnimation;
+	private SoundComponent _soundComponent;
+	
 
 	private const string ANIMATION_JUMP_PARAMETER = "Jump";
 	private const string ANIMATION_JUMP_STATE = "Jumping";
@@ -18,6 +23,7 @@ public class RiverFish : MonoBehaviour
 	private void Awake()
 	{
 		_playAnimation = GetComponent<PlayAnimation>();
+		_soundComponent = GetComponent<SoundComponent>();
 	}
 	
 	private void Start()
@@ -52,5 +58,15 @@ public class RiverFish : MonoBehaviour
 		yield return _playAnimation.WaitForAnimationToEnd();
 
 		HandleAnimationDone();
+	}
+	
+	private void FishJumpAnimationEvent()
+	{
+		_soundComponent.PlaySound(_fishSplashOutSFX);
+	}
+	
+	private void FishFallAnimationEvent()
+	{
+		_soundComponent.PlaySound(_fishSplashInSFX);
 	}
 }

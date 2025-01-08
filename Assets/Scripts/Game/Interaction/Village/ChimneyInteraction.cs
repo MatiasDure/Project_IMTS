@@ -10,12 +10,14 @@ using UnityEngine;
 ]
 public class ChimneyInteraction : MonoBehaviour, IInteractable, IEvent
 {
-	[SerializeField] private string _houseAnimationParameterName;
+	private const string HOUSE_ANIMATION_NAME = "tapAnimationHouse";
+	[SerializeField] private string _houseAnimationParameterName = "tapAnimationHouse";
 	[SerializeField] private string _shrinkAnimationName = "Shrink";
 	[SerializeField] private string _expandAnimationName = "Expand";
 	[SerializeField] private float _particleDuration = 3f;
 	[SerializeField] private Sound _onceTapHouseSFX;
 	[SerializeField] private Sound _onceChimneySmokeSFX;
+	[SerializeField] private Sound _onceHouseWobbleSFX;
 
 	private PlayParticle _playParticle;
 	private PlayAnimation _playAnimation;
@@ -45,13 +47,14 @@ public class ChimneyInteraction : MonoBehaviour, IInteractable, IEvent
 		if(_isPlaying) return;
 		
 		_soundComponent.PlaySound(_onceTapHouseSFX);
+		_soundComponent.PlaySound(_onceHouseWobbleSFX);
 		StartCoroutine(PlayChimneyAnimation());
 	}
 
 	private IEnumerator ShrinkHouse()
 	{
 		_playAnimation.SetBoolParameter(_houseAnimationParameterName, true);
-		yield return StartCoroutine(_playAnimation.WaitForAnimationToStart(_shrinkAnimationName));
+		yield return StartCoroutine(_playAnimation.WaitForAnimationToStart(HOUSE_ANIMATION_NAME));
 		yield return StartCoroutine(_playAnimation.WaitForAnimationToEnd());
 	}
 
