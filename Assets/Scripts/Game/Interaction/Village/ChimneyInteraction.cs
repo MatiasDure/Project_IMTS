@@ -8,7 +8,7 @@ using UnityEngine;
 	RequireComponent(typeof(PlayAnimation)),
 	RequireComponent(typeof(BoxCollider)),
 ]
-public class ChimneyInteraction : MonoBehaviour, IInteractable, IEvent
+public class ChimneyInteraction : MonoBehaviour, IInteractable
 {
 	private const string HOUSE_ANIMATION_NAME = "tapAnimationHouse";
 	[SerializeField] private string _houseAnimationParameterName = "tapAnimationHouse";
@@ -24,11 +24,8 @@ public class ChimneyInteraction : MonoBehaviour, IInteractable, IEvent
 	private SoundComponent _soundComponent;
 	private bool _isPlaying;
 
-	public event Action OnEventDone;
-
 	public bool CanInterrupt { get; set; }
 	public bool MultipleInteractions { get; set; }
-	public EventState State { get; set; }
 
 	private void Awake()
 	{
@@ -51,7 +48,7 @@ public class ChimneyInteraction : MonoBehaviour, IInteractable, IEvent
 		StartCoroutine(PlayChimneyAnimation());
 	}
 
-	private IEnumerator ShrinkHouse()
+	private IEnumerator HouseAnimation()
 	{
 		_playAnimation.SetBoolParameter(_houseAnimationParameterName, true);
 		yield return StartCoroutine(_playAnimation.WaitForAnimationToStart(HOUSE_ANIMATION_NAME));
@@ -61,6 +58,7 @@ public class ChimneyInteraction : MonoBehaviour, IInteractable, IEvent
 	private IEnumerator ExpandChimney()
 	{
 		yield return StartCoroutine(_playAnimation.WaitForAnimationToStart(_expandAnimationName));
+
 		yield return StartCoroutine(_playAnimation.WaitForAnimationToEnd());
 	}
 
@@ -71,15 +69,18 @@ public class ChimneyInteraction : MonoBehaviour, IInteractable, IEvent
 		_soundComponent.PlaySound(_onceChimneySmokeSFX);
 		yield return StartCoroutine(ShrinkHouse());
 		//yield return StartCoroutine(ExpandChimney());
+
 		_playAnimation.SetBoolParameter(_houseAnimationParameterName, false);
 		yield return new WaitForSeconds(_particleDuration);
 		_playParticle.ToggleOff();
-		OnEventDone?.Invoke();
 		_isPlaying = false;
 	}
 
-	public void StopEvent()
+	private void OnDisable()
 	{
 		StopAllCoroutines();
+		_playParticle.ToggleOff();
+		_isPlaying = false;
 	}
+
 }

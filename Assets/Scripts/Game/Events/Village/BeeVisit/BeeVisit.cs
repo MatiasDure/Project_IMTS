@@ -5,9 +5,12 @@ using UnityEngine;
 
 public class BeeVisit : PlotEvent, IEvent, IInterruptible
 {
+	private const string KNOCKING_ANIMATION_PARAMETER = "IsKnocking";
+	
 	[SerializeField] private GameObject[] _inspectables;
 	[SerializeField] private ObjectMovement _beeMovement;
 
+	private PlayAnimation _beePlayAnimation;
 	private List<IInspectable> _inspectablesInterfaces = new List<IInspectable>();
 	private bool _inspecting;
 	private IInspectable _currentSubscribedInspectable = null;
@@ -15,7 +18,8 @@ public class BeeVisit : PlotEvent, IEvent, IInterruptible
 	public event Action<IInterruptible> OnInterruptedDone;
 
 	void Awake()
-    {
+	{
+		_beePlayAnimation = _beeMovement.gameObject.GetComponent<PlayAnimation>();
         foreach (GameObject inspectable in _inspectables) {
 			if(inspectable == null) continue;
 
@@ -54,6 +58,7 @@ public class BeeVisit : PlotEvent, IEvent, IInterruptible
 	}
 
 	private void InspectPlace(IInspectable inspectable) {
+		_beePlayAnimation.SetTrigger(KNOCKING_ANIMATION_PARAMETER);
 		inspectable.OnInspected += HandleInspectableInspected;
 		inspectable.Inspect();
 		_inspecting = true;

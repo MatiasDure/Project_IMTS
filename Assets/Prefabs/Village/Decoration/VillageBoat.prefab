@@ -26,13 +26,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4699202377770197888}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.073221035, y: 0.078244396, z: -0.09616627, w: 0.98958004}
-  m_LocalPosition: {x: -0.08000004, y: 0.3, z: 1.5899963}
-  m_LocalScale: {x: 0.38112527, y: 0.3811252, z: 0.3811252}
+  m_LocalRotation: {x: -0.8722433, y: -0.030251902, z: -0.054395504, w: 0.48509556}
+  m_LocalPosition: {x: 0.028, y: 2.795, z: -1.801}
+  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 2076110621180138295}
-  m_LocalEulerAnglesHint: {x: 9.205, y: 8.199, z: -10.44}
+  m_LocalEulerAnglesHint: {x: -58.161, y: 172.863, z: -180}
 --- !u!198 &3596191636584045508
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -870,7 +870,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 10
+      scalar: 3
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -4842,7 +4842,7 @@ GameObject:
   - component: {fileID: 6048900634126038732}
   - component: {fileID: 6086943377088741742}
   m_Layer: 0
-  m_Name: clam_particles
+  m_Name: bubbleParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4856,13 +4856,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5731655707453542252}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.07799995, y: 2.9, z: -1.9970016}
-  m_LocalScale: {x: 0.4218363, y: 0.42183632, z: 0.42183632}
+  m_LocalRotation: {x: -0.9928537, y: -0, z: -0, w: -0.11933805}
+  m_LocalPosition: {x: 0.07799995, y: 0.24, z: -2}
+  m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 2076110621180138295}
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -193.70801, y: 0, z: 0}
 --- !u!198 &6048900634126038732
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -9774,15 +9774,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: aaa6b96cce4b674418a70bd960eba886, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: aaa6b96cce4b674418a70bd960eba886, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: aaa6b96cce4b674418a70bd960eba886, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: aaa6b96cce4b674418a70bd960eba886, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
