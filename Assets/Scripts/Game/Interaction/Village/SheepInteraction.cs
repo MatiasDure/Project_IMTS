@@ -5,7 +5,8 @@ using UnityEngine;
 [
 	RequireComponent(typeof(BoxCollider)),
 	RequireComponent(typeof(SoundComponent)),
-	RequireComponent(typeof(PlayParticle))
+	RequireComponent(typeof(PlayParticle)),
+	RequireComponent(typeof(UpdateMaterial))
 ]
 public class SheepInteraction : MonoBehaviour, IInteractable, IEvent, IInterruptible
 {
@@ -19,6 +20,11 @@ public class SheepInteraction : MonoBehaviour, IInteractable, IEvent, IInterrupt
 	[SerializeField] private PlayAnimation _beeAnimation;
 	[SerializeField] private string _pettingAnimationStateName;
 	[SerializeField] private string _pettingAnimationParameterName;
+
+	[Header("Material")]
+	[SerializeField] private UpdateMaterial _updateMaterial;
+	[SerializeField] private string _happySheepMaterialName;
+	[SerializeField] private string _normalSheepMaterialName;
 	
 	private SoundComponent _soundComponent;
 	private Coroutine _petSheepCoroutine;
@@ -34,6 +40,8 @@ public class SheepInteraction : MonoBehaviour, IInteractable, IEvent, IInterrupt
 	private void Awake()
 	{
 		if(_beeAnimation == null) Debug.LogError("Bee Animator is required by Sheep Interaction to work correctly");
+
+		if(_updateMaterial == null) _updateMaterial = GetComponent<UpdateMaterial>();
 		
 		_soundComponent = GetComponent<SoundComponent>();
 		_playParticle = GetComponent<PlayParticle>();
@@ -66,9 +74,12 @@ public class SheepInteraction : MonoBehaviour, IInteractable, IEvent, IInterrupt
 	}
 
 	private IEnumerator SheepReaction() {
+		// update material here
+		_updateMaterial.UpdateMaterialByName(_happySheepMaterialName);
 		_playParticle.ToggleOn();
 		_soundComponent.PlaySound(_sheepLoveSound);
 		yield return new WaitForSeconds(_sheepLoveSound.clip.length);
+		_updateMaterial.UpdateMaterialByName(_normalSheepMaterialName);
 	}
 
 	private IEnumerator MoveBeeToSheep() {
