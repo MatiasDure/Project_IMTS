@@ -5,6 +5,7 @@ public class ItemSwitcher : MonoBehaviour
 {
     // A list to hold all wardrobe items that can be switched
     [SerializeField] private List<WardrobeItem> items = new();
+    [SerializeField] private GameObject _panel;
 
     private void Start()
     {
@@ -80,6 +81,13 @@ public class ItemSwitcher : MonoBehaviour
             //If the item is inactive, activate it
             itemToSwitchOn.gameObject.SetActive(true);
         }
+    }
+
+    public void ActivatePanel()
+    {
+        if (PlotsManager.Instance.CurrentPlot != Plot.None) return;
+
+        _panel.SetActive(true);
     }
 
     private void OnDestroy()
