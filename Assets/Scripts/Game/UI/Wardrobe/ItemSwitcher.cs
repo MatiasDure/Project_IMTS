@@ -5,6 +5,7 @@ public class ItemSwitcher : MonoBehaviour
 {
     // A list to hold all wardrobe items that can be switched
     [SerializeField] private List<WardrobeItem> items = new();
+    [SerializeField] private GameObject _panel;
 
     private void Start()
     {
@@ -38,8 +39,6 @@ public class ItemSwitcher : MonoBehaviour
     // Method to toggle the specified wardrobe item (itemToSwitchOn) on or off
     public void SwitchOn(WardrobeItem itemToSwitchOn)
     {
-        if (PlotsManager.Instance.CurrentPlot != Plot.None) return; 
-
         // Check if the item to be switched on is of type 'goggles'
         if (itemToSwitchOn.itemType == WardrobeItem.ItemType.goggles)
         {
@@ -82,6 +81,13 @@ public class ItemSwitcher : MonoBehaviour
             //If the item is inactive, activate it
             itemToSwitchOn.gameObject.SetActive(true);
         }
+    }
+
+    public void ActivatePanel()
+    {
+        if (PlotsManager.Instance.CurrentPlot != Plot.None) return;
+
+        _panel.SetActive(true);
     }
 
     private void OnDestroy()
