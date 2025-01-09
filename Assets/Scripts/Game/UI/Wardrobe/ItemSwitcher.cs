@@ -38,6 +38,8 @@ public class ItemSwitcher : MonoBehaviour
     // Method to toggle the specified wardrobe item (itemToSwitchOn) on or off
     public void SwitchOn(WardrobeItem itemToSwitchOn)
     {
+        if (PlotsManager.Instance.CurrentPlot != Plot.None) return; 
+
         // Check if the item to be switched on is of type 'goggles'
         if (itemToSwitchOn.itemType == WardrobeItem.ItemType.goggles)
         {
