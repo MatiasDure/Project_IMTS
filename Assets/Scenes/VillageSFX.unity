@@ -4872,6 +4872,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 3.877
       objectReference: {fileID: 0}
+    - target: {fileID: 1025298741893252840, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
+      propertyPath: _beeAnimation
+      value: 
+      objectReference: {fileID: 2073747507}
     - target: {fileID: 1035137682610695604, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
       propertyPath: m_Name
       value: VillageEnvironment
@@ -5012,6 +5016,10 @@ PrefabInstance:
       propertyPath: _onceWindowCloseSFX.priority
       value: 128
       objectReference: {fileID: 0}
+    - target: {fileID: 2285001534352418879, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
+      propertyPath: _beeAnimation
+      value: 
+      objectReference: {fileID: 2073747507}
     - target: {fileID: 2408746912330447481, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
       propertyPath: _beeMovement
       value: 
@@ -5080,6 +5088,10 @@ PrefabInstance:
       propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3844000797254231089, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
+      propertyPath: _beeAnimation
+      value: 
+      objectReference: {fileID: 2073747507}
     - target: {fileID: 4684785640048122979, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.425
