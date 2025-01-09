@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(PlayAnimation))]
 public class BeeVisit : PlotEvent, IEvent, IInterruptible
 {
 	private const string KNOCKING_ANIMATION_PARAMETER = "IsKnocking";
@@ -20,12 +21,12 @@ public class BeeVisit : PlotEvent, IEvent, IInterruptible
 	void Awake()
 	{
 		_beePlayAnimation = _beeMovement.gameObject.GetComponent<PlayAnimation>();
-        foreach (GameObject inspectable in _inspectables) {
+		foreach (GameObject inspectable in _inspectables) {
 			if(inspectable == null) continue;
 
 			_inspectablesInterfaces.Add(inspectable.GetComponent<IInspectable>());
 		}
-    }
+	}
 
 	public override void StartEvent()
 	{

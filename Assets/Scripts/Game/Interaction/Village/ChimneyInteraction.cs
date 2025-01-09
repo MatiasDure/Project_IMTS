@@ -67,7 +67,7 @@ public class ChimneyInteraction : MonoBehaviour, IInteractable
 		_isPlaying = true;
 		_playParticle.ToggleOn();
 		_soundComponent.PlaySound(_onceChimneySmokeSFX);
-		yield return StartCoroutine(ShrinkHouse());
+		yield return StartCoroutine(HouseAnimation());
 		//yield return StartCoroutine(ExpandChimney());
 
 		_playAnimation.SetBoolParameter(_houseAnimationParameterName, false);
