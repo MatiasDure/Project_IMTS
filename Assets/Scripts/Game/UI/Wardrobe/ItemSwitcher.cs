@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using Codice.Client.BaseCommands.Merge.Xml;
 using UnityEngine;
 
 public class ItemSwitcher : MonoBehaviour
