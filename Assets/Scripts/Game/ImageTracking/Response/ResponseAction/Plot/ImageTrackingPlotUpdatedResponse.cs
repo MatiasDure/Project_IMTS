@@ -12,6 +12,7 @@ public class ImageTrackingPlotUpdatedResponse : MonoBehaviour, IImageTrackingRes
 
 	private Dictionary<Plot, bool> _plotActiveState = new Dictionary<Plot, bool>();
 	private Plot _currentPlotActive = Plot.None;
+	private List<Plot> _initialHandledPlots = new List<Plot>();
 
 	public ImageTrackingResponses ResponseType => ImageTrackingResponses.UpdatePlot;
 	public static event Action<Plot> OnPlotActivated;
@@ -19,11 +20,15 @@ public class ImageTrackingPlotUpdatedResponse : MonoBehaviour, IImageTrackingRes
 
 	private void Start() {
 		_distanceTracker.OnMaxDistanceReached += HandleMaxDistanceReached;
+		ImageTrackingPlotActivatedResponse.OnPlotActivated += HandlePlotInitialActivation;
 	}
 
 	public GameObject Respond(GameObject objectToManipulate, ARTrackedImage trackedImage)
 	{
 		Plot currentPlotUpdating = GetPlot(trackedImage.referenceImage.name);
+
+		if(!_initialHandledPlots.Contains(currentPlotUpdating)) return objectToManipulate;
+
 		GameObject plotGameObject = GetGameObject(currentPlotUpdating);
 
 		if(_distanceTracker.OverMaxDistance(plotGameObject.transform, Camera.main.transform)) return objectToManipulate;
@@ -37,6 +42,10 @@ public class ImageTrackingPlotUpdatedResponse : MonoBehaviour, IImageTrackingRes
 			HandleTracking(plotGameObject);
 
 		return objectToManipulate;
+	}
+
+	private void HandlePlotInitialActivation(Plot plotActivated) {
+		_initialHandledPlots.Add(plotActivated);
 	}
 
 	private void HandleMaxDistanceReached()
@@ -58,13 +67,13 @@ public class ImageTrackingPlotUpdatedResponse : MonoBehaviour, IImageTrackingRes
 	private void HandleTracking(GameObject plotGameObject)
 	{
 		if (_plotActiveState.ContainsKey(_currentPlotActive) && _plotActiveState[_currentPlotActive]) return;
-		
+
 		ActivatePlot(plotGameObject);
 	}
 
 	private void ActivatePlot(GameObject plotGameObject)
 	{
-		plotGameObject.SetActive(true);
+		if(!plotGameObject.activeInHierarchy) plotGameObject.SetActive(true);
 		_plotActiveState[_currentPlotActive] = true;
 		OnPlotActivated?.Invoke(_currentPlotActive);
 	}
@@ -97,6 +106,7 @@ public class ImageTrackingPlotUpdatedResponse : MonoBehaviour, IImageTrackingRes
 
 	private void OnDestroy() {
 		_distanceTracker.OnMaxDistanceReached -= HandleMaxDistanceReached;
+		ImageTrackingPlotActivatedResponse.OnPlotActivated -= HandlePlotInitialActivation;
 	}
 }
 

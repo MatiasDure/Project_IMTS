@@ -3,14 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="579f6007-33de-4bfa-83d1-02aaba1d5149" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Child hospital gamification/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Child hospital gamification/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Objects/CompanionPlaceholder.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Objects/CompanionPlaceholder.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Objects/Ocean/Ocean Portal.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Objects/Ocean/Ocean Portal.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Village/VillageEnvironment.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Village/VillageEnvironment.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/WorldPrefabs/OceanWorld.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/WorldPrefabs/OceanWorld.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MinorBugFixes.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MinorBugFixes.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Events/Village/Sheep.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Events/Village/Sheep.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Events/Village/SheepJump.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Events/Village/SheepJump.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Player/Movements/ObjectMovement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Player/Movements/ObjectMovement.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Animations/Creatures/Bee/BeeAnimations.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/Creatures/Bee/BeeAnimations.controller" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Events/Ocean/BurbbleStorm/BeeSuckInBurbbleStorm.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Events/Ocean/BurbbleStorm/BeeSuckInBurbbleStorm.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Events/Village/BeeVisit/BeeVisit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Events/Village/BeeVisit/BeeVisit.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Events/Village/FishingRod/FishingRodPassive.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Events/Village/FishingRod/FishingRodPassive.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Interaction/Ocean/FishInteraction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Interaction/Ocean/FishInteraction.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Interaction/Village/Bee-Tree/TreeInteraction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Interaction/Village/Bee-Tree/TreeInteraction.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

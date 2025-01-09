@@ -1,6 +1,9 @@
 using System.Collections;
 using UnityEngine;
 
+[
+	RequireComponent(typeof(PlayAnimation))
+]
 public class Sheep : MonoBehaviour
 {	
 	[SerializeField] private Sound _onceSheepJumpSFX;

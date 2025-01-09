@@ -21,7 +21,7 @@ public class BeeMovement : MonoBehaviour
 
 	[FormerlySerializedAs("_villageStartPosition")]
 	[Header("Village Reference")] 
-	[SerializeField] private Transform _villageStartTransform;
+	[SerializeField] private Transform _villageIdleRotatePoint;
 	[SerializeField] private Vector3 _idleRotateAxis = new Vector3(0,1,0);
 	[SerializeField] private float _distanceToPivot = 1;
 
@@ -82,7 +82,7 @@ public class BeeMovement : MonoBehaviour
 		}else 
 		if (PlotsManager.Instance._currentPlot == Plot.Village)
 		{
-			_objectMovement.MoveAroundPivot(_villageStartTransform.position,_idleRotateAxis,_distanceToPivot,
+			_objectMovement.MoveAroundPivot(_villageIdleRotatePoint.position,_idleRotateAxis,_distanceToPivot,
 				_beeMovementStat.RotationSpeed,_beeMovementStat.MovementSpeed);
 		}
 
@@ -166,7 +166,7 @@ public class BeeMovement : MonoBehaviour
 				_movementCoroutine = StartCoroutine(MoveThroughPortal(_oceanAnchor,_oceanPortal));
 				break;
 			case Plot.Village:
-				_movementCoroutine = StartCoroutine(MoveToplot(_villageStartTransform));
+				_movementCoroutine = StartCoroutine(MoveToplot(_villageIdleRotatePoint));
 				break;
 		}
 		

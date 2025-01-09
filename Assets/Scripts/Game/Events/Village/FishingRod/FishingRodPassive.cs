@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(SoundComponent))]
 public class FishingRodPassive : PlotEvent, IInterruptible
 {
-	private const string LOOK_DOWN_ANIMATION_PARAMETER = "IsLookingDown";
+	private const string SUPRISE_ANIMATION_PARAMETER = "IsSuprised";
 	private const string CATCH_ANIMATION_PARAMETER = "Caught";
 	private const string RELEASE_ANIMATION_PARAMETER = "FinishedCatching";
 	private const string RELEASE_ANIMATION_NAME = "Release";
@@ -91,7 +91,7 @@ public class FishingRodPassive : PlotEvent, IInterruptible
 	
 	private IEnumerator LookAtRiver()
 	{
-		_beePlayAnimation.SetTrigger(LOOK_DOWN_ANIMATION_PARAMETER);
+		_beePlayAnimation.SetTrigger(SUPRISE_ANIMATION_PARAMETER);
 		
 		yield return new WaitForSeconds(_timeToTriggerCatch.GetRandomValueWithinRange());
 			
