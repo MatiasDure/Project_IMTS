@@ -32,7 +32,7 @@ public class EventManager : Singleton<EventManager>
 		if(_interactionManager != null) 
 			_interactionManager.OnInteractionReadyToStart += StartInterruptionSequence;
 
-		ImageTrackingPlotUpdatedResponse.OnPlotDeactivated += HandlePlotDeactivated;
+		ImageTrackingPlotUpdatedResponse.OnPlotNeedsDeactivation += HandlePlotDeactivated;
 	}
 
 	private void HandlePlotDeactivated(Plot plot)
@@ -55,7 +55,7 @@ public class EventManager : Singleton<EventManager>
 		if(_interactionManager != null) 
 			_interactionManager.OnInteractionReadyToStart -= StartInterruptionSequence;
 
-		ImageTrackingPlotUpdatedResponse.OnPlotDeactivated -= HandlePlotDeactivated;
+		ImageTrackingPlotUpdatedResponse.OnPlotNeedsDeactivation -= HandlePlotDeactivated;
 	}
 
 	private void StartInterruptionSequence(EventInterruption eventData)

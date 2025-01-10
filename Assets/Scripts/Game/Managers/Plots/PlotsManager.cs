@@ -12,6 +12,7 @@ public class PlotsManager : Singleton<PlotsManager>
 	public Plot CurrentPlot => _currentPlot;
 
 	public static event Action<Plot> OnPlotDeactivated;
+	public static event Action<Plot> OnPlotActivated;
 
     internal protected override void Awake() {
 		base.Awake();
@@ -23,14 +24,16 @@ public class PlotsManager : Singleton<PlotsManager>
 	{
 		BeeMovement.OnBeeEnteredPlot += HandleBeeEnteredPlot;
 		ImageTrackingPlotActivatedResponse.OnPlotActivated += HandlePlotActivated;
-		ImageTrackingPlotUpdatedResponse.OnPlotActivated += HandlePlotActivated;
-		ImageTrackingPlotUpdatedResponse.OnPlotDeactivated += HandleMaxDistanceReached;
+		ImageTrackingPlotUpdatedResponse.OnPlotNeedsActivation += HandlePlotActivated;
+		ImageTrackingPlotUpdatedResponse.OnPlotNeedsDeactivation += HandleMaxDistanceReached;
 	}
 
 	private void HandleMaxDistanceReached(Plot plot)
 	{
 		_currentPlot = Plot.None;
 		_nextPlot = Plot.None;
+		DeactivateCurrentPlotObjects(plot);
+		OnPlotDeactivated?.Invoke(plot);
 	}
 
 	private void HandleBeeEnteredPlot()
@@ -42,18 +45,38 @@ public class PlotsManager : Singleton<PlotsManager>
 	private void HandlePlotActivated(Plot plot)
 	{
 		_nextPlot = plot;
-		ActivateCurrentPlotObject(plot);
+		ActivateCurrentPlotObjects(plot);
+		OnPlotActivated?.Invoke(plot);
 	}
 
-	private void ActivateCurrentPlotObject(Plot plotToActivate)
+	private void DeactivateCurrentPlotObjects(Plot plotToDeactivate)
+	{
+		foreach (var plotObject in _plotObjects)
+		{
+			if (plotObject.Plot != plotToDeactivate) continue;
+
+			foreach (var plotObj in plotObject.PlotObjects)
+			{
+				plotObj.SetActive(false);
+			}
+			break;
+		}
+	}
+
+	private void ActivateCurrentPlotObjects(Plot plotToActivate)
     {
         foreach (var plotObject in _plotObjects)
         {
             if (plotObject.Plot != plotToActivate) continue;
 
-			if (plotObject.PlotObject == null) break;
+			// if (plotObject.PlotObject == null) break;
             
-			plotObject.PlotObject.SetActive(true);
+			foreach (var plotObj in plotObject.PlotObjects)
+			{
+				plotObj.SetActive(true);
+			}
+			//
+			// plotObject.PlotObject.SetActive(true);
             break;
         }
     }
@@ -62,6 +85,6 @@ public class PlotsManager : Singleton<PlotsManager>
 	{
 		BeeMovement.OnBeeEnteredPlot -= HandleBeeEnteredPlot;
 		ImageTrackingPlotActivatedResponse.OnPlotActivated -= HandlePlotActivated;
-		ImageTrackingPlotUpdatedResponse.OnPlotActivated -= HandlePlotActivated;
+		ImageTrackingPlotUpdatedResponse.OnPlotNeedsActivation -= HandlePlotActivated;
 	}
 }

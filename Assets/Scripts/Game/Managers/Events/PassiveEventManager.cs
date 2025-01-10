@@ -100,7 +100,7 @@ public class PassiveEventManager : Singleton<PassiveEventManager>
 	private void SubscribeToEvents() {
 		PlotEvent.OnPassiveEventStart += HandlePassiveEventStateChanged;
 		PlotEvent.OnPasiveEventEnd += HandlePassiveEventStateChanged;
-		ImageTrackingPlotUpdatedResponse.OnPlotDeactivated += HandlePlotDeactivated;
+		ImageTrackingPlotUpdatedResponse.OnPlotNeedsDeactivation += HandlePlotDeactivated;
 	}
 
 	private void HandlePlotDeactivated(Plot plot)
@@ -131,7 +131,7 @@ public class PassiveEventManager : Singleton<PassiveEventManager>
 	private void UnsubscribeFromEvents() {
 		PlotEvent.OnPassiveEventStart -= HandlePassiveEventStateChanged;
 		PlotEvent.OnPasiveEventEnd -= HandlePassiveEventStateChanged;
-		ImageTrackingPlotUpdatedResponse.OnPlotDeactivated -= HandlePlotDeactivated;
+		ImageTrackingPlotUpdatedResponse.OnPlotNeedsDeactivation -= HandlePlotDeactivated;
 	}
 
 	private void OnDestroy() {
