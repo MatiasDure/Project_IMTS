@@ -9,8 +9,9 @@ public class ItemSwitcher : MonoBehaviour
 
     private void Start()
     {
-        ImageTrackingPlotActivatedResponse.OnPlotActivated += HandlePlotSwitch;
-        ImageTrackingPlotUpdatedResponse.OnPlotActivated += HandlePlotSwitch; 
+		PlotsManager.OnPlotActivated += HandlePlotSwitch;
+        // ImageTrackingPlotActivatedResponse.OnPlotActivated += HandlePlotSwitch;
+        // ImageTrackingPlotUpdatedResponse.OnPlotNeedsActivation += HandlePlotSwitch; 
     }
 
     private void HandlePlotSwitch(Plot newPlot)
@@ -92,7 +93,8 @@ public class ItemSwitcher : MonoBehaviour
 
     private void OnDestroy()
     {
-        ImageTrackingPlotActivatedResponse.OnPlotActivated -= HandlePlotSwitch;
-        ImageTrackingPlotUpdatedResponse.OnPlotActivated -= HandlePlotSwitch;
+		PlotsManager.OnPlotActivated -= HandlePlotSwitch;
+        // ImageTrackingPlotActivatedResponse.OnPlotActivated -= HandlePlotSwitch;
+        // ImageTrackingPlotUpdatedResponse.OnPlotNeedsActivation -= HandlePlotSwitch;
     }
 }

@@ -15,8 +15,8 @@ public class ImageTrackingPlotUpdatedResponse : MonoBehaviour, IImageTrackingRes
 	private List<Plot> _initialHandledPlots = new List<Plot>();
 
 	public ImageTrackingResponses ResponseType => ImageTrackingResponses.UpdatePlot;
-	public static event Action<Plot> OnPlotActivated;
-	public static event Action<Plot> OnPlotDeactivated;
+	public static event Action<Plot> OnPlotNeedsActivation;
+	public static event Action<Plot> OnPlotNeedsDeactivation;
 
 	private void Start() {
 		_distanceTracker.OnMaxDistanceReached += HandleMaxDistanceReached;
@@ -39,7 +39,7 @@ public class ImageTrackingPlotUpdatedResponse : MonoBehaviour, IImageTrackingRes
 		}
 
 		if(trackedImage.trackingState == TrackingState.Tracking) 
-			HandleTracking(plotGameObject);
+			HandleTracking();
 
 		return objectToManipulate;
 	}
@@ -57,29 +57,25 @@ public class ImageTrackingPlotUpdatedResponse : MonoBehaviour, IImageTrackingRes
 
 	private void DeactivateCurrentPlot()
 	{
-		GameObject plotGameObject = GetGameObject(_currentPlotActive);
+		// GameObject plotGameObject = GetGameObject(_currentPlotActive);
 		_plotActiveState[_currentPlotActive] = false;
-		plotGameObject.SetActive(false);
-		OnPlotDeactivated?.Invoke(_currentPlotActive);
+		// plotGameObject.SetActive(false);
+		OnPlotNeedsDeactivation?.Invoke(_currentPlotActive);
 		_currentPlotActive = Plot.None;
 	}
 
-	private void HandleTracking(GameObject plotGameObject)
+	private void HandleTracking()
 	{
 		if (_plotActiveState.ContainsKey(_currentPlotActive) && _plotActiveState[_currentPlotActive]) return;
 
-		ActivatePlot(plotGameObject);
+		ActivatePlot();
 	}
 
-	private void ActivatePlot(GameObject plotGameObject)
+	private void ActivatePlot()
 	{
-		if(!plotGameObject.activeInHierarchy) plotGameObject.SetActive(true);
+		// if(!plotGameObject.activeInHierarchy) plotGameObject.SetActive(true);
 		_plotActiveState[_currentPlotActive] = true;
-		OnPlotActivated?.Invoke(_currentPlotActive);
-	}
-
-	private void UpdatePlotPositionAndRotation(GameObject plotGameObject, ARTrackedImage trackedImage) {
-		plotGameObject.transform.SetPositionAndRotation(trackedImage.transform.position, trackedImage.transform.rotation);
+		OnPlotNeedsActivation?.Invoke(_currentPlotActive);
 	}
 
 	private Plot GetPlot(string trackedImageName){
