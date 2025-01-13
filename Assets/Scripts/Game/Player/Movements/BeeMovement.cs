@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -211,9 +210,7 @@ public class BeeMovement : MonoBehaviour
 		PlaceBeeBehindCamera();
 
 		if(plotDeactivated == Plot.Ocean) {
-			if(_playAnimation.CurrentAnimationState(_beeSwimmingAnimationStateName)) {
-				_playAnimation.SetBoolParameter(_beeSwimmingAnimationParameterName, false);
-			}
+			_playAnimation.SetBoolParameter(_beeSwimmingAnimationParameterName, false);
 		}
 		
 		Bee.Instance.UpdateState(BeeState.FollowingCamera);

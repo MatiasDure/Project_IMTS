@@ -3,7 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(SoundComponent))]
+[
+	RequireComponent(typeof(SoundComponent)),
+	RequireComponent(typeof(PlayParticle))
+]
 public class FishingRodPassive : PlotEvent, IInterruptible
 {
 	private const string SUPRISE_ANIMATION_PARAMETER = "IsSuprised";
@@ -30,9 +33,11 @@ public class FishingRodPassive : PlotEvent, IInterruptible
 	
 	private FishingRodPassiveState _fishingRodEventState;
 	private SoundComponent _soundComponent;
+	private PlayParticle _playParticle;
 	
 	private void Awake()
 	{
+		_playParticle = GetComponent<PlayParticle>();
 		_soundComponent = GetComponent<SoundComponent>();
 	}
 
@@ -100,6 +105,7 @@ public class FishingRodPassive : PlotEvent, IInterruptible
 	
 	private IEnumerator FishingRodCatch()
 	{
+		_playParticle.ToggleOn();
 		_rodPlayAnimation.SetBoolParameter(CATCH_ANIMATION_PARAMETER, true);
 		yield return new WaitForSeconds(_catchFishDuration);
 		
