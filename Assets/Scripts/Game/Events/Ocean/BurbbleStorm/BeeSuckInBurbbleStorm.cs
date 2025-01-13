@@ -1,14 +1,23 @@
 using System;
 using UnityEngine;
 
-[RequireComponent(typeof(CaughtObject)),]
+[RequireComponent(typeof(CaughtObject)),
+RequireComponent(typeof(PlayAnimation)),]
 public class BeeSuckInBurbbleStorm : MonoBehaviour
 {
+    private const string SUCK_IN_STORM_ANIMATION_PARAMETER = "IsSuckingIn";
+    
     private CaughtObject _caughtObject;
     private Rigidbody _rigidbody;
-    
+
+    private PlayAnimation _playAnimation;
     public static event Action SuckInStorm;
-    
+
+    private void Awake()
+    {
+        _playAnimation = GetComponent<PlayAnimation>();
+    }
+
     void Start()
     {
         SetUp();
@@ -28,13 +37,14 @@ public class BeeSuckInBurbbleStorm : MonoBehaviour
     {
         if(eventMetadata.CurrentEvent != PassiveEvent.BurbbleStorm) return;
         _rigidbody.isKinematic = false;
+        _playAnimation.SetBoolParameter(SUCK_IN_STORM_ANIMATION_PARAMETER,true);
         SuckInStorm?.Invoke();
     }
 
     private void HandleStormEnd(UpdatePassiveEventCollection eventMetadata)
     {
         if(eventMetadata.PreviousEvent != PassiveEvent.BurbbleStorm && PlotsManager.Instance.CurrentPlot != Plot.None) return;
-
+        _playAnimation.SetBoolParameter(SUCK_IN_STORM_ANIMATION_PARAMETER,false);
         _rigidbody.isKinematic = true;
     }
     

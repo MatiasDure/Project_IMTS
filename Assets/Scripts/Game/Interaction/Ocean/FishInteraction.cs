@@ -9,11 +9,12 @@ public class FishInteraction : MonoBehaviour,
 							   IInterruptible,
 							   IEvent
 {
-
+	private const string CATCH_FISH_ANIMATION_PARAMETER = "IsCatchFish";
 
 	[SerializeField] private ObjectMovement _beeMovement;
 	[SerializeField] private BeeMovement _beeStats;
 
+	private PlayAnimation _beePlayAnimation;
 	public bool CanInterrupt { get; set; } = true;
 	public EventState State { get; set; }
 	public bool MultipleInteractions { get; set; } = false;
@@ -40,6 +41,7 @@ public class FishInteraction : MonoBehaviour,
 
 	private void Awake()
 	{
+		_beePlayAnimation = _beeMovement.gameObject.GetComponent<PlayAnimation>();
 		_speedUpBehaviour = GetComponent<FishSpeedUpBehaviour>();
 	}
 
@@ -58,7 +60,8 @@ public class FishInteraction : MonoBehaviour,
 	private void StopBeeChasing()
 	{
 		if (!_beeIsChasing) return;
-
+		
+		_beePlayAnimation.SetBoolParameter(CATCH_FISH_ANIMATION_PARAMETER,false);
 		_beeIsChasing = false;
 		Bee.Instance.UpdateState(BeeState.Idle);
 	}
@@ -66,6 +69,7 @@ public class FishInteraction : MonoBehaviour,
 	private void MoveBeeTowardsFish()
 	{
 		Bee.Instance.UpdateState(BeeState.ChasingFish);
+		_beePlayAnimation.SetBoolParameter(CATCH_FISH_ANIMATION_PARAMETER,true);
 		StartCoroutine(MoveBeeToPosition(transform.position));
 	}
 
@@ -82,7 +86,7 @@ public class FishInteraction : MonoBehaviour,
 			_beeMovement.SnapRotationTowards(transform.position);
 			yield return null;
 		}
-
+		
 		StopBeeChasing(); // Reached fish
 	}
 
