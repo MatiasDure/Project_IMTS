@@ -263,9 +263,9 @@ MonoBehaviour:
   _currentPlot: 0
   _plotObjects:
   - Plot: 1
-    PlotObject: {fileID: 1090165629}
+    PlotObjects: []
   - Plot: 3
-    PlotObject: {fileID: 0}
+    PlotObjects: []
 --- !u!4 &399814097
 Transform:
   m_ObjectHideFlags: 0
@@ -1116,11 +1116,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 578f51361a2c1544f802e09ef44e9502, type: 3}
---- !u!1 &1090165629 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8589149297904050142, guid: 578f51361a2c1544f802e09ef44e9502, type: 3}
-  m_PrefabInstance: {fileID: 1090165628}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1090165631 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4229838948912176818, guid: 578f51361a2c1544f802e09ef44e9502, type: 3}
@@ -1972,6 +1967,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 255709866370321328, guid: 6cc333c60543e7b409091d3fd8c7083a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 742234186}
     - target: {fileID: 275346937818440484, guid: 6cc333c60543e7b409091d3fd8c7083a, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -2056,10 +2055,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: WardrobeCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 499501219978521746, guid: 6cc333c60543e7b409091d3fd8c7083a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.9169922
+      objectReference: {fileID: 0}
+    - target: {fileID: 614556584167814146, guid: 6cc333c60543e7b409091d3fd8c7083a, type: 3}
+      propertyPath: m_ScreenMatchMode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1694271962764962592, guid: 6cc333c60543e7b409091d3fd8c7083a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
       value: 
       objectReference: {fileID: 2143912405}
+    - target: {fileID: 1897064392078381737, guid: 6cc333c60543e7b409091d3fd8c7083a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 454911565}
     - target: {fileID: 2646219944041941740, guid: 6cc333c60543e7b409091d3fd8c7083a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
       value: 
