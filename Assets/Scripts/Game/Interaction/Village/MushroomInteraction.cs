@@ -55,7 +55,7 @@ public class MushroomInteraction : MonoBehaviour, IInteractable
 		_playParticle.ToggleOn();
 		yield return StartCoroutine(_playAnimation.WaitForAnimationToEnd());
 		_playAnimation.SetBoolParameter(_mushroomAnimationParameterName, false);
-		
+
 		_isPlaying = false;
 	}
 
@@ -69,6 +69,8 @@ public class MushroomInteraction : MonoBehaviour, IInteractable
 		_playAnimation.SetBoolParameter(_mushroomAnimationParameterName, false);
 		_playParticle.ToggleOff();
 		_soundComponent.StopSound();
+
+		StopAllCoroutines();
 	}
 
 	private void OnDisable()

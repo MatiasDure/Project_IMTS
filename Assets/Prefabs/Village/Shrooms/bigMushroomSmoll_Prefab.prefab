@@ -232,7 +232,7 @@ MonoBehaviour:
   _mushroomAnimationParameterName: Interacted
   _mushroomAnimationStateName: mushroomBounce
   _sound:
-    clip: {fileID: 8300000, guid: 28741d80bbd666c419e66296e556606d, type: 3}
+    clip: {fileID: 8300000, guid: 2bbf81859a5d6d1449158221a855bda3, type: 3}
     volume: 0.4
     priority: 128
     loop: 0
