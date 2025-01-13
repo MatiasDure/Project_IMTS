@@ -1569,7 +1569,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1035137682610695604, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
   m_PrefabInstance: {fileID: 1379860134}
   m_PrefabAsset: {fileID: 0}
---- !u!198 &1379860136 stripped
+--- !u!4 &1379860137 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3837396850931731052, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
+  m_PrefabInstance: {fileID: 1379860134}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &1379860138 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 5320456616590419280, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
   m_PrefabInstance: {fileID: 1379860134}
@@ -3312,6 +3317,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3876800288590842460, guid: 95b5e457630fbf244a2fa4afe321e4bf, type: 3}
+      propertyPath: _origin
+      value: 
+      objectReference: {fileID: 1379860137}
+    - target: {fileID: 3876800288590842460, guid: 95b5e457630fbf244a2fa4afe321e4bf, type: 3}
+      propertyPath: _needsInstantiation
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3876800288590842460, guid: 95b5e457630fbf244a2fa4afe321e4bf, type: 3}
+      propertyPath: _particleSystemprefab
+      value: 
+      objectReference: {fileID: 1379860138}
     - target: {fileID: 4260977682448811797, guid: 95b5e457630fbf244a2fa4afe321e4bf, type: 3}
       propertyPath: _riverLook
       value: 
@@ -3323,7 +3340,7 @@ PrefabInstance:
     - target: {fileID: 4260977682448811797, guid: 95b5e457630fbf244a2fa4afe321e4bf, type: 3}
       propertyPath: _rippleEffect
       value: 
-      objectReference: {fileID: 1379860136}
+      objectReference: {fileID: 1379860138}
     - target: {fileID: 4260977682448811797, guid: 95b5e457630fbf244a2fa4afe321e4bf, type: 3}
       propertyPath: _treeStumpHover
       value: 

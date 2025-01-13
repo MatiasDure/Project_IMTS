@@ -3,15 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(SoundComponent))]
+[
+	RequireComponent(typeof(SoundComponent)),
+	RequireComponent(typeof(PlayParticle))
+]
 public class FishingRodPassive : PlotEvent, IInterruptible
 {
 	private const string SUPRISE_ANIMATION_PARAMETER = "IsSuprised";
 	private const string CATCH_ANIMATION_PARAMETER = "Caught";
 	private const string RELEASE_ANIMATION_PARAMETER = "FinishedCatching";
 	private const string RELEASE_ANIMATION_NAME = "Release";
-
-	[SerializeField] private ParticleSystem _rippleEffect;
+	
 	[SerializeField] Transform _treeStumpHover;
 	[Tooltip("Look at this position in front of the tree stump before looking down with animation")]
 	[SerializeField] Transform _riverLook;
@@ -31,9 +33,11 @@ public class FishingRodPassive : PlotEvent, IInterruptible
 	
 	private FishingRodPassiveState _fishingRodEventState;
 	private SoundComponent _soundComponent;
+	private PlayParticle _playParticle;
 	
 	private void Awake()
 	{
+		_playParticle = GetComponent<PlayParticle>();
 		_soundComponent = GetComponent<SoundComponent>();
 	}
 
@@ -101,7 +105,7 @@ public class FishingRodPassive : PlotEvent, IInterruptible
 	
 	private IEnumerator FishingRodCatch()
 	{
-		if(_rippleEffect!=null) _rippleEffect.Play();
+		_playParticle.ToggleOn();
 		_rodPlayAnimation.SetBoolParameter(CATCH_ANIMATION_PARAMETER, true);
 		yield return new WaitForSeconds(_catchFishDuration);
 		

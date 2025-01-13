@@ -1,9 +1,7 @@
 using System;
 using System.Collections;
-using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.Serialization;
-using Debug = UnityEngine.Debug;
 
 [
 	RequireComponent(typeof(PlayAnimation)),
