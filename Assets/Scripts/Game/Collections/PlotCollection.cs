@@ -5,5 +5,5 @@ using UnityEngine;
 public struct PlotCollection
 {
 	public Plot Plot;
-    public GameObject PlotObject;
+    public GameObject[] PlotObjects;
 }

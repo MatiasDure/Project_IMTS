@@ -9,9 +9,6 @@ using UnityEngine;
 ]
 public class BoatInteraction : MonoBehaviour, IInteractable, IEvent
 {
-	[Tooltip("The name of the animation parameter that will be set to true when the first interaction happens (i.e. HasStarted).")]
-	[SerializeField] private string _initialAnimationParameterName;
-
 	[Tooltip("The name of the animation state that will be played when the boat is interacted with.")]
 	[SerializeField] private string _boatAnimationState;
 
@@ -20,7 +17,6 @@ public class BoatInteraction : MonoBehaviour, IInteractable, IEvent
 
 	private PlayAnimation _playAnimation;
 	private AudioSource _audioSource;
-	private bool _hasStartedAnimation;
 	private Coroutine _boatInteractionCoroutine;
 
 	public event Action OnEventDone;
@@ -49,11 +45,6 @@ public class BoatInteraction : MonoBehaviour, IInteractable, IEvent
 	public void Interact()
 	{
 		if(_boatInteractionCoroutine != null) return;
-
-		if(!_hasStartedAnimation) {
-			_hasStartedAnimation = true;
-			_playAnimation.SetBoolParameter(_initialAnimationParameterName, true);
-		}
 
 		_boatInteractionCoroutine = StartCoroutine(BoatInteractionCoroutine());
 	}
@@ -91,5 +82,9 @@ public class BoatInteraction : MonoBehaviour, IInteractable, IEvent
 			DisableInteractedAnimation();
 			_boatInteractionCoroutine = null;
 		} 
+	}
+
+	private void OnDisable() {
+		StopEvent();
 	}
 }

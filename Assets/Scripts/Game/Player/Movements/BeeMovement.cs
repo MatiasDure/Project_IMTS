@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -159,14 +160,14 @@ public class BeeMovement : MonoBehaviour
 		
 		switch (plot)
 		{
-			case Plot.None:
-				//Debug.LogError(this + ": Can not find plot for bee to handle");
-				break;
 			case Plot.Ocean:
 				_movementCoroutine = StartCoroutine(MoveThroughPortal(_oceanAnchor,_oceanPortal));
 				break;
 			case Plot.Village:
 				_movementCoroutine = StartCoroutine(MoveToplot(_villageIdleRotatePoint));
+				break;
+			default:
+				//Debug.LogError(this + ": Can not find plot for bee to handle");
 				break;
 		}
 		
@@ -175,9 +176,8 @@ public class BeeMovement : MonoBehaviour
 
 	private void SubscribeToEvents()
 	{
-		ImageTrackingPlotActivatedResponse.OnPlotActivated += HandleGoingToPlot;
-		ImageTrackingPlotUpdatedResponse.OnPlotActivated += HandleGoingToPlot;
-		ImageTrackingPlotUpdatedResponse.OnPlotDeactivated += HandlePlotDeactivated;
+		PlotsManager.OnPlotActivated += HandleGoingToPlot;
+		PlotsManager.OnPlotDeactivated += HandlePlotDeactivated;
 		Bee.OnBeeStateChanged += HandleBeeStateChange;
 	}
 	
@@ -193,24 +193,37 @@ public class BeeMovement : MonoBehaviour
 		}
 	}
 
-	private void HandlePlotDeactivated(Plot plot)
+	private void HandlePlotDeactivated(Plot plotDeactivated)
 	{
-		if(Bee.Instance.State == BeeState.FollowingCamera) return;
+		if (Bee.Instance.State == BeeState.FollowingCamera) return;
 
-		if(_movementCoroutine != null) {
+		if (_movementCoroutine != null)
+		{
 			StopCoroutine(_movementCoroutine);
 			_movementCoroutine = null;
 		}
+
+
+		PlaceBeeBehindCamera();
+
+		if(plotDeactivated == Plot.Ocean) {
+			if(_playAnimation.CurrentAnimationState(_beeSwimmingAnimationStateName)) {
+				_playAnimation.SetBoolParameter(_beeSwimmingAnimationParameterName, false);
+			}
+		}
 		
 		Bee.Instance.UpdateState(BeeState.FollowingCamera);
+	}
+
+	private void PlaceBeeBehindCamera()
+	{
 		transform.position = Camera.main.transform.position + Camera.main.transform.forward * -2f;
 	}
 
 	private void UnSubscribeToEvents()
 	{
-		ImageTrackingPlotActivatedResponse.OnPlotActivated -= HandleGoingToPlot;
-		ImageTrackingPlotUpdatedResponse.OnPlotActivated -= HandleGoingToPlot;
-		ImageTrackingPlotUpdatedResponse.OnPlotDeactivated -= HandlePlotDeactivated;
+		PlotsManager.OnPlotActivated -= HandleGoingToPlot;
+		PlotsManager.OnPlotDeactivated -= HandlePlotDeactivated;
 		Bee.OnBeeStateChanged -= HandleBeeStateChange;
 	}
 
