@@ -1,12 +1,30 @@
 using System.Collections;
 using UnityEngine;
 
+[
+	RequireComponent(typeof(PlayAnimation))
+]
 public class Sheep : MonoBehaviour
 {
+	[SerializeField] private string _jumpAnimationTriggerName;
+	[SerializeField] private string _jumpAnimationStateName;
+	private PlayAnimation _playAnimation;
+
+	private void Awake() {
+		_playAnimation = GetComponent<PlayAnimation>();
+	}
+
     public void Jump(float jumpForce,float jumpDuration)
     {
         StartCoroutine(JumpEnumerator(jumpForce, jumpDuration));
+		// StartCoroutine(JumpAnimation());
     }
+
+	private IEnumerator JumpAnimation() {
+		_playAnimation.SetTrigger(_jumpAnimationTriggerName);
+		yield return StartCoroutine(_playAnimation.WaitForAnimationToStart(_jumpAnimationStateName));
+		yield return StartCoroutine(_playAnimation.WaitForAnimationToEnd());
+	}
 
     private IEnumerator JumpEnumerator(float jumpForce, float jumpDuration)
     {

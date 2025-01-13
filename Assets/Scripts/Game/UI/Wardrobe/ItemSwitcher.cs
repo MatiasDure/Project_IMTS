@@ -1,17 +1,17 @@
-using System.Collections;
 using System.Collections.Generic;
-using Codice.Client.BaseCommands.Merge.Xml;
 using UnityEngine;
 
 public class ItemSwitcher : MonoBehaviour
 {
     // A list to hold all wardrobe items that can be switched
     [SerializeField] private List<WardrobeItem> items = new();
+    [SerializeField] private GameObject _panel;
 
     private void Start()
     {
-        ImageTrackingPlotActivatedResponse.OnPlotActivated += HandlePlotSwitch;
-        ImageTrackingPlotUpdatedResponse.OnPlotActivated += HandlePlotSwitch; 
+		PlotsManager.OnPlotActivated += HandlePlotSwitch;
+        // ImageTrackingPlotActivatedResponse.OnPlotActivated += HandlePlotSwitch;
+        // ImageTrackingPlotUpdatedResponse.OnPlotNeedsActivation += HandlePlotSwitch; 
     }
 
     private void HandlePlotSwitch(Plot newPlot)
@@ -84,9 +84,17 @@ public class ItemSwitcher : MonoBehaviour
         }
     }
 
+    public void ActivatePanel()
+    {
+        if (PlotsManager.Instance.CurrentPlot != Plot.None) return;
+
+        _panel.SetActive(true);
+    }
+
     private void OnDestroy()
     {
-        ImageTrackingPlotActivatedResponse.OnPlotActivated -= HandlePlotSwitch;
-        ImageTrackingPlotUpdatedResponse.OnPlotActivated -= HandlePlotSwitch;
+		PlotsManager.OnPlotActivated -= HandlePlotSwitch;
+        // ImageTrackingPlotActivatedResponse.OnPlotActivated -= HandlePlotSwitch;
+        // ImageTrackingPlotUpdatedResponse.OnPlotNeedsActivation -= HandlePlotSwitch;
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
@@ -6,6 +7,7 @@ public class ImageTrackingPlotActivatedResponse : MonoBehaviour, IImageTrackingR
 {
 	[SerializeField] private PlotTrackedImageCollection[] _plotTrackedImageCollections;
 	[SerializeField] private AnchorManager _anchorManager;
+
 	public ImageTrackingResponses ResponseType => ImageTrackingResponses.ActivatePlot;
 	public static event Action<Plot> OnPlotActivated;
 
@@ -15,9 +17,19 @@ public class ImageTrackingPlotActivatedResponse : MonoBehaviour, IImageTrackingR
 	
 	public GameObject Respond(GameObject portal, ARTrackedImage trackedImage)
 	{
-		_anchorManager.AttachToAnchor(portal, trackedImage);
+		StartCoroutine(CheckTracking(portal, trackedImage));
 
 		return portal;
+	}
+
+	// We want to make sure that the tracking state is consistent before attaching the portal to the anchor
+	private IEnumerator CheckTracking(GameObject portal, ARTrackedImage trackedImage) {
+		for(int i = 0; i < 30; i++) {
+			if(trackedImage.trackingState == UnityEngine.XR.ARSubsystems.TrackingState.Limited) i = 0;
+			yield return null;
+		}
+
+		_anchorManager.AttachToAnchor(portal, trackedImage);
 	}
 
 	private void HandleAnchorActivated(ImageAnchorCollection anchorCollection) {
