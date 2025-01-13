@@ -5,7 +5,7 @@ using UnityEngine;
 
 [
 	RequireComponent(typeof(BoxCollider)),
-	RequireComponent(typeof(SoundComponent))
+	RequireComponent(typeof(SoundComponent)),
 ]
 public class WindowInteraction : MonoBehaviour, IInteractable,
 												IInterruptible,
@@ -13,17 +13,24 @@ public class WindowInteraction : MonoBehaviour, IInteractable,
 {
 	private const string WAVE_ANIMATION_PARAMETER = "IsWaving";
 	private const string WAVE_ANIMATION_NAME = "Wave";
+	private const string WINDOW_OPEN_ANIMATION_PARAMETER = "OpeningWindow";
+	private const string WINDOW_OPEN_ANIMATION_NAME = "windowOpen";
+	private const string WINDOW_CLOSE_ANIMATION_PARAMETER = "ClosingWindow";
+	private const string WINDOW_CLOSE_ANIMATION_NAME = "windowClose";
 	
 	[SerializeField] Transform _windowTransform;
 	[SerializeField] Transform _windowFrontPosition;
 	[SerializeField] ObjectMovement _beeObjectMovement;
 	[SerializeField] BeeMovement _beeMovement;
 	[SerializeField] PlayAnimation _beePlayAnimation;
+	[SerializeField] PlayAnimation _housePlayAnimation;
+	[SerializeField] Sound _onceWindowOpenSFX;
+	[SerializeField] Sound _onceWindowCloseSFX;
 	// [SerializeField] PlayAnimation _sheepPlayAnimation;
 	
 	// Temporary until animations are implemented
 	[SerializeField] float _secondsToWaitForAnimations;
-	
+		
 	public bool CanInterrupt { get; set; } = true;
 	public bool MultipleInteractions { get; set; } = false;
 	public EventState State { get; set; }
@@ -31,6 +38,12 @@ public class WindowInteraction : MonoBehaviour, IInteractable,
 	public event Action OnEventDone;
 	
 	private WindowInteractionState _interactionState;
+	private SoundComponent _soundComponent;
+	
+	private void Awake()
+	{
+		_soundComponent = GetComponent<SoundComponent>();
+	}
 
 	public void Interact()
 	{
@@ -89,31 +102,36 @@ public class WindowInteraction : MonoBehaviour, IInteractable,
 		yield return _beePlayAnimation.WaitForAnimationToEnd();
 		_beePlayAnimation.SetBoolParameter(WAVE_ANIMATION_PARAMETER, false);
 		
-		// End sequence prematurely for playtest
-		UpdateState(WindowInteractionState.LeavingWindow);
-		
-		// Normally we would continue with this sequence
-		//UpdateState(WindowInteractionState.OpeningWindow);
+		UpdateState(WindowInteractionState.OpeningWindow);
 	}
 	
 	private IEnumerator OpenWindow()
 	{
-		Debug.Log("WindowInteraction: Play opening window animation here.");
-		yield return StartCoroutine(DelayCoroutine(_secondsToWaitForAnimations));
+		_housePlayAnimation.SetBoolParameter(WINDOW_OPEN_ANIMATION_PARAMETER, true);
+		_soundComponent.PlaySound(_onceWindowOpenSFX);
+		//yield return _housePlayAnimation.WaitForAnimationToStart(WINDOW_OPEN_ANIMATION_NAME);
+		yield return _housePlayAnimation.WaitForAnimationToEnd();
+		_housePlayAnimation.SetBoolParameter(WINDOW_OPEN_ANIMATION_PARAMETER, false);
+		//yield return StartCoroutine(DelayCoroutine(_secondsToWaitForAnimations));
 		UpdateState(WindowInteractionState.SheepResponds);
 	}
 	
 	private IEnumerator SheepResponse()
 	{
-		Debug.Log("WindowInteraction: Play sheep response animation here.");
+		//Debug.Log("WindowInteraction: Play sheep response animation here.");
 		yield return StartCoroutine(DelayCoroutine(_secondsToWaitForAnimations));
 		UpdateState(WindowInteractionState.ClosingWindow);
 	}
 	
 	private IEnumerator CloseWindow()
 	{
-		Debug.Log("WindowInteraction: Play closing window animation here.");
-		yield return StartCoroutine(DelayCoroutine(_secondsToWaitForAnimations));
+		_housePlayAnimation.SetBoolParameter(WINDOW_CLOSE_ANIMATION_PARAMETER, true);
+		_housePlayAnimation.SetBoolParameter(WINDOW_OPEN_ANIMATION_PARAMETER, false);
+		_soundComponent.PlaySound(_onceWindowCloseSFX);
+		//yield return _housePlayAnimation.WaitForAnimationToStart(WINDOW_CLOSE_ANIMATION_NAME);
+		yield return _housePlayAnimation.WaitForAnimationToEnd();
+		_housePlayAnimation.SetBoolParameter(WINDOW_CLOSE_ANIMATION_PARAMETER, false);
+		//yield return StartCoroutine(DelayCoroutine(_secondsToWaitForAnimations));
 		UpdateState(WindowInteractionState.LeavingWindow);
 	}
 	

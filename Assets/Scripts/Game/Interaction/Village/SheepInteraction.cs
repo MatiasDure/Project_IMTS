@@ -15,6 +15,7 @@ public class SheepInteraction : MonoBehaviour, IInteractable, IEvent, IInterrupt
 	
 	[Header("Sound")]
 	[SerializeField] Sound _sheepLoveSound;
+	[SerializeField] Sound _onceSheepBeehSFX;
 	
 	[Header("Animation")]
 	[SerializeField] private PlayAnimation _beeAnimation;
@@ -48,15 +49,16 @@ public class SheepInteraction : MonoBehaviour, IInteractable, IEvent, IInterrupt
 	}
 
 	void Start()
-    {
-        CanInterrupt = true;
+	{
+		CanInterrupt = true;
 		MultipleInteractions = false;
-    }
+	}
 
 	public void Interact()
 	{
 		if(_petSheepCoroutine != null) return;
 
+		_soundComponent.PlaySound(_onceSheepBeehSFX);
 		_petSheepCoroutine = StartCoroutine(PetSheep());
 	}
 
