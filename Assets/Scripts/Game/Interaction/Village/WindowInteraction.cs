@@ -118,7 +118,7 @@ public class WindowInteraction : MonoBehaviour, IInteractable,
 	
 	private IEnumerator SheepResponse()
 	{
-		Debug.Log("WindowInteraction: Play sheep response animation here.");
+		//Debug.Log("WindowInteraction: Play sheep response animation here.");
 		yield return StartCoroutine(DelayCoroutine(_secondsToWaitForAnimations));
 		UpdateState(WindowInteractionState.ClosingWindow);
 	}

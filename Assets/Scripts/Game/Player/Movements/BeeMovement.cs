@@ -35,6 +35,7 @@ public class BeeMovement : MonoBehaviour
 	[Header("Sound")]
 	[SerializeField] Sound _goToPlotSoundSFX;
 	[SerializeField] Sound _swimSFX;
+	[SerializeField] Sound _flySFX;
 
 	private PlayAnimation _playAnimation;
 
@@ -184,9 +185,12 @@ public class BeeMovement : MonoBehaviour
 	//TODO: Possibly handle swimming animation here in a switch statement
 	private void HandleBeeStateChange(BeeState state)
 	{
-		if(state == BeeState.Idle)
+		if(state == BeeState.Idle && PlotsManager.Instance.CurrentPlot == Plot.Ocean)
 		{
 			_soundComponent.PlaySound(_swimSFX);
+		}else if(state == BeeState.Idle && PlotsManager.Instance.CurrentPlot == Plot.Village)
+		{
+			_soundComponent.PlaySound(_flySFX);
 		}else
 		{
 			_soundComponent.StopSound();
