@@ -593,6 +593,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2073747494}
     - target: {fileID: 4907880800692195540, guid: 96833a7660a42894187bba0c1cf33c8c, type: 3}
+      propertyPath: _beeAnimation
+      value: 
+      objectReference: {fileID: 2073747507}
+    - target: {fileID: 4907880800692195540, guid: 96833a7660a42894187bba0c1cf33c8c, type: 3}
       propertyPath: _inspectPosition
       value: 
       objectReference: {fileID: 1060262621}
@@ -1351,9 +1355,9 @@ MonoBehaviour:
   _currentPlot: 0
   _plotObjects:
   - Plot: 1
-    PlotObject: {fileID: 1090165629}
+    PlotObjects: []
   - Plot: 3
-    PlotObject: {fileID: 0}
+    PlotObjects: []
 --- !u!4 &399814097
 Transform:
   m_ObjectHideFlags: 0
@@ -1591,6 +1595,7 @@ MonoBehaviour:
     volume: 0
     priority: 0
     loop: 0
+  _beeAnimation: {fileID: 0}
 --- !u!65 &440940636
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2905,6 +2910,7 @@ MonoBehaviour:
     volume: 0
     priority: 0
     loop: 0
+  _beeAnimation: {fileID: 0}
 --- !u!65 &1029808423
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4044,11 +4050,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1962442491}
   m_SourcePrefab: {fileID: 100100000, guid: 578f51361a2c1544f802e09ef44e9502, type: 3}
---- !u!1 &1090165629 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8589149297904050142, guid: 578f51361a2c1544f802e09ef44e9502, type: 3}
-  m_PrefabInstance: {fileID: 1090165628}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1090165630 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9012692836658485437, guid: 578f51361a2c1544f802e09ef44e9502, type: 3}
@@ -4818,6 +4819,7 @@ MonoBehaviour:
     volume: 0
     priority: 0
     loop: 0
+  _beeAnimation: {fileID: 0}
 --- !u!65 &1374924351
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5072,6 +5074,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 1901011012288259894, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
+      propertyPath: _beeAnimation
+      value: 
+      objectReference: {fileID: 2073747507}
     - target: {fileID: 1932594463916370155, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
       propertyPath: m_Controller
       value: 
@@ -5140,6 +5146,10 @@ PrefabInstance:
       propertyPath: _beeMovement
       value: 
       objectReference: {fileID: 2073747494}
+    - target: {fileID: 2408746912330447481, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
+      propertyPath: _beeAnimation
+      value: 
+      objectReference: {fileID: 2073747507}
     - target: {fileID: 2750596496716756049, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -5216,6 +5226,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -0.425
       objectReference: {fileID: 0}
+    - target: {fileID: 4771012438248015941, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
+      propertyPath: _beeAnimation
+      value: 
+      objectReference: {fileID: 2073747507}
     - target: {fileID: 4935974087232837447, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
       propertyPath: _beeMovement
       value: 
@@ -5280,6 +5294,10 @@ PrefabInstance:
       propertyPath: m_ApplyRootMotion
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5341532189609103573, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
+      propertyPath: _beeAnimation
+      value: 
+      objectReference: {fileID: 2073747507}
     - target: {fileID: 5394297862347356928, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
       propertyPath: _beeAnimation
       value: 
@@ -5288,6 +5306,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 5461759256610250595, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
+      propertyPath: _beeAnimation
+      value: 
+      objectReference: {fileID: 2073747507}
     - target: {fileID: 5463334124425724521, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -5524,6 +5546,10 @@ PrefabInstance:
       propertyPath: m_ApplyRootMotion
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7344632900988026989, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
+      propertyPath: _beeAnimation
+      value: 
+      objectReference: {fileID: 2073747507}
     - target: {fileID: 7441355606224768817, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -5584,6 +5610,10 @@ PrefabInstance:
       propertyPath: _beeMovement
       value: 
       objectReference: {fileID: 2073747494}
+    - target: {fileID: 7687894655080688412, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
+      propertyPath: _beeAnimation
+      value: 
+      objectReference: {fileID: 2073747507}
     - target: {fileID: 7687894655080688412, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
       propertyPath: _inspectPosition
       value: 
@@ -5652,6 +5682,10 @@ PrefabInstance:
       propertyPath: _fishingRodRotate
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 8570331179471028813, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
+      propertyPath: _beeAnimation
+      value: 
+      objectReference: {fileID: 2073747507}
     - target: {fileID: 8705701374105116226, guid: d53ab8023f2a0a445aee29b9002942ab, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -6665,6 +6699,10 @@ PrefabInstance:
       propertyPath: _beeMovement
       value: 
       objectReference: {fileID: 2073747494}
+    - target: {fileID: 4907880800692195540, guid: 96833a7660a42894187bba0c1cf33c8c, type: 3}
+      propertyPath: _beeAnimation
+      value: 
+      objectReference: {fileID: 2073747507}
     - target: {fileID: 4907880800692195540, guid: 96833a7660a42894187bba0c1cf33c8c, type: 3}
       propertyPath: _inspectPosition
       value: 
@@ -7949,7 +7987,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5db349d89c61b7343940c155dd4aba2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _initialAnimationParameterName: HasStarted
   _boatAnimationState: shipwreckAnimation
   _interactedAnimationParametedName: Interacted
 --- !u!82 &1962442492

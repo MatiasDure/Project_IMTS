@@ -12,8 +12,6 @@ public class ChimneyInteraction : MonoBehaviour, IInteractable
 {
 	private const string HOUSE_ANIMATION_NAME = "tapAnimationHouse";
 	[SerializeField] private string _houseAnimationParameterName = "tapAnimationHouse";
-	[SerializeField] private string _shrinkAnimationName = "Shrink";
-	[SerializeField] private string _expandAnimationName = "Expand";
 	[SerializeField] private float _particleDuration = 3f;
 	[SerializeField] private Sound _onceTapHouseSFX;
 	[SerializeField] private Sound _onceChimneySmokeSFX;
@@ -52,13 +50,6 @@ public class ChimneyInteraction : MonoBehaviour, IInteractable
 	{
 		_playAnimation.SetBoolParameter(_houseAnimationParameterName, true);
 		yield return StartCoroutine(_playAnimation.WaitForAnimationToStart(HOUSE_ANIMATION_NAME));
-		yield return StartCoroutine(_playAnimation.WaitForAnimationToEnd());
-	}
-
-	private IEnumerator ExpandChimney()
-	{
-		yield return StartCoroutine(_playAnimation.WaitForAnimationToStart(_expandAnimationName));
-
 		yield return StartCoroutine(_playAnimation.WaitForAnimationToEnd());
 	}
 
