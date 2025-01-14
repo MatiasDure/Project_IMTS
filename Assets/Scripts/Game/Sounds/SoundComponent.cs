@@ -12,6 +12,8 @@ public class SoundComponent : MonoBehaviour
 	
 	public void PlaySound(Sound sound)
 	{
+		if(!_audioSource) _audioSource = GetComponent<AudioSource>();
+
 		_audioSource.clip = sound.clip;
 		_audioSource.volume = sound.volume;
 		_audioSource.priority = sound.priority;
@@ -25,6 +27,8 @@ public class SoundComponent : MonoBehaviour
 	
 	public void StopSound()
 	{
+		if(!_audioSource) _audioSource = GetComponent<AudioSource>();
+
 		_audioSource.Stop();
 	}
 }

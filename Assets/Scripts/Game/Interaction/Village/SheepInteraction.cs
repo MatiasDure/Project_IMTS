@@ -16,6 +16,7 @@ public class SheepInteraction : MonoBehaviour, IInteractable, IEvent, IInterrupt
 	[Header("Sound")]
 	[SerializeField] Sound _sheepLoveSound;
 	[SerializeField] Sound _onceSheepBeehSFX;
+	[SerializeField] Sound _onceBeeGiggleSFX;
 	
 	[Header("Animation")]
 	[SerializeField] private PlayAnimation _beeAnimation;
@@ -87,6 +88,7 @@ public class SheepInteraction : MonoBehaviour, IInteractable, IEvent, IInterrupt
 	private IEnumerator MoveBeeToSheep() {
 		yield return _beeMovement.MoveUntilObjectReached(transform.position + _beePettingPositionOffset, .75f);
 		yield return _beeMovement.RotateUntilLookAt(transform.position, .1f);
+		_soundComponent.PlaySound(_onceBeeGiggleSFX);
 	}
 
 	private IEnumerator PetSheepAnimation() {
