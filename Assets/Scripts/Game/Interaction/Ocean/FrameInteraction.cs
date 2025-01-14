@@ -97,4 +97,9 @@ public class FrameInteraction : MonoBehaviour, IInteractable, IEvent, IToggleCom
 	{
 		StopAllCoroutines();
 	}
+
+    private void OnDisable()
+    {
+        StopEvent();
+    }
 }

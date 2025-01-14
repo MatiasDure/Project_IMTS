@@ -153,4 +153,9 @@ public class ClambInteraction : MonoBehaviour,
 		_collider.center += new Vector3(0, increaseRate/2, 0);
 		_collider.size += new Vector3(0, increaseRate, 0);
 	}
+
+	private void OnDisable()
+	{
+		StopEvent();
+	}
 }
