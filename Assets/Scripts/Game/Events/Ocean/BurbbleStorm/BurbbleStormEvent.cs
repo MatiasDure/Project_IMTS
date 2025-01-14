@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class BurbbleStormEvent : PlotEvent
@@ -111,4 +112,9 @@ public class BurbbleStormEvent : PlotEvent
 		DisableEvent();
 		base.StopEvent();
 	}
+
+    private void OnDisable()
+    {
+        StopEvent();
+    }
 }
