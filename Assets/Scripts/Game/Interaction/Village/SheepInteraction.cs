@@ -116,4 +116,9 @@ public class SheepInteraction : MonoBehaviour, IInteractable, IEvent, IInterrupt
 			_petSheepCoroutine = null;
 		}
 	}
+
+	private void OnDisable()
+	{
+		StopEvent();
+	}
 }
