@@ -28,7 +28,9 @@ public class FishingRodPassive : PlotEvent, IInterruptible
 	[SerializeField] Sound _fishingRodIdleSFX;
 	[SerializeField] Sound _onceFishingRodReleaseSFX;
 	[SerializeField] Sound _onceFishingRodReleaseBeeReactionSFX;
-
+	[SerializeField] Sound _onceBeeAngrySFX;
+	[SerializeField] Sound _onceBeeCuriousSFX;
+ 
 	public event Action<IInterruptible> OnInterruptedDone;
 	
 	private FishingRodPassiveState _fishingRodEventState;
@@ -97,6 +99,7 @@ public class FishingRodPassive : PlotEvent, IInterruptible
 	private IEnumerator LookAtRiver()
 	{
 		_beePlayAnimation.SetTrigger(SUPRISE_ANIMATION_PARAMETER);
+		_soundComponent.PlaySound(_onceBeeCuriousSFX);
 		
 		yield return new WaitForSeconds(_timeToTriggerCatch.GetRandomValueWithinRange());
 			
@@ -116,6 +119,7 @@ public class FishingRodPassive : PlotEvent, IInterruptible
 	{
 		_soundComponent.PlaySound(_onceFishingRodReleaseSFX);
 		_soundComponent.PlaySound(_onceFishingRodReleaseBeeReactionSFX);
+		_soundComponent.PlaySound(_onceBeeAngrySFX);
 		_rodPlayAnimation.SetBoolParameter(RELEASE_ANIMATION_PARAMETER, true);
 		yield return _rodPlayAnimation.WaitForAnimationToEnd();
 		
