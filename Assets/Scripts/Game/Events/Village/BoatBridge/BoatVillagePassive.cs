@@ -47,6 +47,7 @@ public class BoatVillagePassive : PlotEvent, IInterruptible
 	[SerializeField] private Range _playHornSoundTimeRange;
 	[SerializeField] private Sound _boatEngineSFX;
 	[SerializeField] private Sound _onceBoatHornSFX;
+	[SerializeField] private Sound _onceBeeGiggleSFX;
 	
 	// Different sound component in order to play looped and one shot sounds at the same time
 	[SerializeField] private SoundComponent _hornSoundComponent;
@@ -153,6 +154,7 @@ public class BoatVillagePassive : PlotEvent, IInterruptible
 	{
 		_beeAnimation.SetBoolParameter(_waveAnimationParameterName, true);
 		yield return StartCoroutine(_beeAnimation.WaitForAnimationToStart(_waveAnimationStateName));
+		_hornSoundComponent.PlaySound(_onceBeeGiggleSFX);
 		yield return StartCoroutine(_beeAnimation.WaitForAnimationToEnd(_waveAnimationFrequency));
 		_beeAnimation.SetBoolParameter(_waveAnimationParameterName, false);
 		yield return StartCoroutine(_beeAnimation.WaitForAnimationToStart("Fly"));
