@@ -221,4 +221,9 @@ public class TreeInteraction : MonoBehaviour, IInteractable, IEvent, IInterrupti
 	{
 		StopAllCoroutines();
 	}
+
+	private void OnDisable()
+	{
+		StopEvent();
+	}
 }

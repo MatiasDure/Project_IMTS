@@ -191,4 +191,9 @@ public class WindowInteraction : MonoBehaviour, IInteractable,
 		HandleEventDone();
 		_beePlayAnimation.SetBoolParameter(WAVE_ANIMATION_PARAMETER, false);
 	}
+
+	private void OnDisable()
+	{
+		StopEvent();
+	}
 }

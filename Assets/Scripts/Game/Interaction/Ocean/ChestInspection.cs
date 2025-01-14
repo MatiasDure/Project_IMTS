@@ -274,4 +274,9 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 	{
 		StopAllCoroutines();
 	}
+
+	private void OnDisable()
+	{
+		StopEvent();
+	}
 }

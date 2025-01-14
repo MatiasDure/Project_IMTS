@@ -147,4 +147,9 @@ public class FishInteraction : MonoBehaviour,
 	{
 		StopAllCoroutines();
 	}
+
+	private void OnDisable()
+	{
+		StopEvent();
+	}
 }
