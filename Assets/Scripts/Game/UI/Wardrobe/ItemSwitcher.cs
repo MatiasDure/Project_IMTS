@@ -6,24 +6,56 @@ public class ItemSwitcher : MonoBehaviour
     // A list to hold all wardrobe items that can be switched
     [SerializeField] private List<WardrobeItem> items = new();
     [SerializeField] private GameObject _panel;
+	[SerializeField] private GameObject _wardrobeButton;
 
     private void Start()
     {
 		PlotsManager.OnPlotActivated += HandlePlotSwitch;
-        // ImageTrackingPlotActivatedResponse.OnPlotActivated += HandlePlotSwitch;
-        // ImageTrackingPlotUpdatedResponse.OnPlotNeedsActivation += HandlePlotSwitch; 
+		PlotsManager.OnPlotDeactivated += HandlePlotsDeactivated;
     }
+
+	private void DeactivateWardrobeUI() {
+		_wardrobeButton.SetActive(false);
+		_panel.SetActive(false);
+	}
+
+	private void ActivateWardrobeUI() {
+		_wardrobeButton.SetActive(true);
+	}
 
     private void HandlePlotSwitch(Plot newPlot)
     {
+		DeactivateWardrobeUI();
+
         if (newPlot != Plot.Ocean) return;
 
+		DeactivateObjectsOfType(WardrobeItem.ItemType.hat);
         GameObject goggles = FindItemOfType(WardrobeItem.ItemType.goggles);
-
         goggles.SetActive(true);
-
-        DeactivateObjectsExcept(WardrobeItem.ItemType.goggles);
+        // DeactivateObjectsExcept(WardrobeItem.ItemType.goggles);
     }
+
+	private void HandlePlotsDeactivated(Plot plot) {
+		if(plot == Plot.Ocean) {
+			GameObject goggles = FindItemOfType(WardrobeItem.ItemType.goggles);
+			if(goggles.activeSelf) goggles.SetActive(false);
+		}
+
+		ActivateWardrobeUI();
+	}
+
+	private void DeactivateObjectsOfType(WardrobeItem.ItemType type)
+	{
+		foreach (var item in items)
+		{
+			if (item.itemType != type) continue;
+			
+			if(item.gameObject.activeSelf) {
+				item.gameObject.SetActive(false);
+				break;
+			}
+		}
+	}
 
     private void DeactivateObjectsExcept(WardrobeItem.ItemType type)
     {
@@ -86,15 +118,12 @@ public class ItemSwitcher : MonoBehaviour
 
     public void ActivatePanel()
     {
-        if (PlotsManager.Instance.CurrentPlot != Plot.None) return;
-
         _panel.SetActive(true);
     }
 
     private void OnDestroy()
     {
 		PlotsManager.OnPlotActivated -= HandlePlotSwitch;
-        // ImageTrackingPlotActivatedResponse.OnPlotActivated -= HandlePlotSwitch;
-        // ImageTrackingPlotUpdatedResponse.OnPlotNeedsActivation -= HandlePlotSwitch;
+		PlotsManager.OnPlotDeactivated -= HandlePlotsDeactivated;
     }
 }

@@ -29,6 +29,9 @@ public class ImageTrackingPlotActivatedResponse : MonoBehaviour, IImageTrackingR
 			yield return null;
 		}
 
+		Debug.Log("Portal: " + portal);
+		Debug.Log("Tracked Image: " + trackedImage);
+
 		_anchorManager.AttachToAnchor(portal, trackedImage);
 	}
 

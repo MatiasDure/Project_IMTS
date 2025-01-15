@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(PlayAnimation))]
 public class BeeVisit : PlotEvent, IEvent, IInterruptible
 {
 	private const string KNOCKING_ANIMATION_PARAMETER = "IsKnocking";

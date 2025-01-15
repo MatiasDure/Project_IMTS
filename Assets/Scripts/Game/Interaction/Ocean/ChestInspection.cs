@@ -26,6 +26,7 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 	[SerializeField] private Sound _chestLockSFX;
 	[SerializeField] private Sound _onceBeeGoToChestSFX;
 	[SerializeField] private Sound _onceBeeLockedInChestSFX;
+	[SerializeField] private ParticleSystem _sparkleParticle;
 	
 	private Cooldown _cooldown;
 	private PlayAnimation _playAnimation;
@@ -217,6 +218,7 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 	private IEnumerator CloseAnimation() {
 		_soundComponent.PlaySound(_onceChestCloseSFX);
 		_playParticle.ToggleOff();
+		_sparkleParticle.Stop();
 		SetCloseChestAnimation();
 		yield return StartCoroutine(FinishAnimation(CLOSE_STATE_NAME));
 	}
@@ -226,6 +228,7 @@ public class ChestInspection : MonoBehaviour, IInteractable, IEvent, IInterrupti
 		SetOpenChestAnimation();
 		yield return StartCoroutine(FinishAnimation(OPEN_STATE_NAME));
 		_playParticle.ToggleOn();
+		_sparkleParticle.Play();
 	}
 
 	private IEnumerator FinishAnimation(string animationStateName) {

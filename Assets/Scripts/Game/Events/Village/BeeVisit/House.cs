@@ -22,6 +22,7 @@ public class House : MonoBehaviour, IInspectable
 	}
 
 	private IEnumerator InspectHouse() {
+		Debug.Log("Audio source: " + _audioSource);
 		_audioSource.Play();
 		yield return new WaitForSeconds(_audioSource.clip.length);
 

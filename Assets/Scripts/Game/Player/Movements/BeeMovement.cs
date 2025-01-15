@@ -198,8 +198,6 @@ public class BeeMovement : MonoBehaviour
 
 	private void HandlePlotDeactivated(Plot plotDeactivated)
 	{
-		if (Bee.Instance.State == BeeState.FollowingCamera) return;
-
 		if (_movementCoroutine != null)
 		{
 			StopCoroutine(_movementCoroutine);
@@ -212,6 +210,8 @@ public class BeeMovement : MonoBehaviour
 		if(plotDeactivated == Plot.Ocean) {
 			_playAnimation.SetBoolParameter(_beeSwimmingAnimationParameterName, false);
 		}
+		
+		if(Bee.Instance.State == BeeState.FollowingCamera) return;
 		
 		Bee.Instance.UpdateState(BeeState.FollowingCamera);
 	}

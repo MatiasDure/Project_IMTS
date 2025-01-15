@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [
@@ -14,9 +13,9 @@ public class WindowInteraction : MonoBehaviour, IInteractable,
 	private const string WAVE_ANIMATION_PARAMETER = "IsWaving";
 	private const string WAVE_ANIMATION_NAME = "Wave";
 	private const string WINDOW_OPEN_ANIMATION_PARAMETER = "OpeningWindow";
-	private const string WINDOW_OPEN_ANIMATION_NAME = "windowOpen";
 	private const string WINDOW_CLOSE_ANIMATION_PARAMETER = "ClosingWindow";
-	private const string WINDOW_CLOSE_ANIMATION_NAME = "windowClose";
+	private const string SHEEP_POPS_OUT_ANIMATION_PARAMETER = "Pop";
+	private const string SHEEP_POPS_OUT_ANIMATION_STATE_NAME = "PopOut";
 	
 	[SerializeField] Transform _windowTransform;
 	[SerializeField] Transform _windowFrontPosition;
@@ -26,7 +25,7 @@ public class WindowInteraction : MonoBehaviour, IInteractable,
 	[SerializeField] PlayAnimation _housePlayAnimation;
 	[SerializeField] Sound _onceWindowOpenSFX;
 	[SerializeField] Sound _onceWindowCloseSFX;
-	// [SerializeField] PlayAnimation _sheepPlayAnimation;
+	[SerializeField] PlayAnimation _sheepPlayAnimation;
 	
 	// Temporary until animations are implemented
 	[SerializeField] float _secondsToWaitForAnimations;
@@ -119,7 +118,9 @@ public class WindowInteraction : MonoBehaviour, IInteractable,
 	private IEnumerator SheepResponse()
 	{
 		//Debug.Log("WindowInteraction: Play sheep response animation here.");
-		yield return StartCoroutine(DelayCoroutine(_secondsToWaitForAnimations));
+		_sheepPlayAnimation.SetTrigger(SHEEP_POPS_OUT_ANIMATION_PARAMETER);
+		yield return StartCoroutine(_sheepPlayAnimation.WaitForAnimationToStart(SHEEP_POPS_OUT_ANIMATION_STATE_NAME));
+		yield return StartCoroutine(_sheepPlayAnimation.WaitForAnimationToEnd());
 		UpdateState(WindowInteractionState.ClosingWindow);
 	}
 	
