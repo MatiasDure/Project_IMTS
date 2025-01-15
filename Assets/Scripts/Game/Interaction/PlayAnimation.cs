@@ -12,20 +12,20 @@ public class PlayAnimation : MonoBehaviour
 	}
 
 	public void Play(string animationName) {
-		_animator.Play(animationName);
+		if(_animator != null)_animator.Play(animationName);
 	}
 
 	public void ToggleBoolParameter(string parameterName) {
-		_animator.SetBool(parameterName, !_animator.GetBool(parameterName));
+		if(_animator != null)_animator.SetBool(parameterName, !_animator.GetBool(parameterName));
 	}
 
 	public void SetBoolParameter(string parameterName, bool value) {
-		_animator.SetBool(parameterName, value);
+		if(_animator != null)_animator.SetBool(parameterName, value);
 	}
 
 	public void SetTrigger(string triggerName)
 	{
-		_animator.SetTrigger(triggerName);
+		if(_animator != null)_animator.SetTrigger(triggerName);
 	}
 
 	public bool IsPlaying() => _animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1;
@@ -47,6 +47,6 @@ public class PlayAnimation : MonoBehaviour
 	}
 	
 	public void Stop() {
-		_animator.StopPlayback();
+		if(_animator != null)_animator.StopPlayback();
 	}
 }

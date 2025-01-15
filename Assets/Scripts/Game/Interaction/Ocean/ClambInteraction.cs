@@ -35,7 +35,9 @@ public class ClambInteraction : MonoBehaviour,
 
 	private SoundComponent _soundComponent;
 	
+#pragma warning disable CS0067
 	public event Action OnEventDone;
+#pragma warning restore CS0067
 	public event Action OnToggleDone;
 
 	private BoxCollider _collider;

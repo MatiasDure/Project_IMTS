@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(ToggleRotate))]
 public class FrameInteraction : MonoBehaviour, IInteractable, IEvent, IToggleComponent
 {
-    public event Action OnToggleDone;
+    
     public ToggleState CurrentToggleState { get; set; }
     public ToggleState NextToggleState { get; set; }
     
@@ -14,7 +14,10 @@ public class FrameInteraction : MonoBehaviour, IInteractable, IEvent, IToggleCom
     public bool CanInterrupt { get; set; }
     public bool MultipleInteractions { get; set; }
     
+#pragma warning disable CS0067
+    public event Action OnToggleDone;
     public event Action OnEventDone;
+#pragma warning restore CS0067
     
     public EventState State { get; set; }
 

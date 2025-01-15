@@ -58,6 +58,7 @@ public class BeeMovement : MonoBehaviour
 
 	private void Start()
 	{
+		_soundComponent.PlaySound(_flySFX);
 		SubscribeToEvents();
 	}
 
