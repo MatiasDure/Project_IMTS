@@ -1328,7 +1328,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &654874946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3021,6 +3021,18 @@ PrefabInstance:
       propertyPath: m_ProvidesContacts
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 126655531620624153, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.039
+      objectReference: {fileID: 0}
+    - target: {fileID: 126655531620624153, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.044
+      objectReference: {fileID: 0}
+    - target: {fileID: 126655531620624153, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.282
+      objectReference: {fileID: 0}
     - target: {fileID: 320670822880245707, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
       propertyPath: m_IsTrigger
       value: 0
@@ -3072,6 +3084,34 @@ PrefabInstance:
     - target: {fileID: 553690539659739334, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
       propertyPath: m_Center.z
       value: 2.4499462
+      objectReference: {fileID: 0}
+    - target: {fileID: 700038265055947805, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
+      propertyPath: _onceTapHouseSFX.clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 25bf6d75d232afe498cf0c23a823dd4d, type: 3}
+    - target: {fileID: 700038265055947805, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
+      propertyPath: _onceTapHouseSFX.volume
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 700038265055947805, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
+      propertyPath: _onceHouseWobbleSFX.clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 28741d80bbd666c419e66296e556606d, type: 3}
+    - target: {fileID: 700038265055947805, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
+      propertyPath: _onceChimneySmokeSFX.clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 85881b7988bc8f846adf5ade69c656c1, type: 3}
+    - target: {fileID: 700038265055947805, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
+      propertyPath: _onceChimneySmokeSFX.loop
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 700038265055947805, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
+      propertyPath: _onceHouseWobbleSFX.volume
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 700038265055947805, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
+      propertyPath: _onceChimneySmokeSFX.volume
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1218712620535197927, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
       propertyPath: _beeMovement
@@ -3131,11 +3171,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1236704389313077022, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.21
+      value: 0.314
       objectReference: {fileID: 0}
     - target: {fileID: 1236704389313077022, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.465
+      value: -0.495
       objectReference: {fileID: 0}
     - target: {fileID: 1258532273400977393, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
       propertyPath: m_IsTrigger
@@ -3157,6 +3197,10 @@ PrefabInstance:
       propertyPath: m_ProvidesContacts
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1338209350725008980, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 2097018127674751445, guid: 43114b3c79a3448778de396aa1e9370e, type: 3}
     - target: {fileID: 1469559826742138822, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
       propertyPath: m_IsTrigger
       value: 0
@@ -3277,6 +3321,34 @@ PrefabInstance:
       propertyPath: m_Size.y
       value: 0.35
       objectReference: {fileID: 0}
+    - target: {fileID: 3224520741260174748, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
+      propertyPath: _onceTapHouseSFX.clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 25bf6d75d232afe498cf0c23a823dd4d, type: 3}
+    - target: {fileID: 3224520741260174748, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
+      propertyPath: _onceTapHouseSFX.volume
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3224520741260174748, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
+      propertyPath: _onceHouseWobbleSFX.clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 28741d80bbd666c419e66296e556606d, type: 3}
+    - target: {fileID: 3224520741260174748, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
+      propertyPath: _onceChimneySmokeSFX.clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 85881b7988bc8f846adf5ade69c656c1, type: 3}
+    - target: {fileID: 3224520741260174748, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
+      propertyPath: _onceChimneySmokeSFX.loop
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3224520741260174748, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
+      propertyPath: _onceHouseWobbleSFX.volume
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3224520741260174748, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
+      propertyPath: _onceChimneySmokeSFX.volume
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 3478048196315822610, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
       propertyPath: m_IsTrigger
       value: 0
@@ -3367,11 +3439,11 @@ PrefabInstance:
       objectReference: {fileID: 2073747507}
     - target: {fileID: 4529324069821154807, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.05
+      value: -0.03
       objectReference: {fileID: 0}
     - target: {fileID: 4529324069821154807, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.281
+      value: 4.34
       objectReference: {fileID: 0}
     - target: {fileID: 4661613340756952157, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
       propertyPath: m_IsTrigger
@@ -3412,6 +3484,14 @@ PrefabInstance:
     - target: {fileID: 5016447963595956124, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
       propertyPath: m_PlayOnAwake
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553726026665993110, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.133
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553726026665993110, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.077
       objectReference: {fileID: 0}
     - target: {fileID: 6055784447801546044, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
       propertyPath: m_IsTrigger
@@ -3488,6 +3568,34 @@ PrefabInstance:
     - target: {fileID: 6972788472566253265, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7089959084652019728, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
+      propertyPath: _onceTapHouseSFX.clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 25bf6d75d232afe498cf0c23a823dd4d, type: 3}
+    - target: {fileID: 7089959084652019728, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
+      propertyPath: _onceTapHouseSFX.volume
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7089959084652019728, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
+      propertyPath: _onceHouseWobbleSFX.clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 28741d80bbd666c419e66296e556606d, type: 3}
+    - target: {fileID: 7089959084652019728, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
+      propertyPath: _onceChimneySmokeSFX.clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 85881b7988bc8f846adf5ade69c656c1, type: 3}
+    - target: {fileID: 7089959084652019728, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
+      propertyPath: _onceChimneySmokeSFX.loop
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7089959084652019728, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
+      propertyPath: _onceHouseWobbleSFX.volume
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7089959084652019728, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
+      propertyPath: _onceChimneySmokeSFX.volume
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7157246681620243931, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4555,7 +4663,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1647925938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5423,6 +5531,11 @@ Transform:
 Transform:
   m_CorrespondingSourceObject: {fileID: 3007784949644360134, guid: 91714f5fba607054081f48ae9211f5df, type: 3}
   m_PrefabInstance: {fileID: 9144477023534850465}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &1963279333 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 7387042706268699410, guid: 9cb230d568350a84494487b5b0044c32, type: 3}
+  m_PrefabInstance: {fileID: 1184350498}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2015332564
 PrefabInstance:
@@ -6375,6 +6488,10 @@ PrefabInstance:
       propertyPath: m_PlayOnAwake
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3710333610492620042, guid: 95b5e457630fbf244a2fa4afe321e4bf, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3876800288590842460, guid: 95b5e457630fbf244a2fa4afe321e4bf, type: 3}
       propertyPath: _origin
       value: 
@@ -6386,7 +6503,7 @@ PrefabInstance:
     - target: {fileID: 3876800288590842460, guid: 95b5e457630fbf244a2fa4afe321e4bf, type: 3}
       propertyPath: _particleSystemprefab
       value: 
-      objectReference: {fileID: 4879900529993044675, guid: 257ef6333c94e7e4fa9382ed5801f67e, type: 3}
+      objectReference: {fileID: 1963279333}
     - target: {fileID: 4260977682448811797, guid: 95b5e457630fbf244a2fa4afe321e4bf, type: 3}
       propertyPath: _riverLook
       value: 
@@ -6502,7 +6619,7 @@ PrefabInstance:
     - target: {fileID: 6528931952079966478, guid: 95b5e457630fbf244a2fa4afe321e4bf, type: 3}
       propertyPath: _onceBoatHornSFX.clip
       value: 
-      objectReference: {fileID: 8300000, guid: eb6272f3e1c64204f8d9b2e88836e54a, type: 3}
+      objectReference: {fileID: 8300000, guid: aadb0d82fb6824747be458ac74f943c4, type: 3}
     - target: {fileID: 6528931952079966478, guid: 95b5e457630fbf244a2fa4afe321e4bf, type: 3}
       propertyPath: _onceBoatHornSFX.loop
       value: 0
@@ -6513,7 +6630,7 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: e0c86505348bef74186f066fd6e5f200, type: 3}
     - target: {fileID: 6528931952079966478, guid: 95b5e457630fbf244a2fa4afe321e4bf, type: 3}
       propertyPath: _onceBeeGiggleSFX.loop
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6528931952079966478, guid: 95b5e457630fbf244a2fa4afe321e4bf, type: 3}
       propertyPath: _boatEngineSFX.priority
@@ -6534,6 +6651,14 @@ PrefabInstance:
     - target: {fileID: 6528931952079966478, guid: 95b5e457630fbf244a2fa4afe321e4bf, type: 3}
       propertyPath: _onceBeeGiggleSFX.priority
       value: 128
+      objectReference: {fileID: 0}
+    - target: {fileID: 6528931952079966478, guid: 95b5e457630fbf244a2fa4afe321e4bf, type: 3}
+      propertyPath: _playHornSoundTimeRange.Max
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6528931952079966478, guid: 95b5e457630fbf244a2fa4afe321e4bf, type: 3}
+      propertyPath: _playHornSoundTimeRange.Min
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6528931952079966478, guid: 95b5e457630fbf244a2fa4afe321e4bf, type: 3}
       propertyPath: _waypoints.Array.data[0].Waypoint

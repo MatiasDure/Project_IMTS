@@ -186,7 +186,7 @@ public class BoatVillagePassive : PlotEvent, IInterruptible
 	{
 		yield return new WaitForSeconds(secondsToWait);
 		_hornSoundComponent.PlaySound(_onceBoatHornSFX);
-		
+		yield return new WaitForSeconds(_onceBoatHornSFX.clip.length);
 		StartCoroutine(PlayHornCoroutine(_playHornSoundTimeRange.GetRandomValueWithinRange()));
 	}
 
