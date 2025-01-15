@@ -2751,9 +2751,17 @@ PrefabInstance:
       propertyPath: m_PlayOnAwake
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 707923063214351420, guid: 578f51361a2c1544f802e09ef44e9502, type: 3}
+    - {fileID: 3912038646472210771, guid: 578f51361a2c1544f802e09ef44e9502, type: 3}
+    - {fileID: 7447849275832702694, guid: 578f51361a2c1544f802e09ef44e9502, type: 3}
+    - {fileID: 558839887055570082, guid: 578f51361a2c1544f802e09ef44e9502, type: 3}
     m_RemovedGameObjects:
     - {fileID: 5337747257530470775, guid: 578f51361a2c1544f802e09ef44e9502, type: 3}
+    - {fileID: 4887012735145067118, guid: 578f51361a2c1544f802e09ef44e9502, type: 3}
+    - {fileID: 8280341753039892867, guid: 578f51361a2c1544f802e09ef44e9502, type: 3}
+    - {fileID: 8871214051282599126, guid: 578f51361a2c1544f802e09ef44e9502, type: 3}
+    - {fileID: 8211664582101201609, guid: 578f51361a2c1544f802e09ef44e9502, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 9012692836658485437, guid: 578f51361a2c1544f802e09ef44e9502, type: 3}
       insertIndex: -1
