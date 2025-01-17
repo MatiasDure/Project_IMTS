@@ -102,8 +102,8 @@ public class BurbbleStormEvent : PlotEvent
 
 	private void DisableEvent()
 	{
-		_cooldown.StopCooldown();
-		_tornado.gameObject.SetActive(false);
+		if(_cooldown!=null) _cooldown.StopCooldown();
+        if(_tornado!=null) _tornado.gameObject.SetActive(false);
 		FireEndEvent(SetupForceEndEventMetadata());
 	}
 

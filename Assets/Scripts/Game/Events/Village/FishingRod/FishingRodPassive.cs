@@ -117,6 +117,7 @@ public class FishingRodPassive : PlotEvent, IInterruptible
 	
 	private IEnumerator FishingRodRelease()
 	{
+		_playParticle.ToggleOff();
 		_soundComponent.PlaySound(_onceFishingRodReleaseSFX);
 		_soundComponent.PlaySound(_onceFishingRodReleaseBeeReactionSFX);
 		_soundComponent.PlaySound(_onceBeeAngrySFX);

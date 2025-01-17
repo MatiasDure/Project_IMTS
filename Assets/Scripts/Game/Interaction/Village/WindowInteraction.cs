@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [
@@ -14,9 +13,9 @@ public class WindowInteraction : MonoBehaviour, IInteractable,
 	private const string WAVE_ANIMATION_PARAMETER = "IsWaving";
 	private const string WAVE_ANIMATION_NAME = "Wave";
 	private const string WINDOW_OPEN_ANIMATION_PARAMETER = "OpeningWindow";
-	private const string WINDOW_OPEN_ANIMATION_NAME = "windowOpen";
 	private const string WINDOW_CLOSE_ANIMATION_PARAMETER = "ClosingWindow";
-	private const string WINDOW_CLOSE_ANIMATION_NAME = "windowClose";
+	private const string SHEEP_POPS_OUT_ANIMATION_PARAMETER = "Pop";
+	private const string SHEEP_POPS_OUT_ANIMATION_STATE_NAME = "PopOut";
 	
 	[SerializeField] Transform _windowTransform;
 	[SerializeField] Transform _windowFrontPosition;
@@ -26,7 +25,7 @@ public class WindowInteraction : MonoBehaviour, IInteractable,
 	[SerializeField] PlayAnimation _housePlayAnimation;
 	[SerializeField] Sound _onceWindowOpenSFX;
 	[SerializeField] Sound _onceWindowCloseSFX;
-	// [SerializeField] PlayAnimation _sheepPlayAnimation;
+	[SerializeField] PlayAnimation _sheepPlayAnimation;
 	
 	// Temporary until animations are implemented
 	[SerializeField] float _secondsToWaitForAnimations;
@@ -74,7 +73,7 @@ public class WindowInteraction : MonoBehaviour, IInteractable,
 				StartCoroutine(SheepResponse());
 				break;
 			case WindowInteractionState.ClosingWindow:
-				StartCoroutine(CloseWindow());
+				StartCoroutine(CloseWindow(false));
 				break;
 			case WindowInteractionState.LeavingWindow:
 				HandleEventDone();
@@ -119,11 +118,14 @@ public class WindowInteraction : MonoBehaviour, IInteractable,
 	private IEnumerator SheepResponse()
 	{
 		//Debug.Log("WindowInteraction: Play sheep response animation here.");
-		yield return StartCoroutine(DelayCoroutine(_secondsToWaitForAnimations));
+		_sheepPlayAnimation.SetBoolParameter(SHEEP_POPS_OUT_ANIMATION_PARAMETER,true);
+		yield return StartCoroutine(_sheepPlayAnimation.WaitForAnimationToStart(SHEEP_POPS_OUT_ANIMATION_STATE_NAME));
+		yield return StartCoroutine(_sheepPlayAnimation.WaitForAnimationToEnd());
+		_sheepPlayAnimation.SetBoolParameter(SHEEP_POPS_OUT_ANIMATION_PARAMETER,false);
 		UpdateState(WindowInteractionState.ClosingWindow);
 	}
 	
-	private IEnumerator CloseWindow()
+	private IEnumerator CloseWindow(bool toInterrupted)
 	{
 		_housePlayAnimation.SetBoolParameter(WINDOW_CLOSE_ANIMATION_PARAMETER, true);
 		_housePlayAnimation.SetBoolParameter(WINDOW_OPEN_ANIMATION_PARAMETER, false);
@@ -132,8 +134,9 @@ public class WindowInteraction : MonoBehaviour, IInteractable,
 		yield return _housePlayAnimation.WaitForAnimationToEnd();
 		_housePlayAnimation.SetBoolParameter(WINDOW_CLOSE_ANIMATION_PARAMETER, false);
 		//yield return StartCoroutine(DelayCoroutine(_secondsToWaitForAnimations));
-		UpdateState(WindowInteractionState.LeavingWindow);
+		if(!toInterrupted) UpdateState(WindowInteractionState.LeavingWindow);
 	}
+	
 	
 	private void HandleEventDone()
 	{
@@ -182,6 +185,9 @@ public class WindowInteraction : MonoBehaviour, IInteractable,
 	{
 		_beePlayAnimation.SetBoolParameter(WAVE_ANIMATION_PARAMETER, false);
 		StopAllCoroutines();
+		_sheepPlayAnimation.SetBoolParameter(SHEEP_POPS_OUT_ANIMATION_PARAMETER,false);
+		//close the window
+		StartCoroutine(CloseWindow(true));
 		Bee.Instance.UpdateState(BeeState.Idle);
 		OnInterruptedDone?.Invoke(this);
 	}

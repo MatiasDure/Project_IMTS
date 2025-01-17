@@ -8,6 +8,7 @@ using UnityEngine.Serialization;
 	RequireComponent(typeof(AvoidObjectSwimmingBehavior)),
 	RequireComponent(typeof(ObjectMovement)),
 	RequireComponent(typeof(SoundComponent)),
+	
 ]
 public class BeeMovement : MonoBehaviour
 {
@@ -58,6 +59,7 @@ public class BeeMovement : MonoBehaviour
 
 	private void Start()
 	{
+		_soundComponent.PlaySound(_flySFX);
 		SubscribeToEvents();
 	}
 
@@ -80,8 +82,7 @@ public class BeeMovement : MonoBehaviour
 			};
 				
 			_avoidObjectSwimmingBehavior.Move(_beeMovementStat.MovementSpeed);
-		}else 
-		if (PlotsManager.Instance._currentPlot == Plot.Village)
+		}else if (PlotsManager.Instance._currentPlot == Plot.Village)
 		{
 			_objectMovement.MoveAroundPivot(_villageIdleRotatePoint.position,_idleRotateAxis,_distanceToPivot,
 				_beeMovementStat.RotationSpeed,_beeMovementStat.MovementSpeed);
@@ -198,8 +199,6 @@ public class BeeMovement : MonoBehaviour
 
 	private void HandlePlotDeactivated(Plot plotDeactivated)
 	{
-		if (Bee.Instance.State == BeeState.FollowingCamera) return;
-
 		if (_movementCoroutine != null)
 		{
 			StopCoroutine(_movementCoroutine);
@@ -212,6 +211,8 @@ public class BeeMovement : MonoBehaviour
 		if(plotDeactivated == Plot.Ocean) {
 			_playAnimation.SetBoolParameter(_beeSwimmingAnimationParameterName, false);
 		}
+		
+		if(Bee.Instance.State == BeeState.FollowingCamera) return;
 		
 		Bee.Instance.UpdateState(BeeState.FollowingCamera);
 	}
