@@ -8,6 +8,7 @@ using UnityEngine.Serialization;
 	RequireComponent(typeof(AvoidObjectSwimmingBehavior)),
 	RequireComponent(typeof(ObjectMovement)),
 	RequireComponent(typeof(SoundComponent)),
+	
 ]
 public class BeeMovement : MonoBehaviour
 {
@@ -81,8 +82,7 @@ public class BeeMovement : MonoBehaviour
 			};
 				
 			_avoidObjectSwimmingBehavior.Move(_beeMovementStat.MovementSpeed);
-		}else 
-		if (PlotsManager.Instance._currentPlot == Plot.Village)
+		}else if (PlotsManager.Instance._currentPlot == Plot.Village)
 		{
 			_objectMovement.MoveAroundPivot(_villageIdleRotatePoint.position,_idleRotateAxis,_distanceToPivot,
 				_beeMovementStat.RotationSpeed,_beeMovementStat.MovementSpeed);

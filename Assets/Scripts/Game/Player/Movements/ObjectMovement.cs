@@ -17,6 +17,12 @@ public class ObjectMovement : MonoBehaviour
 	private const float SMOOTHNESS = 0.1f;
 	private const float DISTANCE_TOLERANCE = 0.2f;
 
+	public bool AllowAvoidObject
+	{
+		get => _allowAvoidObject;
+		set => _allowAvoidObject = value;
+	}
+	
 	private void Awake()
 	{
 		if (_allowAvoidObject) _avoidObstacle = gameObject.AddComponent<AvoidObstacle>();
